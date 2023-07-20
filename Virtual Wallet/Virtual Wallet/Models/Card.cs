@@ -23,6 +23,9 @@ namespace Virtual_Wallet.Models
 		public string CheckNumber { get; set; }
 
 		[Required]
+		public bool IsCreditCard { get; set; }
+
+		[Required]
 		public User User { get; set; }
 
 		[Required]
