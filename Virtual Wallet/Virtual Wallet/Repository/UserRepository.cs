@@ -38,6 +38,15 @@ namespace Virtual_Wallet.Repository
 			}
 			return user;
 		}
+		public async Task<User> GetUserByEmail(string email)
+		{
+			var user = await this.context.Users.FirstOrDefaultAsync(u => u.Email == email);
+			if (user == null)
+			{
+				throw new EntityNotFoundException(email);
+			}
+			return user;
+		}
 
 		public async Task<User> AddUser(User user)
 		{
