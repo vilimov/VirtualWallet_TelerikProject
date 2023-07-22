@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Transactions;
+using System.Text.Json.Serialization;
 
 namespace Virtual_Wallet.Models
 {
@@ -38,9 +39,14 @@ namespace Virtual_Wallet.Models
 
 		public bool IsBlocked { get; set; }
 
-		public ICollection<Card> Cards { get; set; }
+        [JsonIgnore]
+        public List<Card> Cards { get; set; }
 
-		public ICollection<Transaction> Transactions { get; set; }
+        [JsonIgnore]
+        public List<Transaction> SentTransactions { get; set; }
+
+        [JsonIgnore]
+        public List<Transaction> ReceivedTransactions { get; set; }
 	}
 
 }

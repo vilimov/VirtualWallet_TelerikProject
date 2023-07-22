@@ -18,13 +18,13 @@ namespace Virtual_Wallet.Models
 		public User Sender { get; set; }
 
 		[Required]
-		public int SenderId { get; set; }
+		public int? SenderId { get; set; }
 
 		[Required]
 		public User Recipient { get; set; }
 
 		[Required]
-		public int RecipientId { get; set; }
+		public int? RecipientId { get; set; }
 
 		public bool IsInbound { get; set; }
 	}

@@ -13,8 +13,9 @@ namespace Virtual_Wallet.Models
 
 		[Required]
 		public DateTime ExpirationDate { get; set; }
+        //public string ExpirationDateFormatted => ExpirationDate.ToString("MM.yyyy");
 
-		[Required]
+        [Required]
 		[StringLength(30, MinimumLength = 2)]
 		public string CardHolder { get; set; }
 
@@ -25,11 +26,12 @@ namespace Virtual_Wallet.Models
 		[Required]
 		public bool IsCreditCard { get; set; }
 
-		[Required]
+        [Required]
+        public int? UserId { get; set; }
+
+        [Required]
 		public User User { get; set; }
 
-		[Required]
-		public int UserId { get; set; }
 	}
 
 }

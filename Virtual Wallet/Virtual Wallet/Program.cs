@@ -1,3 +1,7 @@
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using Microsoft.EntityFrameworkCore;
+using Virtual_Wallet.Data;
+
 namespace Virtual_Wallet
 {
 	public class Program
@@ -6,10 +10,25 @@ namespace Virtual_Wallet
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
-			// Add services to the container.
+            // Add services to the container.
 			builder.Services.AddControllersWithViews();
 
-			builder.Services.AddEndpointsApiExplorer();
+
+            builder.Services.AddDbContext<WalletContext>(options =>
+            {
+
+
+                //string connectionString = @"Server=FREAKY\MSSQLSERVER2022;Database=VirtualWalletDataBase;Trusted_Connection=True;Encrypt=False;";
+                //string connectionString = @"Server=MILA-V15G2\SQLEXPRESS;Database=VirtualWalletDataBase;Trusted_Connection=True;Encrypt=False;";
+                //string connectionString = @"Server=VILIMOV-PC;Database=VirtualWalletDataBase;Trusted_Connection=True;Encrypt=False;";
+                string connectionString = @"Server=localhost;Database=VirtualWalletDataBase;Trusted_Connection=True;Encrypt=False;";
+
+                options.UseSqlServer(connectionString);
+                options.EnableSensitiveDataLogging();
+
+            });
+
+            builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
 			var app = builder.Build();
