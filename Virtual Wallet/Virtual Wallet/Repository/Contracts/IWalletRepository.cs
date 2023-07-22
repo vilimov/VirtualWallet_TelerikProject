@@ -9,7 +9,7 @@ namespace Virtual_Wallet.Repository.Contracts
         IEnumerable<Wallet> GetAll();
         Wallet GetWalletById(int id);
         Wallet GetWalletByUser(string username);
+        decimal GetBalance(int id);
         Currency GetCurrencyById(int id);
-        decimal GetBalance(Wallet wallet);
     }
 }

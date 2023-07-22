@@ -2,6 +2,8 @@
 using Virtual_Wallet.Models;
 using Virtual_Wallet.Models.Enum;
 using Virtual_Wallet.Repository.Contracts;
+using Microsoft.EntityFrameworkCore;
+using Virtual_Wallet.Helpers.Exceptions;
 
 namespace Virtual_Wallet.Repository
 {
@@ -23,27 +25,31 @@ namespace Virtual_Wallet.Repository
 
         public IEnumerable<Wallet> GetAll()
         {
-            throw new NotImplementedException();
-        }
-
-        public decimal GetBalance(Wallet wallet)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Currency GetCurrencyById(int id)
-        {
-            throw new NotImplementedException();
+            IEnumerable<Wallet> result = context.Wallets
+                           .Include(w => w.User);
+            return result.ToList() ?? throw new EntityNotFoundException("No wallets were found");
         }
 
         public Wallet GetWalletById(int id)
         {
-            throw new NotImplementedException();
+            Wallet wallet = GetAll().FirstOrDefault(w => w.Id == id);
+            return wallet ?? throw new EntityNotFoundException($"Wallet with Id: {id} does not exist!");
         }
 
         public Wallet GetWalletByUser(string username)
         {
-            throw new NotImplementedException();
+            Wallet wallet = GetAll().FirstOrDefault(w => w.User.Username == username);
+            return wallet ?? throw new EntityNotFoundException($"User with Username: {username} does not have a wallet");
+        }
+
+        public decimal GetBalance(int id)
+        {
+            return GetWalletById(id).Balance;
+        }
+
+        public Currency GetCurrencyById(int id)
+        {
+                return GetWalletById(id).Currency;
         }
     }
 }

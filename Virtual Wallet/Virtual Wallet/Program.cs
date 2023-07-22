@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Virtual_Wallet.Data;
+using Virtual_Wallet.Repository.Contracts;
 
 namespace Virtual_Wallet
 {
@@ -11,6 +12,7 @@ namespace Virtual_Wallet
 			var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+			builder.Services.AddControllers();
 			builder.Services.AddControllersWithViews();
 
 
@@ -31,12 +33,29 @@ namespace Virtual_Wallet
             builder.Services.AddEndpointsApiExplorer();
 			builder.Services.AddSwaggerGen();
 
-			var app = builder.Build();
+            // Repository
+            //builder.Services.AddScoped<ICardRepository, CardRepository>();
+            //builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IWalletRepository, WalletRepository>();
+
+            // Services
+            //builder.Services.AddScoped<ICardServices, CardServices>();
+            //builder.Services.AddScoped<ITransactionServices, TransactionServices>();
+            //builder.Services.AddScoped<IUserServices, UserServices>();
+            builder.Services.AddScoped<IWalletService, WalletService>();
+
+            //Helpers
+            //builder.Services.AddScoped<AuthManager>();
+            //builder.Services.AddScoped<PostCreatUpdateMapper>();
+            //builder.Services.AddScoped<IMapper>();                      
+
+            var app = builder.Build();
 
 			// Configure the HTTP request pipeline.
 			if (app.Environment.IsDevelopment())
 			{
-				app.UseExceptionHandler("/Home/Error");
+				//app.UseExceptionHandler("/Home/Error");
 				app.UseSwagger();
 				app.UseSwaggerUI();
 			}

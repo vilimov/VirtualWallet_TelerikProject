@@ -1,11 +1,19 @@
 ﻿using Virtual_Wallet.Models;
 using Virtual_Wallet.Models.Enum;
+using Virtual_Wallet.Repository.Contracts;
 using Virtual_Wallet.Services.Contracts;
 
 namespace Virtual_Wallet.Services
 {
     public class WalletService : IWalletService
     {
+        private readonly IWalletRepository walletRepository;
+
+        public WalletService(IWalletRepository walletRepository)
+        {
+            this.walletRepository = walletRepository;
+        }
+
         public Wallet CreateWallet(Wallet wallet, User user)
         {
             throw new NotImplementedException();
@@ -13,27 +21,28 @@ namespace Virtual_Wallet.Services
 
         public IEnumerable<Wallet> GetAll()
         {
-            throw new NotImplementedException();
-        }
-
-        public decimal GetBalance(Wallet wallet)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Currency GetCurrencyById(int id)
-        {
-            throw new NotImplementedException();
+            return walletRepository.GetAll();
         }
 
         public Wallet GetWalletById(int id)
         {
-            throw new NotImplementedException();
+            return walletRepository.GetWalletById(id);
         }
 
         public Wallet GetWalletByUser(string username)
         {
-            throw new NotImplementedException();
+            return walletRepository.GetWalletByUser(username);
         }
+
+        public decimal GetBalance(int id)
+        {
+            return walletRepository.GetBalance(id);
+        }
+
+        public Currency GetCurrencyById(int id)
+        {
+            return walletRepository.GetCurrencyById(id);
+        }
+
     }
 }
