@@ -34,7 +34,7 @@ namespace Virtual_Wallet.Repository
 			var user = await this.context.Users.FirstOrDefaultAsync(u => u.Username == username);
 			if (user == null)
 			{
-				throw new UsernameNotFoundException(username);
+				throw new EntityNotFoundException(username);
 			}
 			return user;
 		}
