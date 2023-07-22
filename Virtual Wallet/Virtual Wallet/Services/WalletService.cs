@@ -1,24 +1,14 @@
-﻿using Virtual_Wallet.Data;
-using Virtual_Wallet.Models;
+﻿using Virtual_Wallet.Models;
 using Virtual_Wallet.Models.Enum;
-using Virtual_Wallet.Repository.Contracts;
+using Virtual_Wallet.Services.Contracts;
 
-namespace Virtual_Wallet.Repository
+namespace Virtual_Wallet.Services
 {
-    public class WalletRepository : IWalletRepository
+    public class WalletService : IWalletService
     {
-        private readonly WalletContext context;
-
-        public WalletRepository(WalletContext context)
+        public Wallet CreateWallet(Wallet wallet, User user)
         {
-            this.context = context;
-        }
-        public Wallet CreateWallet(Wallet wallet)
-        {
-            this.context.Wallets.Add(wallet);
-            context.SaveChanges();
-
-            return wallet;
+            throw new NotImplementedException();
         }
 
         public IEnumerable<Wallet> GetAll()

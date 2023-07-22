@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Virtual_Wallet.Models;
+using Virtual_Wallet.Models.ViewModels;
 
 namespace Virtual_Wallet.Controllers
 {
