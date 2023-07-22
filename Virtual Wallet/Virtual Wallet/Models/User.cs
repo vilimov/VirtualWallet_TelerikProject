@@ -28,8 +28,7 @@ namespace Virtual_Wallet.Models
 		[Required(ErrorMessage = "The {0} field is required.")]
 		[RegularExpression(@"^([a-zA-Z0-9-.]+)@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.)|(([a-zA-Z0-9-]+.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(]?)$", ErrorMessage = "Please enter a valid e-mail address")]
 		public string Email { get; set; }
-
-		
+	
 		[StringLength(10, MinimumLength = 10)]
 		public string PhoneNumber { get; set; }
 
@@ -48,5 +47,4 @@ namespace Virtual_Wallet.Models
         [JsonIgnore]
         public List<Transaction> ReceivedTransactions { get; set; }
 	}
-
 }
