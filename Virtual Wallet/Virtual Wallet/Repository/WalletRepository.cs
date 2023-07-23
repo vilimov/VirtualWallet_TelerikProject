@@ -1,9 +1,4 @@
-﻿using Virtual_Wallet.Data;
-using Virtual_Wallet.Models;
-using Virtual_Wallet.Models.Enum;
-using Virtual_Wallet.Repository.Contracts;
-using Microsoft.EntityFrameworkCore;
-using Virtual_Wallet.Helpers.Exceptions;
+﻿using Virtual_Wallet.Repository.Contracts;
 
 namespace Virtual_Wallet.Repository
 {
@@ -49,7 +44,77 @@ namespace Virtual_Wallet.Repository
 
         public Currency GetCurrencyById(int id)
         {
-                return GetWalletById(id).Currency;
+            return GetWalletById(id).CurrencyCode;
+        }
+
+        public decimal AddToWallet(int id, decimal amount)
+        {
+            Wallet wallet = GetWalletById(id);
+            wallet.Balance += amount;
+            context.SaveChanges();
+            return wallet.Balance;
+        }
+
+        public decimal WithdrawFromWallet(int id, decimal amount)
+        {
+            Wallet wallet = GetWalletById(id);
+            if (wallet.Balance < amount)
+            {
+                throw new InsuficientAmountException($"Insufficient amount!");
+            }
+
+            wallet.Balance -= amount;
+            context.SaveChanges();
+            return wallet.Balance;
+        }
+
+        public decimal Block (int id, decimal amount)
+        {
+            Wallet wallet = GetWalletById(id);
+            if (wallet.Balance < amount)
+            {
+                throw new InsuficientAmountException($"Insufficient amount!");
+            }
+
+            wallet.Balance -= amount;
+            wallet.Blocked += amount;
+            context.SaveChanges();
+            return wallet.Balance;
+        }
+
+        public decimal ReleaseBlocked(int id, decimal amount)
+        {
+            Wallet wallet = GetWalletById(id);
+            if (wallet.Blocked < amount)
+            {
+                throw new InsuficientAmountException($"Insufficient amount!");
+            }
+
+            wallet.Blocked -= amount;
+            context.SaveChanges();
+            return wallet.Balance;
+        }
+
+        public decimal Unblock(int id, decimal amount)
+        {
+            Wallet wallet = GetWalletById(id);
+            wallet.Balance += amount;
+            context.SaveChanges();
+            return wallet.Balance;
+        }
+
+        public Wallet Delete(int id)
+        {
+            Wallet deletedWallet = GetWalletById(id);
+            if (deletedWallet.Balance > 0 || deletedWallet.Blocked > 0)
+            {
+                string balance = $"{deletedWallet.Balance.ToString("F2")} {deletedWallet.CurrencyCode.ToString()}";
+                string blocked = $"{deletedWallet.Blocked.ToString("F2")} {deletedWallet.CurrencyCode.ToString()}";
+                throw new WalletNotEmptyException($"This wallet's balance is {balance} and has {blocked} blocked! Wallet must be empty in order to be deleted");
+            }
+            context.Wallets.Remove(deletedWallet);
+            context.SaveChanges();
+            return deletedWallet;
         }
     }
 }

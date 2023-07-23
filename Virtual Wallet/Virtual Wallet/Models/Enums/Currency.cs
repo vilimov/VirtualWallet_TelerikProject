@@ -1,7 +1,6 @@
 ﻿
-using System.ComponentModel;
 
-namespace Virtual_Wallet.Models.Enum
+namespace Virtual_Wallet.Models.Enums
 {
     public enum Currency
     {
