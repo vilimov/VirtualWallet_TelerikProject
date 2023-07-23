@@ -51,5 +51,31 @@ namespace Virtual_Wallet.Repository
         {
                 return GetWalletById(id).Currency;
         }
-    }
+		public decimal AdjustBalance(int walletId, decimal amount, bool isDeposit)
+		{
+			var wallet = GetWalletById(walletId);
+			if (wallet == null)
+			{
+				throw new EntityNotFoundException($"Wallet with ID {walletId} not found.");
+			}
+
+			if (isDeposit)
+			{
+				wallet.Balance += amount;
+			}
+			else
+			{
+				if (wallet.Balance < amount)
+				{
+					throw new InvalidOperationException($"Not enough funds in wallet with ID {walletId}.");
+				}
+				wallet.Balance -= amount;
+			}
+
+			this.context.Entry(wallet).State = EntityState.Modified;
+			this.context.SaveChanges();
+
+			return wallet.Balance;
+		}
+	}
 }

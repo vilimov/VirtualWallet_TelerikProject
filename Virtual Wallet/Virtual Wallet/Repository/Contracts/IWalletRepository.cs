@@ -11,5 +11,7 @@ namespace Virtual_Wallet.Repository.Contracts
         Wallet GetWalletByUser(string username);
         decimal GetBalance(int id);
         Currency GetCurrencyById(int id);
-    }
+        decimal AdjustBalance(int walletId, decimal amount, bool isDeposit);
+
+	}
 }
