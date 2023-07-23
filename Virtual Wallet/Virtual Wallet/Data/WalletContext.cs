@@ -62,28 +62,28 @@ namespace Virtual_Wallet.Data
 
             var wallets = new List<Wallet>()
             {
-                new Wallet { Id = 1, Currency = Models.Enum.Currency.USD, Balance = 10000, UserId = 1 },
-                new Wallet { Id = 2, Currency = Models.Enum.Currency.USD, Balance = 10000, UserId = 2 },
-                new Wallet { Id = 3, Currency = Models.Enum.Currency.USD, Balance = 10000, UserId = 3 },
-                new Wallet { Id = 4, Currency = Models.Enum.Currency.USD, Balance = 10000, UserId = 4 },
-                new Wallet { Id = 5, Currency = Models.Enum.Currency.BGN, Balance = 10000, UserId = 5 },
-                new Wallet { Id = 6, Currency = Models.Enum.Currency.BGN, Balance = 10000, UserId = 6 },
-                new Wallet { Id = 7, Currency = Models.Enum.Currency.BGN, Balance = 10000, UserId = 7 },
-                new Wallet { Id = 8, Currency = Models.Enum.Currency.EUR, Balance = 10000, UserId = 8 },
-                new Wallet { Id = 9, Currency = Models.Enum.Currency.EUR, Balance = 10000, UserId = 9 },
-                new Wallet { Id = 10, Currency = Models.Enum.Currency.EUR, Balance = 10000, UserId = 10 },
-                new Wallet { Id = 11, Currency = Models.Enum.Currency.BGN, Balance = 10000, UserId = 11 }
+                new Wallet { Id = 1, CurrencyCode = Currency.USD, Balance = 111111.11M, UserId = 1 },
+                new Wallet { Id = 2, CurrencyCode = Currency.USD, Balance = 99999.99M, UserId = 2 },
+                new Wallet { Id = 3, CurrencyCode = Currency.USD, Balance = 88888.88M, UserId = 3 },
+                new Wallet { Id = 4, CurrencyCode = Currency.USD, Balance = 77777.77M, UserId = 4 },
+                new Wallet { Id = 5, CurrencyCode = Currency.BGN, Balance = 66666.66M, UserId = 5 },
+                new Wallet { Id = 6, CurrencyCode = Currency.BGN, Balance = 55555.55M, UserId = 6 },
+                new Wallet { Id = 7, CurrencyCode = Currency.BGN, Balance = 44444.44M, UserId = 7 },
+                new Wallet { Id = 8, CurrencyCode = Currency.EUR, Balance = 33333.33M, UserId = 8 },
+                new Wallet { Id = 9, CurrencyCode = Currency.EUR, Balance = 22222.22M, UserId = 9 },
+                new Wallet { Id = 10, CurrencyCode = Currency.EUR, Balance = 11111.11M, UserId = 10 },
+                new Wallet { Id = 11, CurrencyCode = Currency.BGN, Balance = 9999.99M, UserId = 11 }
             };
             modelBuilder.Entity<Wallet>().HasData(wallets);
 
             var transactions = new List<Transaction>()
             {
-                new Transaction { Id = 1, Date = DateTime.Now.AddDays(-10), Amount = 100, SenderId = 1, RecipientId = 10},
-                new Transaction { Id = 2, Date = DateTime.Now.AddDays(-9), Amount = 200, SenderId = 2, RecipientId = 9},
-                new Transaction { Id = 3, Date = DateTime.Now.AddDays(-8), Amount = 300, SenderId = 3, RecipientId = 8},
-                new Transaction { Id = 4, Date = DateTime.Now.AddDays(-7), Amount = 400, SenderId = 4, RecipientId = 7},
-                new Transaction { Id = 5, Date = DateTime.Now.AddDays(-6), Amount = 500, SenderId = 5, RecipientId = 6},
-                new Transaction { Id = 6, Date = DateTime.Now.AddDays(-5), Amount = 1000, SenderId = 1, RecipientId = 11},
+                new Transaction { Id = 1, Date = DateTime.Now.AddDays(-10), Amount = 111, SenderId = 1, RecipientId = 10},
+                new Transaction { Id = 2, Date = DateTime.Now.AddDays(-9), Amount = 222, SenderId = 2, RecipientId = 9},
+                new Transaction { Id = 3, Date = DateTime.Now.AddDays(-8), Amount = 333, SenderId = 3, RecipientId = 8},
+                new Transaction { Id = 4, Date = DateTime.Now.AddDays(-7), Amount = 444, SenderId = 4, RecipientId = 7},
+                new Transaction { Id = 5, Date = DateTime.Now.AddDays(-6), Amount = 555, SenderId = 5, RecipientId = 6},
+                new Transaction { Id = 6, Date = DateTime.Now.AddDays(-5), Amount = 666, SenderId = 1, RecipientId = 11},
             };
             modelBuilder.Entity<Transaction>().HasData(transactions);
 

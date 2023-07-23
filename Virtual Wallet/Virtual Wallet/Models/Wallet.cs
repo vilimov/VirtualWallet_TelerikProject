@@ -1,14 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Virtual_Wallet.Models.Enum;
-
-namespace Virtual_Wallet.Models
+﻿namespace Virtual_Wallet.Models
 {
     public class Wallet
     {
         public int Id { get; set; }
 
         [Required]
-        public Currency Currency { get; set; }
+        public Currency CurrencyCode { get; set; }
 
         [Required]
         [Range(0, double.MaxValue)]

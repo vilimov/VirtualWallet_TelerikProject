@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Net;
 
 namespace Virtual_Wallet.Controllers.API
 {
@@ -18,12 +19,56 @@ namespace Virtual_Wallet.Controllers.API
         [HttpGet("")]
         public IActionResult GetWallets()
         {
-            List<Wallet> result = walletService.GetAll().ToList();
-            if (result.Count == 0)
+            List<Wallet> wallets = walletService.GetAll().ToList();
+            if (wallets.Count == 0)
             {
                 return StatusCode(StatusCodes.Status404NotFound, $"No wallets found!");
             }
+            List<WalletShowDto> result = wallets.Select(wallets => new WalletShowDto(wallets)).ToList();
             return StatusCode(StatusCodes.Status200OK, result);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetWalletById(int id)
+        {
+            try
+            {
+                Wallet wallet = walletService.GetWalletById(id);
+                WalletShowDto result = new WalletShowDto(wallet);
+
+                return StatusCode(StatusCodes.Status200OK, result);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                string message = ex.Message.ToString();
+                return StatusCode(StatusCodes.Status404NotFound, message);
+            }
+        }
+
+        /*[HttpPost("")]
+        public IActionResult CreateWallet()
+        { 
+        }*/
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteWallet(int id)//[FromHeader] string credentials
+        {
+            try
+            {
+                //User user = AuthenticationManager.TryGetUser(credentials);
+                Wallet deletedWallet = walletService.Delete(id);
+                return Ok(deletedWallet);
+            }
+            catch (WalletNotEmptyException ex)
+            {
+                string message = ex.Message.ToString();
+                return StatusCode(StatusCodes.Status403Forbidden, message);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                string message = ex.Message.ToString();
+                return StatusCode(StatusCodes.Status404NotFound, message);
+            }
         }
     }
 }
