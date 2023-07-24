@@ -15,5 +15,8 @@
         decimal ReleaseBlocked(int id, decimal amount);
         decimal Unblock(int id, decimal amount);
         Wallet Delete(int id);
-    }
+    
+        decimal AdjustBalance(int walletId, decimal amount, bool isDeposit);
+
+	}
 }
