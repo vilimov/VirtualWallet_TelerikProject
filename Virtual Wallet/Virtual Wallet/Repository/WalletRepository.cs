@@ -110,7 +110,7 @@ namespace Virtual_Wallet.Repository
             {
                 string balance = $"{deletedWallet.Balance.ToString("F2")} {deletedWallet.CurrencyCode.ToString()}";
                 string blocked = $"{deletedWallet.Blocked.ToString("F2")} {deletedWallet.CurrencyCode.ToString()}";
-                throw new WalletNotEmptyException($"This wallet's balance is {balance} and has {blocked} blocked! Wallet must be empty in order to be deleted");
+                throw new WalletNotEmptyException($"This wallet's balance is {balance} and has {blocked} blocked! Wallet must be empty in order to be deleted!");
             }
             context.Wallets.Remove(deletedWallet);
             context.SaveChanges();

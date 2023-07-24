@@ -31,7 +31,6 @@ namespace Virtual_Wallet.Models
 
         [Required]
 		public User User { get; set; }
-
 	}
 
 }

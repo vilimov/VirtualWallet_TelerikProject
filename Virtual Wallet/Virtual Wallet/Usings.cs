@@ -8,6 +8,7 @@ global using Virtual_Wallet.Helpers.Mappers;
 global using Virtual_Wallet.Models;
 global using Virtual_Wallet.Models.Dtos;
 global using Virtual_Wallet.Models.Enums;
+global using Virtual_Wallet.Models.QueryParameters;
 global using Virtual_Wallet.Models.ViewModels;
 global using Virtual_Wallet.Repository;
 global using Virtual_Wallet.Repository.Contracts;

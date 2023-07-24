@@ -38,12 +38,14 @@ namespace Virtual_Wallet
             //builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IWalletRepository, WalletRepository>();
+            builder.Services.AddScoped<ICardRepository, CardRepository>();
 
             // Services
             //builder.Services.AddScoped<ICardServices, CardServices>();
             //builder.Services.AddScoped<ITransactionServices, TransactionServices>();
             //builder.Services.AddScoped<IUserServices, UserServices>();
             builder.Services.AddScoped<IWalletService, WalletService>();
+            builder.Services.AddScoped<ICardService, CardService>();
 
             //Helpers
             //builder.Services.AddScoped<AuthManager>();
