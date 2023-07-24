@@ -28,7 +28,8 @@
 
         public Card GetById(int id)
         {
-            throw new NotImplementedException();
+            Card card = this.cardRepository.GetById(id);
+            return card;
         }
 
         public Card GetByUserId(int id)

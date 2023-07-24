@@ -31,7 +31,8 @@
 
         public Card GetById(int id)
         {
-            throw new NotImplementedException();
+            Card card = GetAll().FirstOrDefault(c => c.Id == id);
+            return card ?? throw new EntityNotFoundException($"No card with Id:{id} found");
         }
         public Card GetByUserId(int id)
         {

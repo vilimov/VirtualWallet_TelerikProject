@@ -11,8 +11,11 @@ namespace Virtual_Wallet
 		{
 			var builder = WebApplication.CreateBuilder(args);
 
+            // Register AutoMapper
+            builder.Services.AddAutoMapper(typeof(MappingProfile));
+
             // Add services to the container.
-			builder.Services.AddControllers();
+            builder.Services.AddControllers();
 			builder.Services.AddControllersWithViews();
 
 
@@ -43,7 +46,7 @@ namespace Virtual_Wallet
             // Services
             //builder.Services.AddScoped<ICardServices, CardServices>();
             //builder.Services.AddScoped<ITransactionServices, TransactionServices>();
-            //builder.Services.AddScoped<IUserServices, UserServices>();
+            builder.Services.AddScoped<IUserService, UserService>();
             builder.Services.AddScoped<IWalletService, WalletService>();
             builder.Services.AddScoped<ICardService, CardService>();
 

@@ -13,7 +13,7 @@ namespace Virtual_Wallet.Models
 
 		[Required]
 		public DateTime ExpirationDate { get; set; }
-        //public string ExpirationDateFormatted => ExpirationDate.ToString("MM.yyyy");
+        //public string ExpirationDateFormatted => ExpirationDate.ToString("MM.yy");
 
         [Required]
 		[StringLength(30, MinimumLength = 2)]

@@ -12,10 +12,11 @@ namespace Virtual_Wallet.Controllers.API
         //private readonly AuthManager authManager;
         private readonly IMapper mapper;
 
-        public WalletApiController(IWalletService walletService, IUserService userService)
+        public WalletApiController(IWalletService walletService, IUserService userService, IMapper mapper)
         {
             this.walletService = walletService;
             this.userService = userService;
+            this.mapper = mapper;
         }
 
         [HttpGet("")]
