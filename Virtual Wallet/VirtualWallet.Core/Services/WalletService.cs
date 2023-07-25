@@ -1,11 +1,11 @@
-﻿using Virtual_Wallet.VirtualWallet.Application.Services.Contracts;
-using Virtual_Wallet.VirtualWallet.Domain.Entities;
+﻿using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Domain.Enums;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
+using VirtualWallet.Application.Services.Contracts;
 
 namespace Virtual_Wallet.VirtualWallet.Application.Services
 {
-    public class WalletService : IWalletService
+	public class WalletService : IWalletService
     {
         private readonly IWalletRepository walletRepository;
 

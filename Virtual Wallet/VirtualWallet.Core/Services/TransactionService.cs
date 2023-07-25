@@ -1,12 +1,12 @@
-﻿using Virtual_Wallet.VirtualWallet.Application.Services.Contracts;
-using Virtual_Wallet.VirtualWallet.Common.Exceptions;
+﻿using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
+using VirtualWallet.Application.Services.Contracts;
 using VirtualWallet.Domain.Entities;
 
 namespace Virtual_Wallet.VirtualWallet.Application.Services
 {
-    public class TransactionService : ITransactionService
+	public class TransactionService : ITransactionService
 	{
 		private readonly ITransactionRepository transactionRepository;
 		private readonly IWalletRepository walletRepository;

@@ -1,7 +1,11 @@
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
-using Virtual_Wallet.Data;
-using Virtual_Wallet.Repository.Contracts;
+using Virtual_Wallet.VirtualWallet.API.Helpers.Mappers;
+using Virtual_Wallet.VirtualWallet.Application.Services;
+using Virtual_Wallet.VirtualWallet.Persistence.Data;
+using Virtual_Wallet.VirtualWallet.Persistence.Repository;
+using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
+using VirtualWallet.Application.Services.Contracts;
 
 namespace Virtual_Wallet
 {

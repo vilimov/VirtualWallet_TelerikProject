@@ -1,8 +1,7 @@
 ﻿using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using VirtualWallet.Domain.Entities;
-using Virtual_Wallet.VirtualWallet;
 
-namespace Virtual_Wallet.VirtualWallet.Application.Services.Contracts
+namespace VirtualWallet.Application.Services.Contracts
 {
 	public interface ITransactionService
 	{

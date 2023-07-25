@@ -1,6 +1,6 @@
 ﻿using Virtual_Wallet.VirtualWallet.Domain.Entities;
 
-namespace Virtual_Wallet.VirtualWallet.Application.Services.Contracts
+namespace VirtualWallet.Application.Services.Contracts
 {
     public interface IUserService
     {
