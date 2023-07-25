@@ -1,8 +1,7 @@
-﻿using Virtual_Wallet.Helpers.Exceptions;
-using Virtual_Wallet.Models;
-using Virtual_Wallet.Repository.Contracts;
+﻿using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Core.Services.Contracts;
-using Virtual_Wallet.VirtualWallet.Core.Entities;
+using Virtual_Wallet.VirtualWallet.Domain.Entities;
+using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
 
 namespace Virtual_Wallet.VirtualWallet.Core.Services
 {

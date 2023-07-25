@@ -1,4 +1,4 @@
-﻿using Virtual_Wallet.VirtualWallet.Core.Entities;
+﻿using Virtual_Wallet.VirtualWallet.Domain.Entities;
 
 namespace Virtual_Wallet.VirtualWallet.Core.Services.Contracts
 {

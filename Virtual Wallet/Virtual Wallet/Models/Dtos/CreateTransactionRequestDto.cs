@@ -2,7 +2,7 @@
 
 namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
 {
-	public class CreateTransactionRequest
+	public class CreateTransactionRequestDto
 	{
 		[Required]
 		public int SenderId { get; set; }

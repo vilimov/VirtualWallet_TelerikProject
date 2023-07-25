@@ -1,4 +1,7 @@
-﻿namespace Virtual_Wallet.VirtualWallet.Core.Services.Contracts
+﻿using Virtual_Wallet.VirtualWallet.Domain.Entities;
+using Virtual_Wallet.VirtualWallet.Domain.Enums;
+
+namespace Virtual_Wallet.VirtualWallet.Core.Services.Contracts
 {
     public interface IWalletService
     {
