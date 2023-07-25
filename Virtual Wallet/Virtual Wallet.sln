@@ -3,9 +3,29 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Virtual Wallet", "Virtual Wallet\Virtual Wallet.csproj", "{88E92F56-470A-4B03-88A3-462F6DC83292}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualWallet.API", "Virtual Wallet\VirtualWallet.API.csproj", "{88E92F56-470A-4B03-88A3-462F6DC83292}"
+	ProjectSection(ProjectDependencies) = postProject
+		{256A151C-1A2B-44FC-A0F6-F9D798709D3C} = {256A151C-1A2B-44FC-A0F6-F9D798709D3C}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualWallet.Core", "VirtualWallet.Core\VirtualWallet.Core.csproj", "{BE518C21-F743-4EB5-A184-BC6D10084543}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualWallet.Application", "VirtualWallet.Core\VirtualWallet.Application.csproj", "{BE518C21-F743-4EB5-A184-BC6D10084543}"
+	ProjectSection(ProjectDependencies) = postProject
+		{256A151C-1A2B-44FC-A0F6-F9D798709D3C} = {256A151C-1A2B-44FC-A0F6-F9D798709D3C}
+		{C26A42A5-662C-4F11-831E-34AAE8509DF6} = {C26A42A5-662C-4F11-831E-34AAE8509DF6}
+		{D918AA2D-947F-4C80-90F5-B81828316E13} = {D918AA2D-947F-4C80-90F5-B81828316E13}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualWallet.Persistence", "VirtualWallet.Persistence\VirtualWallet.Persistence.csproj", "{D918AA2D-947F-4C80-90F5-B81828316E13}"
+	ProjectSection(ProjectDependencies) = postProject
+		{256A151C-1A2B-44FC-A0F6-F9D798709D3C} = {256A151C-1A2B-44FC-A0F6-F9D798709D3C}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualWallet.Domain", "VirtualWallet.Domain\VirtualWallet.Domain.csproj", "{C26A42A5-662C-4F11-831E-34AAE8509DF6}"
+	ProjectSection(ProjectDependencies) = postProject
+		{256A151C-1A2B-44FC-A0F6-F9D798709D3C} = {256A151C-1A2B-44FC-A0F6-F9D798709D3C}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualWallet.Common", "VirtualWallet.Common\VirtualWallet.Common.csproj", "{256A151C-1A2B-44FC-A0F6-F9D798709D3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +41,18 @@ Global
 		{BE518C21-F743-4EB5-A184-BC6D10084543}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE518C21-F743-4EB5-A184-BC6D10084543}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE518C21-F743-4EB5-A184-BC6D10084543}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D918AA2D-947F-4C80-90F5-B81828316E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D918AA2D-947F-4C80-90F5-B81828316E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D918AA2D-947F-4C80-90F5-B81828316E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D918AA2D-947F-4C80-90F5-B81828316E13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C26A42A5-662C-4F11-831E-34AAE8509DF6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C26A42A5-662C-4F11-831E-34AAE8509DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C26A42A5-662C-4F11-831E-34AAE8509DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C26A42A5-662C-4F11-831E-34AAE8509DF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{256A151C-1A2B-44FC-A0F6-F9D798709D3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{256A151C-1A2B-44FC-A0F6-F9D798709D3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{256A151C-1A2B-44FC-A0F6-F9D798709D3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{256A151C-1A2B-44FC-A0F6-F9D798709D3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

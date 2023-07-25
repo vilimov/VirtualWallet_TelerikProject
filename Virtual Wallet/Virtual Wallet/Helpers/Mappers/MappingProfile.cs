@@ -1,4 +1,6 @@
-﻿namespace Virtual_Wallet.Helpers.Mappers
+﻿using Virtual_Wallet.VirtualWallet.Core.Entities;
+
+namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
 {
     public class MappingProfile : Profile
     {
