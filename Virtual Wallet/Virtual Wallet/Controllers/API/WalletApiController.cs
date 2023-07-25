@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using System.Net;
 
-namespace Virtual_Wallet.Controllers.API
+namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
 {
     [ApiController]
     [Route("api/wallets")]

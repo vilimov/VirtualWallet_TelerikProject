@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Virtual_Wallet.Models.Dtos
+namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
 {
     public class WalletCreateDto
     {

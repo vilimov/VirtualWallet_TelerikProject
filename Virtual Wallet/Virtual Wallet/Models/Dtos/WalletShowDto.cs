@@ -1,6 +1,6 @@
 ﻿using Microsoft.OpenApi.Extensions;
 
-namespace Virtual_Wallet.Models.Dtos
+namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
 {
     public class WalletShowDto
     {
