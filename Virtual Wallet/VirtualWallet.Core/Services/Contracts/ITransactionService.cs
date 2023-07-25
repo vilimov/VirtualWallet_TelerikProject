@@ -2,7 +2,7 @@
 using VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet;
 
-namespace Virtual_Wallet.VirtualWallet.Core.Services.Contracts
+namespace Virtual_Wallet.VirtualWallet.Application.Services.Contracts
 {
 	public interface ITransactionService
 	{

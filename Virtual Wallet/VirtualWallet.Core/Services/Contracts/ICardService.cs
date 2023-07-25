@@ -1,6 +1,6 @@
 ﻿using Virtual_Wallet.VirtualWallet.Domain.Entities;
 
-namespace Virtual_Wallet.VirtualWallet.Core.Services.Contracts
+namespace Virtual_Wallet.VirtualWallet.Application.Services.Contracts
 {
     public interface ICardService
     {

@@ -1,9 +1,9 @@
-﻿using Virtual_Wallet.VirtualWallet.Core.Services.Contracts;
+﻿using Virtual_Wallet.VirtualWallet.Application.Services.Contracts;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Domain.Enums;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
 
-namespace Virtual_Wallet.VirtualWallet.Core.Services
+namespace Virtual_Wallet.VirtualWallet.Application.Services
 {
     public class WalletService : IWalletService
     {

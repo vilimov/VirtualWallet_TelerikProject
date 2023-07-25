@@ -1,7 +1,7 @@
 ﻿using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Domain.Enums;
 
-namespace Virtual_Wallet.VirtualWallet.Core.Services.Contracts
+namespace Virtual_Wallet.VirtualWallet.Application.Services.Contracts
 {
     public interface IWalletService
     {
