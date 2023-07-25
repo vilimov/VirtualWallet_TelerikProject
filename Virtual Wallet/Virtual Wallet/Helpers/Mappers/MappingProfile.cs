@@ -1,10 +1,12 @@
-﻿using Virtual_Wallet.VirtualWallet.Core.Entities;
+﻿using AutoMapper;
+using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
+using Virtual_Wallet.VirtualWallet.Domain.Entities;
 
 namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
 {
     public class MappingProfile : Profile
     {
-        public MappingProfile() 
+        public MappingProfile()
         {
             CreateMap<CardAddDto, Card>();
             CreateMap<Card, CardAddDto>();

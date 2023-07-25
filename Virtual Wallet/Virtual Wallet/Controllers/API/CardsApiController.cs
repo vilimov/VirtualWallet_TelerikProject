@@ -1,6 +1,8 @@
-﻿
-using Virtual_Wallet.VirtualWallet.Core.Entities;
+﻿using Microsoft.AspNetCore.Mvc;
+using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
+using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Core.Services.Contracts;
+using Virtual_Wallet.VirtualWallet.Domain.Entities;
 
 namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
 {
@@ -34,7 +36,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
         {
             try
             {
-                Card card = this._cardService.GetById(id);
+                Card card = _cardService.GetById(id);
                 CardShowDto result = new CardShowDto(card);
                 return Ok(result);
 

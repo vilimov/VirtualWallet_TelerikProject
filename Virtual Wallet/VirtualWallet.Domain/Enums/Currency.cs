@@ -1,6 +1,4 @@
-﻿
-
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace Virtual_Wallet.VirtualWallet.Domain.Enums
 {

@@ -1,4 +1,6 @@
 ﻿using Microsoft.OpenApi.Extensions;
+using Virtual_Wallet.VirtualWallet.Domain.Entities;
+using Virtual_Wallet.VirtualWallet.Domain.Enums;
 
 namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
 {
