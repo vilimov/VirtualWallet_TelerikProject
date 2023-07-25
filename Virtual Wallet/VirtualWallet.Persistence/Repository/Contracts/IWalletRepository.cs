@@ -1,5 +1,4 @@
-﻿
-using Virtual_Wallet.VirtualWallet.Domain.Entities;
+﻿using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Domain.Enums;
 
 namespace Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts

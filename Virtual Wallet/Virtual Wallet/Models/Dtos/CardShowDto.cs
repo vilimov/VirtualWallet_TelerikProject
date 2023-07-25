@@ -1,4 +1,8 @@
-﻿namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
+﻿using System.Globalization;
+using System.Text.Json.Serialization;
+using Virtual_Wallet.VirtualWallet.Domain.Entities;
+
+namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
 {
     public class CardShowDto
     {

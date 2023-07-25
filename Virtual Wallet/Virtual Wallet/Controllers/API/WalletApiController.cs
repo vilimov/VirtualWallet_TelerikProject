@@ -1,5 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 using System.Net;
+using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
+using Virtual_Wallet.VirtualWallet.Common.Exceptions;
+using Virtual_Wallet.VirtualWallet.Core.Services.Contracts;
+using Virtual_Wallet.VirtualWallet.Domain.Entities;
+using Virtual_Wallet.VirtualWallet.Core.Services;
 
 namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
 {
