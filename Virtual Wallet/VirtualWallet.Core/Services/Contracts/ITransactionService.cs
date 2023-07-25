@@ -5,7 +5,7 @@ namespace VirtualWallet.Application.Services.Contracts
 {
 	public interface ITransactionService
 	{
-		Task<Transaction> CreateTransactionAsync(CreateTransactionRequestDto request);
+		//Task<Transaction> CreateTransactionAsync(CreateTransactionRequestDto request);
 		Task DeleteTransactionAsync(int transactionId);
 		Task<Transaction> GetTransactionByIdAsync(int transactionId);
 		Task<PageResult<Transaction>> GetTransactionsForUserAsync(int userId, int pageNumber, int pageSize = 10);

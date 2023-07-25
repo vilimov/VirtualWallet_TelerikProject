@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using Virtual_Wallet.VirtualWallet.Domain.Enums;
 
 namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
 {

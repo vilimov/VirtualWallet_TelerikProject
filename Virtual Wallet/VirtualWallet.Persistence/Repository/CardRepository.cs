@@ -22,11 +22,11 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             return card;
         }
 
-        public IQueryable<Card> FilterCardsBy(CardQueryParameters queryParameters)
+       /* public IQueryable<Card> FilterCardsBy(CardQueryParameters queryParameters)
         {
             //ToDo
             throw new NotImplementedException();
-        }
+        }*/
 
         public IQueryable<Card> GetAll()
         {

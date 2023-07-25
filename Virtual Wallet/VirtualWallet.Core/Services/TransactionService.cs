@@ -19,7 +19,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			this.userRepository = userRepository;
 		}
 
-		public async Task<Transaction> CreateTransactionAsync(CreateTransactionRequest request)
+		/*public async Task<Transaction> CreateTransactionAsync(CreateTransactionRequest request)
 		{
 			
 			var sender = await userRepository.GetUserById(request.SenderId);
@@ -60,7 +60,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			await transactionRepository.AddTransaction(transaction);
 
 			return transaction;
-		}
+		}*/
 
 		public async Task DeleteTransactionAsync(int transactionId)
 		{

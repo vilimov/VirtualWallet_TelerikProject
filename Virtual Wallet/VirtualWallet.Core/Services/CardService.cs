@@ -18,10 +18,10 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             throw new NotImplementedException();
         }
 
-        public IEnumerable<Card> FilterCardsBy(CardQueryParameters queryParameters)
+        /*public IEnumerable<Card> FilterCardsBy(CardQueryParameters queryParameters)
         {
             throw new NotImplementedException();
-        }
+        }*/
 
         public IEnumerable<Card> GetAll()
         {
