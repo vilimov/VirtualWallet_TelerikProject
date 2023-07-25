@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Virtual Wallet", "Virtual Wallet\Virtual Wallet.csproj", "{88E92F56-470A-4B03-88A3-462F6DC83292}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Virtual Wallet", "Virtual Wallet\Virtual Wallet.csproj", "{88E92F56-470A-4B03-88A3-462F6DC83292}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualWallet.Core", "VirtualWallet.Core\VirtualWallet.Core.csproj", "{BE518C21-F743-4EB5-A184-BC6D10084543}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{88E92F56-470A-4B03-88A3-462F6DC83292}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88E92F56-470A-4B03-88A3-462F6DC83292}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88E92F56-470A-4B03-88A3-462F6DC83292}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE518C21-F743-4EB5-A184-BC6D10084543}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE518C21-F743-4EB5-A184-BC6D10084543}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE518C21-F743-4EB5-A184-BC6D10084543}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE518C21-F743-4EB5-A184-BC6D10084543}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
