@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Persistence.Data;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
+using VirtualWallet.Common.AdditionalHelpers;
 
 namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 {
@@ -15,61 +17,72 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 		{
 			this.context = context;
 		}
-		public async Task<IEnumerable<User>> GetAllUsers()
+		public IEnumerable<User> GetAllUsers()
 		{
-			return await context.Users.ToListAsync();
+			return context.Users.ToList();
 		}
 
-		public async Task<User> GetUserById(int id)
+		public User GetUserById(int id)
 		{
-			var user = await this.context.Users.FindAsync(id);
-			if (user == null)
-			{
-				throw new UserNotFoundException(id);
+			var user = this.context.Users.Find(id);
+            if (user == null)
+            {
+				throw new UserNotFoundException(string.Format(Alerts.UserNotFound, "Id", $"{id}"));
 			}
 			return user;
 		}
-		public async Task<User> GetUserByUsername(string username)
+		public User GetUserByUsername(string username)
 		{
-			var user = await this.context.Users.FirstOrDefaultAsync(u => u.Username == username);
+			var user = this.context.Users.FirstOrDefault(u => u.Username == username);
 			if (user == null)
 			{
-				throw new EntityNotFoundException(username);
+				throw new EntityNotFoundException(string.Format(Alerts.UserNotFound, "username", $"{username}"));
 			}
 			return user;
 		}
-		public async Task<User> GetUserByEmail(string email)
+		public User GetUserByEmail(string email)
 		{
-			var user = await this.context.Users.FirstOrDefaultAsync(u => u.Email == email);
+			var user = this.context.Users.FirstOrDefault(u => u.Email == email);
 			if (user == null)
 			{
-				throw new EntityNotFoundException(email);
+				throw new EntityNotFoundException(string.Format(Alerts.UserNotFound, "email", $"{email}"));
 			}
 			return user;
 		}
 
-		public async Task<User> AddUser(User user)
+		public User AddUser(User user)
 		{
-			var result = await context.Users.AddAsync(user);
-			await context.SaveChangesAsync();
+			var result = context.Users.Add(user);
+			context.SaveChanges();
 			return result.Entity;
 		}
 
-		public async Task<User> UpdateUser(User user)
+		public User UpdateUser(User user)
 		{
 			context.Entry(user).State = EntityState.Modified;
-			await context.SaveChangesAsync();
+			context.SaveChanges();
 			return user;
 		}
 
-		public async Task DeleteUser(int id)
+		public void DeleteUser(int id)
 		{
-			var user = await context.Users.FindAsync(id);
+			var user = context.Users.Find(id);
 			if (user != null)
 			{
 				context.Users.Remove(user);
-				await context.SaveChangesAsync();
+				context.SaveChanges();
 			}
 		}
-	}
+
+        public User VerifyUser(User user)
+        {
+            if (user == null)
+            {
+                throw new EntityNotFoundException(Alerts.UserNotVerified);
+            }
+            context.Users.Update(user);
+            context.SaveChanges();
+            return user;
+        }
+    }
 }

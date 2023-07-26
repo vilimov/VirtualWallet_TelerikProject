@@ -15,49 +15,52 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 		{
 			this.context = context;
 		}
-		public async Task<Transaction> GetTransactionById(int id)
+		public Transaction GetTransactionById(int id)
 		{
-			var transaction = await this.context.Transactions.FindAsync(id);
+			var transaction = this.context.Transactions.Find(id);
 			if (transaction == null)
 			{
 				throw new EntityNotFoundException($"Transaction with ID {id} not found.");
 			}
 			return transaction;
 		}
-		public async Task<PageResult<Transaction>> GetAllTransactionsForUser(int userId, int pageNumber, int pageSize = 10)
+
+		public PageResult<Transaction> GetAllTransactionsForUser(int userId, int pageNumber, int pageSize = 10)
 		{
 			var query = this.context.Transactions
 						.Where(t => t.SenderId == userId || t.RecipientId == userId);
 
-			int count = await query.CountAsync();
+			int count = query.Count();
 
-			var items = await query
+			var items = query
 				.Skip((pageNumber - 1) * pageSize)
 				.Take(pageSize)
-				.ToListAsync();
+				.ToList();
 
 			return new PageResult<Transaction>(items, count, pageNumber, pageSize);
 		}
-		public async Task<Transaction> AddTransaction(Transaction transaction)
+
+		public Transaction AddTransaction(Transaction transaction)
 		{
-			var result = await this.context.Transactions.AddAsync(transaction);
-			await this.context.SaveChangesAsync();
+			var result = this.context.Transactions.Add(transaction);
+			this.context.SaveChanges();
 			return result.Entity;
 		}
-		public async Task<Transaction> UpdateTransaction(Transaction transaction)
+
+		public Transaction UpdateTransaction(Transaction transaction)
 		{
 			this.context.Entry(transaction).State = EntityState.Modified;
-			await this.context.SaveChangesAsync();
+			this.context.SaveChanges();
 			return transaction;
 		}
 
-		public async Task DeleteTransaction(int id)
+		public void DeleteTransaction(int id)
 		{
-			var transaction = await this.context.Transactions.FindAsync(id);
+			var transaction = this.context.Transactions.Find(id);
 			if (transaction != null)
 			{
 				this.context.Transactions.Remove(transaction);
-				await this.context.SaveChangesAsync();
+				this.context.SaveChanges();
 			}
 		}
 	}

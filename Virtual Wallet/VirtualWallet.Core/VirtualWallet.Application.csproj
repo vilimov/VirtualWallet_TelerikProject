@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="4.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\VirtualWallet.Common\VirtualWallet.Common.csproj" />
     <ProjectReference Include="..\VirtualWallet.Domain\VirtualWallet.Domain.csproj" />
     <ProjectReference Include="..\VirtualWallet.Persistence\VirtualWallet.Persistence.csproj" />

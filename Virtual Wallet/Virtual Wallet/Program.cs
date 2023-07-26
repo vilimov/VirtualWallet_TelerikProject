@@ -5,6 +5,7 @@ using Virtual_Wallet.VirtualWallet.Application.Services;
 using Virtual_Wallet.VirtualWallet.Persistence.Data;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
+using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
 
 namespace Virtual_Wallet
@@ -28,9 +29,9 @@ namespace Virtual_Wallet
 
 
                 //string connectionString = @"Server=FREAKY\MSSQLSERVER2022;Database=VirtualWalletDataBase;Trusted_Connection=True;Encrypt=False;";
-                //string connectionString = @"Server=MILA-V15G2\SQLEXPRESS;Database=VirtualWalletDataBase;Trusted_Connection=True;Encrypt=False;";
+                string connectionString = @"Server=MILA-V15G2\SQLEXPRESS;Database=VirtualWalletDataBase;Trusted_Connection=True;Encrypt=False;";
                 //string connectionString = @"Server=VILIMOV-PC;Database=VirtualWalletDataBase;Trusted_Connection=True;Encrypt=False;";
-                string connectionString = @"Server=localhost;Database=VirtualWalletDataBase;Trusted_Connection=True;Encrypt=False;";
+                //string connectionString = @"Server=localhost;Database=VirtualWalletDataBase;Trusted_Connection=True;Encrypt=False;";
 
                 options.UseSqlServer(connectionString);
                 options.EnableSensitiveDataLogging();
@@ -55,7 +56,7 @@ namespace Virtual_Wallet
             builder.Services.AddScoped<ICardService, CardService>();
 
             //Helpers
-            //builder.Services.AddScoped<AuthManager>();
+            builder.Services.AddScoped<AuthManager>();
             //builder.Services.AddScoped<PostCreatUpdateMapper>();
             //builder.Services.AddScoped<IMapper>();                      
 

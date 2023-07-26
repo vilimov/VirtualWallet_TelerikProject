@@ -1,7 +1,10 @@
-﻿using Virtual_Wallet.VirtualWallet.Common.Exceptions;
+﻿using System.Security.Cryptography;
+using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
+using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
+using VirtualWallet.Common.AdditionalHelpers;
 
 namespace Virtual_Wallet.VirtualWallet.Application.Services
 {
@@ -14,29 +17,30 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			this.userRepository = userRepository;
 		}
 
-		public async Task<IEnumerable<User>> GetAllUsers()
+		public IEnumerable<User> GetAllUsers()
 		{
-			return await this.userRepository.GetAllUsers();
-		}
-		public async Task<User> GetUserById(int id)
-		{
-			return await this.userRepository.GetUserById(id);
-		}
-		public async Task<User> GetUserByEmail(string email)
-		{
-			return await userRepository.GetUserByEmail(email);
+			return this.userRepository.GetAllUsers();
 		}
 
-		public async Task<User> GetUserByUsername(string username)
+		public User GetUserById(int id)
 		{
-			return await this.userRepository.GetUserByUsername(username);
+			return this.userRepository.GetUserById(id);
 		}
 
-		public async Task<User> Register(User user)
+		public User GetUserByEmail(string email)
 		{
-			// Todo more business logic in future
-			var existingUserUsername = await this.userRepository.GetUserByUsername(user.Username);
-			var existingUserEmail = await this.userRepository.GetUserByEmail(user.Email);
+			return userRepository.GetUserByEmail(email);
+		}
+
+		public User GetUserByUsername(string username)
+		{
+			return this.userRepository.GetUserByUsername(username);
+		}
+
+		public User Register(User user)
+		{
+			var existingUserUsername = this.userRepository.GetUserByUsername(user.Username);
+			var existingUserEmail = this.userRepository.GetUserByEmail(user.Email);
 			if (existingUserUsername != null)
 			{
 				throw new DuplicateEntityException(user.Username);
@@ -46,24 +50,80 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 				throw new DuplicateEntityException(user.Email);
 			}
 
-			return await this.userRepository.AddUser(user);
+            // Generate salt
+            string salt = AuthManager.GenerateSalt();
+            // Concatenate salt with password and generate hashed password
+            string hashedPassword = AuthManager.HashPassword(user.Password, salt);
+            // Assign salt and hashed password to user object
+            user.Salt = salt;
+            user.Password = hashedPassword;
+			//Verification token used for mail
+			user.VerificationToken = CreateRandomToken();
+
+            return this.userRepository.AddUser(user);
 		}
 
-		public async Task<User> UpdateUser(User user)
+		public User UpdateUser(User user)
 		{
 			// Todo more business logic in future
-			var existingUser = await this.userRepository.GetUserById(user.Id);
+			var existingUser = this.userRepository.GetUserById(user.Id);
 			if (existingUser == null)
 			{
-				throw new UserNotFoundException(user.Id);
-			}
+                throw new UserNotFoundException(string.Format(Alerts.UserNotFound, "Id", $"{user.Id}"));
+            }
 
-			return await this.userRepository.UpdateUser(user);
+			return this.userRepository.UpdateUser(user);
 		}
 
-		public async Task DeleteUser(int id)
+		public void DeleteUser(int id)
 		{
-			await this.userRepository.DeleteUser(id);
+			this.userRepository.DeleteUser(id);
 		}
-	}
+
+        public User Login(string username, string password)
+        {
+            var user = userRepository.GetUserByUsername(username);
+            if (user == null)
+            {
+                throw new EntityNotFoundException(Alerts.InvalidCredentials);
+            }
+			//HACK check for Verification
+            if (user.VerifiedAt == null)
+            {
+                throw new EntityNotFoundException(Alerts.UserNotVerified);
+            }
+            string salt = user.Salt;
+            string hashedPassword = AuthManager.HashPassword(password, salt);
+
+            if (user.Password != hashedPassword)
+            {
+                throw new UnauthorizedAccessException(Alerts.InvalidCredentials);
+            }
+
+            return user;
+        }
+
+		public User Verify(string token)
+		{
+            var user = this.GetAllUsers().FirstOrDefault(u => u.VerificationToken == token);
+			if(user == null)
+			{
+                throw new EntityNotFoundException(Alerts.UserNotVerified);
+            }
+
+            user.VerifiedAt = DateTime.Now;
+            return this.userRepository.VerifyUser(user);
+            
+        }
+
+
+        #region PrivateMethods
+        private string CreateRandomToken()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        }
+        #endregion
+
+
+    }
 }

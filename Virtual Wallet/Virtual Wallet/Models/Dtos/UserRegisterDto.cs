@@ -15,7 +15,9 @@ namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
 		[Required(AllowEmptyStrings = false, ErrorMessage = "The {0} field is required and must not be empty.")]
 		[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W).{8,}$", ErrorMessage = "Password must be at least 8 symbols and include lowercase letter, uppercase letter, digit, and special symbol.")]
 		[MaxLength(20, ErrorMessage = "The {0} field must be less than {1} characters.")]
-		public string Password { get; set; }
+        [DataType(DataType.Password)]
+        [Display(Name = "Password")]
+        public string Password { get; set; }
 
 		[Required(ErrorMessage = "Confirm password is required.")]
 		[Compare("Password", ErrorMessage = "Passwords do not match.")]
