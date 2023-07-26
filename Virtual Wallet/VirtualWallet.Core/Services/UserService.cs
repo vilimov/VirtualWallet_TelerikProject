@@ -14,29 +14,31 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			this.userRepository = userRepository;
 		}
 
-		public async Task<IEnumerable<User>> GetAllUsers()
+		public IEnumerable<User> GetAllUsers()
 		{
-			return await this.userRepository.GetAllUsers();
-		}
-		public async Task<User> GetUserById(int id)
-		{
-			return await this.userRepository.GetUserById(id);
-		}
-		public async Task<User> GetUserByEmail(string email)
-		{
-			return await userRepository.GetUserByEmail(email);
+			return this.userRepository.GetAllUsers();
 		}
 
-		public async Task<User> GetUserByUsername(string username)
+		public User GetUserById(int id)
 		{
-			return await this.userRepository.GetUserByUsername(username);
+			return this.userRepository.GetUserById(id);
 		}
 
-		public async Task<User> Register(User user)
+		public User GetUserByEmail(string email)
+		{
+			return userRepository.GetUserByEmail(email);
+		}
+
+		public User GetUserByUsername(string username)
+		{
+			return this.userRepository.GetUserByUsername(username);
+		}
+
+		public User Register(User user)
 		{
 			// Todo more business logic in future
-			var existingUserUsername = await this.userRepository.GetUserByUsername(user.Username);
-			var existingUserEmail = await this.userRepository.GetUserByEmail(user.Email);
+			var existingUserUsername = this.userRepository.GetUserByUsername(user.Username);
+			var existingUserEmail = this.userRepository.GetUserByEmail(user.Email);
 			if (existingUserUsername != null)
 			{
 				throw new DuplicateEntityException(user.Username);
@@ -46,24 +48,24 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 				throw new DuplicateEntityException(user.Email);
 			}
 
-			return await this.userRepository.AddUser(user);
+			return this.userRepository.AddUser(user);
 		}
 
-		public async Task<User> UpdateUser(User user)
+		public User UpdateUser(User user)
 		{
 			// Todo more business logic in future
-			var existingUser = await this.userRepository.GetUserById(user.Id);
+			var existingUser = this.userRepository.GetUserById(user.Id);
 			if (existingUser == null)
 			{
 				throw new UserNotFoundException(user.Id);
 			}
 
-			return await this.userRepository.UpdateUser(user);
+			return this.userRepository.UpdateUser(user);
 		}
 
-		public async Task DeleteUser(int id)
+		public void DeleteUser(int id)
 		{
-			await this.userRepository.DeleteUser(id);
+			this.userRepository.DeleteUser(id);
 		}
 	}
 }

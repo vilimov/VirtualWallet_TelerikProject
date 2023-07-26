@@ -15,32 +15,32 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 		{
 			this.context = context;
 		}
-		public async Task<IEnumerable<User>> GetAllUsers()
+		public IEnumerable<User> GetAllUsers()
 		{
-			return await context.Users.ToListAsync();
+			return context.Users.ToList();
 		}
 
-		public async Task<User> GetUserById(int id)
+		public User GetUserById(int id)
 		{
-			var user = await this.context.Users.FindAsync(id);
+			var user = this.context.Users.Find(id);
 			if (user == null)
 			{
 				throw new UserNotFoundException(id);
 			}
 			return user;
 		}
-		public async Task<User> GetUserByUsername(string username)
+		public User GetUserByUsername(string username)
 		{
-			var user = await this.context.Users.FirstOrDefaultAsync(u => u.Username == username);
+			var user = this.context.Users.FirstOrDefault(u => u.Username == username);
 			if (user == null)
 			{
 				throw new EntityNotFoundException(username);
 			}
 			return user;
 		}
-		public async Task<User> GetUserByEmail(string email)
+		public User GetUserByEmail(string email)
 		{
-			var user = await this.context.Users.FirstOrDefaultAsync(u => u.Email == email);
+			var user = this.context.Users.FirstOrDefault(u => u.Email == email);
 			if (user == null)
 			{
 				throw new EntityNotFoundException(email);
@@ -48,27 +48,27 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 			return user;
 		}
 
-		public async Task<User> AddUser(User user)
+		public User AddUser(User user)
 		{
-			var result = await context.Users.AddAsync(user);
-			await context.SaveChangesAsync();
+			var result = context.Users.Add(user);
+			context.SaveChanges();
 			return result.Entity;
 		}
 
-		public async Task<User> UpdateUser(User user)
+		public User UpdateUser(User user)
 		{
 			context.Entry(user).State = EntityState.Modified;
-			await context.SaveChangesAsync();
+			context.SaveChanges();
 			return user;
 		}
 
-		public async Task DeleteUser(int id)
+		public void DeleteUser(int id)
 		{
-			var user = await context.Users.FindAsync(id);
+			var user = context.Users.Find(id);
 			if (user != null)
 			{
 				context.Users.Remove(user);
-				await context.SaveChangesAsync();
+				context.SaveChanges();
 			}
 		}
 	}
