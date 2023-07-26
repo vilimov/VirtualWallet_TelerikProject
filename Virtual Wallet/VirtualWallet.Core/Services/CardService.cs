@@ -15,7 +15,8 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 
         public Card Add(Card card)
         {
-            throw new NotImplementedException();
+            Card createdCard = this.cardRepository.Add(card);
+            return createdCard;
         }
 
         /*public IEnumerable<Card> FilterCardsBy(CardQueryParameters queryParameters)
@@ -41,9 +42,10 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             throw new NotImplementedException();
         }
 
-        public Card Remove(Card card)
+        public Card Remove(int id)
         {
-            throw new NotImplementedException();
+            Card removedCard = this.cardRepository.Remove(id);
+            return removedCard;
         }
     }
 }

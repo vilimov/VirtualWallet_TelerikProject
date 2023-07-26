@@ -69,7 +69,9 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Data
                 new Wallet { Id = 8, CurrencyCode = Currency.EUR, Balance = 33333.33M, UserId = 8 },
                 new Wallet { Id = 9, CurrencyCode = Currency.EUR, Balance = 22222.22M, UserId = 9 },
                 new Wallet { Id = 10, CurrencyCode = Currency.EUR, Balance = 11111.11M, UserId = 10 },
-                new Wallet { Id = 11, CurrencyCode = Currency.BGN, Balance = 9999.99M, UserId = 11 }
+                new Wallet { Id = 11, CurrencyCode = Currency.BGN, Balance = 9999.99M, UserId = 11 },
+                new Wallet { Id = 12, CurrencyCode = Currency.BGN, Balance = 0.00M, UserId = 11 },
+                new Wallet { Id = 13, CurrencyCode = Currency.BGN, Balance = 0.00M, UserId = 11 }
             };
             modelBuilder.Entity<Wallet>().HasData(wallets);
 

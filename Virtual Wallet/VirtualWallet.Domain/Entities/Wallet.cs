@@ -17,6 +17,8 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
         [Range(0, double.MaxValue)]
         public decimal Blocked { get; set; }
 
+        public bool IsInactive { get; set; } = false;
+
         [Required]
         public int? UserId { get; set; }
 

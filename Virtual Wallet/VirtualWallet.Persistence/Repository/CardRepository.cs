@@ -16,7 +16,17 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 
         public Card Add(Card card)
         {
-            this.context.Cards.Add(card);
+            Card inactiveCard = context.Cards.FirstOrDefault(c => c.Number == card.Number);
+            
+            if (inactiveCard != null)
+            {
+                inactiveCard.IsInactive = false;
+            }
+            else
+            {
+
+                this.context.Cards.Add(card);
+            }
             context.SaveChanges();
 
             return card;
@@ -31,6 +41,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
         public IQueryable<Card> GetAll()
         {
             IQueryable<Card> cards = context.Cards
+                                                .Where(c => !c.IsInactive)
                                                 .Include(c => c.User);
             return cards ?? throw new EntityNotFoundException("No cards found!");
         }
@@ -48,6 +59,19 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
         public Card Remove(Card card)
         {
             throw new NotImplementedException();
+        }
+
+        public Card Remove(int id)
+        {
+            Card cardToDelete = GetById(id);
+            Deactivate(cardToDelete);
+            this.context.SaveChanges();
+            return cardToDelete;
+        }
+
+        public void Deactivate(Card card)
+        {            
+            card.IsInactive = true;
         }
     }
 }

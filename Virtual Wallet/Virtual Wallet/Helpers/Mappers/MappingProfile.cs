@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using System.Globalization;
 using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 
@@ -8,7 +9,8 @@ namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
     {
         public MappingProfile()
         {
-            CreateMap<CardAddDto, Card>();
+            CreateMap<CardAddDto, Card>()
+                .ForMember(dest => dest.ExpirationDate, opts => opts.MapFrom(src => DateTime.ParseExact(src.ExpireDateFormatted, "MMyy", CultureInfo.InvariantCulture)));
             CreateMap<Card, CardAddDto>();
 
             CreateMap<CardShowDto, Card>();

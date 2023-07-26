@@ -26,6 +26,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
         public IEnumerable<Wallet> GetAll()
         {
             IEnumerable<Wallet> result = context.Wallets
+                           .Where(w => !w.IsInactive)
                            .Include(w => w.User);
             return result.ToList() ?? throw new EntityNotFoundException("No wallets were found");
         }
@@ -110,16 +111,16 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 
         public Wallet Delete(int id)
         {
-            Wallet deletedWallet = GetWalletById(id);
-            if (deletedWallet.Balance > 0 || deletedWallet.Blocked > 0)
+            Wallet waletToDelete = GetWalletById(id);
+            if (waletToDelete.Balance > 0 || waletToDelete.Blocked > 0)
             {
-                string balance = $"{deletedWallet.Balance.ToString("F2")} {deletedWallet.CurrencyCode.ToString()}";
-                string blocked = $"{deletedWallet.Blocked.ToString("F2")} {deletedWallet.CurrencyCode.ToString()}";
+                string balance = $"{waletToDelete.Balance.ToString("F2")} {waletToDelete.CurrencyCode.ToString()}";
+                string blocked = $"{waletToDelete.Blocked.ToString("F2")} {waletToDelete.CurrencyCode.ToString()}";
                 throw new WalletNotEmptyException($"This wallet's balance is {balance} and has {blocked} blocked! Wallet must be empty in order to be deleted!");
             }
-            context.Wallets.Remove(deletedWallet);
+            Deactivate(waletToDelete);
             context.SaveChanges();
-            return deletedWallet;
+            return waletToDelete;
         }
 		public decimal AdjustBalance(int walletId, decimal amount, bool isDeposit)
 		{
@@ -147,5 +148,10 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 
 			return wallet.Balance;
 		}
+
+        public void Deactivate (Wallet wallet)
+        { 
+            wallet.IsInactive = true;
+        }
 	}
 }

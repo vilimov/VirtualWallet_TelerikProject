@@ -9,6 +9,6 @@ namespace VirtualWallet.Application.Services.Contracts
         Card GetByUserId(int id);
         //IEnumerable<Card> FilterCardsBy(CardQueryParameters queryParameters);
         Card Add(Card card);
-        Card Remove(Card card);
+        Card Remove(int id);
     }
 }

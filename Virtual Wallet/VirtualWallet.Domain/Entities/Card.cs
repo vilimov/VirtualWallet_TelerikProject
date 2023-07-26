@@ -13,7 +13,6 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
 
 		[Required]
 		public DateTime ExpirationDate { get; set; }
-        //public string ExpirationDateFormatted => ExpirationDate.ToString("MM.yy");
 
         [Required]
 		[StringLength(30, MinimumLength = 2)]
@@ -25,6 +24,8 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
 
 		[Required]
 		public bool IsCreditCard { get; set; }
+
+		public bool IsInactive { get; set; }
 
         [Required]
         public int? UserId { get; set; }
