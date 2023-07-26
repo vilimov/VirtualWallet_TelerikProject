@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Domain.Enums;
 
@@ -20,20 +21,20 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            //var salt = AuthManager.GenerateSalt();
+            var salt = "aYkdwwd7tFrZOsBA2Za0qQ==";
             var users = new List<User>()
             {
-                new User { Id = 1, Username = "ElonMusk", Password = "password123", ConfirmPassword = "password123", Email = "elon@musk.com", PhoneNumber = "1234567890", Photo = "elon_musk.jpg", IsAdmin = true, IsBlocked = false},
-                new User { Id = 2, Username = "JeffBezos", Password = "password456", ConfirmPassword = "password456", Email = "jeff@amazon.com", PhoneNumber = "9876543210", Photo = "jeff_bezos.jpg", IsAdmin = false, IsBlocked = false},
-                new User { Id = 3, Username = "WarrenBuffett", Password = "password789", ConfirmPassword = "password789", Email = "warren@berkshire.com", PhoneNumber = "9876543210", Photo = "warren_buffett.jpg", IsAdmin = false, IsBlocked = false},
-                new User { Id = 4, Username = "BillGates", Password = "password111", ConfirmPassword = "password111", Email = "bill@microsoft.com", PhoneNumber = "1234567890", Photo = "bill_gates.jpg", IsAdmin = true, IsBlocked = false},
-                new User { Id = 5, Username = "LarryEllison", Password = "password222", ConfirmPassword = "password222", Email = "larry@oracle.com", PhoneNumber = "9876543210", Photo = "larry_ellison.jpg", IsAdmin = false, IsBlocked = false},
-                new User { Id = 6, Username = "MarkZuckerberg", Password = "password333", ConfirmPassword = "password333", Email = "mark@facebook.com", PhoneNumber = "1234567890", Photo = "mark_zuckerberg.jpg", IsAdmin = true, IsBlocked = false},
-                new User { Id = 7, Username = "LarryPage", Password = "password444", ConfirmPassword = "password444", Email = "larry@google.com", PhoneNumber = "9876543210", Photo = "larry_page.jpg", IsAdmin = false, IsBlocked = false},
-                new User { Id = 8, Username = "SergeyBrin", Password = "password555", ConfirmPassword = "password555", Email = "sergey@google.com", PhoneNumber = "1234567890", Photo = "sergey_brin.jpg", IsAdmin = false, IsBlocked = false},
-                new User { Id = 9, Username = "AmancioOrtega", Password = "password666", ConfirmPassword = "password666", Email = "amancio@zara.com", PhoneNumber = "9876543210", Photo = "amancio_ortega.jpg", IsAdmin = false, IsBlocked = false},
-                new User { Id = 10, Username = "CarlosSlimHelu", Password = "password777", ConfirmPassword = "password777", Email = "carlos@telmex.com", PhoneNumber = "1234567890", Photo = "carlos_slim_helu.jpg", IsAdmin = false, IsBlocked = false},
-                new User { Id = 11, Username = "Admin", Password = "123", ConfirmPassword = "123", Email = "Ad@min.com", PhoneNumber = "1234567890", Photo = "Admin.jpg", IsAdmin = true, IsBlocked = false}
+                new User { Id = 1, Username = "ElonMusk", VerifiedAt = DateTime.Now.AddDays(-6), Password = HashPasswordInternal("password123", salt), Email = "elon@musk.com", PhoneNumber = "1234567890", Photo = "elon_musk.jpg", IsAdmin = true, IsBlocked = false},
+                new User { Id = 2, Username = "JeffBezos", VerifiedAt = DateTime.Now.AddDays(-6), Password = HashPasswordInternal("password456", salt), Email = "jeff@amazon.com", PhoneNumber = "9876543210", Photo = "jeff_bezos.jpg", IsAdmin = false, IsBlocked = false},
+                new User { Id = 3, Username = "WarrenBuffett", VerifiedAt = DateTime.Now.AddDays(-5), Password = HashPasswordInternal("password789", salt), Email = "warren@berkshire.com", PhoneNumber = "9876543210", Photo = "warren_buffett.jpg", IsAdmin = false, IsBlocked = false},
+                new User { Id = 4, Username = "BillGates", VerifiedAt = DateTime.Now.AddDays(-5), Password = HashPasswordInternal("password111", salt), PhoneNumber = "1234567890", Photo = "bill_gates.jpg", IsAdmin = true, IsBlocked = false},
+                new User { Id = 5, Username = "LarryEllison", VerifiedAt = DateTime.Now.AddDays(-3), Password = HashPasswordInternal("password222", salt), Email = "larry@oracle.com", PhoneNumber = "9876543210", Photo = "larry_ellison.jpg", IsAdmin = false, IsBlocked = false},
+                new User { Id = 6, Username = "MarkZuckerberg", VerifiedAt = DateTime.Now.AddDays(-2), Password = HashPasswordInternal("password333", salt), Email = "mark@facebook.com", PhoneNumber = "1234567890", Photo = "mark_zuckerberg.jpg", IsAdmin = true, IsBlocked = false},
+                new User { Id = 7, Username = "LarryPage", VerifiedAt = DateTime.Now.AddDays(-2), Password = HashPasswordInternal("password444", salt), Email = "larry@google.com", PhoneNumber = "9876543210", Photo = "larry_page.jpg", IsAdmin = false, IsBlocked = false},
+                new User { Id = 8, Username = "SergeyBrin", VerifiedAt = DateTime.Now.AddDays(-2), Password = HashPasswordInternal("password555", salt), Email = "sergey@google.com", PhoneNumber = "1234567890", Photo = "sergey_brin.jpg", IsAdmin = false, IsBlocked = false},
+                new User { Id = 9, Username = "AmancioOrtega", VerifiedAt = DateTime.Now.AddDays(-1), Password = HashPasswordInternal("password666", salt), Email = "amancio@zara.com", PhoneNumber = "9876543210", Photo = "amancio_ortega.jpg", IsAdmin = false, IsBlocked = false},
+                new User { Id = 10, Username = "CarlosSlimHelu", VerifiedAt = DateTime.Now.AddDays(-1), Password = HashPasswordInternal("password777", salt), Email = "carlos@telmex.com", PhoneNumber = "1234567890", Photo = "carlos_slim_helu.jpg", IsAdmin = false, IsBlocked = false},
+                new User { Id = 11, Username = "Admin", VerifiedAt = DateTime.Now.AddDays(-1), Password = HashPasswordInternal("123", salt), Email = "Ad@min.com", PhoneNumber = "1234567890", Photo = "Admin.jpg", IsAdmin = true, IsBlocked = false}
             };
             modelBuilder.Entity<User>().HasData(users);
 
@@ -109,5 +110,19 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Data
                 .Property(w => w.Blocked)
                 .HasPrecision(20, 5);
         }
+
+        #region PrivateMethods
+       //This method is used only for seeding users' passwords correctly
+        private static string HashPasswordInternal(string password, string salt)
+        {
+            byte[] saltBytes = Convert.FromBase64String(salt);
+
+            using (var rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, saltBytes, 10000))
+            {
+                byte[] hashBytes = rfc2898DeriveBytes.GetBytes(32); // 32 bytes = 256 bits (recommended for bcrypt)
+                return Convert.ToBase64String(hashBytes);
+            }
+        }
+        #endregion
     }
 }

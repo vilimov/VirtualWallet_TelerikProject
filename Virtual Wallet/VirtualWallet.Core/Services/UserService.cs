@@ -1,7 +1,10 @@
-﻿using Virtual_Wallet.VirtualWallet.Common.Exceptions;
+﻿using System.Security.Cryptography;
+using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
+using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
+using VirtualWallet.Common.AdditionalHelpers;
 
 namespace Virtual_Wallet.VirtualWallet.Application.Services
 {
@@ -36,7 +39,6 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 
 		public User Register(User user)
 		{
-			// Todo more business logic in future
 			var existingUserUsername = this.userRepository.GetUserByUsername(user.Username);
 			var existingUserEmail = this.userRepository.GetUserByEmail(user.Email);
 			if (existingUserUsername != null)
@@ -48,7 +50,17 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 				throw new DuplicateEntityException(user.Email);
 			}
 
-			return this.userRepository.AddUser(user);
+            // Generate salt
+            string salt = AuthManager.GenerateSalt();
+            // Concatenate salt with password and generate hashed password
+            string hashedPassword = AuthManager.HashPassword(user.Password, salt);
+            // Assign salt and hashed password to user object
+            user.Salt = salt;
+            user.Password = hashedPassword;
+			//Verification token used for mail
+			user.VerificationToken = CreateRandomToken();
+
+            return this.userRepository.AddUser(user);
 		}
 
 		public User UpdateUser(User user)
@@ -57,8 +69,8 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			var existingUser = this.userRepository.GetUserById(user.Id);
 			if (existingUser == null)
 			{
-				throw new UserNotFoundException(user.Id);
-			}
+                throw new UserNotFoundException(string.Format(Alerts.UserNotFound, "Id", $"{user.Id}"));
+            }
 
 			return this.userRepository.UpdateUser(user);
 		}
@@ -67,5 +79,51 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 		{
 			this.userRepository.DeleteUser(id);
 		}
-	}
+
+        public User Login(string username, string password)
+        {
+            var user = userRepository.GetUserByUsername(username);
+            if (user == null)
+            {
+                throw new EntityNotFoundException(Alerts.InvalidCredentials);
+            }
+			//HACK check for Verification
+            if (user.VerifiedAt == null)
+            {
+                throw new EntityNotFoundException(Alerts.UserNotVerified);
+            }
+            string salt = user.Salt;
+            string hashedPassword = AuthManager.HashPassword(password, salt);
+
+            if (user.Password != hashedPassword)
+            {
+                throw new UnauthorizedAccessException(Alerts.InvalidCredentials);
+            }
+
+            return user;
+        }
+
+		public User Verify(string token)
+		{
+            var user = this.GetAllUsers().FirstOrDefault(u => u.VerificationToken == token);
+			if(user == null)
+			{
+                throw new EntityNotFoundException(Alerts.UserNotVerified);
+            }
+
+            user.VerifiedAt = DateTime.Now;
+            return this.userRepository.VerifyUser(user);
+            
+        }
+
+
+        #region PrivateMethods
+        private string CreateRandomToken()
+        {
+            return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
+        }
+        #endregion
+
+
+    }
 }

@@ -11,5 +11,8 @@ namespace VirtualWallet.Application.Services.Contracts
 		User Register(User user);
 		User UpdateUser(User user);
 		void DeleteUser(int id);
-	}
+		User Login(string username, string password);
+		public User Verify(string token);
+
+    }
 }

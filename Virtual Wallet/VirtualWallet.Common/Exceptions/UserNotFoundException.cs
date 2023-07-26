@@ -1,9 +1,9 @@
 ﻿namespace Virtual_Wallet.VirtualWallet.Common.Exceptions
 {
-	public class UserNotFoundException : Exception
-	{
-		public UserNotFoundException(int userId)
-			: base($"No user found with id {userId}")
+	public class UserNotFoundException : ApplicationException
+    {
+		public UserNotFoundException(string message)
+			: base(message)
 		{
 		}
 	}

@@ -11,5 +11,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts
 		User AddUser(User user);
 		User UpdateUser(User user);
 		void DeleteUser(int id);
-	}
+		public User VerifyUser(User user);
+
+    }
 }
