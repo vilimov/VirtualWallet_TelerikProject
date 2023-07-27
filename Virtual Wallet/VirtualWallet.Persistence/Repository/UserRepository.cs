@@ -25,37 +25,27 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 		public User GetUserById(int id)
 		{
 			var user = this.context.Users.Find(id);
-            if (user == null)
-            {
-				throw new UserNotFoundException(string.Format(Alerts.UserNotFound, "Id", $"{id}"));
-			}
+
 			return user;
 		}
 		public User GetUserByUsername(string username)
 		{
 			var user = this.context.Users.FirstOrDefault(u => u.Username == username);
-			if (user == null)
-			{
-				throw new EntityNotFoundException(string.Format(Alerts.UserNotFound, "username", $"{username}"));
-			}
 			return user;
 		}
+
 		public User GetUserByEmail(string email)
 		{
 			var user = this.context.Users.FirstOrDefault(u => u.Email == email);
-			if (user == null)
-			{
-				throw new EntityNotFoundException(string.Format(Alerts.UserNotFound, "email", $"{email}"));
-			}
 			return user;
 		}
 		public User GetUserByPhoneNumber(string phoneNumber)
 		{
 			var user = this.context.Users.FirstOrDefault(u =>u.PhoneNumber == phoneNumber);
-			if (user == null)
-			{
-				throw new EntityNotFoundException(string.Format(Alerts.UserNotFound,"phone", $"{phoneNumber}"));
-			}
+			//if (user == null)
+			//{
+			//	throw new EntityNotFoundException(string.Format(Alerts.UserNotFound, "phone", $"{phoneNumber}"));
+			//}
 			return user;
 		}
 

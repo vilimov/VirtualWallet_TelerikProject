@@ -35,9 +35,9 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
 		public string Email { get; set; }
 	
 		[StringLength(10, MinimumLength = 10)]
-		public string PhoneNumber { get; set; }
+		public string? PhoneNumber { get; set; }
 
-		public string Photo { get; set; }
+		public string? Photo { get; set; }
 
 		public bool IsAdmin { get; set; }
 

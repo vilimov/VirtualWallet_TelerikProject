@@ -134,15 +134,11 @@ namespace Virtual_Wallet.Controllers.API
 
 				var registeredUser = userService.Register(newUser);
 
-				return Ok(registeredUser);
+				return Ok(newUser);
 			}
 			catch (DuplicateEntityException)
 			{
-				return BadRequest("Username or Email is already in use.");
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
+				return BadRequest(new { message = "User already exists" });
 			}
 		}
 		[HttpPost("login")]
