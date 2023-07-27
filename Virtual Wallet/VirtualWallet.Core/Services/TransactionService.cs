@@ -1,4 +1,5 @@
-﻿using Org.BouncyCastle.Cms;
+﻿using Org.BouncyCastle.Asn1.X509;
+using Org.BouncyCastle.Cms;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
@@ -115,11 +116,14 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 				Amount = amount,
 				TransactionType = TransactionType.BankTransfer,
                 Sender = user,
-                Recipient = user
-            };
-			//card.Number
+                Recipient = user,
+                CardNumber = CardHelper.HideCardNumber(card.Number)
+			};
+
 			var moneyAdded = walletService.AddToWallet(wallet.Id, amount);
-			return transaction;
+			var transactionMade = transactionRepository.AddTransaction(transaction);
+
+            return transactionMade;
         }
 	}
 }

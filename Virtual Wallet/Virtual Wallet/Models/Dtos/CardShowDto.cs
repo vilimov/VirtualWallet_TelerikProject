@@ -1,6 +1,7 @@
 ﻿using System.Globalization;
 using System.Text.Json.Serialization;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
+using VirtualWallet.Common.AdditionalHelpers;
 
 namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
 {
@@ -12,9 +13,9 @@ namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
         public CardShowDto(Card card)
         {
             this.Number = card.Number;
-            this.CardNumberHidden = HideCardNumber(Number);
+            this.CardNumberHidden = CardHelper.HideCardNumber(Number);
             this.ExpirationDate = card.ExpirationDate;
-            this.CardHolder = HideName(card.CardHolder);
+            this.CardHolder = CardHelper.HideName(card.CardHolder);
             this.IsCreditCard = card.IsCreditCard;
             this.Username = card.User.Username;
         }
@@ -29,34 +30,5 @@ namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
         [JsonIgnore]
         public string Username { get; set; }
 
-        private string HideCardNumber(string cardNumber)
-        {
-            // Keep only the last 4 digits of the card number and replace the rest with "*"
-            int visibleDigits = 4;
-            int totalDigits = cardNumber.Length;
-            int hiddenDigits = totalDigits - visibleDigits;
-
-            string hiddenPart = new string('*', hiddenDigits);
-            string visiblePart = cardNumber.Substring(hiddenDigits);
-
-            return hiddenPart + visiblePart;
-        }
-
-        private string HideName(string username)
-        {
-            string hiddenName = string.Empty;
-            for (int i = 0; i < username.Length; i++) 
-            {
-                if (i == 0 || i == 1 || i == username.Length - 2 || i == username.Length - 1)
-                {
-                    hiddenName += username[i];
-                }
-                else 
-                {
-                    hiddenName += "*";
-                }
-            }
-            return hiddenName;
-        }
     }
 }

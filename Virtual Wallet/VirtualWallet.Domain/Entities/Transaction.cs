@@ -31,6 +31,7 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
 		public int? RecipientId { get; set; }
 
 		public bool IsInbound { get; set; }
-	}
+		public string? CardNumber { get; set; }
+    }
 
 }

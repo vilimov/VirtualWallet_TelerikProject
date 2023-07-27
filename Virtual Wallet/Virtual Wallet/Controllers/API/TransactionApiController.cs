@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Virtual_Wallet.Models.Dtos;
+using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
+using Virtual_Wallet.VirtualWallet.Domain.Entities;
+using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
 using VirtualWallet.Common.AdditionalHelpers;
+using VirtualWallet.Common.Exceptions;
 
 namespace Virtual_Wallet.Controllers.API
 {
@@ -13,11 +17,20 @@ namespace Virtual_Wallet.Controllers.API
     {
         private readonly ITransactionService transactionService;
         private readonly IMapper mapper;
+        private readonly AuthManager authManager;
+        private readonly ICardService cardService;
+        private readonly IWalletService walletService;  
         public TransactionApiController(ITransactionService transactionService,
-                                        IMapper mapper)
+                                        IMapper mapper,
+                                        AuthManager authManager,
+                                        ICardService cardService,
+                                        IWalletService walletService)
         {
             this.transactionService = transactionService;   
             this.mapper = mapper;
+            this.authManager = authManager;
+            this.cardService = cardService;
+            this.walletService = walletService;
         }
 
         [HttpGet("")]
@@ -60,6 +73,30 @@ namespace Virtual_Wallet.Controllers.API
             catch (EntityNotFoundException e)
             {
                 return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
+        }
+
+        [HttpPost("BankTransfer")]
+        public IActionResult MakeBankTransfer([FromHeader] string credentials, [FromBody] CreateBankTransactionDto transactionDto)
+        {
+            //public Transaction AddMoneyCardToWallet(User user, Card card, Wallet wallet, decimal amount)
+            try
+            {
+                User user = authManager.TryGetUser(credentials);
+                Card card = cardService.GetById(transactionDto.CardId);
+                Wallet wallet = walletService.GetWalletByUser(user.Username);
+                Transaction makeTransaction = transactionService.AddMoneyCardToWallet(user, card, wallet, transactionDto.Amount);
+                return StatusCode(StatusCodes.Status200OK, makeTransaction);
+            }
+            catch (EntityNotFoundException e)
+            {
+
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
+            catch (UnauthorizedOperationException e)
+            {
+
+                return StatusCode(StatusCodes.Status401Unauthorized, e.Message);
             }
         }
     }
