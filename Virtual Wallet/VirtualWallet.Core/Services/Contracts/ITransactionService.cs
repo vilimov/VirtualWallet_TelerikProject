@@ -12,6 +12,8 @@ namespace VirtualWallet.Application.Services.Contracts
 		Transaction UpdateTransaction(Transaction transaction);
 		public IList<Transaction> GetAllTransactions();
 		public IList<Transaction> GetTransactionsByUserId(int userId);
+		public Transaction AddMoneyCardToWallet(User user, Card card, Wallet wallet, decimal amount);
+
 
     }
 }
