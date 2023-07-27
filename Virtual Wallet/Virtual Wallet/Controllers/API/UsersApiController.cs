@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Virtual_Wallet.VirtualWallet.API.Helpers.Mappers;
 using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
@@ -9,15 +11,15 @@ namespace Virtual_Wallet.Controllers.API
 {
 	[ApiController]
 	[Route("api/users")]
-	public class UserApiController : ControllerBase
+	public class UsersApiController : ControllerBase
 	{
 		private readonly IUserService userService;
-		private readonly AuthManager authManager;
+		private readonly IMapper mapper;
 
-		public UserApiController(IUserService userService, AuthManager authManager)
+		public UsersApiController(IUserService userService, IMapper mapper)
 		{
 			this.userService = userService;
-			this.authManager = authManager;
+			this.mapper = mapper;
 		}
 		[HttpGet]
 		public IActionResult GetUsers()
@@ -65,10 +67,10 @@ namespace Virtual_Wallet.Controllers.API
 			{
 				if (userRegisterDto == null)
 				{
-					return BadRequest("User registration details are null");
+					return BadRequest("User registration details are null.");
 				}
 
-				var newUser = ToEntity(userRegisterDto);
+				var newUser = mapper.Map<User>(userRegisterDto);
 
 				var registeredUser = userService.Register(newUser);
 
@@ -76,23 +78,38 @@ namespace Virtual_Wallet.Controllers.API
 			}
 			catch (DuplicateEntityException)
 			{
-				return BadRequest("Username or Email is already in use");
+				return BadRequest("Username or Email is already in use.");
 			}
 			catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
 			}
 		}
-		#region PrivateMethods
-		private User ToEntity(UserRegisterDto userRegisterDto)
+		[HttpPost("login")]
+		public IActionResult Login(UserLoginDto userLoginDto)
 		{
-			return new User
+			try
 			{
-				Username = userRegisterDto.Username,
-				Email = userRegisterDto.Email,
-				Password = userRegisterDto.Password
-			};
+				var userEntity = mapper.Map<User>(userLoginDto);
+
+				var user = userService.Login(userLoginDto.Username, userLoginDto.Password);
+				return Ok();
+			}
+			catch(EntityNotFoundException)
+			{
+				return NotFound("User not found or not verified.");
+			}
+			catch(UnauthorizedAccessException)
+			{
+				return Unauthorized("Invalid credentials.");
+			}
+			catch(Exception)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred. Please try again.");
+			}
 		}
+		#region PrivateMethods
+
 		#endregion
 	}
 }

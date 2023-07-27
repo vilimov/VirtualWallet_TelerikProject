@@ -21,7 +21,15 @@ namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
             CreateMap<Transaction, TransactionShowDto>()
                 .ForMember(dto => dto.Date, opt => opt.MapFrom(date => date.Date.ToString("yyyy-MM-dd HH:mm:ss")));
 
+			//User mappings
+			CreateMap<UserLoginDto, User>()
+				.ForMember(dest => dest.Username, opts => opts.MapFrom(src => src.Username))
+				.ForMember(dest => dest.Password, opts => opts.MapFrom(src => src.Password));
 
-        }
+			CreateMap<UserRegisterDto, User>()
+				.ForMember(dest => dest.Username, opts => opts.MapFrom(src => src.Username))
+				.ForMember(dest => dest.Email, opts => opts.MapFrom(src => src.Email))
+				.ForMember(dest => dest.Password, opts => opts.MapFrom(src => src.Password));
+		}
     }
 }
