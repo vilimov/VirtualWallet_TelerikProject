@@ -62,8 +62,5 @@ namespace Virtual_Wallet.Controllers.API
                 return StatusCode(StatusCodes.Status404NotFound, e.Message);
             }
         }
-
-        [HttpPost("")]
-
     }
 }

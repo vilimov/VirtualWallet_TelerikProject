@@ -36,7 +36,10 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 		{
 			return this.userRepository.GetUserByUsername(username);
 		}
-
+		public User GetUserByPhoneNumber(string phoneNumber)
+		{
+			return userRepository.GetUserByPhoneNumber(phoneNumber);
+		}
 		public User Register(User user)
 		{
 			var existingUserUsername = this.userRepository.GetUserByUsername(user.Username);

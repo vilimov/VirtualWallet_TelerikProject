@@ -8,6 +8,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts
 		User GetUserById(int id);
 		User GetUserByUsername(string username);
 		User GetUserByEmail(string email);
+		User GetUserByPhoneNumber(string phoneNumber);
 		User AddUser(User user);
 		User UpdateUser(User user);
 		void DeleteUser(int id);

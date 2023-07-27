@@ -1,11 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using Virtual_Wallet.Models.Dtos;
 using Virtual_Wallet.VirtualWallet.API.Helpers.Mappers;
 using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
+using VirtualWallet.Common.Exceptions;
 
 namespace Virtual_Wallet.Controllers.API
 {
@@ -27,19 +30,23 @@ namespace Virtual_Wallet.Controllers.API
 			try
 			{
 				var users = userService.GetAllUsers();
-				return Ok(users);
+
+				if(users == null || !users.Any())
+				{
+					return NotFound("No users found");
+				}
+
+				var userDtos = mapper.Map<IEnumerable<UserShowDto>>(users);
+				
+				return Ok(userDtos);
 			}
-			catch (EntityNotFoundException ex)
+			catch (Exception)
 			{
-				return NotFound(ex.Message);
-			}
-			catch (Exception ex)
-			{
-				return BadRequest(ex.Message);
+				return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred. Please try again.");
 			}
 		}
 		[HttpGet("{id}")]
-		public IActionResult GetUser(int id)
+		public IActionResult GetUserWithId(int id)
 		{
 			try
 			{
@@ -49,17 +56,70 @@ namespace Virtual_Wallet.Controllers.API
 					return NotFound();
 				}
 
-				return Ok(user);
+				var userDto = mapper.Map<UserShowDto>(user);
+
+				return Ok(userDto);
 			}
-			catch (EntityNotFoundException ex)
+			catch (EntityNotFoundException)
 			{
-				return NotFound(ex.Message);
+				return NotFound("User not found.");
 			}
-			catch (Exception ex)
+			catch (Exception)
 			{
-				return BadRequest(ex.Message);
+				return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred. Please try again.");
 			}
 		}
+		[HttpGet("email/{email}")]
+		public IActionResult GetUserWithEmail(string email)
+		{
+			try
+			{
+				var user = userService.GetUserByEmail(email);
+
+				if (user == null)
+				{
+					return NotFound("User not found.");
+				}
+
+				var userDto = mapper.Map<UserShowDto>(user);
+
+				return Ok(userDto);
+			}
+			catch (EntityNotFoundException)
+			{
+				return NotFound("User not found.");
+			}
+			catch (Exception)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred. Please try again.");
+			}
+		}
+		[HttpGet("phone/{phoneNumber}")]
+		public IActionResult GetUserWithPhoneNumber(string phoneNumber)
+		{
+			try
+			{
+				var user = userService.GetUserByPhoneNumber(phoneNumber);
+
+				if (user == null)
+				{
+					return NotFound("User not found.");
+				}
+
+				var userDto = mapper.Map<UserShowDto>(user);
+
+				return Ok(userDto);
+			}
+			catch (EntityNotFoundException)
+			{
+				return NotFound("User not found.");
+			}
+			catch (Exception)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred. Please try again.");
+			}
+		}
+
 		[HttpPost("register")]
 		public IActionResult Register(UserRegisterDto userRegisterDto)
 		{
@@ -99,11 +159,39 @@ namespace Virtual_Wallet.Controllers.API
 			{
 				return NotFound("User not found or not verified.");
 			}
-			catch(UnauthorizedAccessException)
+			catch(UnauthorizedOperationException)
 			{
 				return Unauthorized("Invalid credentials.");
 			}
 			catch(Exception)
+			{
+				return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred. Please try again.");
+			}
+		}
+		[HttpDelete("id")]
+		public IActionResult DeleteUser(int id)
+		{
+			try
+			{
+				var userToDelete = userService.GetUserById(id);
+
+				if(userToDelete == null)
+				{
+					return NotFound("User not found.");
+				}
+
+				userService.DeleteUser(id);
+				return Ok(new { message = "User is deleted successfully."});
+			}
+			catch(EntityNotFoundException)
+			{
+				return NotFound("User not found");
+			}
+			catch (UnauthorizedOperationException)
+			{
+				return Unauthorized("Invalid cretentials.");
+			}
+			catch
 			{
 				return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred. Please try again.");
 			}

@@ -49,6 +49,15 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 			}
 			return user;
 		}
+		public User GetUserByPhoneNumber(string phoneNumber)
+		{
+			var user = this.context.Users.FirstOrDefault(u =>u.PhoneNumber == phoneNumber);
+			if (user == null)
+			{
+				throw new EntityNotFoundException(string.Format(Alerts.UserNotFound,"phone", $"{phoneNumber}"));
+			}
+			return user;
+		}
 
 		public User AddUser(User user)
 		{
