@@ -25,13 +25,18 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 
 		public Transaction GetTransactionById(int id)
 		{
-			var transaction = this.context.Transactions.Find(id);
-			if (transaction == null)
-			{
-				throw new EntityNotFoundException(string.Format(Alerts.NotFound, "Transaction", "ID", $"{id}"));
+            var transaction = this.context.Transactions
+               .Include(t => t.Sender)
+			   .Include(t => t.Recipient)
+               .FirstOrDefault(t => t.Id == id);
+
+            if (transaction == null)
+            {
+                throw new EntityNotFoundException(Alerts.NoItemToShow);
             }
+
             return transaction;
-		}
+        }
         public IList<Transaction> GetTransactionsByUserId(int userId)
 		{
 			var transactions = this.context.Transactions

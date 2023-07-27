@@ -39,8 +39,8 @@ namespace Virtual_Wallet.Controllers.API
             try
             {
                 var transaction = transactionService.GetTransactionById(id);
-                var transactionShow = mapper.Map<List<TransactionShowDto>>(transaction);
-                return StatusCode(StatusCodes.Status200OK, transaction);
+                var transactionShow = mapper.Map<TransactionShowDto>(transaction);
+                return StatusCode(StatusCodes.Status200OK, transactionShow);
             }
             catch (EntityNotFoundException)
             {
@@ -51,7 +51,19 @@ namespace Virtual_Wallet.Controllers.API
         [HttpGet("mytransactions/{userId}")]
         public IActionResult GetTransactionsByUserID(int userId)
         {
-            var transaction = transactionService.GetTransactionsForUser(userId)
+            try
+            {
+                var transactiona = transactionService.GetTransactionsByUserId(userId);
+                var transactionShow = mapper.Map<List<TransactionShowDto>>(transactiona);
+                return StatusCode(StatusCodes.Status200OK, transactionShow);
+            }
+            catch (EntityNotFoundException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
         }
+
+        [HttpPost("")]
+
     }
 }

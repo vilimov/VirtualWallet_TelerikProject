@@ -20,8 +20,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
             //Transactions Mapping
             CreateMap<Transaction, TransactionShowDto>()
                 .ForMember(dto => dto.Date, opt => opt.MapFrom(date => date.Date.ToString("yyyy-MM-dd HH:mm:ss")));
-
-
+            CreateMap<TransactionShowDto, Transaction>();
         }
     }
 }
