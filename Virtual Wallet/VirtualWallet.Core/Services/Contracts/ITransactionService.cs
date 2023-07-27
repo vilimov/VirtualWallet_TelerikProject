@@ -10,5 +10,8 @@ namespace VirtualWallet.Application.Services.Contracts
 		Transaction GetTransactionById(int transactionId);
 		PageResult<Transaction> GetTransactionsForUser(int userId, int pageNumber, int pageSize = 10);
 		Transaction UpdateTransaction(Transaction transaction);
-	}
+		public IList<Transaction> GetAllTransactions();
+		public IList<Transaction> GetTransactionsByUserId(int userId);
+
+    }
 }
