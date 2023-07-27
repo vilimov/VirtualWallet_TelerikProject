@@ -85,7 +85,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 
         public IList<Transaction> GetTransactionsByUserId(int userId)
         {
-            return transactionRepository.GetAllTransactionsForUser(userId, pageNumber, pageSize);
+            return transactionRepository.GetTransactionsByUserId(userId);
         }
         public PageResult<Transaction> GetTransactionsForUser(int userId, int pageNumber, int pageSize = 10)
 		{
@@ -117,7 +117,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
                 Sender = user,
                 Recipient = user
             };
-			
+			//card.Number
 			var moneyAdded = walletService.AddToWallet(wallet.Id, amount);
 			return transaction;
         }
