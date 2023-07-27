@@ -15,10 +15,10 @@ namespace Virtual_Wallet.Controllers.API
 		private readonly AuthManager authManager;
 
 		public UserApiController(IUserService userService, AuthManager authManager)
-        {
-            this.userService = userService;
+		{
+			this.userService = userService;
 			this.authManager = authManager;
-        }
+		}
 		[HttpGet]
 		public IActionResult GetUsers()
 		{
@@ -27,7 +27,7 @@ namespace Virtual_Wallet.Controllers.API
 				var users = userService.GetAllUsers();
 				return Ok(users);
 			}
-			catch(EntityNotFoundException ex)
+			catch (EntityNotFoundException ex)
 			{
 				return NotFound(ex.Message);
 			}
@@ -42,23 +42,23 @@ namespace Virtual_Wallet.Controllers.API
 			try
 			{
 				var user = userService.GetUserById(id);
-				if(user == null)
+				if (user == null)
 				{
 					return NotFound();
 				}
 
 				return Ok(user);
 			}
-			catch(EntityNotFoundException ex)
+			catch (EntityNotFoundException ex)
 			{
 				return NotFound(ex.Message);
 			}
-			catch(Exception ex)
+			catch (Exception ex)
 			{
 				return BadRequest(ex.Message);
 			}
 		}
-		[HttpPost]
+		[HttpPost("register")]
 		public IActionResult Register(UserRegisterDto userRegisterDto)
 		{
 			try
