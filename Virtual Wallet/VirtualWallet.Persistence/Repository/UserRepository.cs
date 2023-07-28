@@ -83,5 +83,25 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             context.SaveChanges();
             return user;
         }
-    }
+		public IEnumerable<User> SearchByUsername(string username)
+		{
+			return context.Users
+				.Where(u => u.Username.Contains(username))
+				.ToList();
+		}
+
+		public IEnumerable<User> SearchByEmail(string email)
+		{
+			return context.Users
+				.Where(u => u.Email.Contains(email))
+				.ToList();
+		}
+
+		public IEnumerable<User> SearchByPhone(string phone)
+		{
+			return context.Users
+				.Where(u => u.PhoneNumber.Contains(phone))
+				.ToList();
+		}
+	}
 }

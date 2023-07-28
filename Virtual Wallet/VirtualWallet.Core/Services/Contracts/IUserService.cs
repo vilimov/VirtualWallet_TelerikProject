@@ -17,7 +17,8 @@ namespace VirtualWallet.Application.Services.Contracts
 		public User Verify(string token);
 		void BlockUser(int id);
 		void UnblockUser(int id);
-
-
+		IEnumerable<User> SearchByUsername(string username);
+		IEnumerable<User> SearchByEmail(string email);
+		IEnumerable<User> SearchByPhone(string phone);
 	}
 }

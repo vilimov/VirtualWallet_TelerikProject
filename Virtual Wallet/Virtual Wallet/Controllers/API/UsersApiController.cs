@@ -242,6 +242,50 @@ namespace Virtual_Wallet.Controllers.API
 				return BadRequest("An error occurred while trying to unblock the user");
 			}
 		}
+		[HttpGet("search/username")]
+		public IActionResult SearchByUsername(string username)
+		{
+			try
+			{
+				var users = userService.SearchByUsername(username);
+				var userDto = mapper.Map<List<UserShowDto>>(users);
+				return Ok(userDto);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+		[HttpGet("search/email")]
+		public IActionResult SearchByEmail(string email)
+		{
+			try
+			{
+				var users = userService.SearchByEmail(email);
+				var userDto = mapper.Map<List<UserShowDto>>(users);
+				return Ok(userDto);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
+
+		[HttpGet("search/phone")]
+		public IActionResult SearchByPhone(string phone)
+		{
+			try
+			{
+				var users = userService.SearchByPhone(phone);
+				var userDto = mapper.Map<List<UserShowDto>>(users);
+				return Ok(userDto);
+			}
+			catch (Exception ex)
+			{
+				return BadRequest(ex.Message);
+			}
+		}
 		#region PrivateMethods
 
 		#endregion
