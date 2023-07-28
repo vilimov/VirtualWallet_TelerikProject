@@ -1,4 +1,4 @@
-﻿namespace Virtual_Wallet.VirtualWallet.API.Models.QueryParameters
+﻿namespace Virtual_Wallet.VirtualWallet.Common.QueryParameters
 {
     public class CardQueryParameters
     {

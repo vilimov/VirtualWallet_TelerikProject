@@ -14,17 +14,20 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             this.context = context;
         }
 
-        public Card Add(Card card)
+        public Card Add(Card card, User user)
         {
             Card inactiveCard = context.Cards.FirstOrDefault(c => c.Number == card.Number);
-            
-            if (inactiveCard != null)
+            if (inactiveCard != null && inactiveCard.IsInactive == false)
+            {
+                throw new DuplicateEntityException("Card already added!");
+            }
+            else if (inactiveCard != null && inactiveCard.CardHolder == card.CardHolder && inactiveCard.CheckNumber == card.CheckNumber)
             {
                 inactiveCard.IsInactive = false;
             }
             else
             {
-
+                card.User = user;
                 this.context.Cards.Add(card);
             }
             context.SaveChanges();
@@ -51,14 +54,11 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             Card card = GetAll().FirstOrDefault(c => c.Id == id);
             return card ?? throw new EntityNotFoundException($"No card with Id:{id} found");
         }
-        public Card GetByUserId(int id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Card Remove(Card card)
+        public Card GetByNumber(string number)
         {
-            throw new NotImplementedException();
+            Card card = GetAll().FirstOrDefault(c => c.Number == number);
+            return card ?? throw new EntityNotFoundException($"No card with Number:{number} found");
         }
 
         public Card Remove(int id)
@@ -73,5 +73,6 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
         {            
             card.IsInactive = true;
         }
+
     }
 }

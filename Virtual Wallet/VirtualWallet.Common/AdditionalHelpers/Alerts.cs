@@ -14,8 +14,8 @@ namespace VirtualWallet.Common.AdditionalHelpers
         public const string ItemNotFound = "Item not found.";
         public const string InvalidAttenpt = "Invalid attempt!";
         public const string NoItemToShow = "No item to show";
-
         public const string NotFound = "{0} with {1} {2} not found.";
-
+        public const string InsufficientAmount = "Insufficient Amount!";
+        public const string BlockedUser = "Access Denied - User Account Blocked!";
     }
 }

@@ -25,6 +25,8 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
 		[Required]
 		public bool IsCreditCard { get; set; }
 
+		public bool HasExpired { get; set; }
+
 		public bool IsInactive { get; set; }
 
         [Required]

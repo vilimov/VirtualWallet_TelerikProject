@@ -19,18 +19,18 @@ namespace Virtual_Wallet.Controllers.API
         private readonly IMapper mapper;
         private readonly AuthManager authManager;
         private readonly ICardService cardService;
-        private readonly IWalletService walletService;  
+        private readonly IUserService userService;
         public TransactionApiController(ITransactionService transactionService,
                                         IMapper mapper,
                                         AuthManager authManager,
                                         ICardService cardService,
-                                        IWalletService walletService)
+                                        IUserService userService)
         {
             this.transactionService = transactionService;   
             this.mapper = mapper;
             this.authManager = authManager;
             this.cardService = cardService;
-            this.walletService = walletService;
+            this.userService = userService;
         }
 
         [HttpGet("")]
@@ -76,16 +76,58 @@ namespace Virtual_Wallet.Controllers.API
             }
         }
 
-        [HttpPost("BankTransfer")]
+        [HttpPost("BankTransfer")]  //Card to Wallet
         public IActionResult MakeBankTransfer([FromHeader] string credentials, [FromBody] CreateBankTransactionDto transactionDto)
         {
-            //public Transaction AddMoneyCardToWallet(User user, Card card, Wallet wallet, decimal amount)
             try
             {
                 User user = authManager.TryGetUser(credentials);
                 Card card = cardService.GetById(transactionDto.CardId);
-                Wallet wallet = walletService.GetWalletByUser(user.Username);
-                Transaction makeTransaction = transactionService.AddMoneyCardToWallet(user, card, wallet, transactionDto.Amount);
+                Transaction makeTransaction = transactionService.AddMoneyCardToWallet(user, card, transactionDto.Amount);
+                return StatusCode(StatusCodes.Status200OK, makeTransaction);
+            }
+            catch (EntityNotFoundException e)
+            {
+
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
+            catch (UnauthorizedOperationException e)
+            {
+
+                return StatusCode(StatusCodes.Status401Unauthorized, e.Message);
+            }
+        }
+
+        [HttpPost("internalTransfer")] //Wallet to wallet
+        public IActionResult MakeInternalTransfer([FromHeader] string credentials, [FromBody] CreateTransactionRequestDto transactionDto)
+        {
+            try
+            {
+                User sender = authManager.TryGetUser(credentials);
+                User recipient = userService.GetUserById(transactionDto.RecipientId);
+                Transaction makeTransaction = transactionService.AddMoneyWalletToWallet(sender, recipient, transactionDto.Amount);
+                return StatusCode(StatusCodes.Status200OK, makeTransaction);
+            }
+            catch (EntityNotFoundException e)
+            {
+
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
+            catch (UnauthorizedOperationException e)
+            {
+
+                return StatusCode(StatusCodes.Status401Unauthorized, e.Message);
+            }
+        }
+
+        [HttpPost("WithdrawalTransfer")]  //Wallet to card
+        public IActionResult MakeWithdrawalTransfer([FromHeader] string credentials, [FromBody] CreateBankTransactionDto transactionDto)
+        {
+            try
+            {
+                User user = authManager.TryGetUser(credentials);
+                Card card = cardService.GetById(transactionDto.CardId);
+                Transaction makeTransaction = transactionService.WithdrawalTransfer(user, card, transactionDto.Amount);
                 return StatusCode(StatusCodes.Status200OK, makeTransaction);
             }
             catch (EntityNotFoundException e)
