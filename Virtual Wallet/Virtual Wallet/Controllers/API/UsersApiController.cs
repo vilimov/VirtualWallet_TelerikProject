@@ -18,11 +18,13 @@ namespace Virtual_Wallet.Controllers.API
 	{
 		private readonly IUserService userService;
 		private readonly IMapper mapper;
+		private readonly AuthManager authManager;
 
-		public UsersApiController(IUserService userService, IMapper mapper)
+		public UsersApiController(IUserService userService, IMapper mapper, AuthManager authManager)
 		{
 			this.userService = userService;
 			this.mapper = mapper;
+			this.authManager = authManager;
 		}
 		[HttpGet]
 		public IActionResult GetUsers()
@@ -194,30 +196,50 @@ namespace Virtual_Wallet.Controllers.API
 		}
 		//Block and unblock
 		[HttpPut("block/{id}")]
-		public IActionResult BlockUser(int id)
+		public IActionResult BlockUser([FromHeader] string credentials, int id)
 		{
 			try
 			{
+				User authenticatedUser = authManager.TryGetUser(credentials);
+				if (authenticatedUser == null || !authenticatedUser.IsAdmin)
+				{
+					return Unauthorized("You are not authorized to perform this operation");
+				}
+
 				userService.BlockUser(id);
 				return Ok("User is blocked");
 			}
 			catch (EntityNotFoundException)
 			{
-				return NotFound("User not Found");
+				return NotFound("User not found");
+			}
+			catch (Exception)
+			{
+				return BadRequest("An error occurred while trying to block the user");
 			}
 		}
 
 		[HttpPut("unblock/{id}")]
-		public IActionResult UnblockUser(int id)
+		public IActionResult UnblockUser([FromHeader] string credentials, int id)
 		{
 			try
 			{
+				User authenticatedUser = authManager.TryGetUser(credentials);
+				if (authenticatedUser == null || !authenticatedUser.IsAdmin)
+				{
+					return Unauthorized("You are not authorized to perform this operation");
+				}
+
 				userService.UnblockUser(id);
 				return Ok("User is unblocked");
 			}
 			catch (EntityNotFoundException)
 			{
-				return NotFound("User not Found");
+				return NotFound("User not found");
+			}
+			catch (Exception)
+			{
+				return BadRequest("An error occurred while trying to unblock the user");
 			}
 		}
 		#region PrivateMethods
