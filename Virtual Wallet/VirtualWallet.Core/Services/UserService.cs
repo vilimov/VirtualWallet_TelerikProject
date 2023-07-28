@@ -5,6 +5,7 @@ using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
 using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
 using VirtualWallet.Common.AdditionalHelpers;
+using VirtualWallet.Common.Exceptions;
 
 namespace Virtual_Wallet.VirtualWallet.Application.Services
 {
@@ -36,7 +37,10 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 		{
 			return this.userRepository.GetUserByUsername(username);
 		}
-
+		public User GetUserByPhoneNumber(string phoneNumber)
+		{
+			return userRepository.GetUserByPhoneNumber(phoneNumber);
+		}
 		public User Register(User user)
 		{
 			var existingUserUsername = this.userRepository.GetUserByUsername(user.Username);
@@ -115,10 +119,33 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             return this.userRepository.VerifyUser(user);
             
         }
+		//Block and unblock
+		public void BlockUser(int id)
+		{
+			var user = userRepository.GetUserById(id);
+			if (user == null)
+			{
+				throw new EntityNotFoundException("Not found");
+			}
 
+			user.IsBlocked = true;
+			userRepository.UpdateUser(user);
+		}
 
-        #region PrivateMethods
-        private string CreateRandomToken()
+		public void UnblockUser(int id)
+		{
+			var user = userRepository.GetUserById(id);
+			if (user == null)
+			{
+				throw new EntityNotFoundException("Not found");
+			}
+
+			user.IsBlocked = false;
+			userRepository.UpdateUser(user);
+		}
+
+		#region PrivateMethods
+		private string CreateRandomToken()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }

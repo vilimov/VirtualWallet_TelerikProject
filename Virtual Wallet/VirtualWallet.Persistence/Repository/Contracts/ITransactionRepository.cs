@@ -10,5 +10,9 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts
 		Transaction AddTransaction(Transaction transaction);
 		Transaction UpdateTransaction(Transaction transaction);
 		void DeleteTransaction(int id);
-	}
+		public List<Transaction> GetAllTransactions();
+		public IList<Transaction> GetTransactionsByUserId(int userId);
+
+
+    }
 }

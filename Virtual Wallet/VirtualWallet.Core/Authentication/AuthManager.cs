@@ -1,9 +1,15 @@
-﻿using System.Security.Cryptography;
+﻿using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Security.Cryptography;
+using System.Text;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using VirtualWallet.Application.Services.Contracts;
 using VirtualWallet.Common.AdditionalHelpers;
 using VirtualWallet.Common.Exceptions;
+
+
 
 namespace VirtualWallet.Application.AdditionalHelpers
 {
@@ -73,5 +79,36 @@ namespace VirtualWallet.Application.AdditionalHelpers
                 return Convert.ToBase64String(hashBytes);
             }
         }
-    }
+		// TEST
+		/*public string GenerateJwtForUser(User user)
+		{
+			// Include Jwt package
+
+
+			// Get the symmetric security key from your configuration (make sure to have it somewhere in your app settings)
+			var key = Encoding.UTF8.GetBytes("Jwt:SecretKey");
+			var symmetricSecurityKey = new SymmetricSecurityKey(key);
+			var credentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+			// Prepare the claims for the token
+			var claims = new[]
+			{
+		        new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+		        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+		        new Claim(ClaimTypes.Name, user.Username),
+		        new Claim(ClaimTypes.Role, user.Role)
+            };
+
+			// Create the token
+			var token = new JwtSecurityToken(
+				issuer: "Jwt:Issuer",
+				audience: "Jwt:Audience",
+				claims: claims,
+				expires: DateTime.UtcNow.AddHours(1),
+				signingCredentials: credentials);
+
+			// Return the token
+			return new JwtSecurityTokenHandler().WriteToken(token);
+		}*/
+	}
 }

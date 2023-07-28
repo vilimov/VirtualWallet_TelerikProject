@@ -3,6 +3,7 @@ using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Persistence.Data;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
+using VirtualWallet.Common.AdditionalHelpers;
 using VirtualWallet.Domain.Entities;
 
 namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
@@ -15,17 +16,39 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 		{
 			this.context = context;
 		}
-		public Transaction GetTransactionById(int id)
+		public List<Transaction> GetAllTransactions()
 		{
-			var transaction = this.context.Transactions.Find(id);
-			if (transaction == null)
-			{
-				throw new EntityNotFoundException($"Transaction with ID {id} not found.");
-			}
-			return transaction;
+			return this.context.Transactions.Include(s=>s.Sender)
+											.Include(r=>r.Recipient)
+											.ToList();
 		}
 
-		public PageResult<Transaction> GetAllTransactionsForUser(int userId, int pageNumber, int pageSize = 10)
+		public Transaction GetTransactionById(int id)
+		{
+            var transaction = this.context.Transactions
+               .Include(t => t.Sender)
+			   .Include(t => t.Recipient)
+               .FirstOrDefault(t => t.Id == id);
+
+            if (transaction == null)
+            {
+                throw new EntityNotFoundException(Alerts.NoItemToShow);
+            }
+
+            return transaction;
+        }
+        public IList<Transaction> GetTransactionsByUserId(int userId)
+		{
+			var transactions = this.context.Transactions
+                        .Where(t => t.SenderId == userId).ToList();
+            if (transactions.Count <= 0 || transactions == null)
+            {
+                throw new EntityNotFoundException(Alerts.NoItemToShow);
+            }
+			return transactions;
+        }
+
+        public PageResult<Transaction> GetAllTransactionsForUser(int userId, int pageNumber, int pageSize = 10)
 		{
 			var query = this.context.Transactions
 						.Where(t => t.SenderId == userId || t.RecipientId == userId);
