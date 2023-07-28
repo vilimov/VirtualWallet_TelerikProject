@@ -207,7 +207,7 @@ namespace Virtual_Wallet.Controllers.API
 				}
 
 				userService.BlockUser(id);
-				return Ok();
+				return Ok("User is blocked");
 			}
 			catch (EntityNotFoundException)
 			{
@@ -231,7 +231,7 @@ namespace Virtual_Wallet.Controllers.API
 				}
 
 				userService.UnblockUser(id);
-				return Ok();
+				return Ok("User is unblocked");
 			}
 			catch (EntityNotFoundException)
 			{
