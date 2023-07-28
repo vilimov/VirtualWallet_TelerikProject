@@ -1,4 +1,5 @@
 ﻿using Virtual_Wallet.VirtualWallet.Domain.Entities;
+using VirtualWallet.Common.QueryParameters;
 using VirtualWallet.Domain.Entities;
 
 namespace Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts
@@ -12,7 +13,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts
 		void DeleteTransaction(int id);
 		public List<Transaction> GetAllTransactions();
 		public IList<Transaction> GetTransactionsByUserId(int userId);
-
+		public IList<Transaction> GetFilteredTransactions(TransactionsQueryParameters filter, User user);
 
     }
 }

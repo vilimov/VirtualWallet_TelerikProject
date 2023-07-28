@@ -2,10 +2,13 @@
 using Org.BouncyCastle.Cms;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
+using Virtual_Wallet.VirtualWallet.Domain.Enums;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
+using VirtualWallet.Application.ExchangeRateAPI;
 using VirtualWallet.Application.Services.Contracts;
 using VirtualWallet.Common.AdditionalHelpers;
 using VirtualWallet.Common.Exceptions;
+using VirtualWallet.Common.QueryParameters;
 using VirtualWallet.Domain.Entities;
 using VirtualWallet.Domain.Enums;
 
@@ -26,6 +29,11 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 		{
 			return transactionRepository.GetAllTransactions();
 		}
+
+        public IList<Transaction> GetFilteredTransactions(TransactionsQueryParameters filter, User user) 
+        {
+            return transactionRepository.GetFilteredTransactions(filter, user);
+        }
 		public void DeleteTransaction(int transactionId)
 		{
 			transactionRepository.DeleteTransaction(transactionId);
@@ -112,17 +120,48 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 
             Wallet recepientWallet = walletService.GetWalletByUser(recipient.Username);
 
+            var currencySender = senderWallet.CurrencyCode;
+            var currencyRecipient = recepientWallet.CurrencyCode;
+            var moneyToReceive = amount;
+            double bgnToUsdRate = 0;
+            if (currencySender != currencyRecipient)
+            {
+                RatesJson rateJson = Rates.GetExchangeRates(currencySender.ToString());
+
+                if (rateJson != null)
+                {
+                    if (currencyRecipient == Currency.BGN)
+                    {
+                        bgnToUsdRate = rateJson.conversion_rates.BGN;
+                    }else if (currencyRecipient == Currency.USD)
+                    {
+                        bgnToUsdRate = rateJson.conversion_rates.USD;
+                    }else
+                    {
+                        bgnToUsdRate = rateJson.conversion_rates.EUR;
+                    }
+                    // You can store the BGN rate in a variable
+                    moneyToReceive = (decimal)bgnToUsdRate * moneyToReceive;
+                }
+                else
+                {
+                    throw new UnauthorizedOperationException(Alerts.FailedCurrencyRate);
+                }
+            }
+
             Transaction transaction = new Transaction()
             {
                 Date = DateTime.Now,
                 Amount = amount,
                 TransactionType = TransactionType.InternalOutCome,
                 Sender = sender,
-                Recipient = recipient
+                Recipient = recipient,
+                AmountReceived = (decimal)moneyToReceive,
+                CurrencyExchangeRate = bgnToUsdRate
             };
 
 			var moneyRemovedFromSender = walletService.WithdrawFromWallet(senderWallet.Id, amount);
-            var moneyAddedtoRecipient = walletService.AddToWallet(recepientWallet.Id, amount);
+            var moneyAddedtoRecipient = walletService.AddToWallet(recepientWallet.Id, moneyToReceive);
 
             var transactionMade = transactionRepository.AddTransaction(transaction);
 

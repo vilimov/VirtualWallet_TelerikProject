@@ -17,5 +17,7 @@ namespace VirtualWallet.Common.AdditionalHelpers
         public const string NotFound = "{0} with {1} {2} not found.";
         public const string InsufficientAmount = "Insufficient Amount!";
         public const string BlockedUser = "Access Denied - User Account Blocked!";
+        public const string FailedCurrencyRate = "Failed to fetch exchange rates from the API.";
+        public const string MoneyToYourself = "You are trying to send money to yourself.";
     }
 }

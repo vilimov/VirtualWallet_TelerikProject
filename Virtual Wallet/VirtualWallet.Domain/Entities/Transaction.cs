@@ -32,6 +32,10 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
 
 		public bool IsInbound { get; set; }
 		public string? CardNumber { get; set; }
+
+        [DataType(DataType.Currency)]
+        public decimal? AmountReceived { get; set; }
+        public double? CurrencyExchangeRate { get; set; }
     }
 
 }

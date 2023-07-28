@@ -8,6 +8,7 @@ using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
 using VirtualWallet.Common.AdditionalHelpers;
 using VirtualWallet.Common.Exceptions;
+using VirtualWallet.Common.QueryParameters;
 
 namespace Virtual_Wallet.Controllers.API
 {
@@ -44,6 +45,29 @@ namespace Virtual_Wallet.Controllers.API
                 return StatusCode(StatusCodes.Status200OK, transactionShow);
             }
             return StatusCode(StatusCodes.Status404NotFound, Alerts.NoItemToShow);
+        }
+
+        [HttpGet("filters")]
+        public IActionResult GetFilteredTransactions([FromHeader] string credentials, [FromQuery]TransactionsQueryParameters filter)
+        {
+            try
+            {
+                User user = authManager.TryGetUser(credentials);
+                var transactions = transactionService.GetFilteredTransactions(filter, user);
+                var transactionShow = mapper.Map<List<TransactionShowDto>>(transactions);
+                return transactions.Count > 0
+                    ? StatusCode(StatusCodes.Status200OK, transactionShow)
+                    : (IActionResult)StatusCode(StatusCodes.Status404NotFound, Alerts.NoItemToShow);
+            }
+            catch (EntityNotFoundException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
+
         }
 
         [HttpGet("{id}")]
@@ -96,6 +120,10 @@ namespace Virtual_Wallet.Controllers.API
 
                 return StatusCode(StatusCodes.Status401Unauthorized, e.Message);
             }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
         }
 
         [HttpPost("internalTransfer")] //Wallet to wallet
@@ -105,6 +133,10 @@ namespace Virtual_Wallet.Controllers.API
             {
                 User sender = authManager.TryGetUser(credentials);
                 User recipient = userService.GetUserById(transactionDto.RecipientId);
+                if(recipient == sender)
+                {
+                    return StatusCode(StatusCodes.Status406NotAcceptable, Alerts.MoneyToYourself);
+                }
                 Transaction makeTransaction = transactionService.AddMoneyWalletToWallet(sender, recipient, transactionDto.Amount);
                 return StatusCode(StatusCodes.Status200OK, makeTransaction);
             }
@@ -117,6 +149,10 @@ namespace Virtual_Wallet.Controllers.API
             {
 
                 return StatusCode(StatusCodes.Status401Unauthorized, e.Message);
+            }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
             }
         }
 
@@ -139,6 +175,10 @@ namespace Virtual_Wallet.Controllers.API
             {
 
                 return StatusCode(StatusCodes.Status401Unauthorized, e.Message);
+            }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
             }
         }
     }

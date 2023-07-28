@@ -25,8 +25,8 @@ namespace VirtualWallet.Persistence.Migrations
                     VerificationToken = table.Column<string>(type: "nvarchar(170)", maxLength: 170, nullable: true),
                     VerifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true),
+                    Photo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsAdmin = table.Column<bool>(type: "bit", nullable: false),
                     IsBlocked = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -46,6 +46,7 @@ namespace VirtualWallet.Persistence.Migrations
                     CardHolder = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
                     CheckNumber = table.Column<string>(type: "nvarchar(3)", maxLength: 3, nullable: false),
                     IsCreditCard = table.Column<bool>(type: "bit", nullable: false),
+                    HasExpired = table.Column<bool>(type: "bit", nullable: false),
                     IsInactive = table.Column<bool>(type: "bit", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false)
                 },
@@ -72,7 +73,9 @@ namespace VirtualWallet.Persistence.Migrations
                     SenderId = table.Column<int>(type: "int", nullable: false),
                     RecipientId = table.Column<int>(type: "int", nullable: false),
                     IsInbound = table.Column<bool>(type: "bit", nullable: false),
-                    CardNumber = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CardNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AmountReceived = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    CurrencyExchangeRate = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -119,52 +122,53 @@ namespace VirtualWallet.Persistence.Migrations
                 columns: new[] { "Id", "Email", "IsAdmin", "IsBlocked", "Password", "PhoneNumber", "Photo", "Salt", "Username", "VerificationToken", "VerifiedAt" },
                 values: new object[,]
                 {
-                    { 1, "elon@musk.com", true, false, "z3cYHVk1R4my8gZeon0xrHmfDE8Vpxd5j7QTpIvc3GM=", "1234567890", "elon_musk.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "ElonMusk", null, new DateTime(2023, 7, 21, 20, 14, 50, 705, DateTimeKind.Local).AddTicks(4531) },
-                    { 2, "jeff@amazon.com", false, false, "p3zsqKJ0kKcdPlp9wSUJtBAP7H9EZ1D1C9miQv32JkU=", "9876543210", "jeff_bezos.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "JeffBezos", null, new DateTime(2023, 7, 21, 20, 14, 50, 709, DateTimeKind.Local).AddTicks(3670) },
-                    { 3, "warren@berkshire.com", false, false, "n7p8JbjMz1idjRo1BwE2ldlT4rHSxVxGhwQKMT2YIgg=", "9876543210", "warren_buffett.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "WarrenBuffett", null, new DateTime(2023, 7, 22, 20, 14, 50, 713, DateTimeKind.Local).AddTicks(3410) },
-                    { 4, "BillGates@gmaill.com", true, false, "ljrqrV6Ma5F+Z8Q4O4MhRWt9+6b8YXlaQCfFNmVFOoc=", "1234567890", "bill_gates.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "BillGates", null, new DateTime(2023, 7, 22, 20, 14, 50, 717, DateTimeKind.Local).AddTicks(2459) },
-                    { 5, "larry@oracle.com", false, false, "yWItNvpeF65jhQ4lIBSZug2OEw1vOLgqORfMwqAH/AE=", "9876543210", "larry_ellison.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "LarryEllison", null, new DateTime(2023, 7, 24, 20, 14, 50, 721, DateTimeKind.Local).AddTicks(2506) },
-                    { 6, "mark@facebook.com", true, false, "aAIBn4DcscHU4QfinnbAq76vHXEca+ruz+r7Q1+m+yA=", "1234567890", "mark_zuckerberg.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "MarkZuckerberg", null, new DateTime(2023, 7, 25, 20, 14, 50, 725, DateTimeKind.Local).AddTicks(2680) },
-                    { 7, "larry@google.com", false, false, "UHRkaY7AmMrwMQMx8yL45Qjwrjhgsdcn2RwppcDM6Ro=", "9876543210", "larry_page.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "LarryPage", null, new DateTime(2023, 7, 25, 20, 14, 50, 729, DateTimeKind.Local).AddTicks(2213) },
-                    { 8, "sergey@google.com", false, false, "ogHZo0NPhyhEMdJfs1jGUGjnKf/s4awGIuuYy8025ok=", "1234567890", "sergey_brin.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "SergeyBrin", null, new DateTime(2023, 7, 25, 20, 14, 50, 733, DateTimeKind.Local).AddTicks(2028) },
-                    { 9, "amancio@zara.com", false, false, "D5iGczcroSmodpIen53mk2Fj/21O4MusmC6GKb01QF8=", "9876543210", "amancio_ortega.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "AmancioOrtega", null, new DateTime(2023, 7, 26, 20, 14, 50, 737, DateTimeKind.Local).AddTicks(1541) },
-                    { 10, "carlos@telmex.com", false, false, "cJuzqjHngfuzVhEQFZUEFKaAP+N7qHF+AjJxPdluHaI=", "1234567890", "carlos_slim_helu.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "CarlosSlimHelu", null, new DateTime(2023, 7, 26, 20, 14, 50, 741, DateTimeKind.Local).AddTicks(997) },
-                    { 11, "Ad@min.com", true, false, "mGCUINPf0hSqMTwCdcnxoQWdGEhsJrYOpjpvQarWLFo=", "1234567890", "Admin.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "Admin", null, new DateTime(2023, 7, 26, 20, 14, 50, 745, DateTimeKind.Local).AddTicks(545) }
+                    { 1, "elon@musk.com", true, false, "z3cYHVk1R4my8gZeon0xrHmfDE8Vpxd5j7QTpIvc3GM=", "1234567890", "elon_musk.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "ElonMusk", null, new DateTime(2023, 7, 22, 15, 40, 3, 870, DateTimeKind.Local).AddTicks(6505) },
+                    { 2, "jeff@amazon.com", false, false, "p3zsqKJ0kKcdPlp9wSUJtBAP7H9EZ1D1C9miQv32JkU=", "9876543210", "jeff_bezos.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "JeffBezos", null, new DateTime(2023, 7, 22, 15, 40, 3, 877, DateTimeKind.Local).AddTicks(8700) },
+                    { 3, "warren@berkshire.com", false, false, "n7p8JbjMz1idjRo1BwE2ldlT4rHSxVxGhwQKMT2YIgg=", "9876543210", "warren_buffett.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "WarrenBuffett", null, new DateTime(2023, 7, 23, 15, 40, 3, 884, DateTimeKind.Local).AddTicks(9325) },
+                    { 4, "BillGates@gmaill.com", true, false, "ljrqrV6Ma5F+Z8Q4O4MhRWt9+6b8YXlaQCfFNmVFOoc=", "1234567890", "bill_gates.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "BillGates", null, new DateTime(2023, 7, 23, 15, 40, 3, 891, DateTimeKind.Local).AddTicks(8500) },
+                    { 5, "larry@oracle.com", false, false, "yWItNvpeF65jhQ4lIBSZug2OEw1vOLgqORfMwqAH/AE=", "9876543210", "larry_ellison.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "LarryEllison", null, new DateTime(2023, 7, 25, 15, 40, 3, 898, DateTimeKind.Local).AddTicks(3813) },
+                    { 6, "mark@facebook.com", true, false, "aAIBn4DcscHU4QfinnbAq76vHXEca+ruz+r7Q1+m+yA=", "1234567890", "mark_zuckerberg.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "MarkZuckerberg", null, new DateTime(2023, 7, 26, 15, 40, 3, 905, DateTimeKind.Local).AddTicks(1097) },
+                    { 7, "larry@google.com", false, false, "UHRkaY7AmMrwMQMx8yL45Qjwrjhgsdcn2RwppcDM6Ro=", "9876543210", "larry_page.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "LarryPage", null, new DateTime(2023, 7, 26, 15, 40, 3, 912, DateTimeKind.Local).AddTicks(1253) },
+                    { 8, "sergey@google.com", false, false, "ogHZo0NPhyhEMdJfs1jGUGjnKf/s4awGIuuYy8025ok=", "1234567890", "sergey_brin.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "SergeyBrin", null, new DateTime(2023, 7, 26, 15, 40, 3, 919, DateTimeKind.Local).AddTicks(312) },
+                    { 9, "amancio@zara.com", false, false, "D5iGczcroSmodpIen53mk2Fj/21O4MusmC6GKb01QF8=", "9876543210", "amancio_ortega.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "AmancioOrtega", null, new DateTime(2023, 7, 27, 15, 40, 3, 925, DateTimeKind.Local).AddTicks(5339) },
+                    { 10, "carlos@telmex.com", false, false, "cJuzqjHngfuzVhEQFZUEFKaAP+N7qHF+AjJxPdluHaI=", "1234567890", "carlos_slim_helu.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "CarlosSlimHelu", null, new DateTime(2023, 7, 27, 15, 40, 3, 931, DateTimeKind.Local).AddTicks(9552) },
+                    { 11, "Ad@min.com", true, false, "mGCUINPf0hSqMTwCdcnxoQWdGEhsJrYOpjpvQarWLFo=", "1234567890", "Admin.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "Admin", null, new DateTime(2023, 7, 27, 15, 40, 3, 939, DateTimeKind.Local).AddTicks(254) },
+                    { 12, "User@user.com", false, false, "mGCUINPf0hSqMTwCdcnxoQWdGEhsJrYOpjpvQarWLFo=", "1234567890", "User.jpg", "aYkdwwd7tFrZOsBA2Za0qQ==", "User", null, new DateTime(2023, 7, 27, 15, 40, 3, 946, DateTimeKind.Local).AddTicks(372) }
                 });
 
             migrationBuilder.InsertData(
                 table: "Cards",
-                columns: new[] { "Id", "CardHolder", "CheckNumber", "ExpirationDate", "IsCreditCard", "IsInactive", "Number", "UserId" },
+                columns: new[] { "Id", "CardHolder", "CheckNumber", "ExpirationDate", "HasExpired", "IsCreditCard", "IsInactive", "Number", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Elon Musk", "649", new DateTime(2025, 10, 27, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(433), true, false, "8676880603590752", 1 },
-                    { 2, "Jeff Bezos", "223", new DateTime(2024, 9, 27, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(441), true, false, "3997331179433371", 2 },
-                    { 3, "Warren Buffett", "684", new DateTime(2027, 4, 27, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(443), true, false, "7469810858990903", 3 },
-                    { 4, "Bill Gates", "623", new DateTime(2028, 1, 27, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(445), false, false, "7372340136556716", 4 },
-                    { 5, "Larry Ellison", "636", new DateTime(2026, 11, 27, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(447), false, false, "4503408821426590", 5 },
-                    { 6, "Mark Zuckerberg", "973", new DateTime(2025, 6, 27, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(450), true, false, "9539114984387891", 6 },
-                    { 7, "Larry Page", "247", new DateTime(2025, 9, 27, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(452), false, false, "3820743154136639", 7 },
-                    { 8, "Sergey Brin", "367", new DateTime(2024, 12, 27, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(453), false, false, "1513410988134823", 8 },
-                    { 9, "Amancio Ortega", "256", new DateTime(2027, 8, 27, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(455), false, false, "4588654764785024", 9 },
-                    { 10, "Carlos Slim Helu", "208", new DateTime(2026, 5, 27, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(457), false, false, "3525471461987263", 10 },
-                    { 11, "Admin", "543", new DateTime(2026, 10, 27, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(458), true, false, "3187868110023152", 11 },
-                    { 12, "Elon Musk", "660", new DateTime(2026, 2, 27, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(460), false, false, "3896973357363677", 1 },
-                    { 13, "Warren Buffett", "696", new DateTime(2027, 1, 27, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(461), true, false, "5672253593826517", 3 },
-                    { 14, "Bill Gates", "994", new DateTime(2027, 12, 27, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(463), true, false, "8832823205243008", 4 },
-                    { 15, "Amancio Ortega", "645", new DateTime(2025, 4, 27, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(464), true, false, "5243292944936184", 9 }
+                    { 1, "Elon Musk", "649", new DateTime(2025, 10, 28, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(8761), false, true, false, "8676880603590752", 1 },
+                    { 2, "Jeff Bezos", "223", new DateTime(2024, 9, 28, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(8776), false, true, false, "3997331179433371", 2 },
+                    { 3, "Warren Buffett", "684", new DateTime(2027, 4, 28, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(8783), false, true, false, "7469810858990903", 3 },
+                    { 4, "Bill Gates", "623", new DateTime(2028, 1, 28, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(8786), false, false, false, "7372340136556716", 4 },
+                    { 5, "Larry Ellison", "636", new DateTime(2026, 11, 28, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(8788), false, false, false, "4503408821426590", 5 },
+                    { 6, "Mark Zuckerberg", "973", new DateTime(2025, 6, 28, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(8791), false, true, false, "9539114984387891", 6 },
+                    { 7, "Larry Page", "247", new DateTime(2025, 9, 28, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(8793), false, false, false, "3820743154136639", 7 },
+                    { 8, "Sergey Brin", "367", new DateTime(2024, 12, 28, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(8795), false, false, false, "1513410988134823", 8 },
+                    { 9, "Amancio Ortega", "256", new DateTime(2027, 8, 28, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(8798), false, false, false, "4588654764785024", 9 },
+                    { 10, "Carlos Slim Helu", "208", new DateTime(2026, 5, 28, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(8801), false, false, false, "3525471461987263", 10 },
+                    { 11, "Admin", "543", new DateTime(2026, 10, 28, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(8803), false, true, false, "3187868110023152", 11 },
+                    { 12, "Elon Musk", "660", new DateTime(2026, 2, 28, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(8805), false, false, false, "3896973357363677", 1 },
+                    { 13, "Warren Buffett", "696", new DateTime(2027, 1, 28, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(8807), false, true, false, "5672253593826517", 3 },
+                    { 14, "Bill Gates", "994", new DateTime(2027, 12, 28, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(8809), false, true, false, "8832823205243008", 4 },
+                    { 15, "Amancio Ortega", "645", new DateTime(2025, 4, 28, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(8812), false, true, false, "5243292944936184", 9 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Transactions",
-                columns: new[] { "Id", "Amount", "CardNumber", "Date", "IsInbound", "RecipientId", "SenderId", "TransactionType" },
+                columns: new[] { "Id", "Amount", "AmountReceived", "CardNumber", "CurrencyExchangeRate", "Date", "IsInbound", "RecipientId", "SenderId", "TransactionType" },
                 values: new object[,]
                 {
-                    { 1, 111m, null, new DateTime(2023, 7, 17, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(533), false, 10, 1, 0 },
-                    { 2, 222m, null, new DateTime(2023, 7, 18, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(537), false, 9, 2, 0 },
-                    { 3, 333m, null, new DateTime(2023, 7, 19, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(539), false, 8, 3, 0 },
-                    { 4, 444m, null, new DateTime(2023, 7, 20, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(540), false, 7, 4, 0 },
-                    { 5, 555m, null, new DateTime(2023, 7, 21, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(542), false, 6, 5, 0 },
-                    { 6, 666m, null, new DateTime(2023, 7, 22, 20, 14, 50, 749, DateTimeKind.Local).AddTicks(544), false, 11, 1, 0 }
+                    { 1, 111m, null, null, null, new DateTime(2023, 7, 18, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(9047), false, 10, 1, 0 },
+                    { 2, 222m, null, null, null, new DateTime(2023, 7, 19, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(9054), false, 9, 2, 0 },
+                    { 3, 333m, null, null, null, new DateTime(2023, 7, 20, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(9056), false, 8, 3, 0 },
+                    { 4, 444m, null, null, null, new DateTime(2023, 7, 21, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(9058), false, 7, 4, 0 },
+                    { 5, 555m, null, null, null, new DateTime(2023, 7, 22, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(9059), false, 6, 5, 0 },
+                    { 6, 666m, null, null, null, new DateTime(2023, 7, 23, 15, 40, 3, 952, DateTimeKind.Local).AddTicks(9062), false, 11, 1, 0 }
                 });
 
             migrationBuilder.InsertData(

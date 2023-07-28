@@ -4,7 +4,9 @@ using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Persistence.Data;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
 using VirtualWallet.Common.AdditionalHelpers;
+using VirtualWallet.Common.QueryParameters;
 using VirtualWallet.Domain.Entities;
+using VirtualWallet.Domain.Enums;
 
 namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 {
@@ -22,6 +24,34 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 											.Include(r=>r.Recipient)
 											.ToList();
 		}
+
+        public IList<Transaction> GetFilteredTransactions(TransactionsQueryParameters filter, User user)
+		{
+            List<Transaction> transactions = GetAllTransactions();
+            if (!string.IsNullOrEmpty(filter.AllMyTransactions))
+            {
+                transactions = transactions.FindAll(t => t.SenderId == user.Id || t.RecipientId == user.Id);
+            }
+            if (!string.IsNullOrEmpty(filter.Sender))
+            {
+                transactions = transactions.FindAll(t => t.SenderId == user.Id);
+            }
+            if (!string.IsNullOrEmpty(filter.Reciever))
+            {
+                transactions = transactions.FindAll(t => t.RecipientId == user.Id);
+            }
+            if (!string.IsNullOrEmpty(filter.Withdrawl))
+            {
+                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Withdrawal && t.SenderId == user.Id);
+            }
+            if (!string.IsNullOrEmpty(filter.FeedWallet))
+            {
+                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.BankTransfer && t.SenderId == user.Id);
+            }
+
+			return transactions;
+
+        }
 
 		public Transaction GetTransactionById(int id)
 		{
