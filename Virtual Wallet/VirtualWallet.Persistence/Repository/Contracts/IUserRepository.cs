@@ -13,6 +13,9 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts
 		User UpdateUser(User user);
 		void DeleteUser(int id);
 		public User VerifyUser(User user);
+		IEnumerable<User> SearchByUsername(string username);
+		IEnumerable<User> SearchByEmail(string email);
+		IEnumerable<User> SearchByPhone(string phone);
 
-    }
+	}
 }

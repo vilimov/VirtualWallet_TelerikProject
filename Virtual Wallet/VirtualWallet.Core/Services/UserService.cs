@@ -143,7 +143,20 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			user.IsBlocked = false;
 			userRepository.UpdateUser(user);
 		}
+		public IEnumerable<User> SearchByUsername(string username)
+		{
+			return userRepository.SearchByUsername(username);
+		}
 
+		public IEnumerable<User> SearchByEmail(string email)
+		{
+			return userRepository.SearchByEmail(email);
+		}
+
+		public IEnumerable<User> SearchByPhone(string phone)
+		{
+			return userRepository.SearchByPhone(phone);
+		}
 		#region PrivateMethods
 		private string CreateRandomToken()
         {
