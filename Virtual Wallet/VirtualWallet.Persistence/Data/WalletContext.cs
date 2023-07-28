@@ -34,7 +34,8 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Data
                 new User { Id = 8, Username = "SergeyBrin", Salt = salt, VerifiedAt = DateTime.Now.AddDays(-2), Password = HashPasswordInternal("password555", salt), Email = "sergey@google.com", PhoneNumber = "1234567890", Photo = "sergey_brin.jpg", IsAdmin = false, IsBlocked = false},
                 new User { Id = 9, Username = "AmancioOrtega", Salt = salt, VerifiedAt = DateTime.Now.AddDays(-1), Password = HashPasswordInternal("password666", salt), Email = "amancio@zara.com", PhoneNumber = "9876543210", Photo = "amancio_ortega.jpg", IsAdmin = false, IsBlocked = false},
                 new User { Id = 10, Username = "CarlosSlimHelu", Salt = salt, VerifiedAt = DateTime.Now.AddDays(-1), Password = HashPasswordInternal("password777", salt), Email = "carlos@telmex.com", PhoneNumber = "1234567890", Photo = "carlos_slim_helu.jpg", IsAdmin = false, IsBlocked = false},
-                new User { Id = 11, Username = "Admin", Salt = salt, VerifiedAt = DateTime.Now.AddDays(-1), Password = HashPasswordInternal("123", salt), Email = "Ad@min.com", PhoneNumber = "1234567890", Photo = "Admin.jpg", IsAdmin = true, IsBlocked = false}
+                new User { Id = 11, Username = "Admin", Salt = salt, VerifiedAt = DateTime.Now.AddDays(-1), Password = HashPasswordInternal("123", salt), Email = "Ad@min.com", PhoneNumber = "1234567890", Photo = "Admin.jpg", IsAdmin = true, IsBlocked = false},
+                new User { Id = 12, Username = "User", Salt = salt, VerifiedAt = DateTime.Now.AddDays(-1), Password = HashPasswordInternal("123", salt), Email = "User@user.com", PhoneNumber = "1234567890", Photo = "User.jpg", IsAdmin = false, IsBlocked = false}
             };
             modelBuilder.Entity<User>().HasData(users);
 

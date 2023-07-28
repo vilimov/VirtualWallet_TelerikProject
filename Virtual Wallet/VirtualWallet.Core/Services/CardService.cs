@@ -13,9 +13,9 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             this.cardRepository = cardRepository;
         }
 
-        public Card Add(Card card)
+        public Card Add(Card card, User user)
         {
-            Card createdCard = this.cardRepository.Add(card);
+            Card createdCard = this.cardRepository.Add(card, user);
             return createdCard;
         }
 
@@ -34,6 +34,12 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
         public Card GetById(int id)
         {
             Card card = this.cardRepository.GetById(id);
+            return card;
+        }
+
+        public Card GetByNumber(string number)
+        {
+            Card card = cardRepository.GetByNumber(number);
             return card;
         }
 
