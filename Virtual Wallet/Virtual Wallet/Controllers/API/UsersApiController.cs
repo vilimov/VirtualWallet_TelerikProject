@@ -192,6 +192,34 @@ namespace Virtual_Wallet.Controllers.API
 				return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred. Please try again.");
 			}
 		}
+		//Block and unblock
+		[HttpPut("block/{id}")]
+		public IActionResult BlockUser(int id)
+		{
+			try
+			{
+				userService.BlockUser(id);
+				return Ok("User is blocked");
+			}
+			catch (UserNotFoundException)
+			{
+				return NotFound("Not Found controller");
+			}
+		}
+
+		[HttpPut("unblock/{id}")]
+		public IActionResult UnblockUser(int id)
+		{
+			try
+			{
+				userService.UnblockUser(id);
+				return Ok("User is unblocked");
+			}
+			catch (UserNotFoundException)
+			{
+				return NotFound("Not Found controller");
+			}
+		}
 		#region PrivateMethods
 
 		#endregion

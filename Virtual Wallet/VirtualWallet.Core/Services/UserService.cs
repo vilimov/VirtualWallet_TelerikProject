@@ -118,10 +118,35 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             return this.userRepository.VerifyUser(user);
             
         }
+		//Block and unblock
+		public void BlockUser(int id)
+		{
+			var user = userRepository.GetUserById(id);
+			if (user == null)
+			{
+				throw new EntityNotFoundException("Not found");
+			}
 
+			user.IsBlocked = true;
+			userRepository.UpdateUser(user);
+			Console.WriteLine(user.IsBlocked);
+		}
 
-        #region PrivateMethods
-        private string CreateRandomToken()
+		public void UnblockUser(int id)
+		{
+			var user = userRepository.GetUserById(id);
+			if (user == null)
+			{
+				throw new EntityNotFoundException("Not found");
+			}
+
+			user.IsBlocked = false;
+			userRepository.UpdateUser(user);
+			Console.WriteLine(user.IsBlocked);
+		}
+
+		#region PrivateMethods
+		private string CreateRandomToken()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }

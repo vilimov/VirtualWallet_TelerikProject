@@ -24,7 +24,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 
 		public User GetUserById(int id)
 		{
-			var user = this.context.Users.Find(id);
+			var user = this.context.Users.FirstOrDefault(u => u.Id == id);
 
 			return user;
 		}
