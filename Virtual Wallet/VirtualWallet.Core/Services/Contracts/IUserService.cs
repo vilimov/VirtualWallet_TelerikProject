@@ -1,4 +1,5 @@
 ﻿using Virtual_Wallet.VirtualWallet.Domain.Entities;
+using VirtualWallet.Application.AdditionalHelpers;
 
 namespace VirtualWallet.Application.Services.Contracts
 {

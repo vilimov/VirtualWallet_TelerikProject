@@ -58,6 +58,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 
 		public User UpdateUser(User user)
 		{
+
 			context.Entry(user).State = EntityState.Modified;
 			context.SaveChanges();
 			return user;

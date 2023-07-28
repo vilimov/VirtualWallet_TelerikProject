@@ -5,6 +5,7 @@ using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
 using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
 using VirtualWallet.Common.AdditionalHelpers;
+using VirtualWallet.Common.Exceptions;
 
 namespace Virtual_Wallet.VirtualWallet.Application.Services
 {
