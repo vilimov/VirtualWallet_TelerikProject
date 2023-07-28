@@ -9,8 +9,7 @@ using VirtualWallet.Application.Services.Contracts;
 using VirtualWallet.Common.AdditionalHelpers;
 using VirtualWallet.Common.Exceptions;
 
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
+
 
 namespace VirtualWallet.Application.AdditionalHelpers
 {
@@ -81,7 +80,7 @@ namespace VirtualWallet.Application.AdditionalHelpers
             }
         }
 		// TEST
-		public string GenerateJwtForUser(User user)
+		/*public string GenerateJwtForUser(User user)
 		{
 			// Include Jwt package
 
@@ -94,11 +93,11 @@ namespace VirtualWallet.Application.AdditionalHelpers
 			// Prepare the claims for the token
 			var claims = new[]
 			{
-		new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-		new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-		new Claim(ClaimTypes.Name, user.Username),
-		new Claim(ClaimTypes.Role, user.Role) // include user's role in the token
-    };
+		        new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+		        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+		        new Claim(ClaimTypes.Name, user.Username),
+		        new Claim(ClaimTypes.Role, user.Role)
+            };
 
 			// Create the token
 			var token = new JwtSecurityToken(
@@ -110,6 +109,6 @@ namespace VirtualWallet.Application.AdditionalHelpers
 
 			// Return the token
 			return new JwtSecurityTokenHandler().WriteToken(token);
-		}
+		}*/
 	}
 }

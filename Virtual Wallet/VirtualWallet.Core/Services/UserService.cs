@@ -129,7 +129,6 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 
 			user.IsBlocked = true;
 			userRepository.UpdateUser(user);
-			Console.WriteLine(user.IsBlocked);
 		}
 
 		public void UnblockUser(int id)
@@ -142,7 +141,6 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 
 			user.IsBlocked = false;
 			userRepository.UpdateUser(user);
-			Console.WriteLine(user.IsBlocked);
 		}
 
 		#region PrivateMethods

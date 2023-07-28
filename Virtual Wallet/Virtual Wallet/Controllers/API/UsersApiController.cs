@@ -201,9 +201,9 @@ namespace Virtual_Wallet.Controllers.API
 				userService.BlockUser(id);
 				return Ok("User is blocked");
 			}
-			catch (UserNotFoundException)
+			catch (EntityNotFoundException)
 			{
-				return NotFound("Not Found controller");
+				return NotFound("User not Found");
 			}
 		}
 
@@ -215,9 +215,9 @@ namespace Virtual_Wallet.Controllers.API
 				userService.UnblockUser(id);
 				return Ok("User is unblocked");
 			}
-			catch (UserNotFoundException)
+			catch (EntityNotFoundException)
 			{
-				return NotFound("Not Found controller");
+				return NotFound("User not Found");
 			}
 		}
 		#region PrivateMethods
