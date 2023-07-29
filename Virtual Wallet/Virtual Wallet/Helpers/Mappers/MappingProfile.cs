@@ -31,7 +31,9 @@ namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
             CreateMap<UserRegisterDto, User>()
                 .ForMember(dest => dest.Username, opts => opts.MapFrom(src => src.Username))
                 .ForMember(dest => dest.Email, opts => opts.MapFrom(src => src.Email))
-                .ForMember(dest => dest.Password, opts => opts.MapFrom(src => src.Password));            
+                .ForMember(dest => dest.Password, opts => opts.MapFrom(src => src.Password));
+
+            CreateMap<WalletCreateUpdateDto, Wallet>();
         }
     }
 }

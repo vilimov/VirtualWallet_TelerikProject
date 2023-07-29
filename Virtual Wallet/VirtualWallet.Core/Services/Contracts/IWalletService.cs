@@ -16,6 +16,7 @@ namespace VirtualWallet.Application.Services.Contracts
 		decimal Block(int id, decimal amount);
 		decimal ReleaseBlocked(int id, decimal amount);
 		decimal Unblock(int id, decimal amount);
+		Wallet Update(User user, Currency newCurrencyCode);
 		Wallet Delete(int id);
 	}
 }

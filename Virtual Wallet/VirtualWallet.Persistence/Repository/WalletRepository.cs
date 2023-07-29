@@ -40,7 +40,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
         public Wallet GetWalletByUser(string username)
         {
             Wallet wallet = GetAll().FirstOrDefault(w => w.User.Username == username);
-            return wallet ?? throw new EntityNotFoundException($"User with Username: {username} does not have a wallet");
+            return wallet ?? throw new EntityNotFoundException($"User {username} does not have a wallet!"); ;
         }
 
         public decimal GetBalance(int id)
@@ -107,6 +107,16 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             wallet.Balance += amount;
             context.SaveChanges();
             return wallet.Balance;
+        }
+
+        public Wallet Update(int id, double exchangeRate, Currency newCurrencyCode)
+        {
+            Wallet wallet = GetWalletById(id);
+            wallet.Balance *= (decimal)exchangeRate;
+            wallet.Blocked *= (decimal)exchangeRate;
+            wallet.CurrencyCode = newCurrencyCode;
+            context.SaveChanges();
+            return wallet;
         }
 
         public Wallet Delete(int id)
