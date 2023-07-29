@@ -3,6 +3,8 @@ using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Persistence.Data;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
+using VirtualWallet.Common.AdditionalHelpers;
+using VirtualWallet.Common.Exceptions;
 
 namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 {
@@ -16,10 +18,15 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 
         public Card Add(Card card, User user)
         {
+            if (card.ExpirationDate.AddMonths(1) <= DateTime.Now)
+            {
+                throw new CardAlreadyExpired(Alerts.CardAlreadyExpired);
+            }
+
             Card inactiveCard = context.Cards.FirstOrDefault(c => c.Number == card.Number);
             if (inactiveCard != null && inactiveCard.IsInactive == false)
             {
-                throw new DuplicateEntityException("Card already added!");
+                throw new DuplicateEntityException(Alerts.CardAlreadyAdded);
             }
             else if (inactiveCard != null && inactiveCard.CardHolder == card.CardHolder && inactiveCard.CheckNumber == card.CheckNumber)
             {
@@ -46,19 +53,27 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             IQueryable<Card> cards = context.Cards
                                                 .Where(c => !c.IsInactive)
                                                 .Include(c => c.User);
-            return cards ?? throw new EntityNotFoundException("No cards found!");
+            return cards ?? throw new EntityNotFoundException(Alerts.NoItemToShow);
         }
 
         public Card GetById(int id)
         {
             Card card = GetAll().FirstOrDefault(c => c.Id == id);
-            return card ?? throw new EntityNotFoundException($"No card with Id:{id} found");
+            return card ?? throw new EntityNotFoundException(Alerts.NoItemToShow);
         }
 
         public Card GetByNumber(string number)
         {
             Card card = GetAll().FirstOrDefault(c => c.Number == number);
-            return card ?? throw new EntityNotFoundException($"No card with Number:{number} found");
+            return card ?? throw new EntityNotFoundException(Alerts.NoItemToShow);
+        }
+
+        public IQueryable<Card> GetByUser(User user)
+        {
+            IQueryable<Card> cards = context.Cards
+                                                .Where(c => !c.IsInactive && c.UserId == user.Id)
+                                                .Include(c => c.User);
+            return cards ?? throw new EntityNotFoundException(Alerts.NoItemToShow);
         }
 
         public Card Remove(int id)

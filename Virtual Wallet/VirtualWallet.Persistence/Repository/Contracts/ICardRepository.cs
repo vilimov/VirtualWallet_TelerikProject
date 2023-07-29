@@ -7,6 +7,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts
         IQueryable<Card> GetAll();
         Card GetById(int id);
         Card GetByNumber(string number);
+        IQueryable<Card> GetByUser(User user);
         //IQueryable<Card> FilterCardsBy(CardQueryParameters queryParameters);
         Card Add(Card card, User user);
         Card Remove(int id);

@@ -43,9 +43,10 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             return card;
         }
 
-        public Card GetByUserId(int id)
+        public IEnumerable<Card> GetByUser(User user)
         {
-            throw new NotImplementedException();
+            IEnumerable<Card> cards = cardRepository.GetByUser(user);
+            return cards;
         }
 
         public Card Remove(int id)

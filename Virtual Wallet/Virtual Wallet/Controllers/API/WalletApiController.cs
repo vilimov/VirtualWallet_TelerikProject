@@ -43,14 +43,14 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
                     List<Wallet> wallets = walletService.GetAll().ToList();
                     if (wallets.Count == 0)
                     {
-                        return StatusCode(StatusCodes.Status404NotFound, $"No wallets found!");
+                        return StatusCode(StatusCodes.Status404NotFound, Alerts.NoItemToShow);
                     }
                     List<WalletShowDto> result = wallets.Select(wallets => new WalletShowDto(wallets)).ToList();
                     return StatusCode(StatusCodes.Status200OK, result);
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status403Forbidden, "You are not autorised for this service!");
+                    return StatusCode(StatusCodes.Status403Forbidden, Alerts.NotAutorised);
                 }
             }
             catch (UnauthorizedOperationException ex)
@@ -69,7 +69,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
                 Wallet wallet = this.walletService.GetWalletById(id);
                 if (wallet == null)
                 {
-                    return StatusCode(StatusCodes.Status204NoContent, $"User {user.Username} does not have a wallet!");
+                    return StatusCode(StatusCodes.Status204NoContent, Alerts.NoItemToShow);
                 }
                 else
                 {
@@ -81,7 +81,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
                     }
                     else
                     {
-                        return StatusCode(StatusCodes.Status403Forbidden, "You are not autorised for this service!");
+                        return StatusCode(StatusCodes.Status403Forbidden, Alerts.NotAutorised);
                     }
                 }
             }
@@ -104,7 +104,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
                 Wallet wallet = walletService.GetWalletByUser(user.Username);
                 if (wallet == null)
                 {
-                    return StatusCode(StatusCodes.Status204NoContent, $"User {user.Username} does not have a wallet!");
+                    return StatusCode(StatusCodes.Status204NoContent, Alerts.NoItemToShow);
                 }
                 else
                 {
@@ -132,7 +132,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             try
             {
                 Wallet existingWallet = walletService.GetWalletByUser(user.Username);
-                return StatusCode(StatusCodes.Status409Conflict, $"User: {user.Username} already has a wallet!");
+                return StatusCode(StatusCodes.Status409Conflict, Alerts.ExistingWallet);
             }
             catch (EntityNotFoundException)
             {
@@ -176,7 +176,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status403Forbidden, "You are not autorised for this service!");
+                    return StatusCode(StatusCodes.Status403Forbidden, Alerts.NotAutorised);
                 }
             }
             catch (WalletNotEmptyException ex)

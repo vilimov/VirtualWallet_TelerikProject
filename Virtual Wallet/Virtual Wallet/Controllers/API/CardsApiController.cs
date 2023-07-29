@@ -5,6 +5,7 @@ using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
+using VirtualWallet.Common.AdditionalHelpers;
 using VirtualWallet.Common.Exceptions;
 
 namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
@@ -37,14 +38,14 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
                     List<Card> cards = cardService.GetAll().ToList();
                     if (cards.Count == 0)
                     {
-                        return StatusCode(StatusCodes.Status204NoContent, "No cards found!");
+                        return StatusCode(StatusCodes.Status204NoContent, Alerts.NoItemToShow);
                     }
                     List<CardShowDto> result = cards.Select(c => new CardShowDto(c)).ToList();
                     return Ok(result);
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status403Forbidden, "You are not autorised for this service!");
+                    return StatusCode(StatusCodes.Status403Forbidden, Alerts.NotAutorised);
                 }
 
             }
@@ -76,7 +77,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status403Forbidden, "You are not autorised for this service!");
+                    return StatusCode(StatusCodes.Status403Forbidden, Alerts.NotAutorised);
                 }
             }
             catch (UnauthorizedOperationException ex)
@@ -111,7 +112,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status403Forbidden, "You are not autorised for this service!");
+                    return StatusCode(StatusCodes.Status403Forbidden, Alerts.NotAutorised);
                 }
             }
             catch (UnauthorizedOperationException ex)
@@ -130,10 +131,11 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             try
             {
                 User user = authManager.TryGetUser(credentials);
-                List<Card> cards = cardService.GetAll().Where(c => c.User == user).ToList();
+                //List<Card> cards = cardService.GetAll().Where(c => c.User == user).ToList();
+                List<Card> cards = cardService.GetByUser(user).ToList();
                 if (cards.Count == 0)
                 {
-                    return StatusCode(StatusCodes.Status404NotFound, "No cards found!");
+                    return StatusCode(StatusCodes.Status404NotFound, Alerts.NoItemToShow);
                 }
                 List<CardShowDto> result = cards.Select(c => new CardShowDto(c)).ToList();
                 return Ok(result);
@@ -160,12 +162,15 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             {
                 return BadRequest(ex.Message);
             }
-
             catch (UnauthorizedOperationException ex)
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
             }
             catch (DuplicateEntityException ex)
+            {
+                return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+            }
+            catch (CardAlreadyExpired ex)
             {
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
@@ -186,7 +191,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
                 }
                 else
                 {
-                    return StatusCode(StatusCodes.Status403Forbidden, "You are not autorised for this service!");
+                    return StatusCode(StatusCodes.Status403Forbidden, Alerts.NotAutorised);
                 }
 
             }

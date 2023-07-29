@@ -4,6 +4,7 @@ using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Domain.Enums;
 using Virtual_Wallet.VirtualWallet.Persistence.Data;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
+using VirtualWallet.Common.AdditionalHelpers;
 
 namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 {
@@ -28,19 +29,19 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             IEnumerable<Wallet> result = context.Wallets
                            .Where(w => !w.IsInactive)
                            .Include(w => w.User);
-            return result.ToList() ?? throw new EntityNotFoundException("No wallets were found");
+            return result.ToList() ?? throw new EntityNotFoundException(Alerts.NoItemToShow);
         }
 
         public Wallet GetWalletById(int id)
         {
             Wallet wallet = GetAll().FirstOrDefault(w => w.Id == id);
-            return wallet ?? throw new EntityNotFoundException($"Wallet with Id: {id} does not exist!");
+            return wallet ?? throw new EntityNotFoundException(Alerts.NoItemToShow);
         }
 
         public Wallet GetWalletByUser(string username)
         {
             Wallet wallet = GetAll().FirstOrDefault(w => w.User.Username == username);
-            return wallet ?? throw new EntityNotFoundException($"User {username} does not have a wallet!"); ;
+            return wallet ?? throw new EntityNotFoundException(Alerts.NoItemToShow); ;
         }
 
         public decimal GetBalance(int id)
@@ -66,7 +67,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             Wallet wallet = GetWalletById(id);
             if (wallet.Balance < amount)
             {
-                throw new InsuficientAmountException($"Insufficient amount!");
+                throw new InsuficientAmountException(Alerts.InsufficientAmount);
             }
 
             wallet.Balance -= amount;
@@ -79,7 +80,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             Wallet wallet = GetWalletById(id);
             if (wallet.Balance < amount)
             {
-                throw new InsuficientAmountException($"Insufficient amount!");
+                throw new InsuficientAmountException(Alerts.InsufficientAmount);
             }
 
             wallet.Balance -= amount;
@@ -93,7 +94,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             Wallet wallet = GetWalletById(id);
             if (wallet.Blocked < amount)
             {
-                throw new InsuficientAmountException($"Insufficient amount!");
+                throw new InsuficientAmountException(Alerts.InsufficientAmount);
             }
 
             wallet.Blocked -= amount;
@@ -126,7 +127,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             {
                 string balance = $"{waletToDelete.Balance.ToString("F2")} {waletToDelete.CurrencyCode.ToString()}";
                 string blocked = $"{waletToDelete.Blocked.ToString("F2")} {waletToDelete.CurrencyCode.ToString()}";
-                throw new WalletNotEmptyException($"This wallet's balance is {balance} and has {blocked} blocked! Wallet must be empty in order to be deleted!");
+                throw new WalletNotEmptyException(String.Format(Alerts.WalletNotEmpty, balance, blocked));
             }
             Deactivate(waletToDelete);
             context.SaveChanges();
@@ -137,7 +138,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 			var wallet = GetWalletById(walletId);
 			if (wallet == null)
 			{
-				throw new EntityNotFoundException($"Wallet with ID {walletId} not found.");
+				throw new EntityNotFoundException(Alerts.NotFound);
 			}
 
 			if (isDeposit)
@@ -148,7 +149,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 			{
 				if (wallet.Balance < amount)
 				{
-					throw new InvalidOperationException($"Not enough funds in wallet with ID {walletId}.");
+					throw new InvalidOperationException(Alerts.InsufficientAmount);
 				}
 				wallet.Balance -= amount;
 			}
