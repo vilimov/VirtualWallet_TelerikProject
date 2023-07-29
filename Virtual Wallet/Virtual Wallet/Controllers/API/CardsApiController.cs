@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Virtual_Wallet.Models.Dtos;
 using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
+using Virtual_Wallet.VirtualWallet.Application.Services;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
+using Virtual_Wallet.VirtualWallet.Common.QueryParameters;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
@@ -52,6 +55,35 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             catch (UnauthorizedOperationException ex)
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
+            }
+        }
+
+        [HttpGet("filters")]
+        public IActionResult GetFilteredCards([FromHeader] string credentials, [FromQuery] CardQueryParameters filter)
+        {
+            try
+            {
+                User user = authManager.TryGetUser(credentials);
+                if (user.IsAdmin == true)
+                {
+                    var cards = cardService.GetFilteredCards(filter);
+                    List<CardShowDto> result = cards.Select(c => new CardShowDto(c)).ToList();
+                    return result.Count > 0
+                        ? StatusCode(StatusCodes.Status200OK, result)
+                        : (IActionResult)StatusCode(StatusCodes.Status404NotFound, Alerts.NoItemToShow);
+                }
+                else 
+                {
+                    return StatusCode(StatusCodes.Status401Unauthorized, Alerts.NotAutorised);
+                }
+            }
+            catch (EntityNotFoundException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
             }
         }
 

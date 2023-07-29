@@ -5,13 +5,16 @@ using System.Linq;
 using System.Net;
 using Virtual_Wallet.Models.Dtos;
 using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
+using Virtual_Wallet.VirtualWallet.Application.Services;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
+using Virtual_Wallet.VirtualWallet.Common.QueryParameters;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Domain.Enums;
 using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
 using VirtualWallet.Common.AdditionalHelpers;
 using VirtualWallet.Common.Exceptions;
+using VirtualWallet.Persistence.QueryParameters;
 
 namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
 {
@@ -58,6 +61,35 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
                 return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
             }
 
+        }
+
+        [HttpGet("filters")]
+        public IActionResult GetFilteredWallets([FromHeader] string credentials, [FromQuery] WalletQueryParameters filter) 
+        {
+            try
+            {
+                User user = authManager.TryGetUser(credentials);
+                if (user.IsAdmin == true)
+                {
+                    var wallets = walletService.GetFilteredWallets(filter);
+                    List<WalletShowDto> result = wallets.Select(c => new WalletShowDto(c)).ToList();
+                    return result.Count > 0
+                        ? StatusCode(StatusCodes.Status200OK, result)
+                        : (IActionResult)StatusCode(StatusCodes.Status404NotFound, Alerts.NoItemToShow);
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status401Unauthorized, Alerts.NotAutorised);
+                }
+            }
+            catch (EntityNotFoundException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
         }
 
         [HttpGet("{id}")]

@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
+using Virtual_Wallet.VirtualWallet.Common.QueryParameters;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Domain.Enums;
 using Virtual_Wallet.VirtualWallet.Persistence.Data;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
 using VirtualWallet.Common.AdditionalHelpers;
+using VirtualWallet.Persistence.QueryParameters;
 
 namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 {
@@ -30,6 +33,36 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
                            .Where(w => !w.IsInactive)
                            .Include(w => w.User);
             return result.ToList() ?? throw new EntityNotFoundException(Alerts.NoItemToShow);
+        }
+
+        public IList<Wallet> GetFilteredWallets(WalletQueryParameters filter)
+        {
+            List<Wallet> wallets = GetAll().ToList();
+            if (!string.IsNullOrEmpty(filter.CurrencyCode.ToString()))
+            {
+                wallets = wallets.FindAll(w => w.CurrencyCode == filter.CurrencyCode);
+            }
+            if (!string.IsNullOrEmpty(filter.BallanceMoreThan.ToString()))
+            {
+                wallets = wallets.FindAll(w => w.Balance >= filter.BallanceMoreThan);
+            }
+            if (!string.IsNullOrEmpty(filter.BallanceLessThan.ToString()))
+            {
+                wallets = wallets.FindAll(w => w.Balance <= filter.BallanceLessThan);
+            }
+            if (!string.IsNullOrEmpty(filter.BlockedMoreThan.ToString()))
+            {
+                wallets = wallets.FindAll(w => w.Balance >= filter.BlockedMoreThan);
+            }
+            if (!string.IsNullOrEmpty(filter.BlockedLessThan.ToString()))
+            {
+                wallets = wallets.FindAll(w => w.Balance <= filter.BlockedLessThan);
+            }
+            if (!string.IsNullOrEmpty(filter.IsInactive.ToString()))
+            {
+                wallets = wallets.FindAll(w => w.IsInactive == filter.IsInactive);
+            }
+            return wallets;
         }
 
         public Wallet GetWalletById(int id)

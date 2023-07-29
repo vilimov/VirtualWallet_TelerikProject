@@ -1,10 +1,13 @@
-﻿using Virtual_Wallet.VirtualWallet.Domain.Entities;
+﻿using Virtual_Wallet.VirtualWallet.Common.QueryParameters;
+using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Domain.Enums;
+using Virtual_Wallet.VirtualWallet.Persistence.Repository;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
 using VirtualWallet.Application.ExchangeRateAPI;
 using VirtualWallet.Application.Services.Contracts;
 using VirtualWallet.Common.AdditionalHelpers;
 using VirtualWallet.Common.Exceptions;
+using VirtualWallet.Persistence.QueryParameters;
 
 namespace Virtual_Wallet.VirtualWallet.Application.Services
 {
@@ -27,6 +30,11 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
         public IEnumerable<Wallet> GetAll()
         {
             return walletRepository.GetAll();
+        }
+
+        public IEnumerable<Wallet> GetFilteredWallets(WalletQueryParameters filter)
+        {
+            return walletRepository.GetFilteredWallets(filter);
         }
 
         public Wallet GetWalletById(int id)

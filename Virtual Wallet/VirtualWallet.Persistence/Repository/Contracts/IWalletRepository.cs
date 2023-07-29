@@ -1,5 +1,6 @@
 ﻿using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Domain.Enums;
+using VirtualWallet.Persistence.QueryParameters;
 
 namespace Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts
 {
@@ -7,6 +8,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts
     {
         Wallet CreateWallet(Wallet wallet);
         IEnumerable<Wallet> GetAll();
+        IList<Wallet> GetFilteredWallets(WalletQueryParameters filter);
         Wallet GetWalletById(int id);
         Wallet GetWalletByUser(string username);
         decimal GetBalance(int id);

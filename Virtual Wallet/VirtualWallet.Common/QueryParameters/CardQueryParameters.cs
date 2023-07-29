@@ -1,12 +1,19 @@
-﻿namespace Virtual_Wallet.VirtualWallet.Common.QueryParameters
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Virtual_Wallet.VirtualWallet.Common.QueryParameters
 {
     public class CardQueryParameters
     {
-        public string CardHolder { get; set; }
-        public string Username { get; set; }
-        public bool IsCredit { get; set; }
-        public DateTime ExpirationDate { get; set; }
-        public string SortBy { get; set; }
-        public string SortOrder { get; set; }
+        public bool? IsCredit { get; set; }
+
+        [RegularExpression(@"(0[1-9]|1[0-2])[0-9][0-9]", ErrorMessage = "Incorrect date format!")]
+        public DateTime? ExpiresBefore { get; set; }
+
+        [RegularExpression(@"(0[1-9]|1[0-2])[0-9][0-9]", ErrorMessage = "Incorrect date format!")]
+        public DateTime? ExpiresAfter { get; set; }
+
+        public bool? IsInactive { get; set; }
+        public string? SortBy { get; set; }
+        public string? SortOrder { get; set; }
     }
 }

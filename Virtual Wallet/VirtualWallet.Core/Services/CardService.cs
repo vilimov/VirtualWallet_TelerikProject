@@ -1,4 +1,5 @@
-﻿using Virtual_Wallet.VirtualWallet.Domain.Entities;
+﻿using Virtual_Wallet.VirtualWallet.Common.QueryParameters;
+using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
 using VirtualWallet.Application.Services.Contracts;
 
@@ -19,10 +20,10 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             return createdCard;
         }
 
-        /*public IEnumerable<Card> FilterCardsBy(CardQueryParameters queryParameters)
+        public IEnumerable<Card> GetFilteredCards(CardQueryParameters filter)
         {
-            throw new NotImplementedException();
-        }*/
+            return cardRepository.GetFilteredCards(filter);
+        }
 
         public IEnumerable<Card> GetAll()
         {

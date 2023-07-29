@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
+using Virtual_Wallet.VirtualWallet.Common.QueryParameters;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Persistence.Data;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
@@ -42,18 +44,36 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             return card;
         }
 
-       /* public IQueryable<Card> FilterCardsBy(CardQueryParameters queryParameters)
-        {
-            //ToDo
-            throw new NotImplementedException();
-        }*/
-
         public IQueryable<Card> GetAll()
         {
             IQueryable<Card> cards = context.Cards
                                                 .Where(c => !c.IsInactive)
                                                 .Include(c => c.User);
             return cards ?? throw new EntityNotFoundException(Alerts.NoItemToShow);
+        }
+
+        public IList<Card> GetFilteredCards(CardQueryParameters filter)
+        {
+            List<Card> cards = GetAll().ToList();
+            if (!string.IsNullOrEmpty(filter.IsCredit.ToString()))
+            {
+                cards = cards.FindAll(c => c.IsCreditCard == filter.IsCredit);
+            }
+            if (!string.IsNullOrEmpty(filter.ExpiresBefore.ToString()))
+            {
+                DateTime expiresBefore = DateTime.ParseExact(filter.ExpiresBefore.ToString(), "MMyy", CultureInfo.InvariantCulture);
+                cards = cards.FindAll(c => c.ExpirationDate <= expiresBefore);
+            }
+            if (!string.IsNullOrEmpty(filter.ExpiresAfter.ToString()))
+            {
+                DateTime expiresAfter = DateTime.ParseExact(filter.ExpiresAfter.ToString(), "MMyy", CultureInfo.InvariantCulture);
+                cards = cards.FindAll(c => c.ExpirationDate >= expiresAfter);
+            }
+            if (!string.IsNullOrEmpty(filter.IsInactive.ToString()))
+            {
+                cards = cards.FindAll(c => c.IsInactive == filter.IsInactive);
+            }
+            return cards;
         }
 
         public Card GetById(int id)
