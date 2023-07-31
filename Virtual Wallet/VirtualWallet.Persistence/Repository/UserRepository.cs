@@ -29,12 +29,12 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 
 		public User GetUserByUsername(string username)
 		{
-			return this.context.Users.FirstOrDefault(u => u.Username == username && !u.IsDeleted);
+			return this.context.Users.FirstOrDefault(u => u.Username == username);
 		}
 
 		public User GetUserByEmail(string email)
 		{
-			return this.context.Users.FirstOrDefault(u => u.Email == email && !u.IsDeleted);
+			return this.context.Users.FirstOrDefault(u => u.Email == email);
 		}
 
 		public User GetUserByPhoneNumber(string phoneNumber)

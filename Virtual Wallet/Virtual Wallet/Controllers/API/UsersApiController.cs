@@ -166,30 +166,33 @@ namespace Virtual_Wallet.Controllers.API
 				return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred. Please try again.");
 			}
 		}
-		[HttpDelete("id")]
-		public IActionResult DeleteUser(int id)
+		[HttpDelete("{id}")]
+		public IActionResult DeleteUser([FromHeader] string credentials, int id)
 		{
 			try
 			{
+				User authenticatedUser = authManager.TryGetUser(credentials);
+				if (authenticatedUser == null)
+				{
+					return Unauthorized("Invalid credentials");
+				}
 				var userToDelete = userService.GetUserById(id);
-
 				if (userToDelete == null)
 				{
-					return NotFound("User not found.");
+					return NotFound("User not found");
 				}
-
-				userService.DeleteUser(id);
-				return Ok(new { message = "User is deleted successfully." });
+				// Check if the authenticated user is an admin or the owner of the account
+				if (authenticatedUser.IsAdmin || authenticatedUser.Id == id)
+				{
+					userService.DeleteUser(id);
+					return Ok(new { message = "User is deleted successfully." });
+				}
+				else
+				{
+					return Unauthorized("You are not authorized to perform this operation");
+				}
 			}
-			catch (EntityNotFoundException)
-			{
-				return NotFound("User not found");
-			}
-			catch (UnauthorizedOperationException)
-			{
-				return Unauthorized("Invalid cretentials.");
-			}
-			catch
+			catch (Exception)
 			{
 				return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred. Please try again.");
 			}
@@ -242,6 +245,7 @@ namespace Virtual_Wallet.Controllers.API
 				return BadRequest("An error occurred while trying to unblock the user");
 			}
 		}
+		// Searching
 		[HttpGet("search/username")]
 		public IActionResult SearchByUsername(string username)
 		{
