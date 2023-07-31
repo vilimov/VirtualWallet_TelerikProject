@@ -27,7 +27,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualWallet.Domain", "Vir
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualWallet.Common", "VirtualWallet.Common\VirtualWallet.Common.csproj", "{256A151C-1A2B-44FC-A0F6-F9D798709D3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VirtualWallet.Tests", "VirtualWallet.Tests\VirtualWallet.Tests.csproj", "{6E0E6EBA-C1CD-4D49-8825-93ADADE13551}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VirtualWallet.Tests", "VirtualWallet.Tests\VirtualWallet.Tests.csproj", "{6E0E6EBA-C1CD-4D49-8825-93ADADE13551}"
+	ProjectSection(ProjectDependencies) = postProject
+		{BE518C21-F743-4EB5-A184-BC6D10084543} = {BE518C21-F743-4EB5-A184-BC6D10084543}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

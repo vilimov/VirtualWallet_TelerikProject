@@ -52,11 +52,11 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             }
             if (!string.IsNullOrEmpty(filter.BlockedMoreThan.ToString()))
             {
-                wallets = wallets.FindAll(w => w.Balance >= filter.BlockedMoreThan);
+                wallets = wallets.FindAll(w => w.Blocked >= filter.BlockedMoreThan);
             }
             if (!string.IsNullOrEmpty(filter.BlockedLessThan.ToString()))
             {
-                wallets = wallets.FindAll(w => w.Balance <= filter.BlockedLessThan);
+                wallets = wallets.FindAll(w => w.Blocked <= filter.BlockedLessThan);
             }
             if (!string.IsNullOrEmpty(filter.IsInactive.ToString()))
             {
