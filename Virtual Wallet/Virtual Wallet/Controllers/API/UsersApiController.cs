@@ -173,15 +173,15 @@ namespace Virtual_Wallet.Controllers.API
 			{
 				var userToDelete = userService.GetUserById(id);
 
-				if(userToDelete == null)
+				if (userToDelete == null)
 				{
 					return NotFound("User not found.");
 				}
 
 				userService.DeleteUser(id);
-				return Ok(new { message = "User is deleted successfully."});
+				return Ok(new { message = "User is deleted successfully." });
 			}
-			catch(EntityNotFoundException)
+			catch (EntityNotFoundException)
 			{
 				return NotFound("User not found");
 			}

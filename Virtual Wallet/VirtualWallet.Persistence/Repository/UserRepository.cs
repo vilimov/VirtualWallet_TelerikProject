@@ -19,34 +19,27 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 		}
 		public IEnumerable<User> GetAllUsers()
 		{
-			return context.Users.ToList();
+			return context.Users.Where(u => !u.IsDeleted).ToList();
 		}
 
 		public User GetUserById(int id)
 		{
-			var user = this.context.Users.FirstOrDefault(u => u.Id == id);
-
-			return user;
+			return this.context.Users.FirstOrDefault(u => u.Id == id && !u.IsDeleted);
 		}
+
 		public User GetUserByUsername(string username)
 		{
-			var user = this.context.Users.FirstOrDefault(u => u.Username == username);
-			return user;
+			return this.context.Users.FirstOrDefault(u => u.Username == username && !u.IsDeleted);
 		}
 
 		public User GetUserByEmail(string email)
 		{
-			var user = this.context.Users.FirstOrDefault(u => u.Email == email);
-			return user;
+			return this.context.Users.FirstOrDefault(u => u.Email == email && !u.IsDeleted);
 		}
+
 		public User GetUserByPhoneNumber(string phoneNumber)
 		{
-			var user = this.context.Users.FirstOrDefault(u =>u.PhoneNumber == phoneNumber);
-			//if (user == null)
-			//{
-			//	throw new EntityNotFoundException(string.Format(Alerts.UserNotFound, "phone", $"{phoneNumber}"));
-			//}
-			return user;
+			return this.context.Users.FirstOrDefault(u => u.PhoneNumber == phoneNumber && !u.IsDeleted);
 		}
 
 		public User AddUser(User user)
@@ -68,12 +61,12 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 			var user = context.Users.Find(id);
 			if (user != null)
 			{
-				context.Users.Remove(user);
+				user.IsDeleted = true;
 				context.SaveChanges();
 			}
 		}
 
-        public User VerifyUser(User user)
+		public User VerifyUser(User user)
         {
             if (user == null)
             {

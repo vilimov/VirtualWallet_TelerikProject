@@ -42,6 +42,7 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
 		public bool IsAdmin { get; set; }
 
 		public bool IsBlocked { get; set; }
+		public bool IsDeleted { get; set; }
 
         [JsonIgnore]
         public List<Card> Cards { get; set; }
