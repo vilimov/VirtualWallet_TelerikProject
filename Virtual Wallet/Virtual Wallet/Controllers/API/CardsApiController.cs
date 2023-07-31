@@ -56,6 +56,10 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
             }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
         }
 
         [HttpGet("filters")]
@@ -120,6 +124,10 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             {
                 return BadRequest(ex.Message);
             }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
         }
 
         [HttpGet("number")]
@@ -155,6 +163,10 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             {
                 return BadRequest(ex.Message);
             }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
         }
 
         [HttpGet("user")]
@@ -175,6 +187,10 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             catch (UnauthorizedOperationException ex)
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
+            }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
             }
         }
 
@@ -206,6 +222,10 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             {
                 return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
             }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
         }
 
         [HttpDelete("id")]
@@ -230,6 +250,10 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             catch (EntityNotFoundException ex)
             {
                 return StatusCode(StatusCodes.Status404NotFound, ex.Message);
+            }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
             }
         }
     }
