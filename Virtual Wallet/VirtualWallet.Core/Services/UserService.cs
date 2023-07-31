@@ -67,12 +67,18 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			user.VerificationToken = CreateRandomToken();
 
 			//HACK send e-mail for verification
-			//var mailRequest = new Mail
+			string verificationLink = emailService.GenerateVerificationLink(user.VerificationToken);
 
-            //emailService.SendEmail();
+            var mailRequest = new Mail
+			{
+				Body = $"Hello {user.Username}! Please verify your registration by clicking the link: {verificationLink}",
+				To = user.Email,
+				Subject = "MaxKashMate verification mail"
+            };
 
-
-            return this.userRepository.AddUser(user);
+            emailService.SendEmail(mailRequest);
+			
+			return this.userRepository.AddUser(user);
 		}
 
 		public User UpdateUser(User user)
@@ -173,6 +179,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }
+
         #endregion
 
 

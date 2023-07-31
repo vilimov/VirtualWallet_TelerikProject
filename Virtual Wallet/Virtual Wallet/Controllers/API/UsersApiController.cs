@@ -150,7 +150,6 @@ namespace Virtual_Wallet.Controllers.API
 			try
 			{
 				var userEntity = mapper.Map<User>(userLoginDto);
-
 				var user = userService.Login(userLoginDto.Username, userLoginDto.Password);
 				return Ok();
 			}

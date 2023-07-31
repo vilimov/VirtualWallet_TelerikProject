@@ -10,5 +10,6 @@ namespace VirtualWallet.Application.Services.Contracts
     public interface IEmailService
     {
         void SendEmail(Mail request);
+        public string GenerateVerificationLink(string token);
     }
 }

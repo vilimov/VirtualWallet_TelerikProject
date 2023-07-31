@@ -1,4 +1,5 @@
-﻿using MailKit.Security;
+﻿using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 using MimeKit.Text;
@@ -23,12 +24,29 @@ namespace VirtualWallet.Application.Services
             email.Subject = request.Subject;
             email.Body = new TextPart(TextFormat.Html) { Text = request.Body };
 
-            int port = int.Parse(config.GetSection("EmailPort").Value);
-            using var smtp = new MailKit.Net.Smtp.SmtpClient();         
-            smtp.Connect(config.GetSection("EmailHost").Value, port, SecureSocketOptions.StartTls);
-            smtp.Authenticate(config.GetSection("EmailUsername").Value, config.GetSection("EmailPassword").Value);
-            smtp.Send(email);
-            smtp.Disconnect(true);
+            /* int port = int.Parse(config.GetSection("EmailPort").Value);
+             using var smtp = new MailKit.Net.Smtp.SmtpClient();         
+             smtp.Connect(config.GetSection("EmailHost").Value, port, SecureSocketOptions.StartTls);
+             smtp.Authenticate(config.GetSection("EmailUsername").Value, config.GetSection("EmailPassword").Value);
+             smtp.Send(email);
+             smtp.Disconnect(true);*/
+
+            using (var client = new SmtpClient())
+            {
+                client.Connect("smtp.abv.bg", 465, SecureSocketOptions.SslOnConnect);
+                client.Authenticate("mkm_vw@abv.bg", "aA1!23456");
+                client.Send(email);
+                client.Disconnect(true);
+            }
+        }
+
+        public string GenerateVerificationLink(string token)
+        {
+            string VerificationBaseUrl = "http://localhost:5206/verification";
+            string verificationToken = token;
+            string verificationUrl = $"{VerificationBaseUrl}/{verificationToken}";
+            string verificationLink = $"<a href=\"{verificationUrl}\">Click here to verify</a>";
+            return verificationLink;
         }
     }
 }
