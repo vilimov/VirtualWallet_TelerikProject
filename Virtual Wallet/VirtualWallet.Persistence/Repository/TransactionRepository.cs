@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Persistence.Data;
@@ -48,8 +49,21 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             {
                 transactions = transactions.FindAll(t => t.TransactionType == TransactionType.BankTransfer && t.SenderId == user.Id);
             }
+            if (!string.IsNullOrEmpty(filter.FilterByDate))
+            {
+                if (DateTime.TryParseExact(filter.FilterByDate, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime inputDate))
+                {
+                    string formattedInputDate = inputDate.ToString("yyyy-MM-dd");
+                    transactions = transactions.FindAll(t => t.Date.Date == DateTime.Parse(formattedInputDate).Date);
+                }
+                else if (DateTime.TryParseExact(filter.FilterByDate, "MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime inputMonthYear))
+                {
+                    // The user entered a month and year (without the day)
+                    transactions = transactions.FindAll(t => t.Date.Month == inputMonthYear.Month && t.Date.Year == inputMonthYear.Year);
+                }
+            }
 
-			return transactions;
+            return transactions;
 
         }
 
