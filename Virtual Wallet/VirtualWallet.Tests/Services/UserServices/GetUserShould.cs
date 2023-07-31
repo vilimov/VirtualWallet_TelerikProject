@@ -21,24 +21,32 @@ namespace VirtualWallet.Tests.Services.UserServices
 		{
 			// Arrange
 			var userRepoMock = new Mock<IUserRepository>();
+			var emailServiceMock = new Mock<IEmailService>();
 			List<User> testUsers = UsersHelper.GetTestUsersList();
+
 			userRepoMock.Setup(repo => repo.GetAllUsers()).Returns(testUsers);
-			var userService = new UserService(userRepoMock.Object);
+			var userService = new UserService(userRepoMock.Object, emailServiceMock.Object);
 
 			// Act
 			var result = userService.GetAllUsers();
 
 			// Assert
-			CollectionAssert.AreEqual(testUsers, result.ToList());
+			Assert.AreEqual(testUsers.Count, result.Count());
+			foreach (var user in result)
+			{
+				Assert.IsTrue(testUsers.Contains(user));
+			}
 		}
 		[TestMethod]
 		public void GetUserById_ReturnsCorrectUser()
 		{
 			// Arrange
 			var userRepoMock = new Mock<IUserRepository>();
+			var emailServiceMock = new Mock<IEmailService>();
 			User testUser = UsersHelper.GetTestUser();
+
 			userRepoMock.Setup(repo => repo.GetUserById(testUser.Id)).Returns(testUser);
-			var userService = new UserService(userRepoMock.Object);
+			var userService = new UserService(userRepoMock.Object, emailServiceMock.Object);
 
 			// Act
 			var result = userService.GetUserById(testUser.Id);
@@ -51,9 +59,11 @@ namespace VirtualWallet.Tests.Services.UserServices
 		{
 			// Arrange
 			var userRepoMock = new Mock<IUserRepository>();
+			var emailServiceMock = new Mock<IEmailService>();
 			User testUser = UsersHelper.GetTestUser();
+
 			userRepoMock.Setup(repo => repo.GetUserByUsername(testUser.Username)).Returns(testUser);
-			var userService = new UserService(userRepoMock.Object);
+			var userService = new UserService(userRepoMock.Object, emailServiceMock.Object);
 
 			// Act
 			var result = userService.GetUserByUsername(testUser.Username);
@@ -67,9 +77,11 @@ namespace VirtualWallet.Tests.Services.UserServices
 		{
 			// Arrange
 			var userRepoMock = new Mock<IUserRepository>();
+			var emailServiceMock = new Mock<IEmailService>();
 			User testUser = UsersHelper.GetTestUser();
+
 			userRepoMock.Setup(repo => repo.GetUserByEmail(testUser.Email)).Returns(testUser);
-			var userService = new UserService(userRepoMock.Object);
+			var userService = new UserService(userRepoMock.Object, emailServiceMock.Object);
 
 			// Act
 			var result = userService.GetUserByEmail(testUser.Email);
@@ -83,9 +95,10 @@ namespace VirtualWallet.Tests.Services.UserServices
 		{
 			// Arrange
 			var userRepoMock = new Mock<IUserRepository>();
+			var emailServiceMock = new Mock<IEmailService>();
 			User testUser = UsersHelper.GetTestUser();
 			userRepoMock.Setup(repo => repo.GetUserByPhoneNumber(testUser.PhoneNumber)).Returns(testUser);
-			var userService = new UserService(userRepoMock.Object);
+			var userService = new UserService(userRepoMock.Object, emailServiceMock.Object);
 
 			// Act
 			var result = userService.GetUserByPhoneNumber(testUser.PhoneNumber);

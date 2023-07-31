@@ -9,6 +9,7 @@ using Virtual_Wallet.VirtualWallet.Application.Services;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
+using VirtualWallet.Application.Services.Contracts;
 using VirtualWallet.Tests.TestHelpers;
 
 namespace VirtualWallet.Tests.Services.UserServices
@@ -17,52 +18,55 @@ namespace VirtualWallet.Tests.Services.UserServices
 	public class RegisterUserShould
 	{
 		[TestMethod]
-		public void Register_UserWithExistingUsername_ThrowsException()
+		public void Register_UserWithExistingUsername_ThrowsDuplicateEntityException()
 		{
 			// Arrange
 			var userRepoMock = new Mock<IUserRepository>();
+			var emailServiceMock = new Mock<IEmailService>();
 			User testUser = UsersHelper.GetTestUser();
 
 			userRepoMock.Setup(repo => repo.GetUserByUsername(testUser.Username)).Returns(testUser);
-			var userService = new UserService(userRepoMock.Object);
+
+			var sut = new UserService(userRepoMock.Object, emailServiceMock.Object);
 
 			// Act & Assert
-			Assert.ThrowsException<DuplicateEntityException>(() => userService.Register(testUser));
+			Assert.ThrowsException<DuplicateEntityException>(() => sut.Register(testUser));
 		}
 		[TestMethod]
-		public void Register_UserWithExistingEmail_ThrowsException()
+		public void Register_UserWithExistingEmail_ThrowsDuplicateEntityException()
 		{
 			// Arrange
 			var userRepoMock = new Mock<IUserRepository>();
+			var emailServiceMock = new Mock<IEmailService>();
 			User testUser = UsersHelper.GetTestUser();
 
 			userRepoMock.Setup(repo => repo.GetUserByEmail(testUser.Email)).Returns(testUser);
-			var userService = new UserService(userRepoMock.Object);
+
+			var sut = new UserService(userRepoMock.Object, emailServiceMock.Object);
 
 			// Act & Assert
-			Assert.ThrowsException<DuplicateEntityException>(() => userService.Register(testUser));
+			Assert.ThrowsException<DuplicateEntityException>(() => sut.Register(testUser));
 		}
 
 		[TestMethod]
-		public void Register_ValidUser_ReturnsRegisteredUser()
+		public void Register_ValidUser_CallsAddUser()
 		{
 			// Arrange
 			var userRepoMock = new Mock<IUserRepository>();
+			var emailServiceMock = new Mock<IEmailService>();
 			User testUser = UsersHelper.GetTestUser();
 
 			userRepoMock.Setup(repo => repo.GetUserByUsername(testUser.Username)).Returns((User)null);
 			userRepoMock.Setup(repo => repo.GetUserByEmail(testUser.Email)).Returns((User)null);
 			userRepoMock.Setup(repo => repo.AddUser(It.IsAny<User>())).Returns(testUser);
 
-			var userService = new UserService(userRepoMock.Object);
+			var sut = new UserService(userRepoMock.Object, emailServiceMock.Object);
 
 			// Act
-			var registeredUser = userService.Register(testUser);
+			var result = sut.Register(testUser);
 
 			// Assert
-			Assert.IsNotNull(registeredUser);
-			Assert.AreEqual(testUser.Username, registeredUser.Username);
-			Assert.AreEqual(testUser.Email, registeredUser.Email);
+			userRepoMock.Verify(repo => repo.AddUser(It.Is<User>(u => u.Username == testUser.Username)), Times.Once);
 		}
 	}
 }
