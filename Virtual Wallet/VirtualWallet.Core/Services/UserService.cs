@@ -6,16 +6,18 @@ using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
 using VirtualWallet.Common.AdditionalHelpers;
 using VirtualWallet.Common.Exceptions;
+using VirtualWallet.Domain.Entities;
 
 namespace Virtual_Wallet.VirtualWallet.Application.Services
 {
 	public class UserService : IUserService
 	{
 		private readonly IUserRepository userRepository;
-
-		public UserService(IUserRepository userRepository) 
+        private readonly IEmailService emailService;
+        public UserService(IUserRepository userRepository, IEmailService emailService) 
 		{			
 			this.userRepository = userRepository;
+			this.emailService = emailService;
 		}
 
 		public IEnumerable<User> GetAllUsers()
@@ -63,6 +65,12 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             user.Password = hashedPassword;
 			//Verification token used for mail
 			user.VerificationToken = CreateRandomToken();
+
+			//HACK send e-mail for verification
+			//var mailRequest = new Mail
+
+            //emailService.SendEmail();
+
 
             return this.userRepository.AddUser(user);
 		}
@@ -114,7 +122,10 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			{
                 throw new EntityNotFoundException(Alerts.UserNotVerified);
             }
-
+            if (user.VerifiedAt != null)
+            {
+                throw new DuplicateEntityException(Alerts.UserAlreadyVerified);
+            }
             user.VerifiedAt = DateTime.Now;
             return this.userRepository.VerifyUser(user);
             
