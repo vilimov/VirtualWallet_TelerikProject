@@ -79,12 +79,12 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Data
 
             var transactions = new List<Transaction>()
             {
-                new Transaction { Id = 1, Date = DateTime.Now.AddDays(-10), Amount = 111, SenderId = 1, RecipientId = 10},
-                new Transaction { Id = 2, Date = DateTime.Now.AddDays(-9), Amount = 222, SenderId = 2, RecipientId = 9},
-                new Transaction { Id = 3, Date = DateTime.Now.AddDays(-8), Amount = 333, SenderId = 3, RecipientId = 8},
-                new Transaction { Id = 4, Date = DateTime.Now.AddDays(-7), Amount = 444, SenderId = 4, RecipientId = 7},
-                new Transaction { Id = 5, Date = DateTime.Now.AddDays(-6), Amount = 555, SenderId = 5, RecipientId = 6},
-                new Transaction { Id = 6, Date = DateTime.Now.AddDays(-5), Amount = 666, SenderId = 1, RecipientId = 11},
+                new Transaction { Id = 1, Date = DateTime.Now.AddDays(-10), Amount = 111, SenderId = 1, RecipientId = 10, Description = "Transaction"},
+                new Transaction { Id = 2, Date = DateTime.Now.AddDays(-9), Amount = 222, SenderId = 2, RecipientId = 9, Description = "Transfer to my friend Amancio "},
+                new Transaction { Id = 3, Date = DateTime.Now.AddDays(-8), Amount = 333, SenderId = 3, RecipientId = 8, Description = "buying new car"},
+                new Transaction { Id = 4, Date = DateTime.Now.AddDays(-7), Amount = 444, SenderId = 4, RecipientId = 7, Description = "Payment over invoice 12345678"},
+                new Transaction { Id = 5, Date = DateTime.Now.AddDays(-6), Amount = 555, SenderId = 5, RecipientId = 6, Description = "Invoice 22446688"},
+                new Transaction { Id = 6, Date = DateTime.Now.AddDays(-5), Amount = 666, SenderId = 1, RecipientId = 11, Description = "Deposit for vacation"},
             };
             modelBuilder.Entity<Transaction>().HasData(transactions);
 

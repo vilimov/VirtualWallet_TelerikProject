@@ -18,7 +18,10 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
         [Required]
         public TransactionType TransactionType { get; set; }
 
-		[Required]
+        [Required]
+        public string Description { get; set; }
+
+        [Required]
 		public User Sender { get; set; }
 
 		[Required]

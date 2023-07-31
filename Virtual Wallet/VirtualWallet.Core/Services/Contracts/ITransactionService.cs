@@ -13,9 +13,9 @@ namespace VirtualWallet.Application.Services.Contracts
 		Transaction UpdateTransaction(Transaction transaction);
 		public IList<Transaction> GetAllTransactions();
 		public IList<Transaction> GetTransactionsByUserId(int userId);
-		public Transaction AddMoneyCardToWallet(User user, Card card, decimal amount);
-		public Transaction AddMoneyWalletToWallet(User sender, User recipient, decimal amount);
-		public Transaction WithdrawalTransfer(User user, Card card, decimal amount);
+		public Transaction AddMoneyCardToWallet(User user, Card card, decimal amount, string description);
+		public Transaction AddMoneyWalletToWallet(User sender, User recipient, decimal amount, string description);
+		public Transaction WithdrawalTransfer(User user, Card card, decimal amount, string description);
 		public IList<Transaction> GetFilteredTransactions(TransactionsQueryParameters filter, User user);
 
 

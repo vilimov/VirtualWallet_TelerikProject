@@ -1,4 +1,5 @@
-﻿using Virtual_Wallet.VirtualWallet.Domain.Entities;
+﻿using System.ComponentModel.DataAnnotations;
+using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using VirtualWallet.Domain.Enums;
 
 namespace Virtual_Wallet.Models.Dtos
@@ -9,6 +10,7 @@ namespace Virtual_Wallet.Models.Dtos
         public DateTime Date { get; set; }
         public User Sender { get; set; }
         public User Recipient { get; set; }
+        public string Description { get; set; }
 
     }
 }
