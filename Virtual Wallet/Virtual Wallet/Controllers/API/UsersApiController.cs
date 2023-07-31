@@ -197,7 +197,7 @@ namespace Virtual_Wallet.Controllers.API
 				return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred. Please try again.");
 			}
 		}
-		//Block and unblock
+		#region Block and Unblock Users
 		[HttpPut("block/{id}")]
 		public IActionResult BlockUser([FromHeader] string credentials, int id)
 		{
@@ -245,7 +245,8 @@ namespace Virtual_Wallet.Controllers.API
 				return BadRequest("An error occurred while trying to unblock the user");
 			}
 		}
-		// Searching
+		#endregion
+		#region Search Users
 		[HttpGet("search/username")]
 		public IActionResult SearchByUsername(string username)
 		{
@@ -290,6 +291,7 @@ namespace Virtual_Wallet.Controllers.API
 				return BadRequest(ex.Message);
 			}
 		}
+		#endregion
 		#region PrivateMethods
 
 		#endregion

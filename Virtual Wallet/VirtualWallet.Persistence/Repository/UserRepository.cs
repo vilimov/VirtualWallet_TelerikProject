@@ -24,7 +24,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 
 		public User GetUserById(int id)
 		{
-			return this.context.Users.FirstOrDefault(u => u.Id == id && !u.IsDeleted);
+			return this.context.Users.FirstOrDefault(u => u.Id == id);
 		}
 
 		public User GetUserByUsername(string username)
@@ -39,7 +39,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 
 		public User GetUserByPhoneNumber(string phoneNumber)
 		{
-			return this.context.Users.FirstOrDefault(u => u.PhoneNumber == phoneNumber && !u.IsDeleted);
+			return this.context.Users.FirstOrDefault(u => u.PhoneNumber == phoneNumber);
 		}
 
 		public User AddUser(User user)
