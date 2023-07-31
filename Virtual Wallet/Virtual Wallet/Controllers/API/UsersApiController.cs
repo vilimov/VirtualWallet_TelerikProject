@@ -8,6 +8,7 @@ using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
+using VirtualWallet.Common.AdditionalHelpers;
 using VirtualWallet.Common.Exceptions;
 
 namespace Virtual_Wallet.Controllers.API
@@ -166,7 +167,30 @@ namespace Virtual_Wallet.Controllers.API
 				return StatusCode(StatusCodes.Status500InternalServerError, "An unexpected error occurred. Please try again.");
 			}
 		}
-		[HttpDelete("{id}")]
+
+        [HttpPost("verification/{token}")]
+        public IActionResult Verify(string token)
+        {
+            try
+            {
+                var user = userService.Verify(token);
+                return StatusCode(StatusCodes.Status200OK, user);
+            }
+            catch (EntityNotFoundException)
+            {
+                return NotFound("User not found or not verified.");
+            }
+            catch (DuplicateEntityException e)
+            {
+                return Unauthorized(e.Message);
+            }
+            catch (UnauthorizedOperationException)
+            {
+                return Unauthorized("Invalid credentials.");
+            }
+        }
+
+        [HttpDelete("{id}")]
 		public IActionResult DeleteUser([FromHeader] string credentials, int id)
 		{
 			try
