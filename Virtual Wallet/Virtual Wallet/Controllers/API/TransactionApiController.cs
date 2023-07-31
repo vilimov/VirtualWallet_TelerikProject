@@ -107,7 +107,7 @@ namespace Virtual_Wallet.Controllers.API
             {
                 User user = authManager.TryGetUser(credentials);
                 Card card = cardService.GetById(transactionDto.CardId);
-                Transaction makeTransaction = transactionService.AddMoneyCardToWallet(user, card, transactionDto.Amount);
+                Transaction makeTransaction = transactionService.AddMoneyCardToWallet(user, card, transactionDto.Amount, transactionDto.Description);
                 return StatusCode(StatusCodes.Status200OK, makeTransaction);
             }
             catch (EntityNotFoundException e)
@@ -137,7 +137,7 @@ namespace Virtual_Wallet.Controllers.API
                 {
                     return StatusCode(StatusCodes.Status406NotAcceptable, Alerts.MoneyToYourself);
                 }
-                Transaction makeTransaction = transactionService.AddMoneyWalletToWallet(sender, recipient, transactionDto.Amount);
+                Transaction makeTransaction = transactionService.AddMoneyWalletToWallet(sender, recipient, transactionDto.Amount, transactionDto.Description);
                 return StatusCode(StatusCodes.Status200OK, makeTransaction);
             }
             catch (EntityNotFoundException e)
@@ -163,7 +163,7 @@ namespace Virtual_Wallet.Controllers.API
             {
                 User user = authManager.TryGetUser(credentials);
                 Card card = cardService.GetById(transactionDto.CardId);
-                Transaction makeTransaction = transactionService.WithdrawalTransfer(user, card, transactionDto.Amount);
+                Transaction makeTransaction = transactionService.WithdrawalTransfer(user, card, transactionDto.Amount, transactionDto.Description);
                 return StatusCode(StatusCodes.Status200OK, makeTransaction);
             }
             catch (EntityNotFoundException e)

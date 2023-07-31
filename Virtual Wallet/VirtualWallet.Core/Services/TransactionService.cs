@@ -58,7 +58,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			return transactionRepository.UpdateTransaction(transaction);
 		}
 
-		public Transaction AddMoneyCardToWallet(User user, Card card, decimal amount)
+		public Transaction AddMoneyCardToWallet(User user, Card card, decimal amount, string description)
 		{
             if (user.IsBlocked)
             {
@@ -90,8 +90,9 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 				TransactionType = TransactionType.BankTransfer,
                 Sender = user,
                 Recipient = user,
-                CardNumber = CardHelper.HideCardNumber(card.Number)
-			};
+                CardNumber = CardHelper.HideCardNumber(card.Number),
+                Description = description
+            };
 
 			var moneyAdded = walletService.AddToWallet(wallet.Id, amount);
 			var transactionMade = transactionRepository.AddTransaction(transaction);
@@ -99,7 +100,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             return transactionMade;
         }
 
-        public Transaction AddMoneyWalletToWallet(User sender, User recipient, decimal amount)
+        public Transaction AddMoneyWalletToWallet(User sender, User recipient, decimal amount, string description)
         {
             if (sender == null || recipient == null)
             {
@@ -157,7 +158,8 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
                 Sender = sender,
                 Recipient = recipient,
                 AmountReceived = (decimal)moneyToReceive,
-                CurrencyExchangeRate = bgnToUsdRate
+                CurrencyExchangeRate = bgnToUsdRate,
+                Description = description
             };
 
 			var moneyRemovedFromSender = walletService.WithdrawFromWallet(senderWallet.Id, amount);
@@ -168,7 +170,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             return transactionMade;
         }
 
-        public Transaction WithdrawalTransfer(User user, Card card, decimal amount)
+        public Transaction WithdrawalTransfer(User user, Card card, decimal amount, string description)
         {
             if (user.IsBlocked)
             {
@@ -200,7 +202,8 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
                 TransactionType = TransactionType.Withdrawal,
                 Sender = user,
                 Recipient = user,
-                CardNumber = CardHelper.HideCardNumber(card.Number)
+                CardNumber = CardHelper.HideCardNumber(card.Number),
+                Description = description
             };
 
             var moneyRemoved = walletService.WithdrawFromWallet(wallet.Id, amount);
