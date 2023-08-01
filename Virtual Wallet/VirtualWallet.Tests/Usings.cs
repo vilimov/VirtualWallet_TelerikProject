@@ -4,3 +4,6 @@ global using Virtual_Wallet.VirtualWallet.Application.Services;
 global using Virtual_Wallet.VirtualWallet.Domain.Entities;
 global using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
 global using Virtual_Wallet.VirtualWallet.Common.Exceptions;
+global using Virtual_Wallet.VirtualWallet.Common.QueryParameters;
+global using VirtualWallet.Common.QueryParameters;
+global using VirtualWallet.Persistence.QueryParameters;

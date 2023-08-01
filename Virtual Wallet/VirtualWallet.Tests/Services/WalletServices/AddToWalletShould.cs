@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace VirtualWallet.Tests.Services.WalletServices
 {
-    internal class AddToWalletShould
+    [TestClass]
+    public class AddToWalletShould
     {
     }
 }

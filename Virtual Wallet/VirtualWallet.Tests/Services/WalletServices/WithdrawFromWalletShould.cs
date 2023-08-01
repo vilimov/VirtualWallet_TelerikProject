@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace VirtualWallet.Tests.Services.WalletServices
 {
-    internal class WithdrawFromWalletShould
+    [TestClass]
+    public class WithdrawFromWalletShould
     {
+        [TestMethod]
+        public void ReduceBallance_When_ParametersAreValid()
+        {
+        }
     }
 }
