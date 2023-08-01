@@ -34,10 +34,6 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
         {
             return transactionRepository.GetFilteredTransactions(filter, user);
         }
-		public void DeleteTransaction(int transactionId)
-		{
-			transactionRepository.DeleteTransaction(transactionId);
-		}
 
 		public Transaction GetTransactionById(int transactionId)
 		{
@@ -48,6 +44,8 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
         {
             return transactionRepository.GetTransactionsByUserId(userId);
         }
+
+        /* Not Used For Now
         public PageResult<Transaction> GetTransactionsForUser(int userId, int pageNumber, int pageSize = 10)
 		{
 			return transactionRepository.GetAllTransactionsForUser(userId, pageNumber, pageSize);
@@ -57,8 +55,13 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 		{
 			return transactionRepository.UpdateTransaction(transaction);
 		}
+        		public void DeleteTransaction(int transactionId)
+		{
+			transactionRepository.DeleteTransaction(transactionId);
+		}
+        */
 
-		public Transaction AddMoneyCardToWallet(User user, Card card, decimal amount, string description)
+        public Transaction AddMoneyCardToWallet(User user, Card card, decimal amount, string description)
 		{
             if (user.IsBlocked)
             {
@@ -141,7 +144,6 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
                     {
                         bgnToUsdRate = rateJson.conversion_rates.EUR;
                     }
-                    // You can store the BGN rate in a variable
                     moneyToReceive = (decimal)bgnToUsdRate * moneyToReceive;
                 }
                 else
