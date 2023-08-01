@@ -67,21 +67,6 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             return walletRepository.WithdrawFromWallet(id, amount);
         }
 
-        public decimal Block(int id, decimal amount)
-        {
-            return walletRepository.Block(id, amount);
-        }
-
-        public decimal ReleaseBlocked(int id, decimal amount)
-        {
-            return walletRepository.ReleaseBlocked(id, amount);
-        }
-
-        public decimal Unblock(int id, decimal amount)
-        {
-            return walletRepository.Unblock(id, amount);
-        }
-
         public Wallet Update(User user, Currency newCurrencyCode)
         {
             Wallet currentWallet = walletRepository.GetWalletByUser(user.Username);
