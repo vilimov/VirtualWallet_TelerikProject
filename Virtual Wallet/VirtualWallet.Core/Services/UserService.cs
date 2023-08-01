@@ -81,16 +81,34 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			return this.userRepository.AddUser(user);
 		}
 
-		public User UpdateUser(User user)
+		public User UpdateUser(User userUpdate)
 		{
-			// Todo more business logic in future
-			var existingUser = this.userRepository.GetUserById(user.Id);
+			var existingUser = userRepository.GetUserById(userUpdate.Id);
+
 			if (existingUser == null)
 			{
-                throw new UserNotFoundException(string.Format(Alerts.UserNotFound, "Id", $"{user.Id}"));
-            }
+				throw new EntityNotFoundException($"User with id {userUpdate.Id} does not exist.");
+			}
 
-			return this.userRepository.UpdateUser(user);
+			if (!string.IsNullOrEmpty(userUpdate.Email))
+			{
+				existingUser.Email = userUpdate.Email;
+			}
+
+			if (!string.IsNullOrEmpty(userUpdate.Password) && userUpdate.Password.Length >= 8 && userUpdate.Password.Length <= 20)
+			{
+				// Generate new salt
+				string newSalt = AuthManager.GenerateSalt();
+
+				// Hash the new password with the new salt
+				string newHashedPassword = AuthManager.HashPassword(userUpdate.Password, newSalt);
+
+				// Update the user's salt and hashed password
+				existingUser.Salt = newSalt;
+				existingUser.Password = newHashedPassword;
+			}
+
+			return userRepository.UpdateUser(existingUser);
 		}
 
 		public void DeleteUser(int id)
