@@ -59,12 +59,12 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             {
                 cards = cards.FindAll(c => c.IsCreditCard == filter.IsCredit);
             }
-            if (!string.IsNullOrEmpty(filter.ExpiresBefore.ToString()))
+            if (!string.IsNullOrEmpty(filter.ExpiresBefore))
             {
                 DateTime expiresBefore = DateTime.ParseExact(filter.ExpiresBefore.ToString(), "MMyy", CultureInfo.InvariantCulture);
                 cards = cards.FindAll(c => c.ExpirationDate <= expiresBefore);
             }
-            if (!string.IsNullOrEmpty(filter.ExpiresAfter.ToString()))
+            if (!string.IsNullOrEmpty(filter.ExpiresAfter))
             {
                 DateTime expiresAfter = DateTime.ParseExact(filter.ExpiresAfter.ToString(), "MMyy", CultureInfo.InvariantCulture);
                 cards = cards.FindAll(c => c.ExpirationDate >= expiresAfter);
@@ -72,6 +72,31 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             if (!string.IsNullOrEmpty(filter.IsInactive.ToString()))
             {
                 cards = cards.FindAll(c => c.IsInactive == filter.IsInactive);
+            }
+            if (!string.IsNullOrEmpty(filter.SortBy))
+            {
+                switch (filter.SortBy.ToLower())
+                {
+                    case "date":
+                        cards = cards.OrderByDescending(card => card.ExpirationDate).ToList();
+                        break;
+                    case "cardholder":
+                        cards = cards.OrderByDescending(card => card.CardHolder).ToList();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (!string.IsNullOrEmpty(filter.SortOrder))
+            {
+                switch (filter.SortOrder.ToLower())
+                {
+                    case "asc":
+                        cards.Reverse();
+                        break;
+                    default:
+                        break;
+                }
             }
             return cards;
         }
@@ -105,7 +130,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
         }
 
         public void Deactivate(Card card)
-        {            
+        {
             card.IsInactive = true;
         }
 
