@@ -62,6 +62,31 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             {
                 wallets = wallets.FindAll(w => w.IsInactive == filter.IsInactive);
             }
+            if (!string.IsNullOrEmpty(filter.SortBy))
+            {
+                switch (filter.SortBy.ToLower())
+                {
+                    case "ballance":
+                        wallets = wallets.OrderByDescending(wallet => wallet.Balance).ToList();
+                        break;
+                    case "blocked":
+                        wallets = wallets.OrderByDescending(wallet => wallet.Blocked).ToList();
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (!string.IsNullOrEmpty(filter.SortOrder))
+            {
+                switch (filter.SortOrder.ToLower())
+                {
+                    case "asc":
+                        wallets.Reverse();
+                        break;
+                    default:
+                        break;
+                }
+            }
             return wallets;
         }
 
@@ -166,7 +191,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             context.SaveChanges();
             return waletToDelete;
         }
-		public decimal AdjustBalance(int walletId, decimal amount, bool isDeposit)
+		/*public decimal AdjustBalance(int walletId, decimal amount, bool isDeposit)
 		{
 			var wallet = GetWalletById(walletId);
 			if (wallet == null)
@@ -191,7 +216,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 			this.context.SaveChanges();
 
 			return wallet.Balance;
-		}
+		}*/
 
         public void Deactivate (Wallet wallet)
         { 
