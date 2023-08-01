@@ -23,4 +23,8 @@
     <ProjectReference Include="..\VirtualWallet.Core\VirtualWallet.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\Avatars\" />
+  </ItemGroup>
+
 </Project>
