@@ -7,10 +7,10 @@ namespace VirtualWallet.Application.Services.Contracts
 	public interface ITransactionService
 	{
 		//Transaction CreateTransaction(CreateTransactionRequestDto request);
-		void DeleteTransaction(int transactionId);
+		//void DeleteTransaction(int transactionId);
 		Transaction GetTransactionById(int transactionId);
-		PageResult<Transaction> GetTransactionsForUser(int userId, int pageNumber, int pageSize = 10);
-		Transaction UpdateTransaction(Transaction transaction);
+		//PageResult<Transaction> GetTransactionsForUser(int userId, int pageNumber, int pageSize = 10);
+		//Transaction UpdateTransaction(Transaction transaction);
 		public IList<Transaction> GetAllTransactions();
 		public IList<Transaction> GetTransactionsByUserId(int userId);
 		public Transaction AddMoneyCardToWallet(User user, Card card, decimal amount, string description);
