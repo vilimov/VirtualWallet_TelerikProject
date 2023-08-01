@@ -144,6 +144,40 @@ namespace Virtual_Wallet.Controllers.API
 				return BadRequest(new { message = "User already exists" });
 			}
 		}
+		#region Update Profile
+		[HttpPut("{id}")]
+		public IActionResult UpdateProfile([FromHeader] string credentials, int id, [FromBody] UserUpdateDto userUpdateDto)
+		{
+			try
+			{
+				User authenticatedUser = authManager.TryGetUser(credentials);
+				if (authenticatedUser == null)
+				{
+					return Unauthorized("Invalid credentials");
+				}
+				if (authenticatedUser.Id != id)
+				{
+					return Unauthorized("You are not authorized to perform this operation");
+				}
+				User userToUpdate = new User
+				{
+					Id = id,
+					Email = userUpdateDto.Email,
+					Password = userUpdateDto.Password
+				};
+				var updatedUser = userService.UpdateUser(userToUpdate);
+				return Ok(updatedUser);
+			}
+			catch (EntityNotFoundException e)
+			{
+				return NotFound(e.Message);
+			}
+			catch (Exception e)
+			{
+				return BadRequest(e.Message);
+			}
+		}
+		#endregion
 		[HttpPost("login")]
 		public IActionResult Login(UserLoginDto userLoginDto)
 		{
