@@ -23,14 +23,12 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
     public class WalletApiController : ControllerBase
     {
         private readonly IWalletService walletService;
-        //private readonly IUserService userService;
         private readonly AuthManager authManager;
         private readonly IMapper mapper;
 
-        public WalletApiController(IWalletService walletService/*, IUserService userService*/, AuthManager authManager, IMapper mapper)
+        public WalletApiController(IWalletService walletService, AuthManager authManager, IMapper mapper)
         {
             this.walletService = walletService;
-            //this.userService = userService;
             this.authManager = authManager;
             this.mapper = mapper;
         }
@@ -60,11 +58,15 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
             }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
 
         }
 
         [HttpGet("filters")]
-        public IActionResult GetFilteredWallets([FromHeader] string credentials, [FromQuery] WalletQueryParameters filter) 
+        public IActionResult GetFilteredWallets([FromHeader] string credentials, [FromQuery] WalletQueryParameters filter)
         {
             try
             {
@@ -85,6 +87,10 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             catch (EntityNotFoundException e)
             {
                 return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
+            catch (UnauthorizedOperationException ex)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
             }
             catch (InvalidCredentialsException e)
             {
@@ -125,6 +131,10 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
             }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
         }
 
         [HttpGet("user")]
@@ -153,36 +163,46 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
             }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
         }
 
 
         [HttpPost("")]
-        public IActionResult CreateWallet([FromHeader] string credentials, [FromBody] WalletCreateUpdateDto newWallet)
-        {
-            // Create wallet should only be accessible through create user API
-            User user = authManager.TryGetUser(credentials);
-            try
-            {
-                Wallet existingWallet = walletService.GetWalletByUser(user.Username);
-                return StatusCode(StatusCodes.Status409Conflict, Alerts.ExistingWallet);
-            }
-            catch (EntityNotFoundException)
-            {
-                Wallet wallet = mapper.Map<Wallet>(newWallet);
-                Wallet createdWallet = walletService.CreateWallet(wallet, user);
-                WalletShowDto result = new WalletShowDto(createdWallet);
-                return Ok(result);
-            }
-        }
-
-        [HttpPut("")]
-        public IActionResult UpdateWallet([FromHeader] string credentials, [FromBody] WalletCreateUpdateDto newWallet)
+        public IActionResult CreateWallet([FromHeader] string credentials, [FromBody] WalletCreateUpdateDto wallet)
         {
             try
             {
                 User user = authManager.TryGetUser(credentials);
-                Currency newCurrencyCode = newWallet.CurrencyCode;
-                Wallet updatedWallet = this.walletService.Update(user, newCurrencyCode);
+                Wallet newWallet = mapper.Map<Wallet>(wallet);
+                Wallet createdWallet = walletService.CreateWallet(newWallet, user);
+                WalletShowDto result = new WalletShowDto(createdWallet);
+                return Ok(result);
+            }
+            catch (DuplicateEntityException)
+            {
+                return StatusCode(StatusCodes.Status409Conflict, Alerts.ExistingWallet);
+            }
+            catch (UnauthorizedOperationException ex)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
+            }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
+            }
+        }
+
+        [HttpPut("")]
+        public IActionResult UpdateWallet([FromHeader] string credentials, [FromBody] WalletCreateUpdateDto wallet)
+        {
+            try
+            {
+                User user = authManager.TryGetUser(credentials);
+                Wallet newWallet = mapper.Map<Wallet>(wallet);
+                Wallet updatedWallet = this.walletService.Update(user, newWallet);
                 WalletShowDto result = new WalletShowDto(updatedWallet);
 
                 return Ok(result);
@@ -190,6 +210,14 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             catch (EntityNotFoundException ex)
             {
                 return StatusCode(StatusCodes.Status404NotFound, ex.Message);
+            }
+            catch (UnauthorizedOperationException ex)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
+            }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
             }
         }
 
@@ -218,6 +246,14 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             catch (EntityNotFoundException ex)
             {
                 return StatusCode(StatusCodes.Status404NotFound, ex.Message);
+            }
+            catch (UnauthorizedOperationException ex)
+            {
+                return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
+            }
+            catch (InvalidCredentialsException e)
+            {
+                return StatusCode(StatusCodes.Status404NotFound, e.Message);
             }
         }
     }

@@ -16,7 +16,7 @@ namespace VirtualWallet.Application.Services.Contracts
 		Currency GetCurrencyById(int id);
 		decimal AddToWallet(int id, decimal amount);
 		decimal WithdrawFromWallet(int id, decimal amount);
-		Wallet Update(User user, Currency newCurrencyCode);
+		Wallet Update(User user, Wallet newWallet);
 		Wallet Delete(int id);
 	}
 }

@@ -18,7 +18,7 @@ namespace VirtualWallet.Tests.Services.WalletServices
 
             var repositoryMock = new Mock<IWalletRepository>();
 
-            repositoryMock.Setup(r => r.CreateWallet(testWallet)).Returns(testWallet);
+            repositoryMock.Setup(r => r.CreateWallet(testWallet, testUser)).Returns(testWallet);
 
             var sut = new WalletService(repositoryMock.Object);
 

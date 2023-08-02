@@ -19,11 +19,18 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
         {
             this.context = context;
         }
-        public Wallet CreateWallet(Wallet wallet)
+        public Wallet CreateWallet(Wallet wallet, User user)
         {
-            this.context.Wallets.Add(wallet);
-            context.SaveChanges();
-
+            if (user.WalletId == null)
+            {
+                wallet.User = user;
+                this.context.Wallets.Add(wallet);
+                context.SaveChanges();
+            }
+            else 
+            {
+                throw new DuplicateEntityException(Alerts.ExistingWallet);
+            }
             return wallet;
         }
 
@@ -132,42 +139,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             context.SaveChanges();
             return wallet.Balance;
         }
-
-        public decimal Block (int id, decimal amount)
-        {
-            Wallet wallet = GetWalletById(id);
-            if (wallet.Balance < amount)
-            {
-                throw new InsuficientAmountException(Alerts.InsufficientAmount);
-            }
-
-            wallet.Balance -= amount;
-            wallet.Blocked += amount;
-            context.SaveChanges();
-            return wallet.Balance;
-        }
-
-        public decimal ReleaseBlocked(int id, decimal amount)
-        {
-            Wallet wallet = GetWalletById(id);
-            if (wallet.Blocked < amount)
-            {
-                throw new InsuficientAmountException(Alerts.InsufficientAmount);
-            }
-
-            wallet.Blocked -= amount;
-            context.SaveChanges();
-            return wallet.Balance;
-        }
-
-        public decimal Unblock(int id, decimal amount)
-        {
-            Wallet wallet = GetWalletById(id);
-            wallet.Balance += amount;
-            context.SaveChanges();
-            return wallet.Balance;
-        }
-
+      
         public Wallet Update(int id, double exchangeRate, Currency newCurrencyCode)
         {
             Wallet wallet = GetWalletById(id);

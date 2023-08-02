@@ -22,8 +22,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 
         public Wallet CreateWallet(Wallet wallet, User user)
         {
-            wallet.User = user;
-            walletRepository.CreateWallet(wallet);
+            walletRepository.CreateWallet(wallet, user);
             return wallet;
         }
 
@@ -67,10 +66,11 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             return walletRepository.WithdrawFromWallet(id, amount);
         }
 
-        public Wallet Update(User user, Currency newCurrencyCode)
+        public Wallet Update(User user, Wallet newWallet)
         {
             Wallet currentWallet = walletRepository.GetWalletByUser(user.Username);
             Currency currentCurrencyCode = currentWallet.CurrencyCode;
+            Currency newCurrencyCode = newWallet.CurrencyCode;
 
             PairRatesJson rateJson = Rates.GetExchangeRates(currentCurrencyCode.ToString(), newCurrencyCode.ToString());
             if (rateJson == null)
