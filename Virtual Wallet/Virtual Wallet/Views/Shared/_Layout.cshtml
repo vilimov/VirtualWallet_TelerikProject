@@ -24,6 +24,16 @@
 			border-color: #194759 !important
 		}
 	</style>
+	<style>
+		div.sticky {
+			position: -webkit-sticky;
+			position: sticky;
+			top: 75px;
+			padding: 5px;
+			background-color: #cae8ca;
+			border: 2px solid #4CAF50;
+		}
+	</style>
 </head>
 <body class="w3-theme-l5">
 
@@ -158,6 +168,20 @@
 			</div>
 
 			<!-- Right Column -->
+			<div class="sticky w3-col m2">
+			<!-- Profile -->
+			<div class="w3-card w3-round-large w3-white w3-border">
+				<div class="w3-container">
+					<h4 class="w3-center">My Profile</h4>
+					<p class="w3-center"><img src="/w3images/avatar3.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+					<hr>
+					<p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
+					<p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
+					<p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> April 1, 1988</p>
+				</div>
+			</div>
+			</div>
+			<br>
 			<!-- End Right Column -->
 		</div>
 
@@ -202,13 +226,6 @@
 		}
 	</script>
 
-
-
-	<footer class="border-top footer text-muted">
-		<div class="container">
-			&copy; 2023 - Virtual_Wallet - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-		</div>
-	</footer>
 	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>

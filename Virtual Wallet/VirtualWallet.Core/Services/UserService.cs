@@ -151,6 +151,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
                 throw new DuplicateEntityException(Alerts.UserAlreadyVerified);
             }
             user.VerifiedAt = DateTime.Now;
+
             return this.userRepository.VerifyUser(user);
             
         }

@@ -52,5 +52,9 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
 
         [JsonIgnore]
         public List<Transaction> ReceivedTransactions { get; set; }
+        [JsonIgnore]
+        public int? WalletId { get; set; }
+        [JsonIgnore]
+        public Wallet? Wallet { get; set; }
 	}
 }

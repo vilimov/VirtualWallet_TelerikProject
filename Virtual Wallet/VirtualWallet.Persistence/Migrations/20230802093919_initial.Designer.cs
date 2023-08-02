@@ -12,7 +12,7 @@ using Virtual_Wallet.VirtualWallet.Persistence.Data;
 namespace VirtualWallet.Persistence.Migrations
 {
     [DbContext(typeof(WalletContext))]
-    [Migration("20230731152921_initial")]
+    [Migration("20230802093919_initial")]
     partial class initial
     {
         /// <inheritdoc />
@@ -76,7 +76,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 1,
                             CardHolder = "Elon Musk",
                             CheckNumber = "649",
-                            ExpirationDate = new DateTime(2025, 10, 31, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1012),
+                            ExpirationDate = new DateTime(2025, 11, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4529),
                             HasExpired = false,
                             IsCreditCard = true,
                             IsInactive = false,
@@ -88,7 +88,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 2,
                             CardHolder = "Jeff Bezos",
                             CheckNumber = "223",
-                            ExpirationDate = new DateTime(2024, 9, 30, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1027),
+                            ExpirationDate = new DateTime(2024, 10, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4579),
                             HasExpired = false,
                             IsCreditCard = true,
                             IsInactive = false,
@@ -100,7 +100,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 3,
                             CardHolder = "Warren Buffett",
                             CheckNumber = "684",
-                            ExpirationDate = new DateTime(2027, 4, 30, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1031),
+                            ExpirationDate = new DateTime(2027, 5, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4584),
                             HasExpired = false,
                             IsCreditCard = true,
                             IsInactive = false,
@@ -112,7 +112,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 4,
                             CardHolder = "Bill Gates",
                             CheckNumber = "623",
-                            ExpirationDate = new DateTime(2028, 1, 31, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1034),
+                            ExpirationDate = new DateTime(2028, 2, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4586),
                             HasExpired = false,
                             IsCreditCard = false,
                             IsInactive = false,
@@ -124,7 +124,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 5,
                             CardHolder = "Larry Ellison",
                             CheckNumber = "636",
-                            ExpirationDate = new DateTime(2026, 11, 30, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1036),
+                            ExpirationDate = new DateTime(2026, 12, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4588),
                             HasExpired = false,
                             IsCreditCard = false,
                             IsInactive = false,
@@ -136,7 +136,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 6,
                             CardHolder = "Mark Zuckerberg",
                             CheckNumber = "973",
-                            ExpirationDate = new DateTime(2025, 6, 30, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1039),
+                            ExpirationDate = new DateTime(2025, 7, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4591),
                             HasExpired = false,
                             IsCreditCard = true,
                             IsInactive = false,
@@ -148,7 +148,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 7,
                             CardHolder = "Larry Page",
                             CheckNumber = "247",
-                            ExpirationDate = new DateTime(2025, 9, 30, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1042),
+                            ExpirationDate = new DateTime(2025, 10, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4595),
                             HasExpired = false,
                             IsCreditCard = false,
                             IsInactive = false,
@@ -160,7 +160,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 8,
                             CardHolder = "Sergey Brin",
                             CheckNumber = "367",
-                            ExpirationDate = new DateTime(2024, 12, 31, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1044),
+                            ExpirationDate = new DateTime(2025, 1, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4597),
                             HasExpired = false,
                             IsCreditCard = false,
                             IsInactive = false,
@@ -172,7 +172,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 9,
                             CardHolder = "Amancio Ortega",
                             CheckNumber = "256",
-                            ExpirationDate = new DateTime(2027, 8, 31, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1046),
+                            ExpirationDate = new DateTime(2027, 9, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4599),
                             HasExpired = false,
                             IsCreditCard = false,
                             IsInactive = false,
@@ -184,7 +184,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 10,
                             CardHolder = "Carlos Slim Helu",
                             CheckNumber = "208",
-                            ExpirationDate = new DateTime(2026, 5, 31, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1049),
+                            ExpirationDate = new DateTime(2026, 6, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4677),
                             HasExpired = false,
                             IsCreditCard = false,
                             IsInactive = false,
@@ -196,7 +196,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 11,
                             CardHolder = "Admin",
                             CheckNumber = "543",
-                            ExpirationDate = new DateTime(2026, 10, 31, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1052),
+                            ExpirationDate = new DateTime(2026, 11, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4679),
                             HasExpired = false,
                             IsCreditCard = true,
                             IsInactive = false,
@@ -208,7 +208,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 12,
                             CardHolder = "Elon Musk",
                             CheckNumber = "660",
-                            ExpirationDate = new DateTime(2026, 2, 28, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1054),
+                            ExpirationDate = new DateTime(2026, 3, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4682),
                             HasExpired = false,
                             IsCreditCard = false,
                             IsInactive = false,
@@ -220,7 +220,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 13,
                             CardHolder = "Warren Buffett",
                             CheckNumber = "696",
-                            ExpirationDate = new DateTime(2027, 1, 31, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1056),
+                            ExpirationDate = new DateTime(2027, 2, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4684),
                             HasExpired = false,
                             IsCreditCard = true,
                             IsInactive = false,
@@ -232,7 +232,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 14,
                             CardHolder = "Bill Gates",
                             CheckNumber = "994",
-                            ExpirationDate = new DateTime(2027, 12, 31, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1058),
+                            ExpirationDate = new DateTime(2028, 1, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4687),
                             HasExpired = false,
                             IsCreditCard = true,
                             IsInactive = false,
@@ -244,7 +244,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 15,
                             CardHolder = "Amancio Ortega",
                             CheckNumber = "645",
-                            ExpirationDate = new DateTime(2025, 4, 30, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1060),
+                            ExpirationDate = new DateTime(2025, 5, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4689),
                             HasExpired = false,
                             IsCreditCard = true,
                             IsInactive = false,
@@ -308,7 +308,7 @@ namespace VirtualWallet.Persistence.Migrations
                         {
                             Id = 1,
                             Amount = 111m,
-                            Date = new DateTime(2023, 7, 21, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1135),
+                            Date = new DateTime(2023, 7, 23, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4766),
                             Description = "Transaction",
                             IsInbound = false,
                             RecipientId = 10,
@@ -319,7 +319,7 @@ namespace VirtualWallet.Persistence.Migrations
                         {
                             Id = 2,
                             Amount = 222m,
-                            Date = new DateTime(2023, 7, 22, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1141),
+                            Date = new DateTime(2023, 7, 24, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4773),
                             Description = "Transfer to my friend Amancio ",
                             IsInbound = false,
                             RecipientId = 9,
@@ -330,7 +330,7 @@ namespace VirtualWallet.Persistence.Migrations
                         {
                             Id = 3,
                             Amount = 333m,
-                            Date = new DateTime(2023, 7, 23, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1144),
+                            Date = new DateTime(2023, 7, 25, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4775),
                             Description = "buying new car",
                             IsInbound = false,
                             RecipientId = 8,
@@ -341,7 +341,7 @@ namespace VirtualWallet.Persistence.Migrations
                         {
                             Id = 4,
                             Amount = 444m,
-                            Date = new DateTime(2023, 7, 24, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1146),
+                            Date = new DateTime(2023, 7, 26, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4777),
                             Description = "Payment over invoice 12345678",
                             IsInbound = false,
                             RecipientId = 7,
@@ -352,7 +352,7 @@ namespace VirtualWallet.Persistence.Migrations
                         {
                             Id = 5,
                             Amount = 555m,
-                            Date = new DateTime(2023, 7, 25, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1148),
+                            Date = new DateTime(2023, 7, 27, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4779),
                             Description = "Invoice 22446688",
                             IsInbound = false,
                             RecipientId = 6,
@@ -363,7 +363,7 @@ namespace VirtualWallet.Persistence.Migrations
                         {
                             Id = 6,
                             Amount = 666m,
-                            Date = new DateTime(2023, 7, 26, 18, 29, 21, 368, DateTimeKind.Local).AddTicks(1151),
+                            Date = new DateTime(2023, 7, 28, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4782),
                             Description = "Deposit for vacation",
                             IsInbound = false,
                             RecipientId = 11,
@@ -421,6 +421,9 @@ namespace VirtualWallet.Persistence.Migrations
                     b.Property<DateTime?>("VerifiedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<int?>("WalletId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
@@ -438,7 +441,8 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "elon_musk.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "ElonMusk",
-                            VerifiedAt = new DateTime(2023, 7, 25, 18, 29, 21, 287, DateTimeKind.Local).AddTicks(9895)
+                            VerifiedAt = new DateTime(2023, 7, 27, 12, 39, 19, 675, DateTimeKind.Local).AddTicks(8732),
+                            WalletId = 1
                         },
                         new
                         {
@@ -452,7 +456,8 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "jeff_bezos.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "JeffBezos",
-                            VerifiedAt = new DateTime(2023, 7, 25, 18, 29, 21, 295, DateTimeKind.Local).AddTicks(983)
+                            VerifiedAt = new DateTime(2023, 7, 27, 12, 39, 19, 682, DateTimeKind.Local).AddTicks(8754),
+                            WalletId = 2
                         },
                         new
                         {
@@ -466,7 +471,8 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "warren_buffett.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "WarrenBuffett",
-                            VerifiedAt = new DateTime(2023, 7, 26, 18, 29, 21, 301, DateTimeKind.Local).AddTicks(5705)
+                            VerifiedAt = new DateTime(2023, 7, 28, 12, 39, 19, 689, DateTimeKind.Local).AddTicks(5877),
+                            WalletId = 3
                         },
                         new
                         {
@@ -480,7 +486,8 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "bill_gates.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "BillGates",
-                            VerifiedAt = new DateTime(2023, 7, 26, 18, 29, 21, 308, DateTimeKind.Local).AddTicks(4366)
+                            VerifiedAt = new DateTime(2023, 7, 28, 12, 39, 19, 696, DateTimeKind.Local).AddTicks(4422),
+                            WalletId = 4
                         },
                         new
                         {
@@ -494,7 +501,8 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "larry_ellison.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "LarryEllison",
-                            VerifiedAt = new DateTime(2023, 7, 28, 18, 29, 21, 315, DateTimeKind.Local).AddTicks(1654)
+                            VerifiedAt = new DateTime(2023, 7, 30, 12, 39, 19, 703, DateTimeKind.Local).AddTicks(1611),
+                            WalletId = 5
                         },
                         new
                         {
@@ -508,7 +516,8 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "mark_zuckerberg.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "MarkZuckerberg",
-                            VerifiedAt = new DateTime(2023, 7, 29, 18, 29, 21, 321, DateTimeKind.Local).AddTicks(6996)
+                            VerifiedAt = new DateTime(2023, 7, 31, 12, 39, 19, 710, DateTimeKind.Local).AddTicks(520),
+                            WalletId = 6
                         },
                         new
                         {
@@ -522,7 +531,8 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "larry_page.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "LarryPage",
-                            VerifiedAt = new DateTime(2023, 7, 29, 18, 29, 21, 328, DateTimeKind.Local).AddTicks(3260)
+                            VerifiedAt = new DateTime(2023, 7, 31, 12, 39, 19, 716, DateTimeKind.Local).AddTicks(6437),
+                            WalletId = 7
                         },
                         new
                         {
@@ -536,7 +546,8 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "sergey_brin.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "SergeyBrin",
-                            VerifiedAt = new DateTime(2023, 7, 29, 18, 29, 21, 334, DateTimeKind.Local).AddTicks(9364)
+                            VerifiedAt = new DateTime(2023, 7, 31, 12, 39, 19, 724, DateTimeKind.Local).AddTicks(653),
+                            WalletId = 8
                         },
                         new
                         {
@@ -550,7 +561,8 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "amancio_ortega.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "AmancioOrtega",
-                            VerifiedAt = new DateTime(2023, 7, 30, 18, 29, 21, 341, DateTimeKind.Local).AddTicks(6989)
+                            VerifiedAt = new DateTime(2023, 8, 1, 12, 39, 19, 730, DateTimeKind.Local).AddTicks(7723),
+                            WalletId = 9
                         },
                         new
                         {
@@ -564,7 +576,8 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "carlos_slim_helu.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "CarlosSlimHelu",
-                            VerifiedAt = new DateTime(2023, 7, 30, 18, 29, 21, 348, DateTimeKind.Local).AddTicks(2022)
+                            VerifiedAt = new DateTime(2023, 8, 1, 12, 39, 19, 737, DateTimeKind.Local).AddTicks(2106),
+                            WalletId = 10
                         },
                         new
                         {
@@ -578,7 +591,8 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "Admin.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "Admin",
-                            VerifiedAt = new DateTime(2023, 7, 30, 18, 29, 21, 354, DateTimeKind.Local).AddTicks(9813)
+                            VerifiedAt = new DateTime(2023, 8, 1, 12, 39, 19, 744, DateTimeKind.Local).AddTicks(2354),
+                            WalletId = 11
                         },
                         new
                         {
@@ -592,7 +606,8 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "User.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "User",
-                            VerifiedAt = new DateTime(2023, 7, 30, 18, 29, 21, 361, DateTimeKind.Local).AddTicks(4539)
+                            VerifiedAt = new DateTime(2023, 8, 1, 12, 39, 19, 751, DateTimeKind.Local).AddTicks(2056),
+                            WalletId = 12
                         });
                 });
 
@@ -624,7 +639,8 @@ namespace VirtualWallet.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("Wallets");
 
@@ -735,16 +751,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Blocked = 0m,
                             CurrencyCode = 1,
                             IsInactive = false,
-                            UserId = 11
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Balance = 0.00m,
-                            Blocked = 0m,
-                            CurrencyCode = 1,
-                            IsInactive = false,
-                            UserId = 11
+                            UserId = 12
                         });
                 });
 
@@ -781,9 +788,9 @@ namespace VirtualWallet.Persistence.Migrations
             modelBuilder.Entity("Virtual_Wallet.VirtualWallet.Domain.Entities.Wallet", b =>
                 {
                     b.HasOne("Virtual_Wallet.VirtualWallet.Domain.Entities.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .WithOne("Wallet")
+                        .HasForeignKey("Virtual_Wallet.VirtualWallet.Domain.Entities.Wallet", "UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("User");
@@ -796,6 +803,8 @@ namespace VirtualWallet.Persistence.Migrations
                     b.Navigation("ReceivedTransactions");
 
                     b.Navigation("SentTransactions");
+
+                    b.Navigation("Wallet");
                 });
 #pragma warning restore 612, 618
         }
