@@ -12,8 +12,8 @@ using Virtual_Wallet.VirtualWallet.Persistence.Data;
 namespace VirtualWallet.Persistence.Migrations
 {
     [DbContext(typeof(WalletContext))]
-    [Migration("20230802093919_initial")]
-    partial class initial
+    [Migration("20230802132252_walletcurrency")]
+    partial class walletcurrency
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -76,7 +76,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 1,
                             CardHolder = "Elon Musk",
                             CheckNumber = "649",
-                            ExpirationDate = new DateTime(2025, 11, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4529),
+                            ExpirationDate = new DateTime(2025, 11, 2, 16, 22, 51, 995, DateTimeKind.Local).AddTicks(9805),
                             HasExpired = false,
                             IsCreditCard = true,
                             IsInactive = false,
@@ -88,7 +88,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 2,
                             CardHolder = "Jeff Bezos",
                             CheckNumber = "223",
-                            ExpirationDate = new DateTime(2024, 10, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4579),
+                            ExpirationDate = new DateTime(2024, 10, 2, 16, 22, 51, 995, DateTimeKind.Local).AddTicks(9826),
                             HasExpired = false,
                             IsCreditCard = true,
                             IsInactive = false,
@@ -100,7 +100,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 3,
                             CardHolder = "Warren Buffett",
                             CheckNumber = "684",
-                            ExpirationDate = new DateTime(2027, 5, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4584),
+                            ExpirationDate = new DateTime(2027, 5, 2, 16, 22, 51, 995, DateTimeKind.Local).AddTicks(9830),
                             HasExpired = false,
                             IsCreditCard = true,
                             IsInactive = false,
@@ -112,7 +112,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 4,
                             CardHolder = "Bill Gates",
                             CheckNumber = "623",
-                            ExpirationDate = new DateTime(2028, 2, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4586),
+                            ExpirationDate = new DateTime(2028, 2, 2, 16, 22, 51, 995, DateTimeKind.Local).AddTicks(9832),
                             HasExpired = false,
                             IsCreditCard = false,
                             IsInactive = false,
@@ -124,7 +124,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 5,
                             CardHolder = "Larry Ellison",
                             CheckNumber = "636",
-                            ExpirationDate = new DateTime(2026, 12, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4588),
+                            ExpirationDate = new DateTime(2026, 12, 2, 16, 22, 51, 995, DateTimeKind.Local).AddTicks(9835),
                             HasExpired = false,
                             IsCreditCard = false,
                             IsInactive = false,
@@ -136,7 +136,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 6,
                             CardHolder = "Mark Zuckerberg",
                             CheckNumber = "973",
-                            ExpirationDate = new DateTime(2025, 7, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4591),
+                            ExpirationDate = new DateTime(2025, 7, 2, 16, 22, 51, 995, DateTimeKind.Local).AddTicks(9839),
                             HasExpired = false,
                             IsCreditCard = true,
                             IsInactive = false,
@@ -148,7 +148,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 7,
                             CardHolder = "Larry Page",
                             CheckNumber = "247",
-                            ExpirationDate = new DateTime(2025, 10, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4595),
+                            ExpirationDate = new DateTime(2025, 10, 2, 16, 22, 51, 995, DateTimeKind.Local).AddTicks(9842),
                             HasExpired = false,
                             IsCreditCard = false,
                             IsInactive = false,
@@ -160,7 +160,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 8,
                             CardHolder = "Sergey Brin",
                             CheckNumber = "367",
-                            ExpirationDate = new DateTime(2025, 1, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4597),
+                            ExpirationDate = new DateTime(2025, 1, 2, 16, 22, 51, 995, DateTimeKind.Local).AddTicks(9844),
                             HasExpired = false,
                             IsCreditCard = false,
                             IsInactive = false,
@@ -172,7 +172,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 9,
                             CardHolder = "Amancio Ortega",
                             CheckNumber = "256",
-                            ExpirationDate = new DateTime(2027, 9, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4599),
+                            ExpirationDate = new DateTime(2027, 9, 2, 16, 22, 51, 995, DateTimeKind.Local).AddTicks(9847),
                             HasExpired = false,
                             IsCreditCard = false,
                             IsInactive = false,
@@ -184,7 +184,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 10,
                             CardHolder = "Carlos Slim Helu",
                             CheckNumber = "208",
-                            ExpirationDate = new DateTime(2026, 6, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4677),
+                            ExpirationDate = new DateTime(2026, 6, 2, 16, 22, 51, 995, DateTimeKind.Local).AddTicks(9850),
                             HasExpired = false,
                             IsCreditCard = false,
                             IsInactive = false,
@@ -196,7 +196,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 11,
                             CardHolder = "Admin",
                             CheckNumber = "543",
-                            ExpirationDate = new DateTime(2026, 11, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4679),
+                            ExpirationDate = new DateTime(2026, 11, 2, 16, 22, 51, 995, DateTimeKind.Local).AddTicks(9852),
                             HasExpired = false,
                             IsCreditCard = true,
                             IsInactive = false,
@@ -208,7 +208,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 12,
                             CardHolder = "Elon Musk",
                             CheckNumber = "660",
-                            ExpirationDate = new DateTime(2026, 3, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4682),
+                            ExpirationDate = new DateTime(2026, 3, 2, 16, 22, 51, 995, DateTimeKind.Local).AddTicks(9855),
                             HasExpired = false,
                             IsCreditCard = false,
                             IsInactive = false,
@@ -220,7 +220,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 13,
                             CardHolder = "Warren Buffett",
                             CheckNumber = "696",
-                            ExpirationDate = new DateTime(2027, 2, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4684),
+                            ExpirationDate = new DateTime(2027, 2, 2, 16, 22, 51, 995, DateTimeKind.Local).AddTicks(9859),
                             HasExpired = false,
                             IsCreditCard = true,
                             IsInactive = false,
@@ -232,7 +232,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 14,
                             CardHolder = "Bill Gates",
                             CheckNumber = "994",
-                            ExpirationDate = new DateTime(2028, 1, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4687),
+                            ExpirationDate = new DateTime(2028, 1, 2, 16, 22, 51, 995, DateTimeKind.Local).AddTicks(9861),
                             HasExpired = false,
                             IsCreditCard = true,
                             IsInactive = false,
@@ -244,7 +244,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Id = 15,
                             CardHolder = "Amancio Ortega",
                             CheckNumber = "645",
-                            ExpirationDate = new DateTime(2025, 5, 2, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4689),
+                            ExpirationDate = new DateTime(2025, 5, 2, 16, 22, 51, 995, DateTimeKind.Local).AddTicks(9864),
                             HasExpired = false,
                             IsCreditCard = true,
                             IsInactive = false,
@@ -288,8 +288,14 @@ namespace VirtualWallet.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("int");
 
+                    b.Property<int?>("RecipientWalletCurrency")
+                        .HasColumnType("int");
+
                     b.Property<int?>("SenderId")
                         .IsRequired()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SenderWalletCurrency")
                         .HasColumnType("int");
 
                     b.Property<int>("TransactionType")
@@ -308,67 +314,285 @@ namespace VirtualWallet.Persistence.Migrations
                         {
                             Id = 1,
                             Amount = 111m,
-                            Date = new DateTime(2023, 7, 23, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4766),
+                            AmountReceived = 101.03m,
+                            CurrencyExchangeRate = 0.91020000000000001,
+                            Date = new DateTime(2023, 7, 23, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(28),
                             Description = "Transaction",
                             IsInbound = false,
                             RecipientId = 10,
+                            RecipientWalletCurrency = 2,
                             SenderId = 1,
-                            TransactionType = 0
+                            SenderWalletCurrency = 3,
+                            TransactionType = 2
                         },
                         new
                         {
                             Id = 2,
                             Amount = 222m,
-                            Date = new DateTime(2023, 7, 24, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4773),
+                            AmountReceived = 202.06m,
+                            CurrencyExchangeRate = 0.91020000000000001,
+                            Date = new DateTime(2023, 7, 24, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(41),
                             Description = "Transfer to my friend Amancio ",
                             IsInbound = false,
                             RecipientId = 9,
+                            RecipientWalletCurrency = 2,
                             SenderId = 2,
-                            TransactionType = 0
+                            SenderWalletCurrency = 3,
+                            TransactionType = 2
                         },
                         new
                         {
                             Id = 3,
                             Amount = 333m,
-                            Date = new DateTime(2023, 7, 25, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4775),
+                            AmountReceived = 303.1m,
+                            CurrencyExchangeRate = 0.91020000000000001,
+                            Date = new DateTime(2023, 7, 25, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(45),
                             Description = "buying new car",
                             IsInbound = false,
                             RecipientId = 8,
+                            RecipientWalletCurrency = 2,
                             SenderId = 3,
-                            TransactionType = 0
+                            SenderWalletCurrency = 3,
+                            TransactionType = 2
                         },
                         new
                         {
                             Id = 4,
                             Amount = 444m,
-                            Date = new DateTime(2023, 7, 26, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4777),
+                            AmountReceived = 790.59m,
+                            CurrencyExchangeRate = 1.7806,
+                            Date = new DateTime(2023, 7, 26, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(48),
                             Description = "Payment over invoice 12345678",
                             IsInbound = false,
                             RecipientId = 7,
+                            RecipientWalletCurrency = 1,
                             SenderId = 4,
-                            TransactionType = 0
+                            SenderWalletCurrency = 3,
+                            TransactionType = 2
                         },
                         new
                         {
                             Id = 5,
                             Amount = 555m,
-                            Date = new DateTime(2023, 7, 27, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4779),
+                            AmountReceived = 555m,
+                            CurrencyExchangeRate = 0.0,
+                            Date = new DateTime(2023, 7, 27, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(53),
                             Description = "Invoice 22446688",
                             IsInbound = false,
                             RecipientId = 6,
+                            RecipientWalletCurrency = 1,
                             SenderId = 5,
-                            TransactionType = 0
+                            SenderWalletCurrency = 1,
+                            TransactionType = 2
                         },
                         new
                         {
                             Id = 6,
                             Amount = 666m,
-                            Date = new DateTime(2023, 7, 28, 12, 39, 19, 758, DateTimeKind.Local).AddTicks(4782),
+                            AmountReceived = 1185.88m,
+                            CurrencyExchangeRate = 1.7806,
+                            Date = new DateTime(2023, 7, 28, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(57),
                             Description = "Deposit for vacation",
                             IsInbound = false,
                             RecipientId = 11,
+                            RecipientWalletCurrency = 1,
                             SenderId = 1,
-                            TransactionType = 0
+                            SenderWalletCurrency = 3,
+                            TransactionType = 2
+                        },
+                        new
+                        {
+                            Id = 7,
+                            Amount = 200m,
+                            CardNumber = "************0752",
+                            Date = new DateTime(2023, 7, 29, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(61),
+                            Description = "Some cash for my wallet ;)",
+                            IsInbound = false,
+                            RecipientId = 1,
+                            SenderId = 1,
+                            SenderWalletCurrency = 3,
+                            TransactionType = 3
+                        },
+                        new
+                        {
+                            Id = 8,
+                            Amount = 1024m,
+                            CardNumber = "************3371",
+                            Date = new DateTime(2023, 7, 29, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(63),
+                            Description = "Transfer from card",
+                            IsInbound = false,
+                            RecipientId = 2,
+                            SenderId = 2,
+                            SenderWalletCurrency = 3,
+                            TransactionType = 3
+                        },
+                        new
+                        {
+                            Id = 9,
+                            Amount = 50000m,
+                            CardNumber = "************7891",
+                            Date = new DateTime(2023, 7, 29, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(66),
+                            Description = "Transfer from card",
+                            IsInbound = false,
+                            RecipientId = 6,
+                            SenderId = 6,
+                            SenderWalletCurrency = 1,
+                            TransactionType = 3
+                        },
+                        new
+                        {
+                            Id = 10,
+                            Amount = 1200m,
+                            AmountReceived = 2136.72m,
+                            CurrencyExchangeRate = 1.7806,
+                            Date = new DateTime(2023, 7, 29, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(69),
+                            Description = "Pay my rent",
+                            IsInbound = false,
+                            RecipientId = 6,
+                            RecipientWalletCurrency = 1,
+                            SenderId = 1,
+                            SenderWalletCurrency = 3,
+                            TransactionType = 2
+                        },
+                        new
+                        {
+                            Id = 11,
+                            Amount = 505.55m,
+                            AmountReceived = 283.61m,
+                            CurrencyExchangeRate = 0.56159999999999999,
+                            Date = new DateTime(2023, 7, 29, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(72),
+                            Description = "Give Warren some coins",
+                            IsInbound = false,
+                            RecipientId = 3,
+                            RecipientWalletCurrency = 3,
+                            SenderId = 5,
+                            SenderWalletCurrency = 1,
+                            TransactionType = 2
+                        },
+                        new
+                        {
+                            Id = 12,
+                            Amount = 33.24m,
+                            AmountReceived = 18.53m,
+                            CurrencyExchangeRate = 0.56159999999999999,
+                            Date = new DateTime(2023, 7, 30, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(75),
+                            Description = "payment",
+                            IsInbound = false,
+                            RecipientId = 1,
+                            RecipientWalletCurrency = 3,
+                            SenderId = 6,
+                            SenderWalletCurrency = 1,
+                            TransactionType = 2
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Amount = 156m,
+                            CardNumber = "************6716",
+                            Date = new DateTime(2023, 7, 30, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(78),
+                            Description = "why not to cash back some money",
+                            IsInbound = false,
+                            RecipientId = 4,
+                            SenderId = 4,
+                            SenderWalletCurrency = 3,
+                            TransactionType = 4
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Amount = 22.99m,
+                            CardNumber = "************3371",
+                            Date = new DateTime(2023, 7, 30, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(81),
+                            Description = "personal stuff",
+                            IsInbound = false,
+                            RecipientId = 4,
+                            SenderId = 4,
+                            SenderWalletCurrency = 3,
+                            TransactionType = 3
+                        },
+                        new
+                        {
+                            Id = 15,
+                            Amount = 50m,
+                            CardNumber = "************0752",
+                            Date = new DateTime(2023, 7, 30, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(83),
+                            Description = "I am transfering some money back to my card",
+                            IsInbound = false,
+                            RecipientId = 1,
+                            SenderId = 1,
+                            SenderWalletCurrency = 3,
+                            TransactionType = 4
+                        },
+                        new
+                        {
+                            Id = 16,
+                            Amount = 0.01m,
+                            AmountReceived = 0.01m,
+                            CurrencyExchangeRate = 0.0,
+                            Date = new DateTime(2023, 7, 31, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(85),
+                            Description = "donation",
+                            IsInbound = false,
+                            RecipientId = 2,
+                            RecipientWalletCurrency = 3,
+                            SenderId = 1,
+                            SenderWalletCurrency = 3,
+                            TransactionType = 2
+                        },
+                        new
+                        {
+                            Id = 17,
+                            Amount = 12225.35m,
+                            AmountReceived = 12225.35m,
+                            CurrencyExchangeRate = 0.0,
+                            Date = new DateTime(2023, 7, 31, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(88),
+                            Description = "Payment for invoice 223332556",
+                            IsInbound = false,
+                            RecipientId = 3,
+                            RecipientWalletCurrency = 3,
+                            SenderId = 1,
+                            SenderWalletCurrency = 3,
+                            TransactionType = 2
+                        },
+                        new
+                        {
+                            Id = 18,
+                            Amount = 336m,
+                            AmountReceived = 336m,
+                            CurrencyExchangeRate = 0.0,
+                            Date = new DateTime(2023, 7, 31, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(92),
+                            Description = "Invoice 103104105",
+                            IsInbound = false,
+                            RecipientId = 2,
+                            RecipientWalletCurrency = 3,
+                            SenderId = 1,
+                            SenderWalletCurrency = 3,
+                            TransactionType = 2
+                        },
+                        new
+                        {
+                            Id = 19,
+                            Amount = 1024m,
+                            CardNumber = "************3371",
+                            Date = new DateTime(2023, 7, 31, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(94),
+                            Description = "Transfer from card",
+                            IsInbound = false,
+                            RecipientId = 1,
+                            SenderId = 1,
+                            SenderWalletCurrency = 3,
+                            TransactionType = 3
+                        },
+                        new
+                        {
+                            Id = 20,
+                            Amount = 1566m,
+                            CardNumber = "************3371",
+                            Date = new DateTime(2023, 7, 31, 16, 22, 51, 996, DateTimeKind.Local).AddTicks(97),
+                            Description = "Transfer from card",
+                            IsInbound = false,
+                            RecipientId = 1,
+                            SenderId = 1,
+                            SenderWalletCurrency = 3,
+                            TransactionType = 3
                         });
                 });
 
@@ -441,7 +665,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "elon_musk.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "ElonMusk",
-                            VerifiedAt = new DateTime(2023, 7, 27, 12, 39, 19, 675, DateTimeKind.Local).AddTicks(8732),
+                            VerifiedAt = new DateTime(2023, 7, 27, 16, 22, 51, 904, DateTimeKind.Local).AddTicks(5024),
                             WalletId = 1
                         },
                         new
@@ -456,7 +680,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "jeff_bezos.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "JeffBezos",
-                            VerifiedAt = new DateTime(2023, 7, 27, 12, 39, 19, 682, DateTimeKind.Local).AddTicks(8754),
+                            VerifiedAt = new DateTime(2023, 7, 27, 16, 22, 51, 910, DateTimeKind.Local).AddTicks(8987),
                             WalletId = 2
                         },
                         new
@@ -471,7 +695,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "warren_buffett.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "WarrenBuffett",
-                            VerifiedAt = new DateTime(2023, 7, 28, 12, 39, 19, 689, DateTimeKind.Local).AddTicks(5877),
+                            VerifiedAt = new DateTime(2023, 7, 28, 16, 22, 51, 917, DateTimeKind.Local).AddTicks(4819),
                             WalletId = 3
                         },
                         new
@@ -486,7 +710,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "bill_gates.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "BillGates",
-                            VerifiedAt = new DateTime(2023, 7, 28, 12, 39, 19, 696, DateTimeKind.Local).AddTicks(4422),
+                            VerifiedAt = new DateTime(2023, 7, 28, 16, 22, 51, 923, DateTimeKind.Local).AddTicks(8012),
                             WalletId = 4
                         },
                         new
@@ -501,7 +725,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "larry_ellison.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "LarryEllison",
-                            VerifiedAt = new DateTime(2023, 7, 30, 12, 39, 19, 703, DateTimeKind.Local).AddTicks(1611),
+                            VerifiedAt = new DateTime(2023, 7, 30, 16, 22, 51, 930, DateTimeKind.Local).AddTicks(6101),
                             WalletId = 5
                         },
                         new
@@ -516,7 +740,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "mark_zuckerberg.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "MarkZuckerberg",
-                            VerifiedAt = new DateTime(2023, 7, 31, 12, 39, 19, 710, DateTimeKind.Local).AddTicks(520),
+                            VerifiedAt = new DateTime(2023, 7, 31, 16, 22, 51, 937, DateTimeKind.Local).AddTicks(3818),
                             WalletId = 6
                         },
                         new
@@ -531,7 +755,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "larry_page.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "LarryPage",
-                            VerifiedAt = new DateTime(2023, 7, 31, 12, 39, 19, 716, DateTimeKind.Local).AddTicks(6437),
+                            VerifiedAt = new DateTime(2023, 7, 31, 16, 22, 51, 943, DateTimeKind.Local).AddTicks(7475),
                             WalletId = 7
                         },
                         new
@@ -546,7 +770,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "sergey_brin.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "SergeyBrin",
-                            VerifiedAt = new DateTime(2023, 7, 31, 12, 39, 19, 724, DateTimeKind.Local).AddTicks(653),
+                            VerifiedAt = new DateTime(2023, 7, 31, 16, 22, 51, 950, DateTimeKind.Local).AddTicks(591),
                             WalletId = 8
                         },
                         new
@@ -561,7 +785,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "amancio_ortega.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "AmancioOrtega",
-                            VerifiedAt = new DateTime(2023, 8, 1, 12, 39, 19, 730, DateTimeKind.Local).AddTicks(7723),
+                            VerifiedAt = new DateTime(2023, 8, 1, 16, 22, 51, 956, DateTimeKind.Local).AddTicks(3572),
                             WalletId = 9
                         },
                         new
@@ -576,13 +800,13 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "carlos_slim_helu.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "CarlosSlimHelu",
-                            VerifiedAt = new DateTime(2023, 8, 1, 12, 39, 19, 737, DateTimeKind.Local).AddTicks(2106),
+                            VerifiedAt = new DateTime(2023, 8, 1, 16, 22, 51, 963, DateTimeKind.Local).AddTicks(3594),
                             WalletId = 10
                         },
                         new
                         {
                             Id = 11,
-                            Email = "Ad@min.com",
+                            Email = "mkm_vw@abv.bg",
                             IsAdmin = true,
                             IsBlocked = false,
                             IsDeleted = false,
@@ -591,7 +815,7 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "Admin.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "Admin",
-                            VerifiedAt = new DateTime(2023, 8, 1, 12, 39, 19, 744, DateTimeKind.Local).AddTicks(2354),
+                            VerifiedAt = new DateTime(2023, 8, 1, 16, 22, 51, 969, DateTimeKind.Local).AddTicks(8955),
                             WalletId = 11
                         },
                         new
@@ -606,7 +830,37 @@ namespace VirtualWallet.Persistence.Migrations
                             Photo = "User.jpg",
                             Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
                             Username = "User",
-                            VerifiedAt = new DateTime(2023, 8, 1, 12, 39, 19, 751, DateTimeKind.Local).AddTicks(2056),
+                            VerifiedAt = new DateTime(2023, 8, 1, 16, 22, 51, 976, DateTimeKind.Local).AddTicks(3867),
+                            WalletId = 12
+                        },
+                        new
+                        {
+                            Id = 13,
+                            Email = "GwShotwell@SpaceX.com",
+                            IsAdmin = false,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            Password = "mGCUINPf0hSqMTwCdcnxoQWdGEhsJrYOpjpvQarWLFo=",
+                            PhoneNumber = "1224364852",
+                            Photo = "User.jpg",
+                            Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
+                            Username = "GwynneShotwell",
+                            VerifiedAt = new DateTime(2023, 8, 1, 16, 22, 51, 982, DateTimeKind.Local).AddTicks(6993),
+                            WalletId = 12
+                        },
+                        new
+                        {
+                            Id = 14,
+                            Email = "SafraCatz@Oracle.com",
+                            IsAdmin = false,
+                            IsBlocked = false,
+                            IsDeleted = false,
+                            Password = "mGCUINPf0hSqMTwCdcnxoQWdGEhsJrYOpjpvQarWLFo=",
+                            PhoneNumber = "1234567890",
+                            Photo = "User.jpg",
+                            Salt = "aYkdwwd7tFrZOsBA2Za0qQ==",
+                            Username = "SafraCatz",
+                            VerifiedAt = new DateTime(2023, 8, 1, 16, 22, 51, 989, DateTimeKind.Local).AddTicks(145),
                             WalletId = 12
                         });
                 });

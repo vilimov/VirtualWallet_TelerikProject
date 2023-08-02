@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using VirtualWallet.Domain.Enums;
+using Virtual_Wallet.VirtualWallet.Domain.Enums;
 
 namespace Virtual_Wallet.VirtualWallet.Domain.Entities
 {
@@ -39,6 +40,9 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
         [DataType(DataType.Currency)]
         public decimal? AmountReceived { get; set; }
         public double? CurrencyExchangeRate { get; set; }
+
+        public Currency? SenderWalletCurrency { get; set; }
+        public Currency? RecipientWalletCurrency { get; set; }
     }
 
 }

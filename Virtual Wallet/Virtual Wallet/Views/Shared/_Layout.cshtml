@@ -20,7 +20,7 @@
 			background-color: #e7eeed !important
 		}
 
-		.w3-border-khaki, .w3-hover-border-khaki:hover {
+		.w3-border-khaki, .w3-hover-border-khaki:hover, .w3-hover-us:hover {
 			border-color: #194759 !important
 		}
 	</style>
@@ -28,10 +28,7 @@
 		div.sticky {
 			position: -webkit-sticky;
 			position: sticky;
-			top: 75px;
-			padding: 5px;
-			background-color: #cae8ca;
-			border: 2px solid #4CAF50;
+			top: 80px;
 		}
 	</style>
 </head>
@@ -42,7 +39,7 @@
 		<div class="w3-bar w3-theme-d2 w3-left-align w3-large w3-round w3-card-2">
 			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
 			<a href="#" class="w3-bar-item w3-hover-shadow:hover"><img src="~/images/common/logo.png" /></a>
-			
+
 			<a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-hover-shadow:hover" title="News"><i class="fa fa-globe"></i></a>
 			<a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
 			<a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>
@@ -169,17 +166,17 @@
 
 			<!-- Right Column -->
 			<div class="sticky w3-col m2">
-			<!-- Profile -->
-			<div class="w3-card w3-round-large w3-white w3-border">
-				<div class="w3-container">
-					<h4 class="w3-center">My Profile</h4>
-					<p class="w3-center"><img src="/w3images/avatar3.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
-					<hr>
-					<p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
-					<p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
-					<p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> April 1, 1988</p>
+				<!-- Profile -->
+				<div class="w3-card w3-round-large w3-white w3-border">
+					<div class="w3-container">
+						<h4 class="w3-center">My Profile</h4>
+						<p class="w3-center"><img src="/w3images/avatar3.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+						<hr>
+						<p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
+						<p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
+						<p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> April 1, 1988</p>
+					</div>
 				</div>
-			</div>
 			</div>
 			<br>
 			<!-- End Right Column -->
@@ -193,11 +190,46 @@
 	<br>
 
 	<!-- Footer -->
-	<footer class="w3-container w3-theme-d2 w3-padding-16">
-		<h5>Footer</h5>
-	</footer>
-	<footer class="w3-container w3-theme-d2 ">
-		<p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+	<footer class="w3-theme-d5 w3-small w3-center ">
+		<div class="w3-card w3-round">
+			<div class="w3-container">
+				<p>
+					<span class="w3-tag w3-small w3-theme-d5">Web Wallet created by</span><br />
+					<span class="w3-tag w3-small w3-theme-d5">
+						Team 12 - MilkoKostadinMila aka MKM Team * Alpha C# 47 *
+						<a href=" https://www.telerikacademy.com/" target="_blank" class="w3-bar-item w3-round" title="Telerik Academy" style="text-decoration:none">
+							Telerik Academy
+						</a>
+					</span>
+
+				</p>
+				<span class="w3-tag w3-small w3-theme-d4 w3-text-blue-grey w3-hover-light-gray">
+
+					<a href="https://www.linkedin.com/in/mila-tsenkova-772534102" target="_blank" class="w3-bar-item w3-round" title="Tsvetomila Tsenkova" style="text-decoration:none">
+						Tsvetomila Tsenkova <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+						<img src="https://media.licdn.com/dms/image/D4D03AQH1uNgmZXWK4g/profile-displayphoto-shrink_400_400/0/1683886871197?e=1694649600&v=beta&t=_QrvCF1z817ohCVUkRjd7bo9Qkj_fxyn0qsMawEO0-w" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+					</a>
+				</span>
+				<span class="w3-tag w3-small w3-theme-d4 w3-text-blue-grey w3-hover-light-gray">
+
+					<a href="https://www.linkedin.com/in/milko-tomov-a988971a2/" target="_blank" class="w3-bar-item w3-round" title="Milko Tomov" style="text-decoration:none">
+						Milko Tomov <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+						<img src="https://media.licdn.com/dms/image/D4D03AQFo47ocbbJS4Q/profile-displayphoto-shrink_200_200/0/1688975218012?e=1694649600&v=beta&t=nOJXjHsM3zzr_c96xrbDO9nqAtINJrGhRAOEC-oUvMQ" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+					</a>
+				</span>
+				<span class="w3-tag w3-small w3-theme-d4 w3-text-blue-grey w3-hover-light-gray">
+					<a href="https://www.linkedin.com/in/koci-palchev-68b116283/" target="_blank" class="w3-bar-item w3-round" title="Kostadin Palchev" style="text-decoration:none">
+						Kostadin Palchev <i class="fa fa-linkedin-square" aria-hidden="true"></i>
+						<img src="https://media.licdn.com/dms/image/D4E03AQFJLUtDwr-4wg/profile-displayphoto-shrink_200_200/0/1689423379191?e=1694649600&v=beta&t=LW0VujsvC17hlZ2sbBwLHq8RpVCW8C3XB7ZtCzkpQcQ" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+					</a>
+				</span>
+				<p>
+					<span class="text-center">© 2023 July </span>
+					<span class="w3-padding-small">Template is Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></span>
+
+				</p>
+			</div>
+		</div>
 	</footer>
 
 
