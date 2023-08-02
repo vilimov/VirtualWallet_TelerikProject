@@ -1,0 +1,65 @@
+﻿@using VirtualWallet.Domain.Enums;
+@using Virtual_Wallet.VirtualWallet.Domain.Entities;
+@model Transaction
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<div>
+	<h4>Transaction details:</h4>
+	<hr />
+	<div class="container">
+		<table class="table table-borderless">
+			<thead>
+				<tr>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Transaction type:</td>
+					<td><b>@this.Model.TransactionType</b></td>
+				</tr>
+				<tr>
+					<td>Amount:</td>
+					<td>
+						<b>@($"{this.Model.Amount:f2}")</b> <b>@($"{this.Model.SenderWalletCurrency}")</b></i>
+					</td>
+				</tr>
+				<tr>
+					<td>Created at:</td>
+					<td><b>@this.Model.Date</b></td>
+				</tr>
+				<tr>
+					<td>By User:</td>
+					<td><b>@this.Model.Sender.Username</b></td>
+				</tr>
+				<tr>
+					<td>Description:</td>
+					<td class="text-muted"><b>@this.Model.Description</b></td>
+				</tr>
+				@{
+					if (this.Model.TransactionType != TransactionType.Send)
+					{
+						<tr>
+							<td>Card Number:</td>
+							<td><b>@this.Model.CardNumber</b></td>
+						</tr>
+					}
+					else
+					{
+						<tr>
+							<td>Recipient:</td>
+							<td><b>@this.Model.Recipient.Username</b></td>
+						</tr>
+						<tr>
+							<td>Amount Received:</td>
+							<td><b>@this.Model.AmountReceived</b> <b>@($"{this.Model.RecipientWalletCurrency}")</b></td>
+						</tr>
+						<tr>
+							<td>Currency Exchange rate:</td>
+							<td><b>@this.Model.CurrencyExchangeRate</b> (<b>@($"{this.Model.SenderWalletCurrency}")</b> to <b>@($"{this.Model.RecipientWalletCurrency}")</b>)</td>
+						</tr>
+					}
+				}
+			</tbody>
+		</table>
+	</div>
+	<a asp-controller="Transactions" asp-action="Index" class="w3-button w3-theme-d2 w3-margin-bottom w3-round" title="Create Comment">Back</a>
+</div>

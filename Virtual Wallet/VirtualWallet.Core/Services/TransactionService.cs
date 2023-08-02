@@ -157,7 +157,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             {
                 Date = DateTime.Now,
                 Amount = amount,
-                TransactionType = TransactionType.InternalOutCome,
+                TransactionType = TransactionType.Send,
                 Sender = sender,
                 Recipient = recipient,
                 AmountReceived = (decimal)moneyToReceive,

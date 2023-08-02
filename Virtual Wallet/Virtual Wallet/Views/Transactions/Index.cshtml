@@ -1,7 +1,6 @@
 ﻿@using Virtual_Wallet.VirtualWallet.Domain.Entities;
 @model List<Transaction>;
 
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="~/css/tableStyles.css" asp-append-version="true" />
 
 <section>
@@ -30,7 +29,11 @@
 							<td>@($"{transaction.Amount:f2}")</td>
 							<td class="w3-hide-small">@transaction.TransactionType</td>
 							<td class="w3-hide-small">@transaction.Description</td>
-							<td>details</td>
+							<td>
+								<a asp-controller="Transactions" asp-action="Details" , asp-route-id="@transaction.Id" class="w3-badge w3-small w3-theme-d2 w3-hover-blue-gray">
+									<i class="fa fa-info">&nbsp;Details</i>
+								</a>
+							</td>
 						</tr>
 					}
 				}
