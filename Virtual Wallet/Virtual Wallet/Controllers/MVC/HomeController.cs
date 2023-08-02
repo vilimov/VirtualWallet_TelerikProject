@@ -2,7 +2,7 @@
 using System.Diagnostics;
 using Virtual_Wallet.VirtualWallet.API.Models.ViewModels;
 
-namespace Virtual_Wallet.Controllers
+namespace Virtual_Wallet.Controllers.MVC
 {
     public class HomeController : Controller
     {

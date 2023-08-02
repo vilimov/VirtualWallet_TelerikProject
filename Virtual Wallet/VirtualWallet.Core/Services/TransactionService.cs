@@ -94,7 +94,8 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
                 Sender = user,
                 Recipient = user,
                 CardNumber = CardHelper.HideCardNumber(card.Number),
-                Description = description
+                Description = description,
+                SenderWalletCurrency = wallet.CurrencyCode
             };
 
 			var moneyAdded = walletService.AddToWallet(wallet.Id, amount);
@@ -161,7 +162,9 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
                 Recipient = recipient,
                 AmountReceived = (decimal)moneyToReceive,
                 CurrencyExchangeRate = bgnToUsdRate,
-                Description = description
+                Description = description,
+                SenderWalletCurrency = senderWallet.CurrencyCode,
+                RecipientWalletCurrency = recepientWallet.CurrencyCode
             };
 
 			var moneyRemovedFromSender = walletService.WithdrawFromWallet(senderWallet.Id, amount);
@@ -205,7 +208,8 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
                 Sender = user,
                 Recipient = user,
                 CardNumber = CardHelper.HideCardNumber(card.Number),
-                Description = description
+                Description = description,
+                SenderWalletCurrency = wallet.CurrencyCode
             };
 
             var moneyRemoved = walletService.WithdrawFromWallet(wallet.Id, amount);
