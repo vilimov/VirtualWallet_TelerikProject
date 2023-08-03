@@ -1,44 +1,6 @@
 ﻿@model Virtual_Wallet.Models.ViewModels.MakeCardTransactionViewModel
 
-<div class="w3-container w3-white w3-padding-32">
-    <h1 class="w3-center">Create Deposit</h1>
-    <hr style="width:100%; text-align:center; margin: 0 auto 50px;">
-	<form asp-controller="Transactions" asp-action="CreateDeposit" method="post">
-		<div>
-			<div>
-				<div style="display: @this.ViewData["TitleVisibility"]">
-					<label asp-for="Amount" class="w3-opacity"></label><br />
-					@{
-						if (ViewData["ErrorMessage"] != null)
-						{
-							<span style="color: Red">@ViewData["ErrorMessage"]</span>
-						}
-					}
-
-					<span asp-validation-for="Amount" class="form-error" style="color: Red"></span>
-					<input asp-for="Amount" type="text" class="w3-border w3-padding w3-input" /><br />
-				</div>
-			</div>
-
-			<div>
-				<label asp-for="CardId" class="w3-opacity"></label><br />
-				<select asp-items="@Model.Cards" asp-for="CardId" class="form-input"></select>
-				<br />
-				<span asp-validation-for="CardId" class="form-error"></span>
-				<br />
-			</div>
-
-			<div>
-				<label asp-for="Description" class="w3-opacity"></label><br />
-				<span asp-validation-for="Description" class="form-error" style="color: Red"></span>
-				<textarea asp-for="Description" class="w3-border w3-padding w3-input w3-auto form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
-			</div>
-
-
-			<div>
-				<input type="submit" value="Save" class="w3-button w3-theme w3-margin-top w3-round" />
-			</div>
-		</div>
-
-	</form>
-</div>
+@{
+	this.ViewData["PageTitle"] = "Create Deposit";
+}
+<partial name="_CreateTransactions" />

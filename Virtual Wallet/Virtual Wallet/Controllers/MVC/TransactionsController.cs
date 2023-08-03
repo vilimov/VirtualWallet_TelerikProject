@@ -142,6 +142,69 @@ namespace Virtual_Wallet.Controllers.MVC
 			}
 		}
 
+		[HttpGet]
+		public IActionResult CreateWithdraw()
+		{
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
+
+			var user = GetLoggedUser();
+			var cardsList = user.Cards; // Assuming cardsList is a List<Card>
+			var selectListItems = cardsList.Select(card => new SelectListItem
+			{
+				Value = card.Id.ToString(),   // Replace with actual property that holds card ID
+				Text = card.Name              // Replace with actual property that holds card Name
+			}).ToList();
+
+			var makeTransaction = new MakeCardTransactionViewModel
+			{
+				Cards = new SelectList(selectListItems, "Value", "Text") // Bind the list of selectListItems to the Cards property
+			};
+
+			return View(makeTransaction);
+		}
+
+		[HttpPost]
+		public IActionResult CreateWithdraw(MakeCardTransactionViewModel makeTransaction)
+		{
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
+
+			if (!ModelState.IsValid)
+			{
+				// Here, you need to populate the Cards SelectList again for displaying in case of validation errors.
+				var user = GetLoggedUser();
+				var cardsList = user.Cards;
+				var selectListItems = cardsList.Select(card => new SelectListItem
+				{
+					Value = card.Id.ToString(),
+					Text = card.Name
+				}).ToList();
+
+				makeTransaction.Cards = new SelectList(selectListItems, "Value", "Text");
+
+				return View(makeTransaction);
+			}
+
+			try
+			{
+				var user = GetLoggedUser();
+				var card = cardService.GetById(makeTransaction.CardId);
+				var createdTransaction = transactionService.WithdrawalTransfer(user, card, makeTransaction.Amount, makeTransaction.Description);
+				return RedirectToAction("Details", "Transactions", new { id = createdTransaction.Id });
+			}
+			catch (Exception e)
+			{
+				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
+				ViewData["ErrorMessage"] = e.Message;
+				//return View("Error");           // This will return the Error page
+				return View(makeTransaction);    // This will return the same view with validation errors
+			}
+		}
 
 
 		#region PrivateMethods
