@@ -43,11 +43,11 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             }
             if (!string.IsNullOrEmpty(filter.Withdrawl))
             {
-                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Withdrawal && t.SenderId == user.Id);
+                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Withdraw && t.SenderId == user.Id);
             }
             if (!string.IsNullOrEmpty(filter.FeedWallet))
             {
-                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.BankTransfer && t.SenderId == user.Id);
+                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Deposit && t.SenderId == user.Id);
             }
             if (!string.IsNullOrEmpty(filter.FilterByDate))
             {
