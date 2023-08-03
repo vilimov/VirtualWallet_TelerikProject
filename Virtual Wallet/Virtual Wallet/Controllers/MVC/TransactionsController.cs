@@ -15,24 +15,35 @@ namespace Virtual_Wallet.Controllers.MVC
         private readonly ITransactionService transactionService;
 		private readonly IMapper mapper;
 		private readonly IUserService userService;
-		public TransactionsController(ITransactionService transactionService, IMapper mapper, IUserService userService)
+		private readonly ICardService cardService;
+		public TransactionsController(ITransactionService transactionService, IMapper mapper, IUserService userService, ICardService cardService)
         {
             this.transactionService = transactionService;   
             this.mapper = mapper;
 			this.userService = userService;
+			this.cardService = cardService;	
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            IList<Transaction> transactions = this.transactionService.GetAllTransactions();
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
+
+			IList<Transaction> transactions = this.transactionService.GetAllTransactions();
             return View(transactions);
         }
 
         [HttpGet]
         public IActionResult Details(int id)
         {
-            try
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
+			try
             {
                 var transaction = transactionService.GetTransactionById(id);
                 return View(transaction);
@@ -49,23 +60,32 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpGet]
         public IActionResult CreateTransferTransaction()
         {
-            var makeTransaction = new MakeCardTransactionViewModel();
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
+			var makeTransaction = new MakeCardTransactionViewModel();
 			return View(makeTransaction);
 		}
 
         [HttpPost]
         public IActionResult CreateDepositTransaction(MakeCardTransactionViewModel makeTransactio)
         {
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
+
 			if (!this.ModelState.IsValid)
 			{
 				return View(makeTransactio);
 			}
 			try
 			{
-				var transaction = mapper.Map<Transaction>(makeTransactio);
-                var createdTransaction = transactionService.AddMoneyCardToWallet();
-
-				return View(transaction);
+				var user = GetLoggedUser();
+				var card = cardService.GetById(makeTransactio.CardId);
+				var createdTransaction = transactionService.AddMoneyCardToWallet(user, card, makeTransactio.Amount, makeTransactio.Description);
+				return View(createdTransaction);
 			}
             catch (Exception)
             {

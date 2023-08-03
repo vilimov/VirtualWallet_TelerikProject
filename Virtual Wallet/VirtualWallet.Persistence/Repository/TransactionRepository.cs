@@ -22,7 +22,11 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 		public List<Transaction> GetAllTransactions()
 		{
 			return this.context.Transactions.Include(s=>s.Sender)
+                                                .ThenInclude(s=>s.Cards)
+                                                .Include(s=>s.Sender.Wallet)
 											.Include(r=>r.Recipient)
+                                                .ThenInclude(r=>r.Cards)
+												.Include(r=>r.Recipient.Wallet)
 											.ToList();
 		}
 

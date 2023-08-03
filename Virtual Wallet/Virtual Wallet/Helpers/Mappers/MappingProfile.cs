@@ -22,7 +22,9 @@ namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
             CreateMap<Transaction, TransactionShowDto>()
                 .ForMember(dto => dto.Date, opt => opt.MapFrom(date => date.Date.ToString("yyyy-MM-dd HH:mm:ss")));
 			CreateMap<TransactionShowDto, Transaction>();
-			CreateMap<Transaction, MakeCardTransactionViewModel>();
+			CreateMap<Transaction, MakeCardTransactionViewModel>()
+                .ForMember(dto=>dto.Cards, opt => opt.MapFrom(card=>card.Sender.Cards));
+			CreateMap<MakeCardTransactionViewModel, Transaction>();
 
 			//User mappings
 			CreateMap<User, UserShowDto>();
