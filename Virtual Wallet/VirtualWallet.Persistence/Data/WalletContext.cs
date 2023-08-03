@@ -44,21 +44,21 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Data
 
             var cards = new List<Card>()
             {
-                new Card { Id = 1, Number = "8676880603590752", ExpirationDate = DateTime.Now.AddYears(2).AddMonths(3), CardHolder = "Elon Musk", CheckNumber = "649", IsCreditCard = true, UserId = 1},
-                new Card { Id = 2, Number = "3997331179433371", ExpirationDate = DateTime.Now.AddYears(1).AddMonths(2), CardHolder = "Jeff Bezos", CheckNumber = "223", IsCreditCard = true, UserId = 2},
-                new Card { Id = 3, Number = "7469810858990903", ExpirationDate = DateTime.Now.AddYears(3).AddMonths(9), CardHolder = "Warren Buffett", CheckNumber = "684", IsCreditCard = true, UserId = 3},
-                new Card { Id = 4, Number = "7372340136556716", ExpirationDate = DateTime.Now.AddYears(4).AddMonths(6), CardHolder = "Bill Gates", CheckNumber = "623", IsCreditCard = false, UserId = 4 },
-                new Card { Id = 5, Number = "4503408821426590", ExpirationDate = DateTime.Now.AddYears(3).AddMonths(4), CardHolder = "Larry Ellison", CheckNumber = "636", IsCreditCard = false, UserId = 5 },
-                new Card { Id = 6, Number = "9539114984387891", ExpirationDate = DateTime.Now.AddYears(1).AddMonths(11), CardHolder = "Mark Zuckerberg", CheckNumber = "973", IsCreditCard = true, UserId = 6 },
-                new Card { Id = 7, Number = "3820743154136639", ExpirationDate = DateTime.Now.AddYears(2).AddMonths(2), CardHolder = "Larry Page", CheckNumber = "247", IsCreditCard = false, UserId = 7 },
-                new Card { Id = 8, Number = "1513410988134823", ExpirationDate = DateTime.Now.AddYears(1).AddMonths(5), CardHolder = "Sergey Brin", CheckNumber = "367", IsCreditCard = false, UserId = 8 },
-                new Card { Id = 9, Number = "4588654764785024", ExpirationDate = DateTime.Now.AddYears(4).AddMonths(1), CardHolder = "Amancio Ortega", CheckNumber = "256", IsCreditCard = false, UserId = 9 },
-                new Card { Id = 10, Number = "3525471461987263", ExpirationDate = DateTime.Now.AddYears(2).AddMonths(10), CardHolder = "Carlos Slim Helu", CheckNumber = "208", IsCreditCard = false, UserId = 10 },
-                new Card { Id = 11, Number = "3187868110023152", ExpirationDate = DateTime.Now.AddYears(3).AddMonths(3), CardHolder = "Admin", CheckNumber = "543", IsCreditCard = true, UserId = 11 },
-                new Card { Id = 12, Number = "3896973357363677", ExpirationDate = DateTime.Now.AddYears(2).AddMonths(7), CardHolder = "Elon Musk", CheckNumber = "660", IsCreditCard = false, UserId = 1 },
-                new Card { Id = 13, Number = "5672253593826517", ExpirationDate = DateTime.Now.AddYears(3).AddMonths(6), CardHolder = "Warren Buffett", CheckNumber = "696", IsCreditCard = true, UserId = 3 },
-                new Card { Id = 14, Number = "8832823205243008", ExpirationDate = DateTime.Now.AddYears(4).AddMonths(5), CardHolder = "Bill Gates", CheckNumber = "994", IsCreditCard = true, UserId = 4 },
-                new Card { Id = 15, Number = "5243292944936184", ExpirationDate = DateTime.Now.AddYears(1).AddMonths(9), CardHolder = "Amancio Ortega", CheckNumber = "645", IsCreditCard = true, UserId = 9 }
+                new Card { Id = 1, Name = "ElonUSD", Number = "8676880603590752", ExpirationDate = DateTime.Now.AddYears(2).AddMonths(3), CardHolder = "Elon Musk", CheckNumber = "649", CurrencyCode = Currency.USD, IsCreditCard = true, UserId = 1},
+                new Card { Id = 2, Name = "JeffUSD", Number = "3997331179433371", ExpirationDate = DateTime.Now.AddYears(1).AddMonths(2), CardHolder = "Jeff Bezos", CheckNumber = "223", CurrencyCode = Currency.USD, IsCreditCard = true, UserId = 2},
+                new Card { Id = 3, Name = "WarrenUSD", Number = "7469810858990903", ExpirationDate = DateTime.Now.AddYears(3).AddMonths(9), CardHolder = "Warren Buffett", CheckNumber = "684", CurrencyCode = Currency.USD, IsCreditCard = true, UserId = 3},
+                new Card { Id = 4, Name = "BillUSD", Number = "7372340136556716", ExpirationDate = DateTime.Now.AddYears(4).AddMonths(6), CardHolder = "Bill Gates", CheckNumber = "623", CurrencyCode = Currency.USD, IsCreditCard = false, UserId = 4 },
+                new Card { Id = 5, Name = "LarryUSD", Number = "4503408821426590", ExpirationDate = DateTime.Now.AddYears(3).AddMonths(4), CardHolder = "Larry Ellison", CheckNumber = "636", CurrencyCode = Currency.USD, IsCreditCard = false, UserId = 5 },
+                new Card { Id = 6, Name = "MarkEUR", Number = "9539114984387891", ExpirationDate = DateTime.Now.AddYears(1).AddMonths(11), CardHolder = "Mark Zuckerberg", CheckNumber = "973", CurrencyCode = Currency.EUR, IsCreditCard = true, UserId = 6 },
+                new Card { Id = 7, Name = "LarryEUR", Number = "3820743154136639", ExpirationDate = DateTime.Now.AddYears(2).AddMonths(2), CardHolder = "Larry Page", CheckNumber = "247", CurrencyCode = Currency.EUR, IsCreditCard = false, UserId = 7 },
+                new Card { Id = 8, Name = "SergeyEUR", Number = "1513410988134823", ExpirationDate = DateTime.Now.AddYears(1).AddMonths(5), CardHolder = "Sergey Brin", CheckNumber = "367", CurrencyCode = Currency.EUR, IsCreditCard = false, UserId = 8 },
+                new Card { Id = 9, Name = "AmancioEUR", Number = "4588654764785024", ExpirationDate = DateTime.Now.AddYears(4).AddMonths(1), CardHolder = "Amancio Ortega", CheckNumber = "256", CurrencyCode = Currency.EUR, IsCreditCard = false, UserId = 9 },
+                new Card { Id = 10, Name = "CarlosEUR", Number = "3525471461987263", ExpirationDate = DateTime.Now.AddYears(2).AddMonths(10), CardHolder = "Carlos Slim Helu", CheckNumber = "208", CurrencyCode = Currency.EUR, IsCreditCard = false, UserId = 10 },
+                new Card { Id = 11, Name = "AdminBGN", Number = "3187868110023152", ExpirationDate = DateTime.Now.AddYears(3).AddMonths(3), CardHolder = "Admin", CheckNumber = "543", CurrencyCode = Currency.BGN, IsCreditCard = true, UserId = 11 },
+                new Card { Id = 12, Name = "ElonBGN", Number = "3896973357363677", ExpirationDate = DateTime.Now.AddYears(2).AddMonths(7), CardHolder = "Elon Musk", CheckNumber = "660", CurrencyCode = Currency.BGN, IsCreditCard = false, UserId = 1 },
+                new Card { Id = 13, Name = "WarrenBGN", Number = "5672253593826517", ExpirationDate = DateTime.Now.AddYears(3).AddMonths(6), CardHolder = "Warren Buffett", CheckNumber = "696", CurrencyCode = Currency.BGN, IsCreditCard = true, UserId = 3 },
+                new Card { Id = 14, Name = "BillBGN", Number = "8832823205243008", ExpirationDate = DateTime.Now.AddYears(4).AddMonths(5), CardHolder = "Bill Gates", CheckNumber = "994", CurrencyCode = Currency.BGN, IsCreditCard = true, UserId = 4 },
+                new Card { Id = 15, Name = "AmancioBGN", Number = "5243292944936184", ExpirationDate = DateTime.Now.AddYears(1).AddMonths(9), CardHolder = "Amancio Ortega", CheckNumber = "645", CurrencyCode = Currency.BGN, IsCreditCard = true, UserId = 9 }
             };
             modelBuilder.Entity<Card>().HasData(cards);
 
