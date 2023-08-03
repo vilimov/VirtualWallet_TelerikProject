@@ -20,15 +20,12 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
 		//[Display(Name = "Password")]
 		public string Password { get; set; }
         public string Salt { get; set; }
+		public string FirstName { get; set; }
+		public string LastName { get; set; }
 
         [MaxLength(170)]
         public string? VerificationToken { get; set; }
         public DateTime? VerifiedAt { get; set; }
-
-        /*[DataType(DataType.Password)]
-		[Display(Name = "Confirm password")]
-		[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
-		public string ConfirmPassword { get; set; }*/
 
         [Required(ErrorMessage = "The {0} field is required.")]
 		[RegularExpression(@"^([a-zA-Z0-9-.]+)@(([[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.)|(([a-zA-Z0-9-]+.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(]?)$", ErrorMessage = "Please enter a valid e-mail address")]
