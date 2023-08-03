@@ -42,9 +42,11 @@ namespace VirtualWallet.Application.Services
 
         public string GenerateVerificationLink(string token)
         {
-            string VerificationBaseUrl = "http://localhost:5206/verification";
+            string VerificationBaseUrl = "http://localhost:5206/Users/VerifyEmail";
             string verificationToken = token;
-            string verificationUrl = $"{VerificationBaseUrl}/{verificationToken}";
+            //string verificationUrl = $"{VerificationBaseUrl}/{verificationToken}";
+            string verificationUrl = $"{VerificationBaseUrl}?token={verificationToken}";
+
             string verificationLink = $"<a href=\"{verificationUrl}\">Click here to verify</a>";
             return verificationLink;
         }
