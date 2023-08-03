@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Hosting;
 using System.Security.Cryptography;
 using Virtual_Wallet.Models.ViewModels;
@@ -58,18 +59,29 @@ namespace Virtual_Wallet.Controllers.MVC
 		}
 
         [HttpGet]
-        public IActionResult CreateTransferTransaction()
+        public IActionResult CreateDeposit()
         {
 			if (!IsUserLogged())
 			{
 				return RedirectToAction("Login", "Users");
 			}
-			var makeTransaction = new MakeCardTransactionViewModel();
+			var user = GetLoggedUser();
+			var cardsList = user.Cards;
+			var selectListItems = cardsList.Select(card => new SelectListItem
+			{
+				Value = card.Id.ToString(), // Set the value to the card's ID
+				Text = card.Name // Set the text to the card's number (or any other relevant property)
+			}).ToList();
+
+			var makeTransaction = new MakeCardTransactionViewModel()
+			{
+				Cards = selectListItems // Assign the list of cards to the Cards property
+			};
 			return View(makeTransaction);
 		}
 
         [HttpPost]
-        public IActionResult CreateDepositTransaction(MakeCardTransactionViewModel makeTransactio)
+        public IActionResult CreateDeposit(MakeCardTransactionViewModel makeTransactio)
         {
 			if (!IsUserLogged())
 			{
@@ -87,11 +99,25 @@ namespace Virtual_Wallet.Controllers.MVC
 				var createdTransaction = transactionService.AddMoneyCardToWallet(user, card, makeTransactio.Amount, makeTransactio.Description);
 				return View(createdTransaction);
 			}
-            catch (Exception)
+            catch (Exception e)
             {
+				var user = GetLoggedUser();
+				var cardsList = user.Cards;
+				var selectListItems = cardsList.Select(card => new SelectListItem
+				{
+					Value = card.Id.ToString(), // Set the value to the card's ID
+					Text = card.Name // Set the text to the card's number (or any other relevant property)
+				}).ToList();
 
-                throw;
-            }
+				var makeTransaction = new MakeCardTransactionViewModel()
+				{
+					Cards = selectListItems // Assign the list of cards to the Cards property
+				};
+				this.HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
+				this.ViewData["ErrorMessage"] = e.Message;
+				//return View("Error");             this will return the Error page
+				return View(makeTransactio);      // this will retur the same object and keep us on the same page
+			}
 		}
 
 

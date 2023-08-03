@@ -1,5 +1,6 @@
 ﻿@using VirtualWallet.Domain.Enums;
 @using Virtual_Wallet.VirtualWallet.Domain.Entities;
+
 @model Transaction
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 <div>
@@ -35,7 +36,7 @@
 					<td class="text-muted"><b>@this.Model.Description</b></td>
 				</tr>
 				@{
-					if (this.Model.TransactionType != TransactionType.Transfer)
+					if (this.Model.TransactionType == TransactionType.Deposit)
 					{
 						<tr>
 							<td>Card Number:</td>

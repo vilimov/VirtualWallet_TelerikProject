@@ -44,7 +44,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-            walletServiceMock.Setup(walletService => walletService.GetWalletByUser(user.Username))
+			var emailServiceMock = new Mock<IEmailService>();
+			walletServiceMock.Setup(walletService => walletService.GetWalletByUser(user.Username))
                          .Returns(wallet);
 
             repositoryMock.Setup(repo => repo.AddTransaction(It.IsAny<Transaction>()))
@@ -54,7 +55,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
                           return transaction;
                       });
 
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
             //Act
             Transaction actualTransaction = sut.AddMoneyCardToWallet(user, card, testTransaction.Amount, testTransaction.Description);
 
@@ -95,7 +96,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-            walletServiceMock.Setup(walletService => walletService.GetWalletByUser(user.Username))
+			var emailServiceMock = new Mock<IEmailService>();
+			walletServiceMock.Setup(walletService => walletService.GetWalletByUser(user.Username))
                          .Returns(wallet);
 
             repositoryMock.Setup(repo => repo.AddTransaction(It.IsAny<Transaction>()))
@@ -105,7 +107,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
                           return transaction;
                       });
 
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
             //Act and Assert
             Assert.ThrowsException<UnauthorizedOperationException>(() => sut.AddMoneyCardToWallet(user, card, testTransaction.Amount, testTransaction.Description));
         }
@@ -132,7 +134,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+			var emailServiceMock = new Mock<IEmailService>();
+			var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
 
             // Act and Assert
             Assert.ThrowsException<EntityNotFoundException>(() =>
@@ -152,7 +155,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+			var emailServiceMock = new Mock<IEmailService>();
+			var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
 
             // Act and Assert
             Assert.ThrowsException<EntityNotFoundException>(() =>
@@ -182,7 +186,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+			var emailServiceMock = new Mock<IEmailService>();
+			var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
 
             // Act and Assert
             Assert.ThrowsException<EntityNotFoundException>(() =>
@@ -213,9 +218,10 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-            walletServiceMock.Setup(walletService => walletService.GetWalletByUser(user.Username))
+			var emailServiceMock = new Mock<IEmailService>();
+			walletServiceMock.Setup(walletService => walletService.GetWalletByUser(user.Username))
              .Returns(wallet);
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
 
             // Act and Assert
             Assert.ThrowsException<UnauthorizedOperationException>(() =>
@@ -250,8 +256,9 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
+			var emailServiceMock = new Mock<IEmailService>();
 
-            walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[0].Username))
+			walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[0].Username))
                          .Returns(walletU1); // Return wallet for users[0]
             walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[1].Username))
                          .Returns(walletU2); // Return wallet for users[1]
@@ -265,7 +272,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
                           return transaction;
                       });
 
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
             //Act
             Transaction actualTransaction = sut.AddMoneyWalletToWallet(users[0], users[1], testTransaction.Amount, testTransaction.Description);
 
@@ -305,8 +312,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+			var emailServiceMock = new Mock<IEmailService>();
+			var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
             // Act and Assert
             Assert.ThrowsException<EntityNotFoundException>(() =>
             {
@@ -342,8 +349,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+			var emailServiceMock = new Mock<IEmailService>();
+			var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
             // Act and Assert
             Assert.ThrowsException<EntityNotFoundException>(() =>
             {
@@ -379,8 +386,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+			var emailServiceMock = new Mock<IEmailService>();
+			var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
             // Act and Assert
             Assert.ThrowsException<UnauthorizedOperationException>(() =>
             {
@@ -415,8 +422,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-
-            walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[0].Username))
+			var emailServiceMock = new Mock<IEmailService>();
+			walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[0].Username))
                          .Returns(walletU1); // Return wallet for users[0]
             walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[1].Username))
                          .Returns(walletU2); // Return wallet for users[1]
@@ -430,7 +437,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
                           return transaction;
                       });
 
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
             // Act and Assert
             Assert.ThrowsException<InsuficientAmountException>(() =>
             {
@@ -465,8 +472,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-
-            walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[0].Username))
+			var emailServiceMock = new Mock<IEmailService>();
+			walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[0].Username))
                          .Returns(walletU1); // Return wallet for users[0]
             walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[1].Username))
                          .Returns(walletU2); // Return wallet for users[1]
@@ -480,7 +487,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
                           return transaction;
                       });
 
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
             //Act
             Transaction actualTransaction = sut.AddMoneyWalletToWallet(users[0], users[1], testTransaction.Amount, testTransaction.Description);
             var testExchange = (double)actualTransaction.Amount * actualTransaction.CurrencyExchangeRate;
@@ -515,8 +522,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-
-            walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[0].Username))
+			var emailServiceMock = new Mock<IEmailService>();
+			walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[0].Username))
                          .Returns(walletU1); // Return wallet for users[0]
             walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[1].Username))
                          .Returns(walletU2); // Return wallet for users[1]
@@ -530,7 +537,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
                           return transaction;
                       });
 
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
             //Act
             Transaction actualTransaction = sut.AddMoneyWalletToWallet(users[0], users[1], testTransaction.Amount, testTransaction.Description);
             var testExchange = (double)actualTransaction.Amount * actualTransaction.CurrencyExchangeRate;
@@ -565,8 +572,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-
-            walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[0].Username))
+			var emailServiceMock = new Mock<IEmailService>();
+			walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[0].Username))
                          .Returns(walletU1); // Return wallet for users[0]
             walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[1].Username))
                          .Returns(walletU2); // Return wallet for users[1]
@@ -580,7 +587,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
                           return transaction;
                       });
 
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
             //Act
             Transaction actualTransaction = sut.AddMoneyWalletToWallet(users[0], users[1], testTransaction.Amount, testTransaction.Description);
             var testExchange = (double)actualTransaction.Amount * actualTransaction.CurrencyExchangeRate;
@@ -618,8 +625,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-
-            walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[0].Username))
+			var emailServiceMock = new Mock<IEmailService>();
+			walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[0].Username))
                          .Returns(walletU1); // Return wallet for users[0]
             walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[1].Username))
                          .Returns(walletU2); // Return wallet for users[1]
@@ -633,7 +640,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
                           return transaction;
                       });
 
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
             //Act
             Transaction actualTransaction = sut.WithdrawalTransfer(users[0], card, testTransaction.Amount, testTransaction.Description);
 
@@ -674,8 +681,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-
-            walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[0].Username))
+			var emailServiceMock = new Mock<IEmailService>();
+			walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[0].Username))
                          .Returns(walletU1); // Return wallet for users[0]
             walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(users[1].Username))
                          .Returns(walletU2); // Return wallet for users[1]
@@ -689,7 +696,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
                           return transaction;
                       });
 
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
             // Act and Assert
             Assert.ThrowsException<UnauthorizedOperationException>(() =>
             {
@@ -716,8 +723,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-
-            walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(user.Username))
+			var emailServiceMock = new Mock<IEmailService>();
+			walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(user.Username))
                          .Returns(walletU1); // Return wallet for users[0]
             walletServiceMock.SetupSequence(walletService => walletService.GetBalance(1))
                          .Returns(walletU1.Balance); // Return wallet for users[1]
@@ -729,7 +736,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
                           return transaction;
                       });
 
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
             // Act and Assert
             Assert.ThrowsException<EntityNotFoundException>(() =>
             {
@@ -764,8 +771,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-
-            walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(user.Username))
+			var emailServiceMock = new Mock<IEmailService>();
+			walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(user.Username))
                          .Returns(walletU1); // Return wallet for users[0]
             walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(user.Username))
                          .Returns(walletU2); // Return wallet for users[1]
@@ -779,7 +786,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
                           return transaction;
                       });
 
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
             // Act and Assert
             Assert.ThrowsException<UnauthorizedOperationException>(() =>
             {
@@ -814,8 +821,8 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-
-            walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(user.Username))
+			var emailServiceMock = new Mock<IEmailService>();
+			walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(user.Username))
                          .Returns(walletU1); // Return wallet for users[0]
             walletServiceMock.SetupSequence(walletService => walletService.GetWalletByUser(user.Username))
                          .Returns(walletU2); // Return wallet for users[1]
@@ -829,7 +836,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
                           return transaction;
                       });
 
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
             // Act and Assert
             Assert.ThrowsException<EntityNotFoundException>(() =>
             {

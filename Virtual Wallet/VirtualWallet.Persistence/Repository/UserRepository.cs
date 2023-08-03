@@ -29,7 +29,13 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 
 		public User GetUserByUsername(string username)
 		{
-			return this.context.Users.FirstOrDefault(u => u.Username == username);
+			var user = this.context.Users.Include(c => c.Cards)
+									 .Include(w => w.Wallet)
+									 .Include(t => t.SentTransactions)
+									 .Include(t => t.ReceivedTransactions).ToList()
+									.FirstOrDefault(u => u.Username == username);
+			return user;
+			//return this.context.Users.FirstOrDefault(u => u.Username == username);
 		}
 
 		public User GetUserByEmail(string email)

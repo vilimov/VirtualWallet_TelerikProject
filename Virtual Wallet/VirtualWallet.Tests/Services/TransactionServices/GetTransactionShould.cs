@@ -27,10 +27,11 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-            repositoryMock.Setup(repo => repo.GetTransactionById(transactionId))
+			var emailServiceMock = new Mock<IEmailService>();
+			repositoryMock.Setup(repo => repo.GetTransactionById(transactionId))
                           .Returns(expectedTransaction);
 
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
 
             // Act
             Transaction actualTransaction = sut.GetTransactionById(transactionId);
@@ -49,13 +50,14 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             List<Transaction> expectedTransactions = TestHelpers.TransactionHelpers.GetTestTransactions();
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-            walletServiceMock.Setup(walletService => walletService.GetWalletByUser(It.IsAny<string>()))
+			var emailServiceMock = new Mock<IEmailService>();
+			walletServiceMock.Setup(walletService => walletService.GetWalletByUser(It.IsAny<string>()))
                              .Returns(new Wallet());
 
             repositoryMock.Setup(repo => repo.GetAllTransactions())
                           .Returns(expectedTransactions);
 
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
 
             // Act
             IList<Transaction> actualTransactions = sut.GetAllTransactions();
@@ -72,13 +74,14 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             List<Transaction> expectedTransactions = TestHelpers.TransactionHelpers.GetTestTransactions();
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-            TransactionsQueryParameters filter = new TransactionsQueryParameters() { AllMyTransactions = "true"};
+			var emailServiceMock = new Mock<IEmailService>();
+			TransactionsQueryParameters filter = new TransactionsQueryParameters() { AllMyTransactions = "true"};
 
 
             repositoryMock.Setup(repo => repo.GetFilteredTransactions(filter, user))
                           .Returns(expectedTransactions);
 
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
 
             // Act
             IList<Transaction> actualTransactions = sut.GetFilteredTransactions(filter, user);
@@ -95,10 +98,11 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             List<Transaction> expectedTransactions = TestHelpers.TransactionHelpers.GetTestTransactions();
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
-            repositoryMock.Setup(repo => repo.GetTransactionsByUserId(user.Id))
+			var emailServiceMock = new Mock<IEmailService>();
+			repositoryMock.Setup(repo => repo.GetTransactionsByUserId(user.Id))
                           .Returns(expectedTransactions);
 
-            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object);
+            var sut = new TransactionService(repositoryMock.Object, walletServiceMock.Object, emailServiceMock.Object);
 
             // Act
             IList<Transaction> actualTransactions = sut.GetTransactionsByUserId(user.Id);

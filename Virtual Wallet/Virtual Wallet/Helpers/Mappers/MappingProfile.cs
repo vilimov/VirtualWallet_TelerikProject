@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Globalization;
 using Virtual_Wallet.Models.Dtos;
 using Virtual_Wallet.Models.ViewModels;
@@ -23,8 +24,9 @@ namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
                 .ForMember(dto => dto.Date, opt => opt.MapFrom(date => date.Date.ToString("yyyy-MM-dd HH:mm:ss")));
 			CreateMap<TransactionShowDto, Transaction>();
 			CreateMap<Transaction, MakeCardTransactionViewModel>()
-                .ForMember(dto=>dto.Cards, opt => opt.MapFrom(card=>card.Sender.Cards));
+	            .ForMember(dto => dto.Cards, opt => opt.MapFrom(card => card.Sender.Cards.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.Name })));
 			CreateMap<MakeCardTransactionViewModel, Transaction>();
+
 
 			//User mappings
 			CreateMap<User, UserShowDto>();

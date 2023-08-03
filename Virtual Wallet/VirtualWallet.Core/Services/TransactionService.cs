@@ -89,7 +89,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 				throw new UnauthorizedOperationException(Alerts.InvalidAttenpt);
             }
 
-            Transaction transaction = new Transaction()
+			Transaction transaction = new Transaction()
 			{
 				Date = DateTime.Now,
 				Amount = amount,
@@ -212,7 +212,27 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
                 throw new UnauthorizedOperationException(Alerts.InvalidAttenpt);
             }
 
-            Transaction transaction = new Transaction()
+			var currencyWallet = wallet.CurrencyCode;
+			var currencyCard = card.CurrencyCode;
+			var moneyToReceive = amount;
+			double exchangeRate = 0;
+			if (currencyWallet != currencyCard)
+			{
+
+				PairRatesJson rateJson = Rates.GetExchangeRates(currencyWallet.ToString(), currencyCard.ToString());
+				if (rateJson == null)
+				{
+					throw new UnauthorizedOperationException(Alerts.FailedCurrencyRate);
+				}
+				else
+				{
+					exchangeRate = rateJson.conversion_rate;
+					moneyToReceive = (decimal)exchangeRate * moneyToReceive;
+				}
+
+			}
+
+			Transaction transaction = new Transaction()
             {
                 Date = DateTime.Now,
                 Amount = amount,
@@ -221,8 +241,11 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
                 Recipient = user,
                 CardNumber = CardHelper.HideCardNumber(card.Number),
                 Description = description,
-                SenderWalletCurrency = wallet.CurrencyCode
-            };
+                SenderWalletCurrency = wallet.CurrencyCode,
+				CurrencyExchangeRate = exchangeRate,
+				AmountReceived = (decimal)moneyToReceive,
+				RecipientWalletCurrency = card.CurrencyCode
+			};
 
             var moneyRemoved = walletService.WithdrawFromWallet(wallet.Id, amount);
             var transactionMade = transactionRepository.AddTransaction(transaction);
