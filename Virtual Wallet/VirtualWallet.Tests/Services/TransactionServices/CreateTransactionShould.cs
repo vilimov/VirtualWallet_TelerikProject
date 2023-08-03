@@ -40,7 +40,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = user;
             testTransaction.Recipient = user;
-            testTransaction.TransactionType = Domain.Enums.TransactionType.BankTransfer;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Deposit;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -91,7 +91,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = user;
             testTransaction.Recipient = user;
-            testTransaction.TransactionType = Domain.Enums.TransactionType.BankTransfer;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Deposit;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -246,7 +246,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = users[0];
             testTransaction.Recipient = users[1];
-            testTransaction.TransactionType = Domain.Enums.TransactionType.Send;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Transfer;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -301,7 +301,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = user;
             testTransaction.Recipient = users[1];
-            testTransaction.TransactionType = Domain.Enums.TransactionType.Send;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Transfer;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -338,7 +338,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = users[1];
             testTransaction.Recipient = user;
-            testTransaction.TransactionType = Domain.Enums.TransactionType.Send;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Transfer;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -375,7 +375,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = users[0];
             testTransaction.Recipient = users[1];
-            testTransaction.TransactionType = Domain.Enums.TransactionType.Send;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Transfer;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -411,7 +411,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = users[0];
             testTransaction.Recipient = users[0];
-            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdrawal;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdraw;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -461,7 +461,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = users[0];
             testTransaction.Recipient = users[0];
-            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdrawal;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdraw;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -511,7 +511,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = users[0];
             testTransaction.Recipient = users[0];
-            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdrawal;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdraw;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -561,7 +561,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = users[0];
             testTransaction.Recipient = users[0];
-            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdrawal;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdraw;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -614,7 +614,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = users[0];
             testTransaction.Recipient = users[0];
-            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdrawal;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdraw;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -670,7 +670,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = users[0];
             testTransaction.Recipient = users[0];
-            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdrawal;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdraw;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -712,7 +712,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = user;
             testTransaction.Recipient = user;
-            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdrawal;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdraw;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -760,7 +760,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = user;
             testTransaction.Recipient = user;
-            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdrawal;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdraw;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -810,7 +810,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = user;
             testTransaction.Recipient = user;
-            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdrawal;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Withdraw;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();

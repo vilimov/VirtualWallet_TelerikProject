@@ -1,0 +1,44 @@
+﻿@using Virtual_Wallet.Models.ViewModels;
+@using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
+@using Virtual_Wallet.VirtualWallet.Domain.Entities;
+@model List<CardShowDto>;
+
+<link rel="stylesheet" href="~/css/tableStyles.css" asp-append-version="true" />
+
+<section>
+	<h1>Cards</h1>
+	<div class="tbl-header">
+		<table cellpadding="0" cellspacing="0" border="0">
+			<thead>
+				<tr>
+					<th>Cardholder</th>
+					<th class="w3-hide-small">Card Number</th>
+					<th class="w3-hide-small">Expiration Date</th>
+					<th>More</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<div class="tbl-content">
+		<table cellpadding="0" cellspacing="0" border="0">
+			<tbody>
+				@{
+					foreach (var card in this.Model)
+					{
+						<tr>
+							<td>@card.CardHolder</td>
+							<td>@card.CardNumberHidden</td>
+							<td class="w3-hide-small">@card.Username</td>
+							<td>
+								<a asp-controller="Cards" asp-action="Details" , asp-route-id="@card.Number" class="w3-badge w3-small w3-theme-d2 w3-hover-blue-gray">
+									<i class="fa fa-info">&nbsp;Details</i>
+								</a>
+							</td>
+						</tr>
+					}
+				}
+			</tbody>
+		</table>
+	</div>
+</section>
+

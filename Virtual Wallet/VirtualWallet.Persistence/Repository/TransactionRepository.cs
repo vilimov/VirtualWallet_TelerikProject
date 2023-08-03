@@ -22,7 +22,11 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 		public List<Transaction> GetAllTransactions()
 		{
 			return this.context.Transactions.Include(s=>s.Sender)
+                                                .ThenInclude(s=>s.Cards)
+                                                .Include(s=>s.Sender.Wallet)
 											.Include(r=>r.Recipient)
+                                                .ThenInclude(r=>r.Cards)
+												.Include(r=>r.Recipient.Wallet)
 											.ToList();
 		}
 
@@ -43,11 +47,11 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             }
             if (!string.IsNullOrEmpty(filter.Withdrawl))
             {
-                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Withdrawal && t.SenderId == user.Id);
+                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Withdraw && t.SenderId == user.Id);
             }
             if (!string.IsNullOrEmpty(filter.FeedWallet))
             {
-                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.BankTransfer && t.SenderId == user.Id);
+                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Deposit && t.SenderId == user.Id);
             }
             if (!string.IsNullOrEmpty(filter.FilterByDate))
             {

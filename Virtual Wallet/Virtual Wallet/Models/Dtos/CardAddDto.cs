@@ -1,12 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Globalization;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
+using Virtual_Wallet.VirtualWallet.Domain.Enums;
 
 namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
 {
     public class CardAddDto
-    {
-        [Required]
+	{
+		[Required]
+		[MinLength(3, ErrorMessage = "The {0} field must be at least {1} characters.")]
+		[MaxLength(16, ErrorMessage = "The {0} field must be less than {1} characters.")]
+		public string Name { get; set; }
+
+		[Required]
         [StringLength(16, MinimumLength = 16)]
         [RegularExpression(@"\d*", ErrorMessage = "Incorrect card format!")]
         public string Number { get; set; }
@@ -26,7 +32,11 @@ namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
         [RegularExpression(@"\d*", ErrorMessage = "Incorrect check number format!")]
         public string CheckNumber { get; set; }
 
-        [Required]
+		[Required]
+		[Range(1, 3)]
+		public Currency CurrencyCode { get; set; }
+
+		[Required]
         public bool IsCreditCard { get; set; }
     }
 }
