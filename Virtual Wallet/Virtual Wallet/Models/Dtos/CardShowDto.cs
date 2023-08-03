@@ -21,7 +21,6 @@ namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
 			this.IsCreditCard = card.IsCreditCard;
             this.Username = card.User.Username;
         }
-        [JsonIgnore]
         public string Name { get; set; }
         [JsonIgnore]
         public string Number { get; set; }

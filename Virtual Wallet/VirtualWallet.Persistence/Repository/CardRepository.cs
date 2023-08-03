@@ -20,10 +20,8 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 
         public Card Add(Card card, User user)
         {
-            if (card.ExpirationDate.AddMonths(1) <= DateTime.Now)
-            {
-                throw new CardAlreadyExpired(Alerts.CardAlreadyExpired);
-            }
+            CheckForExistingCardName(card, user);
+            CheckExpirationDate(card);
 
             Card inactiveCard = context.Cards.FirstOrDefault(c => c.Number == card.Number);
             if (inactiveCard != null && inactiveCard.IsInactive == false)
@@ -44,6 +42,34 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             return card;
         }
 
+		public Card Update(Card updatedCard, User user, int id)
+		{
+			CheckForExistingCardName(updatedCard, user);
+			CheckExpirationDate(updatedCard);
+            Card currentCard = GetById(id);
+			if (!string.IsNullOrEmpty(updatedCard.Name))
+			{
+				currentCard.Name = updatedCard.Name;
+			}
+			if (!string.IsNullOrEmpty(updatedCard.CurrencyCode.ToString()))
+			{
+				currentCard.CurrencyCode = updatedCard.CurrencyCode;
+			}
+			if (!string.IsNullOrEmpty(updatedCard.CardHolder))
+			{
+				currentCard.CardHolder = updatedCard.CardHolder;
+			}
+			if (!string.IsNullOrEmpty(updatedCard.CheckNumber))
+			{
+				currentCard.CheckNumber = updatedCard.CheckNumber;
+			}
+			context.SaveChanges();
+
+			return currentCard;
+		}
+
+
+
         public IQueryable<Card> GetAll()
         {
             IQueryable<Card> cards = context.Cards
@@ -55,7 +81,12 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
         public IList<Card> GetFilteredCards(CardQueryParameters filter)
         {
             List<Card> cards = GetAll().ToList();
-            if (!string.IsNullOrEmpty(filter.IsCredit.ToString()))
+			if (!string.IsNullOrEmpty(filter.Name))
+			{
+                string searchString = filter.Name;
+				cards = cards.Where(c => c.Name.Contains(searchString, StringComparison.InvariantCultureIgnoreCase)).ToList();
+			}
+			if (!string.IsNullOrEmpty(filter.IsCredit.ToString()))
             {
                 cards = cards.FindAll(c => c.IsCreditCard == filter.IsCredit);
             }
@@ -129,10 +160,29 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             return cardToDelete;
         }
 
+        public void CheckForExistingCardName(Card card, User user)
+        {
+			List<Card> cards = context.Cards.Where(c => c.UserId == user.Id).ToList();
+			foreach (Card c in cards)
+			{
+				if (c.Name == card.Name)
+				{
+					throw new DuplicateEntityException(Alerts.CardNameAlreadyExists);
+				}
+			}
+		}
+
+        public void CheckExpirationDate(Card card)
+        {
+			if (card.ExpirationDate.AddMonths(1) <= DateTime.Now)
+			{
+				throw new CardAlreadyExpired(Alerts.CardAlreadyExpired);
+			}
+		}
+
         public void Deactivate(Card card)
         {
             card.IsInactive = true;
         }
-
-    }
+	}
 }
