@@ -20,18 +20,13 @@
 				</div>
 			</div>
 
-
-
 			<div>
-				<label asp-for="@Model.Cards" class="w3-opacity"></label><br />
+				<label asp-for="CardId" class="w3-opacity"></label><br />
 				<select asp-items="@Model.Cards" asp-for="CardId" class="form-input"></select>
 				<br />
 				<span asp-validation-for="CardId" class="form-error"></span>
 				<br />
 			</div>
-
-
-
 
 			<div>
 				<label asp-for="Description" class="w3-opacity"></label><br />
