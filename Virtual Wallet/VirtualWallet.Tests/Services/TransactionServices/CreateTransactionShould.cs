@@ -246,7 +246,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = users[0];
             testTransaction.Recipient = users[1];
-            testTransaction.TransactionType = Domain.Enums.TransactionType.InternalOutCome;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Send;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -301,7 +301,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = user;
             testTransaction.Recipient = users[1];
-            testTransaction.TransactionType = Domain.Enums.TransactionType.InternalOutCome;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Send;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -338,7 +338,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = users[1];
             testTransaction.Recipient = user;
-            testTransaction.TransactionType = Domain.Enums.TransactionType.InternalOutCome;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Send;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
@@ -375,7 +375,7 @@ namespace VirtualWallet.Tests.Services.TransactionServices
             testTransaction.CardNumber = "************0752";
             testTransaction.Sender = users[0];
             testTransaction.Recipient = users[1];
-            testTransaction.TransactionType = Domain.Enums.TransactionType.InternalOutCome;
+            testTransaction.TransactionType = Domain.Enums.TransactionType.Send;
 
             var repositoryMock = new Mock<ITransactionRepository>();
             var walletServiceMock = new Mock<IWalletService>();
