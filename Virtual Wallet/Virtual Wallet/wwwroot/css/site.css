@@ -118,3 +118,14 @@ Template Colors
 #EBF2F1
 #4F7369
 */
+.text-danger {
+    color: red;
+    font-weight: bold;
+}
+.custom-input {
+    width: 60%;
+    padding: 10px;
+    font-size: 1.2em;
+    border-radius: 10px;
+    border: 1px solid black;
+}

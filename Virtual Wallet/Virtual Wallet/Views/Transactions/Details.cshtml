@@ -35,7 +35,7 @@
 					<td class="text-muted"><b>@this.Model.Description</b></td>
 				</tr>
 				@{
-					if (this.Model.TransactionType != TransactionType.Send)
+					if (this.Model.TransactionType != TransactionType.Transfer)
 					{
 						<tr>
 							<td>Card Number:</td>

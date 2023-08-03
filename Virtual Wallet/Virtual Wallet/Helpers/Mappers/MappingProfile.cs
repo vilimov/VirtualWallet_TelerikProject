@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using System.Globalization;
 using Virtual_Wallet.Models.Dtos;
+using Virtual_Wallet.Models.ViewModels;
 using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 
@@ -21,6 +22,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
             CreateMap<Transaction, TransactionShowDto>()
                 .ForMember(dto => dto.Date, opt => opt.MapFrom(date => date.Date.ToString("yyyy-MM-dd HH:mm:ss")));
 			CreateMap<TransactionShowDto, Transaction>();
+			CreateMap<Transaction, MakeCardTransactionViewModel>();
 
 			//User mappings
 			CreateMap<User, UserShowDto>();

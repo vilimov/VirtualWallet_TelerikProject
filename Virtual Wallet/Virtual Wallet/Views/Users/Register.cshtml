@@ -1,0 +1,33 @@
+﻿@model Virtual_Wallet.Models.ViewModels.RegisterViewModel
+
+<div class="w3-container w3-white w3-padding-32">
+    <h1 class="w3-center">Register</h1>
+    <hr style="width:100%; text-align:center; margin: 0 auto 50px;">
+    <form asp-action="Register" asp-controller="Users" method="post">
+        <div class="form-group d-flex flex-column align-items-center">
+            <label asp-for="Username" class="w3-text-grey">Username</label>
+            <span asp-validation-for="Username" class="text-danger"></span>
+            <input asp-for="Username" class="form-control custom-input" />
+        </div>
+        <div class="form-group d-flex flex-column align-items-center">
+            <label asp-for="Email" class="w3-text-grey">Email</label>
+            <span asp-validation-for="Email" class="text-danger"></span>
+            <input asp-for="Email" class="form-control custom-input" type="email" />
+        </div>
+        <div class="form-group d-flex flex-column align-items-center">
+            <label asp-for="Password" class="w3-text-grey">Password</label>
+            <span asp-validation-for="Password" class="text-danger"></span>
+            <input asp-for="Password" class="form-control custom-input" type="password" />
+        </div>
+        <div class="form-group d-flex flex-column align-items-center">
+            <label asp-for="ConfirmPassword" class="w3-text-grey">Confirm Password</label>
+            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            <input asp-for="ConfirmPassword" class="form-control custom-input" type="password" />
+        </div>
+        <div class="form-group d-flex flex-column align-items-center mt-4">
+            <input type="submit" value="Register" class="btn btn-primary w-50 mb-2" />
+        </div>
+    </form>
+</div>
+
+

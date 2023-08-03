@@ -20,8 +20,17 @@ namespace Virtual_Wallet
             // Register AutoMapper
             builder.Services.AddAutoMapper(typeof(MappingProfile));
 
-            // Add services to the container.
-            builder.Services.AddControllers();
+			// Login
+			builder.Services.AddSession(options =>
+			{
+				options.IdleTimeout = TimeSpan.FromMinutes(15);
+				options.Cookie.HttpOnly = true;
+				options.Cookie.IsEssential = true;
+			});
+			builder.Services.AddHttpContextAccessor();
+
+			// Add services to the container.
+			builder.Services.AddControllers();
 			builder.Services.AddControllersWithViews();
 
 
@@ -29,10 +38,10 @@ namespace Virtual_Wallet
             {
 
 
-                //string connectionString = @"Server=FREAKY\MSSQLSERVER2022;Database=VirtualWalletDataBase;Trusted_Connection=True;Encrypt=False;";
+                string connectionString = @"Server=FREAKY\MSSQLSERVER2022;Database=VirtualWalletDataBase;Trusted_Connection=True;Encrypt=False;";
                 //string connectionString = @"Server=MILA-V15G2\SQLEXPRESS;Database=VirtualWalletDataBase;Trusted_Connection=True;Encrypt=False;";
                 //string connectionString = @"Server=VILIMOV-PC;Database=VirtualWalletDataBase;Trusted_Connection=True;Encrypt=False;";
-                string connectionString = @"Server=localhost;Database=VirtualWalletDataBase;Trusted_Connection=True;Encrypt=False;";
+                //string connectionString = @"Server=localhost;Database=VirtualWalletDataBase;Trusted_Connection=True;Encrypt=False;";
 
                 options.UseSqlServer(connectionString);
                 options.EnableSensitiveDataLogging();
@@ -71,6 +80,10 @@ namespace Virtual_Wallet
 				app.UseSwagger();
 				app.UseSwaggerUI();
 			}
+			app.UseSession();
+
+			app.UseRouting();
+
 			app.UseStaticFiles();
 
 			app.UseRouting();

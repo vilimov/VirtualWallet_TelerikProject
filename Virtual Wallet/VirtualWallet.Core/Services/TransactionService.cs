@@ -18,11 +18,14 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 	{
 		private readonly ITransactionRepository transactionRepository;
 		private readonly IWalletService walletService;
+        private readonly IEmailService emailService;
 		public TransactionService(ITransactionRepository transactionRepository, 
-									IWalletService walletService)
+									IWalletService walletService,
+									IEmailService emailService)
 		{
 			this.transactionRepository = transactionRepository;
 			this.walletService = walletService;
+			this.emailService = emailService;
 		}
 
 		public IList<Transaction> GetAllTransactions()
@@ -90,7 +93,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			{
 				Date = DateTime.Now,
 				Amount = amount,
-				TransactionType = TransactionType.BankTransfer,
+				TransactionType = TransactionType.Deposit,
                 Sender = user,
                 Recipient = user,
                 CardNumber = CardHelper.HideCardNumber(card.Number),
@@ -157,7 +160,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             {
                 Date = DateTime.Now,
                 Amount = amount,
-                TransactionType = TransactionType.Send,
+                TransactionType = TransactionType.Transfer,
                 Sender = sender,
                 Recipient = recipient,
                 AmountReceived = (decimal)moneyToReceive,
@@ -172,7 +175,16 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 
             var transactionMade = transactionRepository.AddTransaction(transaction);
 
-            return transactionMade;
+			var mailRequest = new Mail
+			{
+				Body = $"Hello {recipient.Username}! User {sender.Username} just trsnsfer to you the amount of {transaction.AmountReceived} {recepientWallet.CurrencyCode} with subject *{transaction.Description}*.",
+				To = recipient.Email,
+				Subject = "MaxKashMate money trsnsfer"
+			};
+
+			emailService.SendEmail(mailRequest);
+
+			return transactionMade;
         }
 
         public Transaction WithdrawalTransfer(User user, Card card, decimal amount, string description)
@@ -204,7 +216,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             {
                 Date = DateTime.Now,
                 Amount = amount,
-                TransactionType = TransactionType.Withdrawal,
+                TransactionType = TransactionType.Withdraw,
                 Sender = user,
                 Recipient = user,
                 CardNumber = CardHelper.HideCardNumber(card.Number),
