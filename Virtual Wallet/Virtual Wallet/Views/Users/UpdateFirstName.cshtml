@@ -1,0 +1,24 @@
+﻿@model Virtual_Wallet.Models.ViewModels.UpdateFirstNameViewModel
+
+<h2 class="w3-center">Change your First Name</h2>
+
+<hr />
+
+<div class="form-group d-flex flex-column align-items-center">
+    <label for="CurrentFirstName">Current First Name</label>
+    <input id="CurrentFirstName" class="w3-text-grey mb-2" value="@Model.CurrentFirstName" readonly />
+</div>
+
+<form method="post">
+    <div class="form-group d-flex flex-column align-items-center">
+        <label for="NewFirstName">New First Name</label>
+        <input id="NewFirstName" class="w3-text-grey mb-2" type="email" asp-for="NewFirstName" />
+        <span asp-validation-for="NewFirstName" class="text-danger"></span>
+    </div>
+    <div class="form-group d-flex flex-column align-items-center mt-4">
+        <button type="submit" class="btn btn-primary mb-2">Update</button>
+    </div>
+</form>
+<div class="form-group d-flex flex-column align-items-center mt-4">
+    <a href="@Url.Action("Profile", "Users")" class="btn btn-secondary">Back to Profile</a>
+</div>

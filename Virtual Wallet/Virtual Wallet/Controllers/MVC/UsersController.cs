@@ -2,6 +2,7 @@
 using Virtual_Wallet.Models.ViewModels;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
+using Virtual_Wallet.VirtualWallet.Persistence.Repository;
 using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
 
@@ -17,6 +18,7 @@ namespace Virtual_Wallet.Controllers.MVC
 			this.authManager = authManager;
         }
 
+        #region Register
         [HttpGet]
         public IActionResult Register()
         {
@@ -54,7 +56,9 @@ namespace Virtual_Wallet.Controllers.MVC
         {
             return View();
         }
+        #endregion
 
+        #region Login
         [HttpGet]
 		public IActionResult Login()
 		{
@@ -93,6 +97,8 @@ namespace Virtual_Wallet.Controllers.MVC
 			this.HttpContext.Session.Clear();
 			return RedirectToAction("Login", "Users");
 		}
+        #endregion
+
         [HttpGet("Users/VerifyEmail")]
         public IActionResult VerifyEmail(string token)
         {
@@ -124,8 +130,164 @@ namespace Virtual_Wallet.Controllers.MVC
 
             return View(userProfileViewModel);
         }
-        #region PrivateMethods
 
+        #region Update Profile
+        [HttpGet]
+        public IActionResult UpdateEmail()
+        {
+            string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
+            var user = userService.GetUserByUsername(currentUserUsername);
+            var model = new UpdateEmailViewModel
+            {
+                CurrentEmail = user.Email
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult UpdateEmail(UpdateEmailViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
+                    var user = userService.GetUserByUsername(currentUserUsername);
+                    user.Email = model.NewEmail;
+                    userService.UpdateUser(user);
+                    return RedirectToAction("Profile");
+                }
+                catch (DuplicateEntityException ex)
+                {
+                    ModelState.AddModelError("Email", ex.Message);
+                }
+            }
+            return View(model);
+        }
+        [HttpGet]
+        public IActionResult UpdatePhone()
+        {
+			string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
+			var user = userService.GetUserByUsername(currentUserUsername);
+			var model = new UpdatePhoneViewModel
+			{
+				CurrentPhoneNumber = user.PhoneNumber
+			};
+			return View(model);
+		}
+        [HttpPost]
+        public IActionResult UpdatePhone(UpdatePhoneViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
+                    var user = userService.GetUserByUsername(currentUserUsername);
+                    user.PhoneNumber = model.NewPhoneNumber;
+                    userService.UpdateUser(user);
+                    return RedirectToAction("Profile");
+                }
+                catch (DuplicateEntityException ex)
+                {
+                    ModelState.AddModelError("Phone", ex.Message);
+                }
+            }
+            return View(model);
+        }
+        [HttpGet]
+        public IActionResult UpdateFirstName()
+        {
+			string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
+			var user = userService.GetUserByUsername(currentUserUsername);
+			var model = new UpdateFirstNameViewModel
+			{
+				CurrentFirstName = user.FirstName
+			};
+			return View(model);
+		}
+        [HttpPost]
+        public IActionResult UpdateFirstName(UpdateFirstNameViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
+                    var user = userService.GetUserByUsername(currentUserUsername);
+                    user.FirstName = model.NewFirstName;
+                    userService.UpdateUser(user);
+                    return RedirectToAction("Profile");
+                }
+                catch (DuplicateEntityException ex)
+                {
+                    ModelState.AddModelError("FirstName", ex.Message);
+                }
+            }
+            return View(model);
+        }
+        [HttpGet]
+        public IActionResult UpdateLastName()
+        {
+			string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
+			var user = userService.GetUserByUsername(currentUserUsername);
+			var model = new UpdateLastNameViewModel
+			{
+				CurrentLastName = user.LastName
+			};
+			return View(model);
+		}
+        [HttpPost]
+        public IActionResult UpdateLastName(UpdateLastNameViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
+                    var user = userService.GetUserByUsername(currentUserUsername);
+                    user.LastName = model.NewLastName;
+                    userService.UpdateUser(user);
+                    return RedirectToAction("Profile");
+                }
+                catch (DuplicateEntityException ex)
+                {
+                    ModelState.AddModelError("FirstName", ex.Message);
+                }
+            }
+            return View(model);
+        }
+        [HttpGet]
+        public IActionResult UpdatePassword()
+        {
+			string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
+			var user = userService.GetUserByUsername(currentUserUsername);
+			var model = new UpdatePasswordViewModel
+			{
+				CurrentPassword = user.Password
+			};
+			return View(model);
+		}
+        [HttpPost]
+        public IActionResult UpdatePassword(UpdatePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
+                    var user = userService.GetUserByUsername(currentUserUsername);
+                    user.Password = model.NewPassword;
+                    userService.UpdateUser(user);
+                    return RedirectToAction("Profile");
+                }
+                catch (DuplicateEntityException ex)
+                {
+                    ModelState.AddModelError("Password", ex.Message);
+                }
+            }
+            return View(model);
+        }
         #endregion
     }
 }

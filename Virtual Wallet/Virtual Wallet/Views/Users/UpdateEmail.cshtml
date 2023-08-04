@@ -1,0 +1,24 @@
+﻿@model Virtual_Wallet.Models.ViewModels.UpdateEmailViewModel
+
+<h2 class ="w3-center">Change your Email</h2>
+
+<hr />
+
+<div class="form-group d-flex flex-column align-items-center">
+    <label for="CurrentEmail">Current Email</label>
+    <input id="CurrentEmail" class="w3-text-grey mb-2" type="email" value="@Model.CurrentEmail" readonly />
+</div>
+
+<form method="post">
+    <div class="form-group d-flex flex-column align-items-center">
+        <label for="NewEmail">New Email</label>
+        <input id="NewEmail" class="w3-text-grey mb-2" type="email" asp-for="NewEmail" />
+        <span asp-validation-for="NewEmail" class="text-danger"></span>
+    </div>
+    <div class="form-group d-flex flex-column align-items-center mt-4">
+        <button type="submit" class="btn btn-primary mb-2">Update</button>
+    </div>
+</form>
+<div class="form-group d-flex flex-column align-items-center mt-4">
+    <a href="@Url.Action("Profile", "Users")" class="btn btn-secondary">Back to Profile</a>
+</div>

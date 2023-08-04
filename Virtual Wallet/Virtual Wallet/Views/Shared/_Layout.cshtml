@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 	<style>
 		html, body, h1, h2, h3, h4, h5 {
 			font-family: "Open Sans", sans-serif
@@ -54,11 +55,11 @@
 			</div>
 			@if (!string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")))
 			{
-				<a asp-action="Logout" asp-controller="Users" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-red" title="Logout">Logout</a>
-				<a asp-action="Profile" asp-controller="Users" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">My Account</a>
+				<a asp-action="Logout" asp-controller="Users" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-red" title="Logout"><i class="fas fa-sign-out-alt"></i>  Logout</a>
+				<a asp-action="Profile" asp-controller="Users" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account"><i class="fas fa-user-circle"></i> My Account</a>
 				@if (Context.Request.HttpContext.Session.GetString("IsAdmin") == "True")
 				{
-					<a asp-action="Dashboard" asp-controller="Admins" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-blue" title="Dashboard">Dashboard</a>
+					<a asp-action="Dashboard" asp-controller="Admins" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-blue" title="Dashboard"><i class="fas fa-user-shield"></i> Dashboard</a>
 				}
 			}
 			else

@@ -118,7 +118,6 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
                 existingUser.Password = newHashedPassword;
             }
 
-            // Allow user to update First name, Last name and Phone number
             if (!string.IsNullOrEmpty(userUpdate.FirstName))
             {
                 existingUser.FirstName = userUpdate.FirstName;

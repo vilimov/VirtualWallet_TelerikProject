@@ -1,0 +1,24 @@
+﻿@model Virtual_Wallet.Models.ViewModels.UpdatePhoneViewModel
+
+<h2 class="w3-center">Change your Phone number</h2>
+
+<hr />
+
+<div class="form-group d-flex flex-column align-items-center">
+    <label for="CurrentPhoneNumber">Current Phone number</label>
+    <input id="CurrentPhoneNumber" class="w3-text-grey mb-2" value="@Model.CurrentPhoneNumber" readonly />
+</div>
+
+<form method="post">
+    <div class="form-group d-flex flex-column align-items-center">
+        <label for="NewPhoneNumber">New Phone number</label>
+        <input id="NewPhoneNumber" class="w3-text-grey mb-2" asp-for="NewPhoneNumber" />
+        <span asp-validation-for="NewPhoneNumber" class="text-danger"></span>
+    </div>
+    <div class="form-group d-flex flex-column align-items-center mt-4">
+        <button type="submit" class="btn btn-primary mb-2">Update</button>
+    </div>
+</form>
+<div class="form-group d-flex flex-column align-items-center mt-4">
+    <a href="@Url.Action("Profile", "Users")" class="btn btn-secondary">Back to Profile</a>
+</div>
