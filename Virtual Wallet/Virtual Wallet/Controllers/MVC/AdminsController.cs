@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Virtual_Wallet.Models.ViewModels;
+using Virtual_Wallet.VirtualWallet.API.Models.ViewModels;
 using Virtual_Wallet.VirtualWallet.Application.Services;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
@@ -18,30 +19,64 @@ namespace Virtual_Wallet.Controllers.MVC
         }
         public IActionResult Dashboard(string search = null)
         {
-            var users = userService.GetAllUsers(search);
-            var userViewModels = users.Select(u => new UserAdminViewModel
-            {
-                Id = u.Id,
-                Username = u.Username,
-                Email = u.Email,
-                PhoneNumber = u.PhoneNumber,
-                IsAdmin = u.IsAdmin,
-                IsBlocked = u.IsBlocked,
-                IsDeleted = u.IsDeleted
-            });
+            string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
+            User currentUser = userService.GetUserByUsername(loggedInUserName);
 
-            return View(userViewModels);
+            bool isAdmin = Boolean.Parse(HttpContext.Session.GetString("IsAdmin"));
+
+            if (currentUser == null || !isAdmin)
+            {
+                Response.StatusCode = 403;
+                this.ViewData["ErrorMessage"] = "You are not authorized for this action!";
+                return View("Error");
+            }
+
+            try
+            {
+                var users = userService.GetAllUsers(search);
+                var userViewModels = users.Select(u => new UserAdminViewModel
+                {
+                    Id = u.Id,
+                    Username = u.Username,
+                    Email = u.Email,
+                    PhoneNumber = u.PhoneNumber,
+                    IsAdmin = u.IsAdmin,
+                    IsBlocked = u.IsBlocked,
+                    IsDeleted = u.IsDeleted
+                });
+
+                return View(userViewModels);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";
+                return View("Error");
+            }
         }
         [HttpPost]
         public IActionResult BlockUser(int id)
         {
             try
             {
+                string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
+                User currentUser = userService.GetUserByUsername(loggedInUserName);
+
+                bool isAdmin = Boolean.Parse(HttpContext.Session.GetString("IsAdmin"));
+                if (currentUser == null || !isAdmin)
+                {
+                    Response.StatusCode = 403;
+                    this.ViewData["ErrorMessage"] = "You are not authorized for this action!";
+                    return View("Error");
+                }
+
                 adminService.BlockUser(id);
                 return RedirectToAction("Dashboard");
             }
             catch (Exception ex)
             {
+                Response.StatusCode = 500;
+                this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";
                 return View("Error");
             }
         }
@@ -51,24 +86,51 @@ namespace Virtual_Wallet.Controllers.MVC
         {
             try
             {
+                string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
+                User currentUser = userService.GetUserByUsername(loggedInUserName);
+
+                bool isAdmin = Boolean.Parse(HttpContext.Session.GetString("IsAdmin"));
+                if (currentUser == null || !isAdmin)
+                {
+                    Response.StatusCode = 403;
+                    this.ViewData["ErrorMessage"] = "You are not authorized for this action!";
+                    return View("Error");
+                }
+
                 adminService.UnblockUser(id);
                 return RedirectToAction("Dashboard");
             }
             catch (Exception ex)
             {
+                Response.StatusCode = 500;
+                this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";
                 return View("Error");
             }
         }
+
         [HttpPost]
         public IActionResult DeleteUser(int id)
         {
             try
             {
+                string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
+                User currentUser = userService.GetUserByUsername(loggedInUserName);
+
+                bool isAdmin = Boolean.Parse(HttpContext.Session.GetString("IsAdmin"));
+                if (currentUser == null || !isAdmin)
+                {
+                    Response.StatusCode = 403;
+                    this.ViewData["ErrorMessage"] = "You are not authorized for this action!";
+                    return View("Error");
+                }
+
                 userService.DeleteUser(id);
                 return RedirectToAction("Dashboard");
             }
             catch (Exception ex)
             {
+                Response.StatusCode = 500;
+                this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";
                 return View("Error");
             }
         }
@@ -83,13 +145,17 @@ namespace Virtual_Wallet.Controllers.MVC
                 bool isAdmin = Boolean.Parse(HttpContext.Session.GetString("IsAdmin"));
                 if (currentUser == null || !isAdmin)
                 {
-                    return Unauthorized();
+                    Response.StatusCode = 403;
+                    this.ViewData["ErrorMessage"] = "You are not authorized for this action!";
+                    return View("Error");
                 }
                 adminService.PromoteToAdmin(id, currentUser);
                 return RedirectToAction("AllUsers");
             }
             catch (Exception ex)
             {
+                Response.StatusCode = 500;
+                this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";
                 return View("Error");
             }
         }
@@ -104,7 +170,9 @@ namespace Virtual_Wallet.Controllers.MVC
                 bool isAdmin = Boolean.Parse(HttpContext.Session.GetString("IsAdmin"));
                 if (currentUser == null || !isAdmin)
                 {
-                    return Unauthorized();
+                    Response.StatusCode = 403;
+                    this.ViewData["ErrorMessage"] = "You are not authorized for this action!";
+                    return View("Error");
                 }
 
                 adminService.DemoteFromAdmin(id, currentUser);
@@ -112,6 +180,8 @@ namespace Virtual_Wallet.Controllers.MVC
             }
             catch (Exception ex)
             {
+                Response.StatusCode = 500;
+                this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";
                 return View("Error");
             }
         }

@@ -108,5 +108,24 @@ namespace Virtual_Wallet.Controllers.MVC
 
             return View();
         }
+        public IActionResult Profile()
+        {
+            string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
+            var user = userService.GetUserByUsername(loggedInUserName);
+
+            var userProfileViewModel = new UserProfileViewModel
+            {
+                Username = user.Username,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
+
+            return View(userProfileViewModel);
+        }
+        #region PrivateMethods
+
+        #endregion
     }
 }

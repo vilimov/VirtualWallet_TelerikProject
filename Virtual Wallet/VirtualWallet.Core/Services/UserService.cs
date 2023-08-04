@@ -81,37 +81,63 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			return this.userRepository.AddUser(user);
 		}
 
-		public User UpdateUser(User userUpdate)
-		{
-			var existingUser = userRepository.GetUserById(userUpdate.Id);
+        public User UpdateUser(User userUpdate)
+        {
+            var existingUser = userRepository.GetUserById(userUpdate.Id);
 
-			if (existingUser == null)
-			{
-				throw new EntityNotFoundException($"User with id {userUpdate.Id} does not exist.");
-			}
+            if (existingUser == null)
+            {
+                throw new EntityNotFoundException($"User with id {userUpdate.Id} does not exist.");
+            }
 
-			if (!string.IsNullOrEmpty(userUpdate.Email))
-			{
-				existingUser.Email = userUpdate.Email;
-			}
+            // Check if new email is unique
+            if (!string.IsNullOrEmpty(userUpdate.Email) && userUpdate.Email != existingUser.Email)
+            {
+                var existingUserWithEmail = userRepository.GetUserByEmail(userUpdate.Email);
 
-			if (!string.IsNullOrEmpty(userUpdate.Password) && userUpdate.Password.Length >= 8 && userUpdate.Password.Length <= 20)
-			{
-				// Generate new salt
-				string newSalt = AuthManager.GenerateSalt();
+                if (existingUserWithEmail != null)
+                {
+                    throw new DuplicateEntityException($"Email {userUpdate.Email} already in use.");
+                }
+                else
+                {
+                    existingUser.Email = userUpdate.Email;
+                }
+            }
 
-				// Hash the new password with the new salt
-				string newHashedPassword = AuthManager.HashPassword(userUpdate.Password, newSalt);
+            if (!string.IsNullOrEmpty(userUpdate.Password) && userUpdate.Password.Length >= 8 && userUpdate.Password.Length <= 20)
+            {
+                // Generate new salt
+                string newSalt = AuthManager.GenerateSalt();
 
-				// Update the user's salt and hashed password
-				existingUser.Salt = newSalt;
-				existingUser.Password = newHashedPassword;
-			}
+                // Hash the new password with the new salt
+                string newHashedPassword = AuthManager.HashPassword(userUpdate.Password, newSalt);
 
-			return userRepository.UpdateUser(existingUser);
-		}
+                // Update the user's salt and hashed password
+                existingUser.Salt = newSalt;
+                existingUser.Password = newHashedPassword;
+            }
 
-		public void DeleteUser(int id)
+            // Allow user to update First name, Last name and Phone number
+            if (!string.IsNullOrEmpty(userUpdate.FirstName))
+            {
+                existingUser.FirstName = userUpdate.FirstName;
+            }
+
+            if (!string.IsNullOrEmpty(userUpdate.LastName))
+            {
+                existingUser.LastName = userUpdate.LastName;
+            }
+
+            if (!string.IsNullOrEmpty(userUpdate.PhoneNumber))
+            {
+                existingUser.PhoneNumber = userUpdate.PhoneNumber;
+            }
+
+            return userRepository.UpdateUser(existingUser);
+        }
+
+        public void DeleteUser(int id)
 		{
 			this.userRepository.DeleteUser(id);
 		}
