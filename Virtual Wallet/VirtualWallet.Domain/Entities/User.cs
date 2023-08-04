@@ -20,8 +20,8 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
 		//[Display(Name = "Password")]
 		public string Password { get; set; }
         public string Salt { get; set; }
-		public string FirstName { get; set; }
-		public string LastName { get; set; }
+		public string? FirstName { get; set; }
+		public string? LastName { get; set; }
 
         [MaxLength(170)]
         public string? VerificationToken { get; set; }

@@ -179,7 +179,18 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			user.IsBlocked = false;
 			userRepository.UpdateUser(user);
 		}
-		public IEnumerable<User> SearchByUsername(string username)
+        public IEnumerable<User> GetAllUsers(string search)
+        {
+            if (string.IsNullOrWhiteSpace(search))
+            {
+                return GetAllUsers();
+            }
+            else
+            {
+                return userRepository.GetAllUsers().Where(u => u.Username.Contains(search));
+            }
+        }
+        public IEnumerable<User> SearchByUsername(string username)
 		{
 			return userRepository.SearchByUsername(username);
 		}

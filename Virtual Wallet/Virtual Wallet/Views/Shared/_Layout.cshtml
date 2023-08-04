@@ -56,6 +56,10 @@
 			{
 				<a asp-action="Logout" asp-controller="Users" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-red" title="Logout">Logout</a>
 				<a asp-action="MyAccount" asp-controller="Users" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">My Account</a>
+				@if (Context.Request.HttpContext.Session.GetString("IsAdmin") == "True")
+				{
+					<a asp-action="Dashboard" asp-controller="Admins" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-blue" title="Dashboard">Dashboard</a>
+				}
 			}
 			else
 			{

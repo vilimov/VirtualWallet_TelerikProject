@@ -1,0 +1,61 @@
+﻿@using Virtual_Wallet.Models.ViewModels;
+@model IEnumerable<UserAdminViewModel>
+
+<div class="container">
+    <h1 class="text-center">Admin Dashboard</h1>
+
+    <form asp-action="Dashboard" asp-controller="Admins" method="post" class="mb-3">
+        <div class="input-group">
+            <input type="text" class="form-control" name="search" placeholder="Search users..." />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Username</td>
+                    <td>@user.Email</td>
+                    <td>@user.PhoneNumber</td>
+                    <td>
+                        <div class="btn-group">
+                            @if (user.IsBlocked)
+                            {
+                                <form asp-action="UnblockUser" asp-controller="Admins" method="post" style="display: inline-block;">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="btn btn-success">Unblock</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-action="BlockUser" asp-controller="Admins" method="post" style="display: inline-block;">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="btn btn-warning">Block</button>
+                                </form>
+                            }
+                            @if (!user.IsDeleted)
+                            {
+                                <form asp-action="DeleteUser" asp-controller="Admins" method="post" style="display: inline-block;">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            }
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

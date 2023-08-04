@@ -73,7 +73,7 @@ namespace Virtual_Wallet.Controllers.MVC
 				var user = userService.Login(model.Username, model.Password);
 				this.HttpContext.Session.SetString("LoggedUser", user.Username);
 				this.HttpContext.Session.SetString("IsAdmin", user.IsAdmin.ToString());
-				this.HttpContext.Session.SetString("UserImage", user.Photo);
+				//this.HttpContext.Session.SetString("UserImage", user.Photo);
 
 				return RedirectToAction("Index", "Home");
 			}
