@@ -5,11 +5,9 @@
     <h1 class="text-center">Admin Dashboard</h1>
 
     <form asp-action="Dashboard" asp-controller="Admins" method="post" class="mb-3">
-        <div class="input-group">
+        <div class="d-flex align-items-center">
             <input type="text" class="form-control" name="search" placeholder="Search users..." />
-            <div class="input-group-append">
-                <button type="submit" class="btn btn-primary">Search</button>
-            </div>
+            <button type="submit" class="btn btn-primary ml-2">Search</button>
         </div>
     </form>
 
