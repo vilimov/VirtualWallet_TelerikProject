@@ -23,14 +23,13 @@ namespace VirtualWallet.Tests.Services.UserServices
 		{
 			// Arrange
 			var userRepoMock = new Mock<IUserRepository>();
-			var adminServiceMock = new Mock<IAdminService>();
 
 			User testUser = UsersHelper.GetTestUser();
 
 			userRepoMock.Setup(repo => repo.GetUserById(testUser.Id)).Returns(testUser);
 			userRepoMock.Setup(repo => repo.UpdateUser(It.IsAny<User>()));
 
-			var sut = new AdminService(userRepoMock.Object, adminServiceMock.Object);
+			var sut = new AdminService(userRepoMock.Object);
 
 			// Act
 			sut.BlockUser(testUser.Id);
@@ -43,11 +42,10 @@ namespace VirtualWallet.Tests.Services.UserServices
 		{
 			// Arrange
 			var userRepoMock = new Mock<IUserRepository>();
-            var adminServiceMock = new Mock<IAdminService>();
 
             userRepoMock.Setup(repo => repo.GetUserById(It.IsAny<int>())).Returns((User)null);
 
-			var sut = new AdminService(userRepoMock.Object, adminServiceMock.Object);
+			var sut = new AdminService(userRepoMock.Object);
 
 			// Assert
 			Assert.ThrowsException<EntityNotFoundException>(() => sut.BlockUser(0));
