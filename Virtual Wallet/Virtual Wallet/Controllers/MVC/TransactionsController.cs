@@ -32,12 +32,32 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return RedirectToAction("Login", "Users");
 			}
-
-			IList<Transaction> transactions = this.transactionService.GetAllTransactions();
-            return View(transactions);
+			var user = GetLoggedUser();
+			//IList<Transaction> transactions = this.transactionService.GetAllTransactions();
+			IList<Transaction> transactions = this.transactionService.GetTransactionsByUserId(user.Id);
+			return View(transactions);
         }
 
-        [HttpGet]
+		[HttpGet]
+		public IActionResult ShowAllTransactions()
+		{
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
+			var user = GetLoggedUser();
+			if (!user.IsAdmin)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
+				this.ViewData["ErrorMessage"] = "You are not authorized for this action!";
+				//return View("Error");             this will return the Error page
+				return View("Error");      // this will retur the same object and keep us on the same page
+			}
+			IList<Transaction> transactions = this.transactionService.GetAllTransactions();
+			return View(transactions);
+		}
+
+		[HttpGet]
         public IActionResult Details(int id)
         {
 			if (!IsUserLogged())
@@ -58,65 +78,131 @@ namespace Virtual_Wallet.Controllers.MVC
 			}
 		}
 
-        [HttpGet]
-        public IActionResult CreateDeposit()
-        {
+		[HttpGet]
+		public IActionResult CreateDeposit()
+		{
 			if (!IsUserLogged())
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			var user = GetLoggedUser();
-			var cardsList = user.Cards;
+			var cardsList = user.Cards; // Assuming cardsList is a List<Card>
 			var selectListItems = cardsList.Select(card => new SelectListItem
 			{
-				Value = card.Id.ToString(), // Set the value to the card's ID
-				Text = card.Name // Set the text to the card's number (or any other relevant property)
+				Value = card.Id.ToString(),   // Replace with actual property that holds card ID
+				Text = card.Name              // Replace with actual property that holds card Name
 			}).ToList();
 
-			var makeTransaction = new MakeCardTransactionViewModel()
+			var makeTransaction = new MakeCardTransactionViewModel
 			{
-				Cards = selectListItems // Assign the list of cards to the Cards property
+				Cards = new SelectList(selectListItems, "Value", "Text") // Bind the list of selectListItems to the Cards property
 			};
+
 			return View(makeTransaction);
 		}
 
-        [HttpPost]
-        public IActionResult CreateDeposit(MakeCardTransactionViewModel makeTransactio)
-        {
+		[HttpPost]
+		public IActionResult CreateDeposit(MakeCardTransactionViewModel makeTransaction)
+		{
 			if (!IsUserLogged())
 			{
 				return RedirectToAction("Login", "Users");
 			}
 
-			if (!this.ModelState.IsValid)
+			if (!ModelState.IsValid)
 			{
-				return View(makeTransactio);
-			}
-			try
-			{
-				var user = GetLoggedUser();
-				var card = cardService.GetById(makeTransactio.CardId);
-				var createdTransaction = transactionService.AddMoneyCardToWallet(user, card, makeTransactio.Amount, makeTransactio.Description);
-				return View(createdTransaction);
-			}
-            catch (Exception e)
-            {
+				// Here, you need to populate the Cards SelectList again for displaying in case of validation errors.
 				var user = GetLoggedUser();
 				var cardsList = user.Cards;
 				var selectListItems = cardsList.Select(card => new SelectListItem
 				{
-					Value = card.Id.ToString(), // Set the value to the card's ID
-					Text = card.Name // Set the text to the card's number (or any other relevant property)
+					Value = card.Id.ToString(),
+					Text = card.Name
 				}).ToList();
 
-				var makeTransaction = new MakeCardTransactionViewModel()
+				makeTransaction.Cards = new SelectList(selectListItems, "Value", "Text");
+
+				return View(makeTransaction);
+			}
+
+			try
+			{
+				var user = GetLoggedUser();
+				var card = cardService.GetById(makeTransaction.CardId);
+				var createdTransaction = transactionService.AddMoneyCardToWallet(user, card, makeTransaction.Amount, makeTransaction.Description);
+				return RedirectToAction("Details", "Transactions", new { id = createdTransaction.Id });
+			}
+			catch (Exception e)
+			{
+				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
+				ViewData["ErrorMessage"] = e.Message;
+				//return View("Error");           // This will return the Error page
+				return View(makeTransaction);    // This will return the same view with validation errors
+			}
+		}
+
+		[HttpGet]
+		public IActionResult CreateWithdraw()
+		{
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
+
+			var user = GetLoggedUser();
+			var cardsList = user.Cards; // Assuming cardsList is a List<Card>
+			var selectListItems = cardsList.Select(card => new SelectListItem
+			{
+				Value = card.Id.ToString(),   // Replace with actual property that holds card ID
+				Text = card.Name              // Replace with actual property that holds card Name
+			}).ToList();
+
+			var makeTransaction = new MakeCardTransactionViewModel
+			{
+				Cards = new SelectList(selectListItems, "Value", "Text") // Bind the list of selectListItems to the Cards property
+			};
+
+			return View(makeTransaction);
+		}
+
+		[HttpPost]
+		public IActionResult CreateWithdraw(MakeCardTransactionViewModel makeTransaction)
+		{
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
+
+			if (!ModelState.IsValid)
+			{
+				// Here, you need to populate the Cards SelectList again for displaying in case of validation errors.
+				var user = GetLoggedUser();
+				var cardsList = user.Cards;
+				var selectListItems = cardsList.Select(card => new SelectListItem
 				{
-					Cards = selectListItems // Assign the list of cards to the Cards property
-				};
-				this.HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
-				this.ViewData["ErrorMessage"] = e.Message;
-				//return View("Error");             this will return the Error page
-				return View(makeTransactio);      // this will retur the same object and keep us on the same page
+					Value = card.Id.ToString(),
+					Text = card.Name
+				}).ToList();
+
+				makeTransaction.Cards = new SelectList(selectListItems, "Value", "Text");
+
+				return View(makeTransaction);
+			}
+
+			try
+			{
+				var user = GetLoggedUser();
+				var card = cardService.GetById(makeTransaction.CardId);
+				var createdTransaction = transactionService.WithdrawalTransfer(user, card, makeTransaction.Amount, makeTransaction.Description);
+				return RedirectToAction("Details", "Transactions", new { id = createdTransaction.Id });
+			}
+			catch (Exception e)
+			{
+				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
+				ViewData["ErrorMessage"] = e.Message;
+				//return View("Error");           // This will return the Error page
+				return View(makeTransaction);    // This will return the same view with validation errors
 			}
 		}
 
@@ -137,6 +223,23 @@ namespace Virtual_Wallet.Controllers.MVC
 			var loggedUser = userService.GetUserByUsername(getUserName);
 			return loggedUser;
 		}
+
+
+		public string GetBackAction()
+		{
+			string referer = Request.Headers["Referer"].ToString();
+
+			// Check if referer contains specific keywords from the previous pages
+			if (referer.Contains("ShowAllTransactions"))
+			{
+				return "ShowAllTransactions";
+			}
+			else
+			{
+				return "Index";
+			}
+		}
+
 		#endregion
 
 

@@ -6,6 +6,7 @@ using Virtual_Wallet.VirtualWallet.Application.Services;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Common.QueryParameters;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
+using Virtual_Wallet.VirtualWallet.Persistence.Repository;
 using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
 using VirtualWallet.Common.AdditionalHelpers;
@@ -227,6 +228,43 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
                 return StatusCode(StatusCodes.Status404NotFound, e.Message);
             }
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateCard([FromHeader] string credentials, [FromBody] CardAddDto cardDto, int id)
+        {
+            try 
+            {
+                User user = authManager.TryGetUser(credentials);
+                Card currentCard = cardService.GetById(id);
+                if (currentCard.User != user)
+                {
+                    return StatusCode(StatusCodes.Status401Unauthorized, Alerts.NotAutorised);
+                }
+                Card updatedCard = mapper.Map<Card>(cardDto);
+                Card result = cardService.Update(currentCard, user, id);
+				return Ok(result);
+			}
+			catch (EntityNotFoundException ex)
+			{
+				return BadRequest(ex.Message);
+			}
+			catch (UnauthorizedOperationException ex)
+			{
+				return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
+			}
+			catch (DuplicateEntityException ex)
+			{
+				return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+			}
+			catch (CardAlreadyExpired ex)
+			{
+				return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
+			}
+			catch (InvalidCredentialsException e)
+			{
+				return StatusCode(StatusCodes.Status404NotFound, e.Message);
+			}
+		}
 
         [HttpDelete("id")]
         public IActionResult RemoveCard([FromHeader] string credentials, int id)

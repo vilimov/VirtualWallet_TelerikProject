@@ -20,6 +20,11 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             return createdCard;
         }
 
+        public Card Update(Card card, User user, int id)
+        {
+            return cardRepository.Update(card, user, id);
+        }
+
         public IEnumerable<Card> GetFilteredCards(CardQueryParameters filter)
         {
             return cardRepository.GetFilteredCards(filter);
