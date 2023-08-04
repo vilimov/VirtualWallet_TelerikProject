@@ -83,12 +83,12 @@ namespace Virtual_Wallet.Controllers.MVC
 			}
 			catch (EntityNotFoundException ex)
 			{
-				ModelState.AddModelError("", ex.Message);
+				ModelState.AddModelError(string.Empty, ex.Message);
 				return View(model);
 			}
 			catch (UnauthorizedAccessException ex)
 			{
-				ModelState.AddModelError("", ex.Message);
+				ModelState.AddModelError(string.Empty, ex.Message);
 				return View(model);
 			}
 		}
