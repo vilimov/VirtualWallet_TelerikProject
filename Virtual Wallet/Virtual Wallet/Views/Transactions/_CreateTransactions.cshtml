@@ -1,9 +1,11 @@
 ﻿@model Virtual_Wallet.Models.ViewModels.MakeCardTransactionViewModel
+<!-- POP UP CSS-->
+<link rel="stylesheet" href="~/css/PopUpStyle.css" asp-append-version="true" />
 
 <div class="w3-container w3-white w3-padding-32">
 	<h1 class="w3-center">@this.ViewData["PageTitle"]</h1>
 	<hr style="width:100%; text-align:center; margin: 0 auto 50px;">
-	<form asp-controller="Transactions" asp-action="CreateDeposit" method="post">
+	<form asp-controller="Transactions" asp-action="CreateDeposit" method="post" onsubmit="return confirmSave();">
 		<div>
 			<div>
 				<div style="display: @this.ViewData["TitleVisibility"]">
@@ -21,7 +23,7 @@
 			</div>
 
 			<div>
-				<label asp-for="CardId" class="w3-opacity"></label><br />
+				<label asp-for="CardId" class="w3-opacity">@ViewData["TextForCard"]</label><br />
 				<select asp-items="@Model.Cards" asp-for="CardId" class="form-input"></select>
 				<br />
 				<span asp-validation-for="CardId" class="form-error"></span>
@@ -42,3 +44,43 @@
 
 	</form>
 </div>
+<!-- POP UP HTML-->
+<div id="customPopup" class="custom-popup ">
+	<div class="popup-content">
+		<i class="fa fa-question-circle-o fa-5x" aria-hidden="true"></i>
+		<hr />
+		<p>Are you sure you want to make the transaction?</p><hr />
+		<p class="w3-opacity">This action cannot be undone.</p>
+		<button id="confirmButton" class="btn btn-success w3-round">Confirm</button>
+		<button id="cancelButton" class="btn btn-danger w3-round">Cancel</button>
+	</div>
+</div>
+
+<!-- POP UP JAVASCRIPT-->
+<script>
+	const customPopup = document.getElementById('customPopup');
+	const confirmButton = document.getElementById('confirmButton');
+	const cancelButton = document.getElementById('cancelButton');
+
+	function showCustomPopup() {
+		customPopup.style.display = 'block';
+	}
+
+	function hideCustomPopup() {
+		customPopup.style.display = 'none';
+	}
+
+	confirmButton.addEventListener('click', function () {
+		// Trigger the form submission when "Yes" is clicked
+		document.querySelector('form').submit();
+	});
+
+	cancelButton.addEventListener('click', hideCustomPopup);
+
+	// Add this event listener to your existing submit button
+	document.querySelector('form').addEventListener('submit', function (e) {
+		e.preventDefault(); // Prevent the default form submission
+		showCustomPopup();
+	});
+
+</script>
