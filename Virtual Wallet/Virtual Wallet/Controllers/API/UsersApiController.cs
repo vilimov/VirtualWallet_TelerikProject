@@ -20,12 +20,14 @@ namespace Virtual_Wallet.Controllers.API
 		private readonly IUserService userService;
 		private readonly IMapper mapper;
 		private readonly AuthManager authManager;
+		private readonly IAdminService adminService;
 
-		public UsersApiController(IUserService userService, IMapper mapper, AuthManager authManager)
+		public UsersApiController(IUserService userService, IMapper mapper, AuthManager authManager, IAdminService adminService)
 		{
 			this.userService = userService;
 			this.mapper = mapper;
 			this.authManager = authManager;
+			this.adminService = adminService;
 		}
 		[HttpGet]
 		public IActionResult GetUsers()
@@ -266,7 +268,7 @@ namespace Virtual_Wallet.Controllers.API
 					return Unauthorized("You are not authorized to perform this operation");
 				}
 
-				userService.BlockUser(id);
+				adminService.BlockUser(id);
 				return Ok("User is blocked");
 			}
 			catch (EntityNotFoundException)
@@ -290,7 +292,7 @@ namespace Virtual_Wallet.Controllers.API
 					return Unauthorized("You are not authorized to perform this operation");
 				}
 
-				userService.UnblockUser(id);
+				adminService.UnblockUser(id);
 				return Ok("User is unblocked");
 			}
 			catch (EntityNotFoundException)

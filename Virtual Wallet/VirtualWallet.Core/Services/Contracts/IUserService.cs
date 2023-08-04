@@ -15,8 +15,6 @@ namespace VirtualWallet.Application.Services.Contracts
 		void DeleteUser(int id);
 		User Login(string username, string password);
 		public User Verify(string token);
-		void BlockUser(int id);
-		void UnblockUser(int id);
 		IEnumerable<User> GetAllUsers(string search);
         IEnumerable<User> SearchByUsername(string username);
 		IEnumerable<User> SearchByEmail(string email);

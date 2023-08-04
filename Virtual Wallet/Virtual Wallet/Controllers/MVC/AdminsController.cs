@@ -7,9 +7,11 @@ namespace Virtual_Wallet.Controllers.MVC
     public class AdminsController : Controller
     {
         private readonly IUserService userService;
-        public AdminsController(IUserService userService) 
+        private readonly IAdminService adminService;
+        public AdminsController(IUserService userService, IAdminService adminService) 
         {
             this.userService = userService;
+            this.adminService = adminService;
         }
         public IActionResult Dashboard(string search = null)
         {
@@ -30,14 +32,14 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpPost]
         public IActionResult BlockUser(int id)
         {
-            userService.BlockUser(id);
+            adminService.BlockUser(id);
             return RedirectToAction("Dashboard");
         }
 
         [HttpPost]
         public IActionResult UnblockUser(int id)
         {
-            userService.UnblockUser(id);
+            adminService.UnblockUser(id);
             return RedirectToAction("Dashboard");
         }
         [HttpPost]
