@@ -45,6 +45,20 @@
                                     <button type="submit" class="btn btn-warning">Block</button>
                                 </form>
                             }
+                            @if (user.IsAdmin)
+                            {
+                                <form asp-action="DemoteUser" asp-controller="Admins" method="post" style="display: inline-block;">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="btn btn-secondary">Demote</button>
+                                </form>
+                            }
+                            else
+                            {
+                                <form asp-action="PromoteUser" asp-controller="Admins" method="post" style="display: inline-block;">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="btn btn-info">Promote</button>
+                                </form>
+                            }
                             @if (!user.IsDeleted)
                             {
                                 <form asp-action="DeleteUser" asp-controller="Admins" method="post" style="display: inline-block;">

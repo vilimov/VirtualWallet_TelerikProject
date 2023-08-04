@@ -16,7 +16,7 @@ namespace VirtualWallet.Application.Services
 
         private readonly IUserRepository userRepository;
 
-        public AdminService(IUserRepository userRepository, IAdminService adminService) 
+        public AdminService(IUserRepository userRepository) 
         {
             this.userRepository = userRepository;
         }

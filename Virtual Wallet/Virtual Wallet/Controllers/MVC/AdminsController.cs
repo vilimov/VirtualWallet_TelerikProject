@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Virtual_Wallet.Models.ViewModels;
+using Virtual_Wallet.VirtualWallet.Application.Services;
+using Virtual_Wallet.VirtualWallet.Common.Exceptions;
+using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using VirtualWallet.Application.Services.Contracts;
 
 namespace Virtual_Wallet.Controllers.MVC
@@ -32,21 +35,86 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpPost]
         public IActionResult BlockUser(int id)
         {
-            adminService.BlockUser(id);
-            return RedirectToAction("Dashboard");
+            try
+            {
+                adminService.BlockUser(id);
+                return RedirectToAction("Dashboard");
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
         }
 
         [HttpPost]
         public IActionResult UnblockUser(int id)
         {
-            adminService.UnblockUser(id);
-            return RedirectToAction("Dashboard");
+            try
+            {
+                adminService.UnblockUser(id);
+                return RedirectToAction("Dashboard");
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
         }
         [HttpPost]
         public IActionResult DeleteUser(int id)
         {
-            userService.DeleteUser(id);
-            return RedirectToAction("Dashboard");
+            try
+            {
+                userService.DeleteUser(id);
+                return RedirectToAction("Dashboard");
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
         }
+        [HttpPost]
+        public IActionResult Promote(int id)
+        {
+            try
+            {
+                string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
+                User currentUser = userService.GetUserByUsername(loggedInUserName);
+
+                bool isAdmin = Boolean.Parse(HttpContext.Session.GetString("IsAdmin"));
+                if (currentUser == null || !isAdmin)
+                {
+                    return Unauthorized();
+                }
+                adminService.PromoteToAdmin(id, currentUser);
+                return RedirectToAction("AllUsers");
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
+        [HttpPost]
+        public IActionResult DemoteUser(int id)
+        {
+            try
+            {
+                string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
+                User currentUser = userService.GetUserByUsername(loggedInUserName);
+
+                bool isAdmin = Boolean.Parse(HttpContext.Session.GetString("IsAdmin"));
+                if (currentUser == null || !isAdmin)
+                {
+                    return Unauthorized();
+                }
+
+                adminService.DemoteFromAdmin(id, currentUser);
+                return RedirectToAction("AllUsers");
+            }
+            catch (Exception ex)
+            {
+                return View("Error");
+            }
+        }
+
     }
 }

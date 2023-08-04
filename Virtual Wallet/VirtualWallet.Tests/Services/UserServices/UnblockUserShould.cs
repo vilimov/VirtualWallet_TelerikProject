@@ -9,6 +9,7 @@ using Virtual_Wallet.VirtualWallet.Application.Services;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
+using VirtualWallet.Application.Services;
 using VirtualWallet.Application.Services.Contracts;
 using VirtualWallet.Tests.TestHelpers;
 
@@ -22,14 +23,14 @@ namespace VirtualWallet.Tests.Services.UserServices
 		{
 			// Arrange
 			var userRepoMock = new Mock<IUserRepository>();
-			var emailServiceMock = new Mock<IEmailService>();
+            var adminServiceMock = new Mock<IAdminService>();
 
-			User testUser = UsersHelper.GetTestUser();
+            User testUser = UsersHelper.GetTestUser();
 
 			userRepoMock.Setup(repo => repo.GetUserById(testUser.Id)).Returns(testUser);
 			userRepoMock.Setup(repo => repo.UpdateUser(It.IsAny<User>()));
 
-			var sut = new UserService(userRepoMock.Object, emailServiceMock.Object);
+			var sut = new AdminService(userRepoMock.Object, adminServiceMock.Object);
 
 			// Act
 			sut.UnblockUser(testUser.Id);
@@ -43,11 +44,11 @@ namespace VirtualWallet.Tests.Services.UserServices
 		{
 			// Arrange
 			var userRepoMock = new Mock<IUserRepository>();
-			var emailServiceMock = new Mock<IEmailService>();
+            var adminServiceMock = new Mock<IAdminService>();
 
-			userRepoMock.Setup(repo => repo.GetUserById(It.IsAny<int>())).Returns((User)null);
+            userRepoMock.Setup(repo => repo.GetUserById(It.IsAny<int>())).Returns((User)null);
 
-			var sut = new UserService(userRepoMock.Object, emailServiceMock.Object);
+			var sut = new AdminService(userRepoMock.Object, adminServiceMock.Object);
 
 			// Assert
 			Assert.ThrowsException<EntityNotFoundException>(() => sut.UnblockUser(0));

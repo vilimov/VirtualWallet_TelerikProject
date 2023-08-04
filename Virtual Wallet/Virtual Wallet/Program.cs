@@ -62,6 +62,7 @@ namespace Virtual_Wallet
             //builder.Services.AddScoped<ICardServices, CardServices>();
             builder.Services.AddScoped<ITransactionService, TransactionService>();
             builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IAdminService, AdminService>();
             builder.Services.AddScoped<IWalletService, WalletService>();
             builder.Services.AddScoped<ICardService, CardService>();
             builder.Services.AddScoped<IEmailService, EmailService>();
