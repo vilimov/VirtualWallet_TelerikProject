@@ -1,0 +1,25 @@
+﻿@using Virtual_Wallet.VirtualWallet.Domain.Entities
+@model List<User>
+
+<h1>Select Recipient</h1>
+
+<form asp-action="SelectRecipient" method="get">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" name="searchString" placeholder="Search users...">
+        <div class="input-group-append">
+            <button type="submit" class="btn btn-primary">Search</button>
+        </div>
+    </div>
+</form>
+
+<ul>
+    @foreach (var user in Model)
+    {
+        <li>
+            <form asp-action="SelectRecipient" asp-controller="Transactions" method="post">
+                <input type="hidden" name="selectedUsername" value="@user.Username" />
+                <button type="submit" class="btn btn-link">@user.Username</button>
+            </form>
+        </li>
+    }
+</ul>
