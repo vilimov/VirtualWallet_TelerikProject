@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Transactions;
 using System.Text.Json.Serialization;
 
+
 namespace Virtual_Wallet.VirtualWallet.Domain.Entities
 {
 	public class User
@@ -34,7 +35,7 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
 		[StringLength(10, MinimumLength = 10)]
 		public string? PhoneNumber { get; set; }
 
-		public string? Photo { get; set; }
+        public string? Photo { get; set; } = "images/users/defaultProfile.png";
 
 		public bool IsAdmin { get; set; }
 

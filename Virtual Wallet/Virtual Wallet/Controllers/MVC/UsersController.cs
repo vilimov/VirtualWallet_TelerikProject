@@ -38,7 +38,10 @@ namespace Virtual_Wallet.Controllers.MVC
                 {
                     Username = model.Username,
                     Email = model.Email,
-                    Password = model.Password
+                    Password = model.Password,
+                    PhoneNumber = model.Phone,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName
                 };
 
                 userService.Register(user);
@@ -77,7 +80,7 @@ namespace Virtual_Wallet.Controllers.MVC
 				var user = userService.Login(model.Username, model.Password);
 				this.HttpContext.Session.SetString("LoggedUser", user.Username);
 				this.HttpContext.Session.SetString("IsAdmin", user.IsAdmin.ToString());
-				//this.HttpContext.Session.SetString("UserImage", user.Photo);
+				this.HttpContext.Session.SetString("UserImage", user.Photo);
 
 				return RedirectToAction("Index", "Home");
 			}
@@ -287,6 +290,54 @@ namespace Virtual_Wallet.Controllers.MVC
                 }
             }
             return View(model);
+        }
+        [HttpGet]
+        public IActionResult UpdateProfilePicture()
+        {
+            string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
+            var user = userService.GetUserByUsername(currentUserUsername);
+
+            var model = new UpdateAvatarViewModel
+            {
+                CurrentImage = user.Photo
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        public IActionResult UpdateProfilePicture(UpdateAvatarViewModel model)
+        {
+            string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
+            var user = userService.GetUserByUsername(currentUserUsername);
+
+            if (model.NewProfilePicture != null && model.NewProfilePicture.Length > 0)
+            {
+                string uniqueFileName = Guid.NewGuid().ToString() + "_" + model.NewProfilePicture.FileName;
+
+                string uploadsFolder = Path.Combine("wwwroot", "images", "users");
+
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    model.NewProfilePicture.CopyTo(fileStream);
+                }
+
+                user.Photo = Path.Combine("images", "users", uniqueFileName);
+            }
+
+            try
+            {
+                this.HttpContext.Session.SetString("UserImage", user.Photo);
+                userService.UpdateUser(user);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                ModelState.AddModelError("", "An error occurred while updating the profile");
+                return View(model);
+            }
+
+            return RedirectToAction("Profile");
         }
         #endregion
     }

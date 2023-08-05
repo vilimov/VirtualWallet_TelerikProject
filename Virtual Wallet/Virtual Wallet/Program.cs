@@ -81,7 +81,8 @@ namespace Virtual_Wallet
 				app.UseSwagger();
 				app.UseSwaggerUI();
 			}
-			app.UseSession();
+
+            app.UseSession();
 
 			app.UseRouting();
 
