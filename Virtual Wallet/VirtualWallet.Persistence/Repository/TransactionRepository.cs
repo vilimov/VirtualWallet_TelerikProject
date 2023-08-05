@@ -89,10 +89,10 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 		{
 			var transactions = this.context.Transactions
                         .Where(t => t.SenderId == userId).ToList();
-            if (transactions.Count <= 0 || transactions == null)
+/*            if (transactions.Count <= 0 || transactions == null)
             {
                 throw new EntityNotFoundException(Alerts.NoItemToShow);
-            }
+            }*/
 			return transactions;
         }
 

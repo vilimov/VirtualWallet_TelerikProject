@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Hosting;
+using Org.BouncyCastle.Cms;
 using System.Security.Cryptography;
 using Virtual_Wallet.Models.ViewModels;
 using Virtual_Wallet.VirtualWallet.Application.Services;
@@ -207,8 +208,95 @@ namespace Virtual_Wallet.Controllers.MVC
 		}
 
 
-		#region PrivateMethods
-		private bool IsUserLogged()
+
+        [HttpGet]
+        public IActionResult CreateTransfer(MakeWalletTransactionViewModel makeTransaction)
+        {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
+
+            var user = GetLoggedUser();
+
+            return View(makeTransaction);
+        }
+
+		[HttpPost, ActionName("CreateTransfer")]
+		public IActionResult CreateTransferPost(MakeWalletTransactionViewModel makeTransaction)
+		{
+			
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
+
+			if (!ModelState.IsValid)
+			{
+				return View(makeTransaction);
+			}
+
+			try
+			{
+				
+                var user = GetLoggedUser();
+				var recipient = userService.GetUserByUsername(makeTransaction.RecipientUsername);
+                var createdTransaction = transactionService.AddMoneyWalletToWallet(user, recipient, makeTransaction.Amount, makeTransaction.Description);
+				return RedirectToAction("Details", "Transactions", new { id = createdTransaction.Id });
+			}
+			catch (Exception e)
+			{
+				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
+				ViewData["ErrorMessage"] = e.Message;
+				return View(makeTransaction);
+			}
+		}
+
+
+
+
+
+
+		[HttpGet]
+        public IActionResult SelectRecipient()
+        {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
+
+            var sender = GetLoggedUser();
+            var users = userService.GetAllUsers().Where(u => u.Username != sender.Username).ToList();
+            return View(users);
+        }
+
+        [HttpPost]
+        public IActionResult SelectRecipient(string selectedUsername)
+        {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
+
+            var user = GetLoggedUser();
+            var recipient = userService.GetUserByUsername(selectedUsername);
+
+            var makeTransaction = new MakeWalletTransactionViewModel
+            {
+                RecipientUsername = recipient.Username,
+				Amount = (decimal)0.01,
+				Description = "Enter Description"
+            };
+
+            return RedirectToAction("CreateTransfer", makeTransaction);
+        }
+
+
+
+
+
+        #region PrivateMethods
+        private bool IsUserLogged()
 		{
 			if (this.HttpContext.Session.GetString("LoggedUser") == null)
 			{

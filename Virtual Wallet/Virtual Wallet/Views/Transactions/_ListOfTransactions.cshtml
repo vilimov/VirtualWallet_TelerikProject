@@ -26,6 +26,10 @@
 		<table cellpadding="0" cellspacing="0" border="0">
 			<tbody>
 				@{
+					if (this.Model.Count < 1)
+					{
+						<p class="w3-opacity w3-padding">No Transactions to show</p>
+					}
 					foreach (var transaction in this.Model)
 					{
 						<tr>

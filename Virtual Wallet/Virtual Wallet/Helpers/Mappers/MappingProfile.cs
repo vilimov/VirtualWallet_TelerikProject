@@ -27,8 +27,8 @@ namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
 	                .ForMember(dto => dto.Cards, opt => opt.Ignore());
 			CreateMap<MakeCardTransactionViewModel, Transaction>();
 
-			//User mappings
-			CreateMap<User, UserShowDto>();
+            //User mappings
+            CreateMap<User, UserShowDto>();
 			CreateMap<UserLoginDto, User>()
                 .ForMember(dest => dest.Username, opts => opts.MapFrom(src => src.Username))
                 .ForMember(dest => dest.Password, opts => opts.MapFrom(src => src.Password));

@@ -64,8 +64,8 @@
 			}
 			else
 			{
-				<a asp-controller="Users" asp-action="Register" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-green" title="Register"><i></i>Register</a>
-				<a asp-controller="Users" asp-action="Login" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Login"><i></i>Login</a>
+				<a asp-controller="Users" asp-action="Register" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-green" title="Register"><i class="fas fa-user-plus"></i> Register</a>
+				<a asp-controller="Users" asp-action="Login" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Login"><i class="fas fa-sign-in-alt"></i> Login</a>
 			}
 		</div>
 	</div>
@@ -108,15 +108,25 @@
 						<div id="Demo1" class="w3-hide w3-container">
 							<p>Some text..</p>
 						</div>
-						<button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> My Events</button>
+						<button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> Info</button>
 						<div id="Demo2" class="w3-hide w3-container">
-							<p>Some other text..</p>
+							<div class="w3-row-padding">
+								<br>
+								<p><a asp-controller="Transactions" asp-action="Index" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4">My Transactions</a></p>
+								@if (Context.Request.HttpContext.Session.GetString("IsAdmin") == "True")
+								{
+									<p><a asp-controller="Transactions" asp-action="ShowAllTransactions" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4">All Transactions</a></p>
+								}
+								<!-- <p><a asp-controller="Transactions" asp-action="CreateDeposit" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4">Deposit</a></p>
+								<p><a asp-controller="Transactions" asp-action="CreateWithdraw" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4">Withdraw</a></p>-->
+								<br>
+							</div>
 						</div>
 						<button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-cubes" aria-hidden="true"></i> Make Transaction</button>
 						<div id="Demo3" class="w3-hide w3-container">
 							<div class="w3-row-padding">
 								<br>
-								<p><a asp-controller="Transactions" asp-action="CreateDeposit" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4">Transfer</a></p>
+								<p><a asp-controller="Transactions" asp-action="SelectRecipient" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4">Transfer</a></p>
 								<p><a asp-controller="Transactions" asp-action="CreateDeposit" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4">Deposit</a></p>
 								<p><a asp-controller="Transactions" asp-action="CreateWithdraw" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4">Withdraw</a></p>
 								<br>
