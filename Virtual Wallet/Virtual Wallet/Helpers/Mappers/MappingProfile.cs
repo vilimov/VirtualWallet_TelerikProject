@@ -12,10 +12,10 @@ namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
     {
         public MappingProfile()
         {
+            // Card Mapping
             CreateMap<CardAddDto, Card>()
                 .ForMember(dest => dest.ExpirationDate, opts => opts.MapFrom(src => DateTime.ParseExact(src.ExpireDateFormatted, "MMyy", CultureInfo.InvariantCulture)));
             CreateMap<Card, CardAddDto>();
-
             CreateMap<CardShowDto, Card>();
             CreateMap<Card, CardShowDto>();
 
@@ -38,6 +38,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
                 .ForMember(dest => dest.Email, opts => opts.MapFrom(src => src.Email))
                 .ForMember(dest => dest.Password, opts => opts.MapFrom(src => src.Password));
 
+            // Wallet Mapping
             CreateMap<WalletCreateUpdateDto, Wallet>();
         }
     }
