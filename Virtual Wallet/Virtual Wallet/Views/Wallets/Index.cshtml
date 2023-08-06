@@ -23,6 +23,8 @@
 		<table cellpadding="0" cellspacing="0" border="0">
 			<tbody>
 				@{
+					@if (this.Model != null)
+					{
 						<tr>
 							<td>@this.Model.Username</td>
 							<td>@this.Model.Ballance</td>
@@ -33,9 +35,16 @@
 								</a>
 							</td>
 						</tr>
+					}
 				}
 			</tbody>
 		</table>
 	</div>
 </section>
+@if (this.Model == null)
+{
+	<div>
+		<a asp-controller="Wallets" asp-action="AddWallet" class="w3-button w3-theme-d2 w3-margin-bottom w3-round" style="background-color:forestgreen !important;" title="Add Wallet">Add Wallet</a>
+	</div>
+}
 

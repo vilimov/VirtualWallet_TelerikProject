@@ -1,0 +1,63 @@
+﻿@using Virtual_Wallet.Models.ViewModels;
+@using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
+@using Virtual_Wallet.VirtualWallet.Domain.Entities;
+
+@model CardViewModel;
+@{
+	string previousUrl = Context.Request.Headers["Referer"];
+}
+
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<div style="position: relative;">
+	<h4>Card details:</h4>
+	<hr />
+	<div class="container">
+		<table class="table table-borderless">
+			<thead>
+				<tr>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>Card Name:</td>
+					<td><b>@this.Model.Name</b></td>
+				</tr>
+				<tr>
+					<td>Card Number:</td>
+					<td><b>@this.Model.CardNumberHidden</b></td>
+				</tr>
+				<tr>
+					<td>Card Type:</td>					
+					<td><b>@this.Model.CardTypeToString</b></i></td>
+				</tr>
+				<tr>
+					<td>Cardholder:</td>
+					<td><b>@this.Model.CardHolder</b></i></td>
+				</tr>
+				<tr>
+					<td>Expiration Date:</td>
+					<td><b>@this.Model.ExpirationDateFormatted</b></td>
+				</tr>
+				<tr>
+					<td>Card Currency:</td>
+					<td><b>@this.Model.CurrencyCode</b></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<br/>
+	@if (previousUrl.Contains("ShowAllCards"))
+	{
+		<a asp-controller="Cards" asp-action="ShowAllCards" class="w3-button w3-theme-d2 w3-margin-bottom w3-round" title="Back">Back</a>
+	}
+	else
+	{
+		<a asp-controller="Cards" asp-action="Index" class="w3-button w3-theme-d2 w3-margin-bottom w3-round" title="Back">Back</a>
+	}
+	<div style="position: absolute; bottom: 16px; right: 0;">
+		<a asp-controller="Cards" asp-action="UpdateCard" class="w3-button w3-theme-d2 w3-round" style="background-color:darkorange !important;" title="Update Card">Update Card</a>
+		<a asp-controller="Cards" asp-action="RemoveCard" class="w3-button w3-theme-d2 w3-round" style="background-color:darkred !important;" title="Remove Card">Remove Card</a>
+	</div>
+</div>
+
+
