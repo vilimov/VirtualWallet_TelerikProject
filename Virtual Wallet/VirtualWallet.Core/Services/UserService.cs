@@ -180,16 +180,30 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             return this.userRepository.VerifyUser(user);
             
         }
-        public IEnumerable<User> GetAllUsers(string search)
+        public IEnumerable<User> GetAllUsers(int pageNumber, int pageSize, string search = null)
         {
-            if (string.IsNullOrWhiteSpace(search))
+            var users = userRepository.GetAllUsers().AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search))
             {
-                return GetAllUsers();
+                users = users.Where(u => u.Username.Contains(search));
             }
-            else
+
+            return users
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+        }
+        public int GetUserCount(string search = null)
+        {
+            var users = userRepository.GetAllUsers().AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(search))
             {
-                return userRepository.GetAllUsers().Where(u => u.Username.Contains(search));
+                users = users.Where(u => u.Username.Contains(search));
             }
+
+            return users.Count();
         }
         public IEnumerable<User> SearchByUsername(string username)
 		{

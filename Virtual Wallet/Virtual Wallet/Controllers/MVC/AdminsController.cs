@@ -17,7 +17,7 @@ namespace Virtual_Wallet.Controllers.MVC
             this.userService = userService;
             this.adminService = adminService;
         }
-        public IActionResult Dashboard(string search = null)
+        public IActionResult Dashboard(int pageNumber = 1, int pageSize = 5, string search = null)
         {
             string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
             User currentUser = userService.GetUserByUsername(loggedInUserName);
@@ -33,7 +33,12 @@ namespace Virtual_Wallet.Controllers.MVC
 
             try
             {
-                var users = userService.GetAllUsers(search);
+                var users = userService.GetAllUsers(pageNumber, pageSize, search);
+
+                // Calculate total pages
+                var totalUsers = userService.GetUserCount(search);
+                var totalPages = Math.Ceiling((double)totalUsers / pageSize);
+
                 var userViewModels = users.Select(u => new UserAdminViewModel
                 {
                     Id = u.Id,
@@ -45,7 +50,16 @@ namespace Virtual_Wallet.Controllers.MVC
                     IsDeleted = u.IsDeleted
                 });
 
-                return View(userViewModels);
+                // Create a model for the view
+                var model = new DashboardViewModel
+                {
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    TotalPages = (int)totalPages,
+                    Users = userViewModels.ToList()
+                };
+
+                return View(model);
             }
             catch (Exception ex)
             {
@@ -54,6 +68,7 @@ namespace Virtual_Wallet.Controllers.MVC
                 return View("Error");
             }
         }
+        #region Block and Unblock
         [HttpPost]
         public IActionResult BlockUser(int id)
         {
@@ -107,7 +122,8 @@ namespace Virtual_Wallet.Controllers.MVC
                 return View("Error");
             }
         }
-
+        #endregion
+        #region Delete
         [HttpPost]
         public IActionResult DeleteUser(int id)
         {
@@ -134,6 +150,8 @@ namespace Virtual_Wallet.Controllers.MVC
                 return View("Error");
             }
         }
+        #endregion
+        #region Promote and Demote
         [HttpPost]
         public IActionResult Promote(int id)
         {
@@ -185,6 +203,7 @@ namespace Virtual_Wallet.Controllers.MVC
                 return View("Error");
             }
         }
+        #endregion
 
     }
 }
