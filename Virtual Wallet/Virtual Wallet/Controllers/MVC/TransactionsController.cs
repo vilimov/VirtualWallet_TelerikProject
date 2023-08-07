@@ -252,22 +252,54 @@ namespace Virtual_Wallet.Controllers.MVC
 			}
 		}
 
-
-
-
-
-
 		[HttpGet]
-        public IActionResult SelectRecipient()
+        public IActionResult SelectRecipient(int pageNumber = 1, int pageSize = 5, string search = null)
         {
             if (!IsUserLogged())
             {
                 return RedirectToAction("Login", "Users");
             }
-
+/*
             var sender = GetLoggedUser();
             var users = userService.GetAllUsers().Where(u => u.Username != sender.Username).ToList();
             return View(users);
+*/
+            try
+            {
+                var users = userService.GetAllUsers(pageNumber, pageSize, search);
+				var sender = GetLoggedUser();
+				// Calculate total pages
+				var totalUsers = userService.GetUserCount(search);
+                var totalPages = Math.Ceiling((double)totalUsers / pageSize);
+
+                var userViewModels = users.Select(u => new UserAdminViewModel
+                {
+                    Id = u.Id,
+                    Username = u.Username,
+                    Email = u.Email,
+                    PhoneNumber = u.PhoneNumber,
+                    IsAdmin = u.IsAdmin,
+                    IsBlocked = u.IsBlocked,
+                    IsDeleted = u.IsDeleted
+                });
+
+                // Create a model for the view
+                var model = new DashboardViewModel
+                {
+                    PageNumber = pageNumber,
+                    PageSize = pageSize,
+                    TotalPages = (int)totalPages,
+                    Users = userViewModels.Where(u => u.Username != sender.Username).ToList()
+				};
+
+                return View(model);
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";
+                return View("Error");
+            }
         }
 
         [HttpPost]

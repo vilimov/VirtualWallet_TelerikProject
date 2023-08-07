@@ -28,5 +28,11 @@ namespace Virtual_Wallet.Controllers.MVC
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-    }
+
+
+		public IActionResult Welcomepage()
+		{
+			return View();
+		}
+	}
 }
