@@ -118,7 +118,12 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			{
                 throw new UnauthorizedOperationException(Alerts.BlockedUser);
             }
-            
+
+			if (sender == recipient)
+			{
+				throw new UnauthorizedOperationException(Alerts.InvalidAttenpt);
+			}
+
 			Wallet senderWallet = walletService.GetWalletByUser(sender.Username);
 			decimal senderWalletAmount = walletService.GetBalance(senderWallet.Id);
 			if(senderWalletAmount < amount) 

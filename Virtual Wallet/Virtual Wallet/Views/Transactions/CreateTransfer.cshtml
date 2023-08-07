@@ -31,6 +31,12 @@
 							<tr>
 								<td>You have selected recipient:</td>
 								<td><b>@Model.RecipientUsername</b></td>
+								@{
+									if (ViewData["ErrorMessage"] != null)
+									{
+										<span style="color: Red">@ViewData["ErrorMessage"] Can't send money to yourself!</span>
+									}
+								}
 							</tr>
 						</tbody>
 					</table>
@@ -60,7 +66,7 @@
 <!-- POP UP HTML-->
 <div id="customPopup" class="custom-popup ">
 	<div class="popup-content">
-		<i class="fa fa-question-circle-o fa-5x" aria-hidden="true"></i>
+		<i class="fa fa-question-circle fa-5x" aria-hidden="true"></i>
 		<hr />
 		<p>Are you sure you want to make the transaction?</p><hr />
 		<p class="w3-opacity">This action cannot be undone.</p>
