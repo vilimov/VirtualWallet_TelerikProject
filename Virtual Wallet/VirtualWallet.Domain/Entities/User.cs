@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Transactions;
 using System.Text.Json.Serialization;
-
+using VirtualWallet.Domain.Entities;
 
 namespace Virtual_Wallet.VirtualWallet.Domain.Entities
 {
@@ -54,5 +54,8 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
         public int? WalletId { get; set; }
         [JsonIgnore]
         public Wallet? Wallet { get; set; }
-	}
+
+        //[JsonIgnore]
+        //public List<Referral> Referrals { get; set; }
+    }
 }

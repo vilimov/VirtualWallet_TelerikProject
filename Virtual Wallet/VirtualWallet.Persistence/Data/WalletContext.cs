@@ -2,6 +2,7 @@
 using System.Security.Cryptography;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Domain.Enums;
+using VirtualWallet.Domain.Entities;
 using VirtualWallet.Domain.Enums;
 
 namespace Virtual_Wallet.VirtualWallet.Persistence.Data
@@ -17,6 +18,9 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Data
         public DbSet<Card> Cards { get; set; }
         public DbSet<Wallet> Wallets { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
+
+        //public DbSet<Referral> Referrals { get; set; }
+
         //public DbSet<Address> Addresses { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -134,6 +138,12 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Data
             modelBuilder.Entity<Wallet>()
                 .Property(w => w.Blocked)
                 .HasPrecision(20, 5);
+
+            //modelBuilder.Entity<User>()
+            //    .HasMany(u => u.Referrals)
+            //    .WithOne(r => r.ReferrerUser)
+            //    .HasForeignKey(r => r.ReferrerUserId)
+            //    .OnDelete(DeleteBehavior.Cascade);
         }
 
         #region PrivateMethods
