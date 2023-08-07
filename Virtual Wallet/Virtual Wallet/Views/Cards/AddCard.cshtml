@@ -1,0 +1,55 @@
+﻿@model Virtual_Wallet.VirtualWallet.API.Models.Dtos.CardAddDto
+
+<h2 class="w3-center">Add Card</h2>
+
+<hr />
+<form method="post">
+	<div class="form-group d-flex flex-column align-items-center">
+		<label for="CardName">Card Name:</label>
+		<input id="CardName" class="w3-text-grey mb-2" asp-for="Name" />
+		<span asp-validation-for="Name" class="text-danger"></span>
+	</div>
+	<div class="form-group d-flex flex-column align-items-center">
+		<label for="CardNumber">Card Number:</label>
+		<input id="CardNumber" class="w3-text-grey mb-2" asp-for="Number" />
+		<span asp-validation-for="Number" class="text-danger"></span>
+	</div>
+	<div class="form-group d-flex flex-column align-items-center">
+		<label for="ExpirationDate">Expiration Date (MMyy):</label>
+		<input id="ExpirationDate" class="w3-text-grey mb-2" asp-for="ExpireDateFormatted" />
+		<span asp-validation-for="ExpireDateFormatted" class="text-danger"></span>
+	</div>
+	<div class="form-group d-flex flex-column align-items-center">
+		<label for="CardHolder">Cardholder:</label>
+		<input id="CardHolder" class="w3-text-grey mb-2" asp-for="CardHolder" />
+		<span asp-validation-for="CardHolder" class="text-danger"></span>
+	</div>
+	<div class="form-group d-flex flex-column align-items-center">
+		<label for="CheckNumber">Check Number:</label>
+		<input id="CheckNumber" class="w3-text-grey mb-2" asp-for="CheckNumber" />
+		<span asp-validation-for="CheckNumber" class="text-danger"></span>
+	</div>
+	<div class="form-group d-flex flex-column align-items-center">
+		<label for="CurrencyCode">Currency:</label>
+		@Html.DropDownListFor(model => model.CurrencyCode,
+		new SelectList(Enum.GetValues(typeof(Virtual_Wallet.VirtualWallet.Domain.Enums.Currency))),
+		new { @class = "w3-text-black mb-2" })
+		<span asp-validation-for="CurrencyCode" class="text-danger"></span>
+	</div>
+	<div class="form-group d-flex flex-column align-items-center">
+		<label for="IsCreditCard">Card Type:</label>
+		@Html.DropDownListFor(model => model.IsCreditCard,
+		new SelectList(new[]
+		{
+		new SelectListItem { Value = "true", Text = "Credit" },
+		new SelectListItem { Value = "false", Text = "Debit" }
+		}, "Value", "Text"),
+		new { @class = "w3-text-black mb-2" })
+	</div>
+	<div class="form-group d-flex flex-column align-items-center mt-4">
+		<button type="submit" class="btn btn-primary mb-2">AddCard</button>
+	</div>
+</form>
+<div class="form-group d-flex flex-column align-items-center mt-4">
+	<a href="@Url.Action("Index", "Cards")" class="btn btn-secondary">Back to My Cards</a>
+</div>

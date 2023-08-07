@@ -11,7 +11,8 @@ namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
 
 
         public CardShowDto(Card card)
-        {
+        {            
+            this.Id = card.Id;
             this.Name = card.Name;
             this.Number = card.Number;
             this.CardNumberHidden = CardHelper.HideCardNumber(Number);
@@ -21,6 +22,8 @@ namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
 			this.IsCreditCard = card.IsCreditCard;
             this.Username = card.User.Username;
         }
+        [JsonIgnore]
+        public int Id { get; set; }
         public string Name { get; set; }
         [JsonIgnore]
         public string Number { get; set; }
