@@ -105,10 +105,16 @@
 						<h4 class="w3-center">Hello @username!</h4>
 						<p class="w3-center"><img src="@Url.Content("~/" + userImage)" class="rounded-circle" alt="Avatar" style="width: 100px; height: 100px; object-fit: cover;"></p>
 						<hr>
-						<p>
-							<a asp-controller="Cards" asp-action="Index" class="fa fa-credit-card w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">&emsp;My Cards</a>
-						</p>
+						<p><a asp-controller="Cards" asp-action="Index" class="fa fa-credit-card w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">&emsp;My Cards</a>	</p>
+						@if (Context.Request.HttpContext.Session.GetString("IsAdmin") == "True")
+						{
+							<p><a asp-controller="Cards" asp-action="ShowAllCards" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">All Cards</a></p>
+						}
 						<p><a asp-controller="Wallets" asp-action="Index" class="fa fa-wallet w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">&emsp;My Wallet</a></p>
+						@if (Context.Request.HttpContext.Session.GetString("IsAdmin") == "True")
+						{
+							<p><a asp-controller="Wallets" asp-action="ShowAllWallets" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">All Wallets</a></p>
+						}
 					</div>
 
 					<div class="w3-container" @(!string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
