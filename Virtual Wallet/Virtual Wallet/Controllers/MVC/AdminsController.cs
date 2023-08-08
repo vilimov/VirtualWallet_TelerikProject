@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Virtual_Wallet.Models.ViewModels;
+using Virtual_Wallet.Models.ViewModels.Admin;
 using Virtual_Wallet.VirtualWallet.API.Models.ViewModels;
 using Virtual_Wallet.VirtualWallet.Application.Services;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using VirtualWallet.Application.Services.Contracts;
+using VirtualWallet.Common.Exceptions;
 
 namespace Virtual_Wallet.Controllers.MVC
 {
@@ -56,12 +58,13 @@ namespace Virtual_Wallet.Controllers.MVC
                     PageNumber = pageNumber,
                     PageSize = pageSize,
                     TotalPages = (int)totalPages,
-                    Users = userViewModels.ToList()
+                    Users = userViewModels.ToList(),
+                    Search = search,
                 };
 
                 return View(model);
             }
-            catch (Exception ex)
+            catch (UnexpectedAppException)
             {
                 Response.StatusCode = 500;
                 this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";
@@ -88,7 +91,7 @@ namespace Virtual_Wallet.Controllers.MVC
                 adminService.BlockUser(id);
                 return RedirectToAction("Dashboard");
             }
-            catch (Exception ex)
+            catch (UnexpectedAppException)
             {
                 Response.StatusCode = 500;
                 this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";
@@ -115,7 +118,7 @@ namespace Virtual_Wallet.Controllers.MVC
                 adminService.UnblockUser(id);
                 return RedirectToAction("Dashboard");
             }
-            catch (Exception ex)
+            catch (UnexpectedAppException)
             {
                 Response.StatusCode = 500;
                 this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";
@@ -143,7 +146,7 @@ namespace Virtual_Wallet.Controllers.MVC
                 userService.DeleteUser(id);
                 return RedirectToAction("Dashboard");
             }
-            catch (Exception ex)
+            catch (UnexpectedAppException)
             {
                 Response.StatusCode = 500;
                 this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";
@@ -153,7 +156,7 @@ namespace Virtual_Wallet.Controllers.MVC
         #endregion
         #region Promote and Demote
         [HttpPost]
-        public IActionResult Promote(int id)
+        public IActionResult PromoteUser(int id)
         {
             try
             {
@@ -168,9 +171,9 @@ namespace Virtual_Wallet.Controllers.MVC
                     return View("Error");
                 }
                 adminService.PromoteToAdmin(id, currentUser);
-                return RedirectToAction("AllUsers");
+                return RedirectToAction("Dashboard");
             }
-            catch (Exception ex)
+            catch (UnexpectedAppException)
             {
                 Response.StatusCode = 500;
                 this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";
@@ -194,9 +197,9 @@ namespace Virtual_Wallet.Controllers.MVC
                 }
 
                 adminService.DemoteFromAdmin(id, currentUser);
-                return RedirectToAction("AllUsers");
+                return RedirectToAction("Dashboard");
             }
-            catch (Exception ex)
+            catch (UnexpectedAppException)
             {
                 Response.StatusCode = 500;
                 this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";

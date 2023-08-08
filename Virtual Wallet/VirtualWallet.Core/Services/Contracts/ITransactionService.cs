@@ -11,13 +11,18 @@ namespace VirtualWallet.Application.Services.Contracts
 		Transaction GetTransactionById(int transactionId);
 		//PageResult<Transaction> GetTransactionsForUser(int userId, int pageNumber, int pageSize = 10);
 		//Transaction UpdateTransaction(Transaction transaction);
-		public IList<Transaction> GetAllTransactions();
+		//public IList<Transaction> GetAllTransactions();
 		public IList<Transaction> GetTransactionsByUserId(int userId);
 		public Transaction AddMoneyCardToWallet(User user, Card card, decimal amount, string description);
 		public Transaction AddMoneyWalletToWallet(User sender, User recipient, decimal amount, string description);
 		public Transaction WithdrawalTransfer(User user, Card card, decimal amount, string description);
-		public IList<Transaction> GetFilteredTransactions(TransactionsQueryParameters filter, User user);
+		//public IList<Transaction> GetFilteredTransactions(TransactionsQueryParameters filter, User user);
+		public IList<Transaction> GetAllTransactions(int pageNumber, int pageSize, TransactionsQueryParameters? filter, User user);
+
+		public IList<Transaction> GetFilteredTransactions(int pageNumber, int pageSize, TransactionsQueryParameters filter, User user);
+		public IList<Transaction> GetTransactionsByUserId(int pageNumber, int pageSize, TransactionsQueryParameters filter, User user);
+		public int GetTransactionsCount(TransactionsQueryParameters? filter, User user);
 
 
-    }
+	}
 }

@@ -1,5 +1,9 @@
 ﻿@this.ViewData["Visibility"] = "style="display:none;"";
 @{
+	var isOnWelcomeRoute = ViewContext.RouteData.Values["controller"].ToString().Equals("Home") && ViewContext.RouteData.Values["action"].ToString().Equals("Welcomepage");
+	var divClass = (isOnWelcomeRoute ? " " : "w3-card-4 w3-round-large w3-white w3-border-khaki w3-container w3-border w3-round-xlarge");
+}
+@{
 	string username = "";
 	string userImage = "";
 	var isLogged = Context.Session.Keys.Contains("LoggedUser");
@@ -42,7 +46,7 @@
 		div.sticky {
 			position: -webkit-sticky;
 			position: sticky;
-			top: 80px;
+			top: 103px;
 		}
 	</style>
 </head>
@@ -100,7 +104,7 @@
 			<!-- Left Column -->
 			<div class="w3-col m3" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
 				<!-- Profile -->
-				<div class="w3-card w3-round-large w3-white w3-border ">
+				<div class="w3-card w3-round-large w3-white w3-border sticky">
 					<div class="w3-container" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
 						<h4 class="w3-center">Hello @username!</h4>
 						<p class="w3-center"><img src="@Url.Content("~/" + userImage)" class="rounded-circle" alt="Avatar" style="width: 100px; height: 100px; object-fit: cover;"></p>
@@ -148,7 +152,7 @@
 								<br>
 							</div>
 						</div>
-						<button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-cubes" aria-hidden="true"></i> Make Transaction</button>
+						<button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-cubes w3-margin-right" aria-hidden="true"></i> Make Transaction</button>
 						<div id="Demo3" class="w3-hide w3-container">
 							<div class="w3-row-padding">
 								<br>
@@ -189,9 +193,9 @@
 			<div class="w3-col m7" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=width:100%;height:100%;" : "")>
 				<div class="w3-row-padding">
 					<div class="w3-col m12">
-						<div class="w3-card-4 w3-round-large w3-white w3-border-khaki w3-container w3-border w3-round-xlarge">
+						<div class="@divClass">
 							<div class="w3-container w3-padding">
-
+								
 								@RenderBody()
 
 								<!--<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4"><i class="fa fa-thumbs-up"></i>  Like</button>

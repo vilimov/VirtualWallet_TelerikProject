@@ -1,14 +1,17 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Virtual_Wallet.Models.ViewModels;
+using Virtual_Wallet.Models.ViewModels.LoginAndRegister;
+using Virtual_Wallet.Models.ViewModels.UserProfileUpdate;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository;
 using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
+using VirtualWallet.Common.Exceptions;
 
 namespace Virtual_Wallet.Controllers.MVC
 {
-	public class UsersController : Controller
+    public class UsersController : Controller
     {
         private readonly IUserService userService;
 		private readonly AuthManager authManager;
@@ -110,7 +113,7 @@ namespace Virtual_Wallet.Controllers.MVC
                 userService.Verify(token);
                 ViewBag.Message = "Email successfully verified!";
             }
-            catch (Exception ex)
+            catch (EmailVerificationException ex)
             {
                 ViewBag.Message = "An error occurred while verifying your email. Please try again later.";
             }
