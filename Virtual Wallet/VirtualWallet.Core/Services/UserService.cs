@@ -186,7 +186,9 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 
             if (!string.IsNullOrWhiteSpace(search))
             {
-                users = users.Where(u => u.Username.Contains(search));
+                users = users.Where(u => u.Username.Contains(search)
+                                      || u.Email.Contains(search)
+                                      || u.PhoneNumber.Contains(search));
             }
 
             return users
@@ -200,7 +202,9 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 
             if (!string.IsNullOrWhiteSpace(search))
             {
-                users = users.Where(u => u.Username.Contains(search));
+                users = users.Where(u => u.Username.Contains(search)
+                                      || u.Email.Contains(search)
+                                      || u.PhoneNumber.Contains(search));
             }
 
             return users.Count();
