@@ -1,10 +1,11 @@
-﻿@using Virtual_Wallet.VirtualWallet.Domain.Entities;
-@model List<Transaction>;
+﻿@using Virtual_Wallet.Models.ViewModels;
+@model PaginatedTransactionViewModel
 @{
 	this.ViewData["NameOfList"] = "My Transactions";
 	this.ViewData["ShowAdditionalColumn"] = false;
 	this.ViewData["ButtonText"] = "Create";
 	this.ViewData["TitleVisibility"] = "block";
+	this.ViewData["PageName"] = "Index";
 }
 
 <partial name="_ListOfTransactions" />

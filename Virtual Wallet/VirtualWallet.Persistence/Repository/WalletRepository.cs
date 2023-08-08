@@ -21,12 +21,17 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
         }
         public Wallet CreateWallet(Wallet wallet, User user)
         {
-            if (user.WalletId == null)
+            if (user.Wallet.IsInactive == true)
             {
-                wallet.User = user;
-                this.context.Wallets.Add(wallet);
+                user.Wallet.CurrencyCode = wallet.CurrencyCode;
+				user.Wallet.IsInactive = false;
             }
-            else 
+            else if (user.WalletId == null)
+            {
+				wallet.User = user;
+				this.context.Wallets.Add(wallet);
+			}
+            else
             {
                 throw new DuplicateEntityException(Alerts.ExistingWallet);
             }
