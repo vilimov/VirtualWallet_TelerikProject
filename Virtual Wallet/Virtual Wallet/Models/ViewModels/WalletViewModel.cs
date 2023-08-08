@@ -8,6 +8,7 @@ namespace Virtual_Wallet.Models.ViewModels
 	{
 		public WalletViewModel(Wallet walletModel) 
 		{
+			Id = walletModel.Id;
 			Username = walletModel.User.Username;
 			Ballance = walletModel.Balance.ToString("F2");
 			Blocked = walletModel.Blocked.ToString("F2");

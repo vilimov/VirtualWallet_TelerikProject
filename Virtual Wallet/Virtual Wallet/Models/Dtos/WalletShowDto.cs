@@ -12,6 +12,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
 
         public WalletShowDto(Wallet walletModel)
         {
+            Id = walletModel.Id;
             Username = walletModel.User.Username;
             Ballance = walletModel.Balance.ToString("F2");
             Blocked = walletModel.Blocked.ToString("F2");
@@ -19,6 +20,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
             CurrencyDescription = EnumHelper.GetEnumDescription(walletModel.CurrencyCode);
         }
 
+        public int Id { get; set; }
         public string Username { get; set; }
         public string Ballance { get; set; }
         public string Blocked { get; set; }

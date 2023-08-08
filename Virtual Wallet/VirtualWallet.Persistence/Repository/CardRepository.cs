@@ -51,9 +51,17 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 			{
 				currentCard.Name = updatedCard.Name;
 			}
+			if (updatedCard.ExpirationDate.AddMonths(1) >= DateTime.Now)
+			{
+				currentCard.ExpirationDate = updatedCard.ExpirationDate;
+			}
 			if (!string.IsNullOrEmpty(updatedCard.CurrencyCode.ToString()))
 			{
 				currentCard.CurrencyCode = updatedCard.CurrencyCode;
+			}
+			if (!string.IsNullOrEmpty(updatedCard.IsCreditCard.ToString()))
+			{
+				currentCard.IsCreditCard = updatedCard.IsCreditCard;
 			}
 			if (!string.IsNullOrEmpty(updatedCard.CardHolder))
 			{
@@ -174,7 +182,8 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 
         public void CheckExpirationDate(Card card)
         {
-			if (card.ExpirationDate.AddMonths(1) <= DateTime.Now)
+            DateTime defaultDate = DateTime.MinValue;
+			if (card.ExpirationDate.AddMonths(1) < DateTime.Now && card.ExpirationDate != defaultDate)
 			{
 				throw new CardAlreadyExpired(Alerts.CardAlreadyExpired);
 			}

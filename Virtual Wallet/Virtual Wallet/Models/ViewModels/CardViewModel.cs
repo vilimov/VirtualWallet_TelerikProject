@@ -8,6 +8,7 @@ namespace Virtual_Wallet.Models.ViewModels
 	{
 		public CardViewModel(Card card)
 		{
+			this.Id = card.Id;
 			this.Name = card.Name;
 			this.Number = card.Number;
 			this.CardNumberHidden = CardHelper.HideCardNumber(Number);

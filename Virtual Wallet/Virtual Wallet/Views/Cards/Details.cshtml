@@ -55,8 +55,8 @@
 		<a asp-controller="Cards" asp-action="Index" class="w3-button w3-theme-d2 w3-margin-bottom w3-round" title="Back">Back</a>
 	}
 	<div style="position: absolute; bottom: 16px; right: 0;">
-		<a asp-controller="Cards" asp-action="UpdateCard" class="w3-button w3-theme-d2 w3-round" style="background-color:darkorange !important;" title="Update Card">Update Card</a>
-		<a asp-controller="Cards" asp-action="RemoveCard" class="w3-button w3-theme-d2 w3-round" style="background-color:darkred !important;" title="Remove Card">Remove Card</a>
+		<a asp-controller="Cards" asp-action="UpdateCard" asp-route-id="@this.Model.Id" class="w3-button w3-theme-d2 w3-round" style="background-color:darkorange !important;" title="Update Card">Update Card</a>
+		<a asp-controller="Cards" asp-action="RemoveCard" asp-route-id="@this.Model.Id" class="w3-button w3-theme-d2 w3-round" style="background-color:darkred !important;" title="Remove Card">Remove Card</a>
 	</div>
 </div>
 

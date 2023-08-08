@@ -18,9 +18,12 @@ namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
             CreateMap<Card, CardAddDto>();
             CreateMap<CardShowDto, Card>();
             CreateMap<Card, CardShowDto>();
+            CreateMap<CardUpdateViewModel, Card>()
+                .ForMember(dest => dest.ExpirationDate, opts => opts.MapFrom(src => DateTime.ParseExact(src.ExpireDateFormatted, "MMyy", CultureInfo.InvariantCulture)))
+                .ForMember(dest => dest.IsCreditCard, opts => opts.MapFrom(src => src.IsCreditCard));
 
-            //Transactions Mapping
-            CreateMap<Transaction, TransactionShowDto>()
+			//Transactions Mapping
+			CreateMap<Transaction, TransactionShowDto>()
                 .ForMember(dto => dto.Date, opt => opt.MapFrom(date => date.Date.ToString("yyyy-MM-dd HH:mm:ss")));
 			CreateMap<TransactionShowDto, Transaction>();
 			CreateMap<Transaction, MakeCardTransactionViewModel>()

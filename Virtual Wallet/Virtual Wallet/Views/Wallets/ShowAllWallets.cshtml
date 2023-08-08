@@ -1,7 +1,7 @@
 ﻿@using Virtual_Wallet.Models.ViewModels;
 @using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
 @using Virtual_Wallet.VirtualWallet.Domain.Entities;
-@model WalletShowDto;
+@model List<WalletShowDto>;
 
 <link rel="stylesheet" href="~/css/tableStyles.css" asp-append-version="true" />
 
@@ -23,14 +23,14 @@
 		<table cellpadding="0" cellspacing="0" border="0">
 			<tbody>
 				@{
-					@if (this.Model != null)
+					foreach (var wallet in this.Model)
 					{
 						<tr>
-							<td>@this.Model.Username</td>
-							<td>@this.Model.Ballance</td>
-							<td class="w3-hide-small">@this.Model.CurrencyCode</td>
+							<td>@wallet.Username</td>
+							<td>@wallet.Ballance</td>
+							<td class="w3-hide-small">@wallet.CurrencyCode</td>
 							<td>
-								<a asp-controller="Wallets" asp-action="Details" , asp-route-id="@this.Model.Id" class="w3-badge w3-small w3-theme-d2 w3-hover-blue-gray">
+								<a asp-controller="Wallets" asp-action="Details" , asp-route-id="@this.Model" class="w3-badge w3-small w3-theme-d2 w3-hover-blue-gray">
 									<i class="fa fa-info">&nbsp;Details</i>
 								</a>
 							</td>
@@ -41,10 +41,3 @@
 		</table>
 	</div>
 </section>
-@if (this.Model == null)
-{
-	<div>
-		<a asp-controller="Wallets" asp-action="CreateWallet" class="w3-button w3-theme-d2 w3-margin-bottom w3-round" style="background-color:forestgreen !important;" title="Create Wallet">Create Wallet</a>
-	</div>
-}
-

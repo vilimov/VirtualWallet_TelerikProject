@@ -40,9 +40,9 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Data
                 new User { Id = 9, Username = "AmancioOrtega", FirstName = "Amancio", LastName = "Ortega", Salt = salt, VerifiedAt = DateTime.Now.AddDays(-1), Password = HashPasswordInternal("password666", salt), Email = "amancio@zara.com", PhoneNumber = "9876543210", Photo = "images/users/amancio_ortega.jpg", IsAdmin = false, IsBlocked = false, WalletId = 9},
                 new User { Id = 10, Username = "CarlosSlimHelu", FirstName = "Carlos", LastName = "SlimHelu", Salt = salt, VerifiedAt = DateTime.Now.AddDays(-1), Password = HashPasswordInternal("password777", salt), Email = "carlos@telmex.com", PhoneNumber = "1234567890", Photo = "images/users/carlos_slim_helu.jpg", IsAdmin = false, IsBlocked = false, WalletId = 10},
                 new User { Id = 11, Username = "Admin", FirstName = "Admin", LastName = "Adminov", Salt = salt, VerifiedAt = DateTime.Now.AddDays(-1), Password = HashPasswordInternal("123", salt), Email = "mkm_vw@abv.bg", PhoneNumber = "1234567890", Photo = "images/users/defaultProfile.png", IsAdmin = true, IsBlocked = false, WalletId = 11},
-                new User { Id = 12, Username = "User", FirstName = "User", LastName = "Userov", Salt = salt, VerifiedAt = DateTime.Now.AddDays(-1), Password = HashPasswordInternal("123", salt), Email = "User@user.com", PhoneNumber = "1234567890", Photo = "images/users/defaultProfile.png", IsAdmin = false, IsBlocked = false, WalletId = 12},
+                new User { Id = 12, Username = "User", FirstName = "User", LastName = "Userov", Salt = salt, VerifiedAt = DateTime.Now.AddDays(-1), Password = HashPasswordInternal("123", salt), Email = "User@user.com", PhoneNumber = "1234567890", Photo = "images/users/defaultProfile.png", IsAdmin = false, IsBlocked = false, WalletId = null },
                 new User { Id = 13, Username = "GwynneShotwell", FirstName = "Gwynne", LastName = "Shotwell", Salt = salt, VerifiedAt = DateTime.Now.AddDays(-1), Password = HashPasswordInternal("123", salt), Email = "GwShotwell@SpaceX.com", PhoneNumber = "1224364852", Photo = "images/users/GwynneShotwell.jpg", IsAdmin = false, IsBlocked = false, WalletId = 12},
-                new User { Id = 14, Username = "SafraCatz", FirstName = "Safra", LastName = "Catz", Salt = salt, VerifiedAt = DateTime.Now.AddDays(-1), Password = HashPasswordInternal("123", salt), Email = "SafraCatz@Oracle.com", PhoneNumber = "1234567890", Photo = "images/users/SafraCatz.jpg", IsAdmin = false, IsBlocked = false, WalletId = 12}
+                new User { Id = 14, Username = "SafraCatz", FirstName = "Safra", LastName = "Catz", Salt = salt, VerifiedAt = DateTime.Now.AddDays(-1), Password = HashPasswordInternal("123", salt), Email = "SafraCatz@Oracle.com", PhoneNumber = "1234567890", Photo = "images/users/SafraCatz.jpg", IsAdmin = false, IsBlocked = false, WalletId = null}
             };
             modelBuilder.Entity<User>().HasData(users);
 
@@ -79,7 +79,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Data
                 new Wallet { Id = 9, CurrencyCode = Currency.EUR, Balance = 22222.22M, UserId = 9 },
                 new Wallet { Id = 10, CurrencyCode = Currency.EUR, Balance = 11111.11M, UserId = 10 },
                 new Wallet { Id = 11, CurrencyCode = Currency.BGN, Balance = 9999.99M, UserId = 11 },
-                new Wallet { Id = 12, CurrencyCode = Currency.BGN, Balance = 0.00M, UserId = 12 }
+                new Wallet { Id = 12, CurrencyCode = Currency.BGN, Balance = 0.00M, UserId = 13 }
             };
             modelBuilder.Entity<Wallet>().HasData(wallets);
 
