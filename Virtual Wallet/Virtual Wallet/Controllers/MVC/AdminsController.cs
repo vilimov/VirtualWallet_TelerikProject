@@ -58,7 +58,8 @@ namespace Virtual_Wallet.Controllers.MVC
                     PageNumber = pageNumber,
                     PageSize = pageSize,
                     TotalPages = (int)totalPages,
-                    Users = userViewModels.ToList()
+                    Users = userViewModels.ToList(),
+                    Search = search,
                 };
 
                 return View(model);
