@@ -25,13 +25,13 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             {
                 wallet.User = user;
                 this.context.Wallets.Add(wallet);
-                context.SaveChanges();
             }
             else 
             {
                 throw new DuplicateEntityException(Alerts.ExistingWallet);
             }
-            return wallet;
+			context.SaveChanges();
+			return wallet;
         }
 
         public IEnumerable<Wallet> GetAll()

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Virtual_Wallet.Models.ViewModels;
 using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
@@ -66,7 +67,7 @@ namespace Virtual_Wallet.Controllers.MVC
 		}
 
 		[HttpGet]
-		public IActionResult Details()
+		public IActionResult Details(int id)
 		{
 			if (!IsUserLogged())
 			{
@@ -75,7 +76,7 @@ namespace Virtual_Wallet.Controllers.MVC
 			try
 			{
 				User user = GetLoggedUser();
-				var wallet = walletService.GetWalletByUser(user.Username);
+				var wallet = walletService.GetWalletById(id);
 				WalletViewModel result = new WalletViewModel(wallet);
 				return View(result);
 			}
@@ -85,6 +86,105 @@ namespace Virtual_Wallet.Controllers.MVC
 				this.ViewData["ErrorMessage"] = ex.Message;
 
 				return View("Error");
+			}
+		}
+
+		[HttpGet]
+		public IActionResult CreateWallet()
+		{
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
+			var newWallet = new WalletCreateUpdateDto();
+
+			return View(newWallet);
+		}
+
+		[HttpPost]
+		public IActionResult CreateWallet(WalletCreateUpdateDto newWallet)
+		{
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
+
+			if (!ModelState.IsValid)
+			{
+				return View(newWallet);
+			}
+
+			try
+			{
+				var user = GetLoggedUser();
+				Wallet wallet = mapper.Map<Wallet>(newWallet);
+				wallet = walletService.CreateWallet(wallet, user);
+				return RedirectToAction("Index", "Wallets");
+			}
+			catch (Exception e)
+			{
+				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
+				ViewData["ErrorMessage"] = e.Message;
+				return View(newWallet);
+			}
+		}
+
+		[HttpGet]
+		public IActionResult UpdateWallet([FromRoute] int id)
+		{
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
+			var user = GetLoggedUser();
+			return View();
+		}
+
+		[HttpPost]
+		public IActionResult UpdateWallet([FromRoute] int id, WalletCreateUpdateDto newWallet)
+		{
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
+
+			if (!ModelState.IsValid)
+			{
+				return View(newWallet);
+			}
+
+			try
+			{
+				var user = GetLoggedUser();
+				Wallet wallet = mapper.Map<Wallet>(newWallet);
+				Wallet updatedWallet = walletService.Update(user, wallet);
+				return RedirectToAction("Details", "Wallets", new { id = updatedWallet.Id });
+			}
+			catch (Exception e)
+			{
+				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
+				ViewData["ErrorMessage"] = e.Message;
+				return View(newWallet);
+			}
+		}
+
+		[HttpGet]
+		public IActionResult RemoveWallet([FromRoute] int id)
+		{
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
+			try
+			{
+				var wallet = walletService.Delete(id);
+				return RedirectToAction("Index", "Wallets");
+			}
+			catch (EntityNotFoundException e)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = e.Message;
+				return View("Erorr");
 			}
 		}
 

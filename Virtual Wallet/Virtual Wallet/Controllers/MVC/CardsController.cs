@@ -140,9 +140,6 @@ namespace Virtual_Wallet.Controllers.MVC
 				return RedirectToAction("Login", "Users");
 			}
 			var user = GetLoggedUser();
-			//Card cardToUpdate = cardService.GetById(id);
-
-			//return View(cardToUpdate);
 			return View();
 		}
 
@@ -193,7 +190,6 @@ namespace Virtual_Wallet.Controllers.MVC
 				this.ViewData["ErrorMessage"] = e.Message;
 				return View("Erorr");
 			}
-
 		}
 
 		private bool IsUserLogged()
