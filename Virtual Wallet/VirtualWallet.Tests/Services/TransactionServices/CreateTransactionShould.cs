@@ -596,15 +596,14 @@ namespace VirtualWallet.Tests.Services.TransactionServices
 
         }
 
-
-
-
         [TestMethod]
         public void WithdrawalTransfer_WhenParametersAreValid()
         {
             //Arrange
             List<User> users = TestHelpers.UsersHelper.GetTestUsersList();
-            Card card = new Card
+			var amount = 100.0m;
+			var description = "Test withdrawal";
+			Card card = new Card
             {
                 Id = 1,
                 Number = "8676880603590752",
@@ -612,8 +611,10 @@ namespace VirtualWallet.Tests.Services.TransactionServices
                 CardHolder = "Elon Musk",
                 CheckNumber = "649",
                 IsCreditCard = true,
-                UserId = 1
-            };
+                UserId = 1,
+				CurrencyCode = Currency.USD
+			};
+
             Wallet walletU1 = new Wallet { Id = 1, CurrencyCode = Currency.USD, Balance = 111111.11M, UserId = 1 };
             Wallet walletU2 = new Wallet { Id = 2, CurrencyCode = Currency.USD, Balance = 99999.99M, UserId = 2 };
 
