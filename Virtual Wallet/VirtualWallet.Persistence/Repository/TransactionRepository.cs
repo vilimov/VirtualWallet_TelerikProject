@@ -21,13 +21,16 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 		}
 		public List<Transaction> GetAllTransactions()
 		{
-			return this.context.Transactions.Include(s=>s.Sender)
-                                                .ThenInclude(s=>s.Cards)
-                                                .Include(s=>s.Sender.Wallet)
-											.Include(r=>r.Recipient)
-                                                .ThenInclude(r=>r.Cards)
-												.Include(r=>r.Recipient.Wallet)
+            var transactionList = this.context.Transactions.Include(s => s.Sender)
+												.ThenInclude(s => s.Cards)
+												.Include(s => s.Sender.Wallet)
+											.Include(r => r.Recipient)
+												.ThenInclude(r => r.Cards)
+												.Include(r => r.Recipient.Wallet)
 											.ToList();
+			transactionList.Reverse();
+
+			return transactionList;
 		}
 
         public IList<Transaction> GetFilteredTransactions(TransactionsQueryParameters filter, User user)
@@ -39,7 +42,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             }
             if (!string.IsNullOrEmpty(filter.Sender))
             {
-                transactions = transactions.FindAll(t => t.SenderId == user.Id);
+                transactions = transactions.FindAll(t => t.Sender.Username.Contains(filter.Sender));
             }
             if (!string.IsNullOrEmpty(filter.Reciever))
             {

@@ -35,10 +35,10 @@ namespace Virtual_Wallet.Controllers.API
         }
 
         [HttpGet("")]
-        public IActionResult GetAllTransactions([FromHeader] string credentials, [FromQuery] TransactionsQueryParameters filter, int pageNumber = 1, int pageSize = 5)
+        public IActionResult GetAllTransactions([FromHeader] string credentials, [FromQuery] TransactionsQueryParameters filter)
         {
 			User user = authManager.TryGetUser(credentials);
-			var transactions = transactionService.GetAllTransactions(pageNumber, pageSize, filter, user);
+			var transactions = transactionService.GetAllTransactions();
             var transactionShow = mapper.Map<List<TransactionShowDto>>(transactions);
 
             if (transactions.Count != 0) 
