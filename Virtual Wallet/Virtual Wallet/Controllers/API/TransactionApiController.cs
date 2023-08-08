@@ -35,9 +35,10 @@ namespace Virtual_Wallet.Controllers.API
         }
 
         [HttpGet("")]
-        public IActionResult GetAllTransactions()
+        public IActionResult GetAllTransactions([FromHeader] string credentials, [FromQuery] TransactionsQueryParameters filter, int pageNumber = 1, int pageSize = 5)
         {
-            var transactions = transactionService.GetAllTransactions();
+			User user = authManager.TryGetUser(credentials);
+			var transactions = transactionService.GetAllTransactions(pageNumber, pageSize, filter, user);
             var transactionShow = mapper.Map<List<TransactionShowDto>>(transactions);
 
             if (transactions.Count != 0) 
@@ -48,12 +49,12 @@ namespace Virtual_Wallet.Controllers.API
         }
 
         [HttpGet("filters")]
-        public IActionResult GetFilteredTransactions([FromHeader] string credentials, [FromQuery]TransactionsQueryParameters filter)
+        public IActionResult GetFilteredTransactions([FromHeader] string credentials, [FromQuery]TransactionsQueryParameters filter, int pageNumber = 1, int pageSize = 5)
         {
             try
             {
                 User user = authManager.TryGetUser(credentials);
-                var transactions = transactionService.GetFilteredTransactions(filter, user);
+                var transactions = transactionService.GetFilteredTransactions(pageNumber, pageSize, filter, user);
                 var transactionShow = mapper.Map<List<TransactionShowDto>>(transactions);
                 return transactions.Count > 0
                     ? StatusCode(StatusCodes.Status200OK, transactionShow)

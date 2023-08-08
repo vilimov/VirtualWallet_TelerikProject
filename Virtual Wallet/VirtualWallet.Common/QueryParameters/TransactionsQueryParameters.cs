@@ -18,6 +18,10 @@ namespace VirtualWallet.Common.QueryParameters
         [RegularExpression(@"((0[1-9]|[1-2][0-9]|3[0-1])-(0[1-9]|1[0-2])-[0-9]{4})|((0[1-9]|1[0-2])-[0-9]{4})", ErrorMessage = "Incorrect date format!")]
         public string? FilterByDate { get; set; }
 
+        //ToDo MakeTransactionPagination
+        public int PageSize { get; set; } = 5;
+        public int PageCount { get; set; } = 1;
+
 
     }
 }

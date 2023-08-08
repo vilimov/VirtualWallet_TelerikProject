@@ -8,6 +8,7 @@ namespace Virtual_Wallet.Models.ViewModels
 {
     public class TransactionViewModel
     {
+        public int Id { get; set; }
         public TransactionType TransactionType { get; set; }
         public DateTime Date { get; set; }
 
