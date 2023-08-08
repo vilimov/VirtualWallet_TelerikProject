@@ -1,4 +1,4 @@
-﻿namespace Virtual_Wallet.Models.ViewModels
+﻿namespace Virtual_Wallet.Models.ViewModels.Admin
 {
     public class DashboardViewModel
     {

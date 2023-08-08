@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using Org.BouncyCastle.Cms;
 using System.Security.Cryptography;
 using Virtual_Wallet.Models.ViewModels;
+using Virtual_Wallet.Models.ViewModels.Admin;
 using Virtual_Wallet.VirtualWallet.Application.Services;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;

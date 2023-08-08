@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Virtual_Wallet.Models.ViewModels;
+using Virtual_Wallet.Models.ViewModels.Admin;
 using Virtual_Wallet.VirtualWallet.API.Models.ViewModels;
 using Virtual_Wallet.VirtualWallet.Application.Services;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
@@ -154,7 +155,7 @@ namespace Virtual_Wallet.Controllers.MVC
         #endregion
         #region Promote and Demote
         [HttpPost]
-        public IActionResult Promote(int id)
+        public IActionResult PromoteUser(int id)
         {
             try
             {
@@ -169,7 +170,7 @@ namespace Virtual_Wallet.Controllers.MVC
                     return View("Error");
                 }
                 adminService.PromoteToAdmin(id, currentUser);
-                return RedirectToAction("AllUsers");
+                return RedirectToAction("Dashboard");
             }
             catch (UnexpectedAppException)
             {
@@ -195,7 +196,7 @@ namespace Virtual_Wallet.Controllers.MVC
                 }
 
                 adminService.DemoteFromAdmin(id, currentUser);
-                return RedirectToAction("AllUsers");
+                return RedirectToAction("Dashboard");
             }
             catch (UnexpectedAppException)
             {
