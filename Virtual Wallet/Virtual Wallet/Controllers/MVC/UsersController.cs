@@ -5,6 +5,7 @@ using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository;
 using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
+using VirtualWallet.Common.Exceptions;
 
 namespace Virtual_Wallet.Controllers.MVC
 {
@@ -110,7 +111,7 @@ namespace Virtual_Wallet.Controllers.MVC
                 userService.Verify(token);
                 ViewBag.Message = "Email successfully verified!";
             }
-            catch (Exception ex)
+            catch (EmailVerificationException ex)
             {
                 ViewBag.Message = "An error occurred while verifying your email. Please try again later.";
             }
