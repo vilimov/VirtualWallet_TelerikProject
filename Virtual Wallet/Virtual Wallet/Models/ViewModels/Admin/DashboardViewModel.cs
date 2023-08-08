@@ -2,11 +2,11 @@
 {
     public class DashboardViewModel
     {
-        public int PageNumber { get; set; }  // Current page number
-        public int TotalPages { get; set; }  // Total number of pages
-        public int PageSize { get; set; }    // Number of items per page
+        public int PageNumber { get; set; } 
+        public int TotalPages { get; set; } 
+        public int PageSize { get; set; } 
 
-        public List<UserAdminViewModel> Users { get; set; }  // List of users for the current page
+        public List<UserAdminViewModel> Users { get; set; }
 
         public string Search { get; set; }
         public bool ShowPrevious => PageNumber > 1;
