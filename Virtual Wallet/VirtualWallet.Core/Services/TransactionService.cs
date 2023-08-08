@@ -28,12 +28,18 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			this.walletService = walletService;
 			this.emailService = emailService;
 		}
+		public IList<Transaction> GetAllTransactions()
+		{
+			return transactionRepository.GetAllTransactions();
 
-		public IList<Transaction> GetAllTransactions(int pageNumber, int pageSize, TransactionsQueryParameters? filter, User user)
+		}
+		public IList<Transaction> GetAllTransactions(int pageNumber, int pageSize, User user, string search = null)
 		{
 			//return transactionRepository.GetAllTransactions();
-            var tratransactions = transactionRepository.GetAllTransactions().AsQueryable();
-			if (filter != null)
+			TransactionsQueryParameters filter = new TransactionsQueryParameters() { Sender = search };
+
+			var tratransactions = transactionRepository.GetAllTransactions().AsQueryable();
+			if (search != null)
 			{
 				tratransactions = transactionRepository.GetFilteredTransactions(filter, user).AsQueryable();
 			}
@@ -45,9 +51,15 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 
 		}
 
-        public IList<Transaction> GetFilteredTransactions(int pageNumber, int pageSize, TransactionsQueryParameters filter, User user) 
+		public IList<Transaction> GetFilteredTransactions(TransactionsQueryParameters filter, User user)
+		{
+			return transactionRepository.GetFilteredTransactions(filter, user);
+		}
+
+		public IList<Transaction> GetFilteredTransactions(int pageNumber, int pageSize, TransactionsQueryParameters filter, User user, string search = null) 
         {
 			//return transactionRepository.GetFilteredTransactions(filter, user);
+			filter.Sender = search;
 			var tratransactions = transactionRepository.GetAllTransactions().AsQueryable();
 			
             if (filter != null)
@@ -61,13 +73,14 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 				.ToList();
 		}
 
-		public int GetTransactionsCount(TransactionsQueryParameters filter, User user)
+		public int GetTransactionsCount(string search, User user)
 		{
 			var tratransactions = transactionRepository.GetAllTransactions().AsQueryable();
 
-			if (filter != null)
+			if (search != null)
 			{
-				tratransactions = tratransactions = transactionRepository.GetFilteredTransactions(filter, user).AsQueryable();
+				TransactionsQueryParameters filter = new TransactionsQueryParameters() { Sender = search };
+				tratransactions = transactionRepository.GetFilteredTransactions(filter, user).AsQueryable();
 			}
 
 			return tratransactions.Count();
@@ -83,8 +96,9 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
         {
             return transactionRepository.GetTransactionsByUserId(userId);
         }
-		public IList<Transaction> GetTransactionsByUserId(int pageNumber, int pageSize, TransactionsQueryParameters filter, User user)
+		public IList<Transaction> GetTransactionsByUserId(int pageNumber, int pageSize, User user, string search = null)
 		{
+			TransactionsQueryParameters filter = new TransactionsQueryParameters() { };
 			filter.AllMyTransactions = "true";
 			var tratransactions = transactionRepository.GetAllTransactions().AsQueryable();
 			if (filter != null)

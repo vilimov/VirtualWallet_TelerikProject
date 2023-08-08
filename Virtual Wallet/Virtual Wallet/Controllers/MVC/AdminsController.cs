@@ -36,8 +36,6 @@ namespace Virtual_Wallet.Controllers.MVC
             try
             {
                 var users = userService.GetAllUsers(pageNumber, pageSize, search);
-
-                // Calculate total pages
                 var totalUsers = userService.GetUserCount(search);
                 var totalPages = Math.Ceiling((double)totalUsers / pageSize);
 
@@ -52,7 +50,6 @@ namespace Virtual_Wallet.Controllers.MVC
                     IsDeleted = u.IsDeleted
                 });
 
-                // Create a model for the view
                 var model = new DashboardViewModel
                 {
                     PageNumber = pageNumber,

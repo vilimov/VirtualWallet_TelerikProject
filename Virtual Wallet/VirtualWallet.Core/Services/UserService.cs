@@ -24,8 +24,8 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 		{
 			return this.userRepository.GetAllUsers();
 		}
-
-		public User GetUserById(int id)
+        #region GetBy
+        public User GetUserById(int id)
 		{
 			return this.userRepository.GetUserById(id);
 		}
@@ -43,7 +43,9 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 		{
 			return userRepository.GetUserByPhoneNumber(phoneNumber);
 		}
-		public User Register(User user)
+        #endregion
+        #region Register
+        public User Register(User user)
 		{
 			var existingUserUsername = this.userRepository.GetUserByUsername(user.Username);
 			var existingUserEmail = this.userRepository.GetUserByEmail(user.Email);
@@ -80,7 +82,8 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			
 			return this.userRepository.AddUser(user);
 		}
-
+        #endregion
+        #region UpdateUser
         public User UpdateUser(User userUpdate)
         {
             var existingUser = userRepository.GetUserById(userUpdate.Id);
@@ -135,7 +138,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 
             return userRepository.UpdateUser(existingUser);
         }
-
+        #endregion
         public void DeleteUser(int id)
 		{
 			this.userRepository.DeleteUser(id);
@@ -186,7 +189,9 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 
             if (!string.IsNullOrWhiteSpace(search))
             {
-                users = users.Where(u => u.Username.Contains(search));
+                users = users.Where(u => u.Username.Contains(search)
+                                      || u.Email.Contains(search)
+                                      || u.PhoneNumber.Contains(search));
             }
 
             return users
@@ -200,11 +205,14 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 
             if (!string.IsNullOrWhiteSpace(search))
             {
-                users = users.Where(u => u.Username.Contains(search));
+                users = users.Where(u => u.Username.Contains(search)
+                                      || u.Email.Contains(search)
+                                      || u.PhoneNumber.Contains(search));
             }
 
             return users.Count();
         }
+        #region Search
         public IEnumerable<User> SearchByUsername(string username)
 		{
 			return userRepository.SearchByUsername(username);
@@ -219,8 +227,9 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 		{
 			return userRepository.SearchByPhone(phone);
 		}
-		#region PrivateMethods
-		private string CreateRandomToken()
+        #endregion
+        #region PrivateMethods
+        private string CreateRandomToken()
         {
             return Convert.ToHexString(RandomNumberGenerator.GetBytes(64));
         }

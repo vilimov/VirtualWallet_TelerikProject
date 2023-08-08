@@ -104,7 +104,7 @@
 			<!-- Left Column -->
 			<div class="w3-col m3" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
 				<!-- Profile -->
-				<div class="w3-card w3-round-large w3-white w3-border sticky">
+				<div class="w3-card w3-round-large w3-white w3-border">
 					<div class="w3-container" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
 						<h4 class="w3-center">Hello @username!</h4>
 						<p class="w3-center"><img src="@Url.Content("~/" + userImage)" class="rounded-circle" alt="Avatar" style="width: 100px; height: 100px; object-fit: cover;"></p>
@@ -178,6 +178,7 @@
 				<br>
 
 				<!-- Alert Box -->
+				<!--
 				<div class="w3-container w3-display-container w3-round-large w3-border w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
 					<span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
 						<i class="fa fa-remove"></i>
@@ -185,7 +186,7 @@
 					<p><strong>Hey!</strong></p>
 					<p>People are looking at your profile. Find out who.</p>
 				</div>
-
+				-->
 				<!-- End Left Column -->
 			</div>
 
