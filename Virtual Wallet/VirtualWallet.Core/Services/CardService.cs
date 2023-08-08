@@ -1,5 +1,6 @@
 ﻿using Virtual_Wallet.VirtualWallet.Common.QueryParameters;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
+using Virtual_Wallet.VirtualWallet.Persistence.Repository;
 using Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts;
 using VirtualWallet.Application.Services.Contracts;
 
@@ -34,10 +35,35 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
         {
             IEnumerable<Card> cards = this.cardRepository.GetAll();
             return cards;
-
         }
 
-        public Card GetById(int id)
+		public IEnumerable<Card> GetAll(int pageNumber, int pageSize, string search = null)
+		{
+            var cards = cardRepository.GetAll().AsQueryable();
+            if (!string.IsNullOrWhiteSpace(search))
+            {
+                cards = cards.Where(c => c.User.Username.Contains(search.ToLower()));
+            }
+			
+			return cards
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+		}
+
+		public int GetCardsCount(string search = null)
+		{
+			var cards = cardRepository.GetAll().AsQueryable();
+
+			if (!string.IsNullOrWhiteSpace(search))
+			{
+				cards = cards.Where(c => c.User.Username.Contains(search.ToLower()));
+			}
+
+			return cards.Count();
+		}
+
+		public Card GetById(int id)
         {
             Card card = this.cardRepository.GetById(id);
             return card;

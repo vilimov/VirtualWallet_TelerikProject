@@ -8,6 +8,8 @@ namespace VirtualWallet.Application.Services.Contracts
 	{
 		Wallet CreateWallet(Wallet wallet, User user);
 		IEnumerable<Wallet> GetAll();
+		IEnumerable<Wallet> GetAll(int pageNumber, int pageSize, string search);
+		int GetWalletsCount(string search);
 		IEnumerable<Wallet> GetFilteredWallets(WalletQueryParameters filter);
 
         Wallet GetWalletById(int id);

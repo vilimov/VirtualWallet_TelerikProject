@@ -1,7 +1,7 @@
 ﻿@using Virtual_Wallet.Models.ViewModels;
 @using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
 @using Virtual_Wallet.VirtualWallet.Domain.Entities;
-@model List<CardShowDto>;
+@model PaginatedCardsViewModel;
 
 <link rel="stylesheet" href="~/css/tableStyles.css" asp-append-version="true" />
 
@@ -23,7 +23,7 @@
 		<table cellpadding="0" cellspacing="0" border="0">
 			<tbody>
 				@{
-					foreach (var card in this.Model)
+					foreach (var card in this.Model.CardsShow)
 					{
 						<tr>
 							<td>@card.CardHolder</td>
@@ -38,7 +38,27 @@
 					}
 				}
 			</tbody>
+		</table>
 	</div>
-	</table>
+
+	<div class="d-flex justify-content-center w3-padding-top-48">
+		<form asp-action="ShowAllCards" asp-controller="Cards" method="get" class="d-inline">
+			<input type="hidden" name="pageNumber" value="@(Model.PageNumber - 1)" />
+			<input type="hidden" name="search" value="@Model.Search" />
+			<button type="submit" class="btn btn-secondary" @(Model.ShowPrevious ? "" : "disabled")>
+				<i class="fas fa-arrow-left"></i>
+			</button>
+		</form>
+
+		<span class="mx-3">Page @Model.PageNumber of @Model.TotalPages</span>
+
+		<form asp-action="ShowAllCards" asp-controller="Cards" method="get" class="d-inline">
+			<input type="hidden" name="pageNumber" value="@(Model.PageNumber + 1)" />
+			<input type="hidden" name="search" value="@Model.Search" />
+			<button type="submit" class="btn btn-secondary" @(Model.ShowNext ? "" : "disabled")>
+				<i class="fas fa-arrow-right"></i>
+			</button>
+		</form>
+	</div>
 </section>
 
