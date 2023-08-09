@@ -15,23 +15,23 @@ using VirtualWallet.Common.QueryParameters;
 
 namespace Virtual_Wallet.Controllers.MVC
 {
-    public class TransactionsController : Controller
-    {
-        private readonly ITransactionService transactionService;
+	public class TransactionsController : Controller
+	{
+		private readonly ITransactionService transactionService;
 		private readonly IMapper mapper;
 		private readonly IUserService userService;
 		private readonly ICardService cardService;
 		public TransactionsController(ITransactionService transactionService, IMapper mapper, IUserService userService, ICardService cardService)
-        {
-            this.transactionService = transactionService;   
-            this.mapper = mapper;
+		{
+			this.transactionService = transactionService;
+			this.mapper = mapper;
 			this.userService = userService;
-			this.cardService = cardService;	
-        }
+			this.cardService = cardService;
+		}
 
-        [HttpGet]
-        public IActionResult Index(string search = null, int pageNumber = 1, int pageSize = 5)
-        {
+		[HttpGet]
+		public IActionResult Index(string search = null, int pageNumber = 1, int pageSize = 5)
+		{
 			if (!IsUserLogged())
 			{
 				return RedirectToAction("Login", "Users");
@@ -87,32 +87,32 @@ namespace Virtual_Wallet.Controllers.MVC
 			var totalTransactions = this.transactionService.GetTransactionsCount(search, user);
 			var totalPages = Math.Ceiling((double)totalTransactions / pageSize);
 
-						// Create a model for the view
-						var model = new PaginatedTransactionViewModel
-						{
+			// Create a model for the view
+			var model = new PaginatedTransactionViewModel
+			{
 				PageNumber = pageNumber,
 				PageSize = pageSize,
 				TotalPages = (int)totalPages,
 				TansactionsShow = transactionsVM.ToList(),
 				Search = search
-						};
+			};
 
 			return View(model);
 
 		}
 
 		[HttpGet]
-        public IActionResult Details(int id)
-        {
+		public IActionResult Details(int id)
+		{
 			if (!IsUserLogged())
 			{
 				return RedirectToAction("Login", "Users");
 			}
 			try
-            {
-                var transaction = transactionService.GetTransactionById(id);
-                return View(transaction);
-            }
+			{
+				var transaction = transactionService.GetTransactionById(id);
+				return View(transaction);
+			}
 			catch (EntityNotFoundException ex)
 			{
 				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
@@ -252,23 +252,23 @@ namespace Virtual_Wallet.Controllers.MVC
 
 
 
-        [HttpGet]
-        public IActionResult CreateTransfer(MakeWalletTransactionViewModel makeTransaction)
-        {
-            if (!IsUserLogged())
-            {
-                return RedirectToAction("Login", "Users");
-            }
+		[HttpGet]
+		public IActionResult CreateTransfer(MakeWalletTransactionViewModel makeTransaction)
+		{
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
 
-            var user = GetLoggedUser();
+			var user = GetLoggedUser();
 
-            return View(makeTransaction);
-        }
+			return View(makeTransaction);
+		}
 
 		[HttpPost, ActionName("CreateTransfer")]
 		public IActionResult CreateTransferPost(MakeWalletTransactionViewModel makeTransaction)
 		{
-			
+
 			if (!IsUserLogged())
 			{
 				return RedirectToAction("Login", "Users");
@@ -281,10 +281,10 @@ namespace Virtual_Wallet.Controllers.MVC
 
 			try
 			{
-				
-                var user = GetLoggedUser();
+
+				var user = GetLoggedUser();
 				var recipient = userService.GetUserByUsername(makeTransaction.RecipientUsername);
-                var createdTransaction = transactionService.AddMoneyWalletToWallet(user, recipient, makeTransaction.Amount, makeTransaction.Description);
+				var createdTransaction = transactionService.AddMoneyWalletToWallet(user, recipient, makeTransaction.Amount, makeTransaction.Description);
 				return RedirectToAction("Details", "Transactions", new { id = createdTransaction.Id });
 			}
 			catch (Exception e)
@@ -296,83 +296,83 @@ namespace Virtual_Wallet.Controllers.MVC
 		}
 
 		[HttpGet]
-        public IActionResult SelectRecipient(int pageNumber = 1, int pageSize = 5, string search = null)
-        {
-            if (!IsUserLogged())
-            {
-                return RedirectToAction("Login", "Users");
-            }
-/*
-            var sender = GetLoggedUser();
-            var users = userService.GetAllUsers().Where(u => u.Username != sender.Username).ToList();
-            return View(users);
-*/
-            try
-            {
-                var users = userService.GetAllUsers(pageNumber, pageSize, search);
+		public IActionResult SelectRecipient(int pageNumber = 1, int pageSize = 5, string search = null)
+		{
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
+			/*
+						var sender = GetLoggedUser();
+						var users = userService.GetAllUsers().Where(u => u.Username != sender.Username).ToList();
+						return View(users);
+			*/
+			try
+			{
+				var users = userService.GetAllUsers(pageNumber, pageSize, search);
 				var sender = GetLoggedUser();
 				// Calculate total pages
 				var totalUsers = userService.GetUserCount(search);
-                var totalPages = Math.Ceiling((double)totalUsers / pageSize);
+				var totalPages = Math.Ceiling((double)totalUsers / pageSize);
 
-                var userViewModels = users.Select(u => new UserAdminViewModel
-                {
-                    Id = u.Id,
-                    Username = u.Username,
-                    Email = u.Email,
-                    PhoneNumber = u.PhoneNumber,
-                    IsAdmin = u.IsAdmin,
-                    IsBlocked = u.IsBlocked,
-                    IsDeleted = u.IsDeleted
-                });
+				var userViewModels = users.Select(u => new UserAdminViewModel
+				{
+					Id = u.Id,
+					Username = u.Username,
+					Email = u.Email,
+					PhoneNumber = u.PhoneNumber,
+					IsAdmin = u.IsAdmin,
+					IsBlocked = u.IsBlocked,
+					IsDeleted = u.IsDeleted
+				});
 
-                // Create a model for the view
-                var model = new DashboardViewModel
-                {
-                    PageNumber = pageNumber,
-                    PageSize = pageSize,
-                    TotalPages = (int)totalPages,
-                    Users = userViewModels.Where(u => u.Username != sender.Username).ToList(),
+				// Create a model for the view
+				var model = new DashboardViewModel
+				{
+					PageNumber = pageNumber,
+					PageSize = pageSize,
+					TotalPages = (int)totalPages,
+					Users = userViewModels.Where(u => u.Username != sender.Username).ToList(),
 					Search = search
 				};
 
-                return View(model);
-            }
-            catch (Exception ex)
-            {
-                Response.StatusCode = 500;
-                this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";
-                return View("Error");
-            }
-        }
+				return View(model);
+			}
+			catch (Exception ex)
+			{
+				Response.StatusCode = 500;
+				this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";
+				return View("Error");
+			}
+		}
 
-        [HttpPost]
-        public IActionResult SelectRecipient(string selectedUsername)
-        {
-            if (!IsUserLogged())
-            {
-                return RedirectToAction("Login", "Users");
-            }
+		[HttpPost]
+		public IActionResult SelectRecipient(string selectedUsername)
+		{
+			if (!IsUserLogged())
+			{
+				return RedirectToAction("Login", "Users");
+			}
 
-            var user = GetLoggedUser();
-            var recipient = userService.GetUserByUsername(selectedUsername);
+			var user = GetLoggedUser();
+			var recipient = userService.GetUserByUsername(selectedUsername);
 
-            var makeTransaction = new MakeWalletTransactionViewModel
-            {
-                RecipientUsername = recipient.Username,
+			var makeTransaction = new MakeWalletTransactionViewModel
+			{
+				RecipientUsername = recipient.Username,
 				Amount = (decimal)0.01,
 				Description = "Enter Description"
-            };
+			};
 
-            return RedirectToAction("CreateTransfer", makeTransaction);
-        }
-
-
+			return RedirectToAction("CreateTransfer", makeTransaction);
+		}
 
 
 
-        #region PrivateMethods
-        private bool IsUserLogged()
+
+
+		#region PrivateMethods
+		private bool IsUserLogged()
 		{
 			if (this.HttpContext.Session.GetString("LoggedUser") == null)
 			{

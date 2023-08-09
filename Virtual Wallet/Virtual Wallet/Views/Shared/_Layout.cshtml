@@ -6,11 +6,15 @@
 @{
 	string username = "";
 	string userImage = "";
+	string walletBalance = "";
+	string walletCurrency = "";
 	var isLogged = Context.Session.Keys.Contains("LoggedUser");
 	if (isLogged)
 	{
 		username = Context.Session.GetString("LoggedUser");
 		userImage = Context.Session.GetString("UserImage");
+		walletBalance = Context.Session.GetString("WalletBalance");
+		walletCurrency = Context.Session.GetString("WalletCurrency");
 	}
 }
 
@@ -28,6 +32,8 @@
 	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
 	<style>
 		html, body, h1, h2, h3, h4, h5 {
 			font-family: "Open Sans", sans-serif
@@ -65,7 +71,7 @@
 			@if (!string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")))
 			{
 				<a href="/swagger" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Swagger">
-					<i class="fa fa-file-code-o" aria-hidden="true"></i>
+					<i class="fa fa-connectdevelop" aria-hidden="true"></i>
 				</a>
 				<div class="w3-dropdown-hover w3-hide-small">
 					<button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">3</span></button>
@@ -173,7 +179,6 @@
 				<!-- Interests -->
 				<div class="w3-card w3-round-large w3-white w3-border" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
 					<div class="w3-container w3-padding">
-						<!-- <div><partial name="_ChartP" /></div>-->
 						<div><partial name="_Calendar" /></div>
 					</div>
 				</div>
@@ -216,12 +221,11 @@
 				<!-- Profile -->
 				<div class="w3-card w3-round-large w3-white w3-border">
 					<div class="w3-container">
-						<h4 class="w3-center">My Profile</h4>
-						<p class="w3-center"><img src="/w3images/avatar3.png" class="w3-circle" style="height:106px;width:106px" alt="Avatar"></p>
+						<h4 class="w3-center">My Wallet</h4>
 						<hr>
-						<p><i class="fa fa-pencil fa-fw w3-margin-right w3-text-theme"></i> Designer, UI</p>
-						<p><i class="fa fa-home fa-fw w3-margin-right w3-text-theme"></i> London, UK</p>
-						<p><i class="fa fa-birthday-cake fa-fw w3-margin-right w3-text-theme"></i> April 1, 1988</p>
+						<p><i class="fa fa-google-wallet w3-text-theme"></i> Balance: @walletBalance </p>
+						<p><i class="fa fa-line-chart fa-fw w3-text-theme"></i> Currency: @walletCurrency</p>
+
 					</div>
 				</div>
 				<br>

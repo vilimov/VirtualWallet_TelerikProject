@@ -84,6 +84,10 @@ namespace Virtual_Wallet.Controllers.MVC
 				this.HttpContext.Session.SetString("LoggedUser", user.Username);
 				this.HttpContext.Session.SetString("IsAdmin", user.IsAdmin.ToString());
 				this.HttpContext.Session.SetString("UserImage", user.Photo);
+                var amount = $"{user.Wallet.Balance:f2}";
+				this.HttpContext.Session.SetString("WalletBalance", amount);
+				var currency = user.Wallet.CurrencyCode.ToString();
+				this.HttpContext.Session.SetString("WalletCurrency", currency);
 
 				return RedirectToAction("Index", "Home");
 			}
