@@ -1,0 +1,79 @@
+﻿@using Virtual_Wallet.Models.ViewModels;
+@using Virtual_Wallet.VirtualWallet.Domain.Enums;
+
+<div id="converter-container">
+    <h4 class="w3-center w3-round-large spacer" style="padding: 5px 10px; width: 100%; background: #194759; text-align: center; color: white;">Currency Converter</h4>
+        <form >
+        <div class="row-container spacer" style="font-weight: bold;>
+            <h5 class="w3-center">Amount:&nbsp;</h5>
+            <input id="amountAsString" name="amountAsString" type="text" class="w3-center w3-round-large" style="width: 100%; align-items: center;" oninput="validatePositiveFloat(this)" />
+        </div>
+        <div class="w3-right">
+            <a style="font-weight: bold;">From:</a>
+            <select id="primary" name="primary" class="input" style="border:2px solid black">
+            @foreach (var currency in Enum.GetValues(typeof(Currency)))
+            {
+                <option value="@currency">@currency</option>
+            }
+            </select><p></p>
+            <a style="font-weight: bold;">To:</a>
+            <select id="secondary" name="secondary" class="w3-right spacer" style="border:2px solid black">
+            @foreach (var currency in Enum.GetValues(typeof(Currency)))
+            {
+                <option value="@currency">@currency</option>
+            }
+        </select>
+        </div>
+        <button type="submit" class="fa fa-balance-scale w3-button w3-theme-d4 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black; font-size: 1.2em" onclick="convertCurrency();">&ensp; Convert</button>
+        <div class="row-container spacer" style="font-weight: bold;>
+            <h5 class="w3-center">Converted:&nbsp;</h5>
+            <input id="calculated-amount" name="converted" type="text" class="w3-center  w3-round-large" style="width: 100%; align-items: center;" disabled />
+        </div>
+        <div class="row-container spacer" style="font-weight: bold;>
+            <h5 class="w3-center">Rate:&nbsp;</h5>
+            <input id="calculated-rate" name="rate" type="text" class="w3-center  w3-round-large" style="width: 100%; align-items:end;" disabled /> 
+        </div>
+    </form>
+</div>
+
+<script>
+    function convertCurrency() {
+        event.preventDefault();
+
+        var formData = $("form").serialize();
+
+        $.ajax({
+            type: "POST",
+            url: "/Converter/ConvertCurrency",
+            data: formData,
+            success: function (data) {
+                $("#calculated-amount").text(data.calculatedAmount);
+                $("#calculated-amount").val(data.calculatedAmount);
+                $("#calculated-rate").text(data.exchangeRate);
+                $("#calculated-rate").val(data.exchangeRate);
+            },
+            error: function (xhr, status, error) {
+                console.log("Error:", error);
+            }
+        });
+    }
+</script>
+
+<script>
+    function validatePositiveFloat(input) {
+        // Remove any non-digit and non-period characters except the first one
+        input.value = input.value.replace(/[^\d.]/g, '').replace(/^(\d*\.\d*)\..*/, '$1');
+    }
+</script>
+
+<style>
+    .row-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .spacer {
+        margin-bottom: 15px; /* Adjust the value to control the amount of space */
+    }
+</style>
