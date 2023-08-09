@@ -7,17 +7,13 @@ namespace VirtualWallet.Application.Services.Contracts
     {
         IEnumerable<Card> GetAll();
         IEnumerable<Card> GetAll(int pageNumber, int pageSize, string search = null);
-
 		IEnumerable<Card> GetFilteredCards(CardQueryParameters filter);
         int GetCardsCount(string search = null);
-
 		Card GetById(int id);
         Card GetByNumber(string number);
         IEnumerable<Card> GetByUser(User user);
-        //IEnumerable<Card> FilterCardsBy(CardQueryParameters queryParameters);
         Card Add(Card card, User user);
         Card Update(Card card, User user, int id);
-
 		Card Remove(int id);
     }
 }

@@ -11,7 +11,6 @@ namespace VirtualWallet.Application.Services.Contracts
 		IEnumerable<Wallet> GetAll(int pageNumber, int pageSize, string search);
 		int GetWalletsCount(string search);
 		IEnumerable<Wallet> GetFilteredWallets(WalletQueryParameters filter);
-
         Wallet GetWalletById(int id);
 		Wallet GetWalletByUser(string username);
 		decimal GetBalance(int id);

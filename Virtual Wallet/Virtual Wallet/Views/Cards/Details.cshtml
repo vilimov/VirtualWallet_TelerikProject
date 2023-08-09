@@ -61,8 +61,6 @@
 	</div>
 </div>
 
-
-<!-- POP UP HTML-->
 <div id="customPopup" class="custom-popup ">
 	<div class="popup-content">
 		<i class="fa fa-question-circle-o fa-5x" aria-hidden="true"></i>
@@ -74,7 +72,6 @@
 	</div>
 </div>
 
-<!-- POP UP JAVASCRIPT-->
 <script>
 	const customPopup = document.getElementById('customPopup');
 	const confirmButton = document.getElementById('confirmButton');
@@ -90,16 +87,13 @@
 	}
 
 	confirmButton.addEventListener('click', function () {
-		hideCustomPopup(); // Hide the popup
-		// Manually trigger the link navigation
+		hideCustomPopup();
 		window.location.href = removeCardButton.getAttribute('href');
 	});
 
 	cancelButton.addEventListener('click', hideCustomPopup);
-
-	// Add a click event listener to the "Remove Card" button
 	removeCardButton.addEventListener('click', function (e) {
-		e.preventDefault(); // Prevent the default link behavior
+		e.preventDefault();
 		showCustomPopup();
 	});
 </script>

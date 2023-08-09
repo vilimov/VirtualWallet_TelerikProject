@@ -26,7 +26,10 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
         private readonly AuthManager authManager;
         private readonly IMapper mapper;
 
-        public WalletApiController(IWalletService walletService, AuthManager authManager, IMapper mapper)
+        public WalletApiController(
+            IWalletService walletService, 
+            AuthManager authManager, 
+            IMapper mapper)
         {
             this.walletService = walletService;
             this.authManager = authManager;
@@ -39,30 +42,36 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             try
             {
                 User user = authManager.TryGetUser(credentials);
+
                 if (user.IsAdmin == true)
                 {
                     List<Wallet> wallets = walletService.GetAll().ToList();
+
                     if (wallets.Count == 0)
                     {
                         return StatusCode(StatusCodes.Status404NotFound, Alerts.NoItemToShow);
                     }
+
                     List<WalletShowDto> result = wallets.Select(wallets => new WalletShowDto(wallets)).ToList();
+
                     return StatusCode(StatusCodes.Status200OK, result);
                 }
+
                 else
                 {
                     return StatusCode(StatusCodes.Status403Forbidden, Alerts.NotAutorised);
                 }
+
             }
             catch (UnauthorizedOperationException ex)
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
             }
+
             catch (InvalidCredentialsException e)
             {
                 return StatusCode(StatusCodes.Status404NotFound, e.Message);
             }
-
         }
 
         [HttpGet("filters")]
@@ -71,27 +80,33 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             try
             {
                 User user = authManager.TryGetUser(credentials);
+
                 if (user.IsAdmin == true)
                 {
                     var wallets = walletService.GetFilteredWallets(filter);
                     List<WalletShowDto> result = wallets.Select(c => new WalletShowDto(c)).ToList();
+
                     return result.Count > 0
                         ? StatusCode(StatusCodes.Status200OK, result)
                         : (IActionResult)StatusCode(StatusCodes.Status404NotFound, Alerts.NoItemToShow);
                 }
+
                 else
                 {
                     return StatusCode(StatusCodes.Status401Unauthorized, Alerts.NotAutorised);
                 }
             }
+
             catch (EntityNotFoundException e)
             {
                 return StatusCode(StatusCodes.Status404NotFound, e.Message);
             }
+
             catch (UnauthorizedOperationException ex)
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
             }
+
             catch (InvalidCredentialsException e)
             {
                 return StatusCode(StatusCodes.Status404NotFound, e.Message);
@@ -105,10 +120,12 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             {
                 User user = authManager.TryGetUser(credentials);
                 Wallet wallet = this.walletService.GetWalletById(id);
+
                 if (wallet == null)
                 {
                     return StatusCode(StatusCodes.Status204NoContent, Alerts.NoItemToShow);
                 }
+
                 else
                 {
                     if (user.IsAdmin == true || user == wallet.User)
@@ -123,14 +140,17 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
                     }
                 }
             }
+
             catch (EntityNotFoundException ex)
             {
                 return StatusCode(StatusCodes.Status404NotFound, ex.Message);
             }
+
             catch (UnauthorizedOperationException ex)
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
             }
+
             catch (InvalidCredentialsException e)
             {
                 return StatusCode(StatusCodes.Status404NotFound, e.Message);
@@ -144,10 +164,12 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             {
                 User user = authManager.TryGetUser(credentials);
                 Wallet wallet = walletService.GetWalletByUser(user.Username);
+
                 if (wallet == null)
                 {
                     return StatusCode(StatusCodes.Status204NoContent, Alerts.NoItemToShow);
                 }
+
                 else
                 {
                     WalletShowDto result = new WalletShowDto(wallet);
@@ -155,14 +177,17 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
                     return StatusCode(StatusCodes.Status200OK, result);
                 }
             }
+
             catch (EntityNotFoundException ex)
             {
                 return StatusCode(StatusCodes.Status404NotFound, ex.Message);
             }
+
             catch (UnauthorizedOperationException ex)
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
             }
+
             catch (InvalidCredentialsException e)
             {
                 return StatusCode(StatusCodes.Status404NotFound, e.Message);
@@ -179,16 +204,20 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
                 Wallet newWallet = mapper.Map<Wallet>(wallet);
                 Wallet createdWallet = walletService.CreateWallet(newWallet, user);
                 WalletShowDto result = new WalletShowDto(createdWallet);
+
                 return Ok(result);
             }
+
             catch (DuplicateEntityException)
             {
                 return StatusCode(StatusCodes.Status409Conflict, Alerts.ExistingWallet);
             }
+
             catch (UnauthorizedOperationException ex)
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
             }
+
             catch (InvalidCredentialsException e)
             {
                 return StatusCode(StatusCodes.Status404NotFound, e.Message);
@@ -207,14 +236,17 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
 
                 return Ok(result);
             }
+
             catch (EntityNotFoundException ex)
             {
                 return StatusCode(StatusCodes.Status404NotFound, ex.Message);
             }
+
             catch (UnauthorizedOperationException ex)
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
             }
+
             catch (InvalidCredentialsException e)
             {
                 return StatusCode(StatusCodes.Status404NotFound, e.Message);
@@ -228,29 +260,36 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
             {
                 User user = authManager.TryGetUser(credentials);
                 Wallet wallet = walletService.GetWalletById(id);
+
                 if (user.IsAdmin == true || user == wallet.User)
                 {
                     Wallet deletedWallet = walletService.Delete(id);
                     WalletShowDto result = new WalletShowDto(deletedWallet);
+
                     return Ok(result);
                 }
+
                 else
                 {
                     return StatusCode(StatusCodes.Status403Forbidden, Alerts.NotAutorised);
                 }
             }
+
             catch (WalletNotEmptyException ex)
             {
                 return StatusCode(StatusCodes.Status403Forbidden, ex.Message);
             }
+
             catch (EntityNotFoundException ex)
             {
                 return StatusCode(StatusCodes.Status404NotFound, ex.Message);
             }
+
             catch (UnauthorizedOperationException ex)
             {
                 return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
             }
+
             catch (InvalidCredentialsException e)
             {
                 return StatusCode(StatusCodes.Status404NotFound, e.Message);

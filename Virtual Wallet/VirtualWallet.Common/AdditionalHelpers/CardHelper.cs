@@ -10,7 +10,6 @@ namespace VirtualWallet.Common.AdditionalHelpers
     {
         public static string HideCardNumber(string cardNumber)
         {
-            // Keep only the last 4 digits of the card number and replace the rest with "*"
             int visibleDigits = 4;
             int totalDigits = cardNumber.Length;
             int hiddenDigits = totalDigits - visibleDigits;
@@ -24,12 +23,14 @@ namespace VirtualWallet.Common.AdditionalHelpers
         public static string HideName(string username)
         {
             string hiddenName = string.Empty;
+
             for (int i = 0; i < username.Length; i++)
             {
                 if (i == 0 || i == 1 || i == username.Length - 2 || i == username.Length - 1)
                 {
                     hiddenName += username[i];
                 }
+
                 else
                 {
                     hiddenName += "*";

@@ -19,10 +19,6 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Data
         public DbSet<Wallet> Wallets { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
-        //public DbSet<Referral> Referrals { get; set; }
-
-        //public DbSet<Address> Addresses { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -138,12 +134,6 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Data
             modelBuilder.Entity<Wallet>()
                 .Property(w => w.Blocked)
                 .HasPrecision(20, 5);
-
-            //modelBuilder.Entity<User>()
-            //    .HasMany(u => u.Referrals)
-            //    .WithOne(r => r.ReferrerUser)
-            //    .HasForeignKey(r => r.ReferrerUserId)
-            //    .OnDelete(DeleteBehavior.Cascade);
         }
 
         #region PrivateMethods
@@ -155,6 +145,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Data
             using (var rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, saltBytes, 10000))
             {
                 byte[] hashBytes = rfc2898DeriveBytes.GetBytes(32); // 32 bytes = 256 bits (recommended for bcrypt)
+
                 return Convert.ToBase64String(hashBytes);
             }
         }

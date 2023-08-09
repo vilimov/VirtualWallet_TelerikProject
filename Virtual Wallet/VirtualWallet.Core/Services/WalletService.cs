@@ -23,6 +23,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
         public Wallet CreateWallet(Wallet wallet, User user)
         {
             walletRepository.CreateWallet(wallet, user);
+
             return wallet;
         }
 
@@ -34,6 +35,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 		public IEnumerable<Wallet> GetAll(int pageNumber, int pageSize, string search = null)
 		{
 			var wallets = walletRepository.GetAll().AsQueryable();
+
 			if (!string.IsNullOrWhiteSpace(search))
 			{
 				wallets = wallets.Where(w => w.User.Username.Contains(search));
@@ -99,13 +101,16 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             Currency newCurrencyCode = newWallet.CurrencyCode;
 
             PairRatesJson rateJson = Rates.GetExchangeRates(currentCurrencyCode.ToString(), newCurrencyCode.ToString());
+
             if (rateJson == null)
             {
                 throw new UnauthorizedOperationException(Alerts.FailedCurrencyRate);
             }
+
             else
             {
                 double exchangeRate = rateJson.conversion_rate;
+
                 return this.walletRepository.Update(currentWallet.Id, exchangeRate, newCurrencyCode);
             }
         }
@@ -113,6 +118,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
         public Wallet Delete(int id)
         {
             Wallet deletedWallet = walletRepository.Delete(id);
+
             return deletedWallet;
         }
     }

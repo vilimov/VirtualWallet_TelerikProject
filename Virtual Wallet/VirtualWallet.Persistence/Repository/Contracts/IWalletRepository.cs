@@ -16,9 +16,6 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts
         decimal AddToWallet(int id, decimal amount);
         decimal WithdrawFromWallet(int id, decimal amount);     
         Wallet Update(int id, double exchangeRate, Currency newCurrencyCode);
-        Wallet Delete(int id);
-    
-        //decimal AdjustBalance(int walletId, decimal amount, bool isDeposit);
-
+        Wallet Delete(int id);    
 	}
 }

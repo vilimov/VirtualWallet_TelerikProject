@@ -14,20 +14,25 @@ namespace Virtual_Wallet.Controllers.MVC
             var primaryCurrency = Enum.Parse(typeof(Currency), primary).ToString();
             var secondaryCurrency = Enum.Parse(typeof(Currency), secondary).ToString();
             decimal amount = 0;
+
             try
             {
                 amount = Convert.ToDecimal(amountAsString);
             }
+
             catch (System.FormatException)
             {
             }
+
             double exchangeRate;
 
             PairRatesJson rateJson = Rates.GetExchangeRates(primaryCurrency, secondaryCurrency);
+
             if (rateJson == null)
             {
                 return StatusCode(StatusCodes.Status503ServiceUnavailable, Alerts.FailedCurrencyRate);
             }
+
             else
             {
                 exchangeRate = rateJson.conversion_rate;

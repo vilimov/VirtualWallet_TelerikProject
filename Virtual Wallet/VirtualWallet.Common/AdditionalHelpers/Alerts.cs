@@ -25,7 +25,6 @@ namespace VirtualWallet.Common.AdditionalHelpers
         public const string CardAlreadyExpired  = "Your card has already expired!";
         public const string CardAlreadyAdded  = "Your card has already been added!";
         public const string CardNameAlreadyExists  = "This card name already exists!";
-
         public const string UserAlreadyVerified = "You are already verified.";
         public const string UserVerifiedOk = "Successfully verified!";
     }

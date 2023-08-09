@@ -31,7 +31,5 @@ namespace VirtualWallet.Application.ExchangeRateAPI
         public string base_code { get; set; }
         public string target_code { get; set; }
         public double conversion_rate { get; set; }
-
-        //public
     }
 }

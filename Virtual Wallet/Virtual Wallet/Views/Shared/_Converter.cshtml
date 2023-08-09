@@ -61,7 +61,6 @@
 
 <script>
     function validatePositiveFloat(input) {
-        // Remove any non-digit and non-period characters except the first one
         input.value = input.value.replace(/[^\d.]/g, '').replace(/^(\d*\.\d*)\..*/, '$1');
     }
 </script>
@@ -74,6 +73,6 @@
     }
 
     .spacer {
-        margin-bottom: 15px; /* Adjust the value to control the amount of space */
+        margin-bottom: 15px;
     }
 </style>

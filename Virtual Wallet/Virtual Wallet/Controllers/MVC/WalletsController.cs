@@ -15,7 +15,10 @@ namespace Virtual_Wallet.Controllers.MVC
         private readonly IUserService userService;
         private readonly IMapper mapper;
 
-        public WalletsController(IWalletService walletService, IUserService userService, IMapper mapper)
+        public WalletsController(
+            IWalletService walletService, 
+            IUserService userService, 
+            IMapper mapper)
         {
             this.walletService = walletService;
             this.userService = userService;
@@ -33,8 +36,8 @@ namespace Virtual_Wallet.Controllers.MVC
                 var user = GetLoggedUser();
                 Wallet wallet = this.walletService.GetWalletByUser(user.Username);
                 WalletViewModel result = new WalletViewModel(wallet);
-                return View(result);
 
+                return View(result);
             }
 
             catch (EntityNotFoundException e)
@@ -137,6 +140,7 @@ namespace Virtual_Wallet.Controllers.MVC
                 var user = GetLoggedUser();
                 Wallet wallet = mapper.Map<Wallet>(newWallet);
                 wallet = walletService.CreateWallet(wallet, user);
+
                 return RedirectToAction("Index", "Wallets");
             }
 
@@ -144,6 +148,7 @@ namespace Virtual_Wallet.Controllers.MVC
             {
                 HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
                 ViewData["ErrorMessage"] = e.Message;
+
                 return View(newWallet);
             }
         }
@@ -179,6 +184,7 @@ namespace Virtual_Wallet.Controllers.MVC
                 var user = GetLoggedUser();
                 Wallet wallet = mapper.Map<Wallet>(newWallet);
                 Wallet updatedWallet = walletService.Update(user, wallet);
+
                 return RedirectToAction("Details", "Wallets", new { id = updatedWallet.Id });
             }
 
@@ -186,6 +192,7 @@ namespace Virtual_Wallet.Controllers.MVC
             {
                 HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
                 ViewData["ErrorMessage"] = e.Message;
+
                 return View(newWallet);
             }
         }
@@ -201,6 +208,7 @@ namespace Virtual_Wallet.Controllers.MVC
             try
             {
                 var wallet = walletService.Delete(id);
+
                 return RedirectToAction("Index", "Wallets");
             }
 
@@ -208,12 +216,15 @@ namespace Virtual_Wallet.Controllers.MVC
             {
                 this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
                 this.ViewData["ErrorMessage"] = e.Message;
+
                 return View("Error");
             }
+
             catch (WalletNotEmptyException ex)
             {
                 this.HttpContext.Response.StatusCode = StatusCodes.Status403Forbidden;
                 this.ViewData["ErrorMessage"] = ex.Message;
+
                 return View("Error");
             }
         }

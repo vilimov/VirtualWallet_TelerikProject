@@ -15,9 +15,11 @@ namespace VirtualWallet.Application.ExchangeRateAPI
             try
             {
                 String URLString = $"https://v6.exchangerate-api.com/v6/c09e39880dca3479161fcf56/latest/{currency}";
+
                 using (var webClient = new System.Net.WebClient())
                 {
                     var json = webClient.DownloadString(URLString);
+
                     return JsonConvert.DeserializeObject<RatesJson>(json);
                 }
             }
@@ -32,12 +34,15 @@ namespace VirtualWallet.Application.ExchangeRateAPI
             try
             {
                 String URLString = $"https://v6.exchangerate-api.com/v6/c09e39880dca3479161fcf56/pair/{oldCurrency}/{newCurrency}";
+
                 using (var webClient = new System.Net.WebClient())
                 {
                     var json = webClient.DownloadString(URLString);
+
                     return JsonConvert.DeserializeObject<PairRatesJson>(json);
                 }
             }
+
             catch (Exception)
             {
                 return null;

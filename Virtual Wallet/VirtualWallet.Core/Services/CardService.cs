@@ -18,6 +18,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
         public Card Add(Card card, User user)
         {
             Card createdCard = this.cardRepository.Add(card, user);
+
             return createdCard;
         }
 
@@ -34,12 +35,14 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
         public IEnumerable<Card> GetAll()
         {
             IEnumerable<Card> cards = this.cardRepository.GetAll();
+
             return cards;
         }
 
 		public IEnumerable<Card> GetAll(int pageNumber, int pageSize, string search = null)
 		{
             var cards = cardRepository.GetAll().AsQueryable();
+
             if (!string.IsNullOrWhiteSpace(search))
             {
                 cards = cards.Where(c => c.User.Username.Contains(search.ToLower()));
@@ -66,24 +69,28 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 		public Card GetById(int id)
         {
             Card card = this.cardRepository.GetById(id);
+
             return card;
         }
 
         public Card GetByNumber(string number)
         {
             Card card = cardRepository.GetByNumber(number);
+
             return card;
         }
 
         public IEnumerable<Card> GetByUser(User user)
         {
             IEnumerable<Card> cards = cardRepository.GetByUser(user);
+
             return cards;
         }
 
         public Card Remove(int id)
         {
             Card removedCard = this.cardRepository.Remove(id);
+
             return removedCard;
         }
     }

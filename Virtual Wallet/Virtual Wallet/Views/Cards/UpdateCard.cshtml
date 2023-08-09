@@ -42,37 +42,6 @@
 		}, "Value", "Text"),
 		new { @class = "w3-text-black mb-2" })
 	</div>
-	@*<div class="form-group d-flex flex-column align-items-center">
-		<label for="CurrencyCode">Currency:</label>
-		@{
-			var currencyValues = Enum.GetValues(typeof(Virtual_Wallet.VirtualWallet.Domain.Enums.Currency));
-			var currencyOptions = new List<SelectListItem>
-		{
-		new SelectListItem { Value = "", Text = "Select Currency" } // Empty option
-		};
-			foreach (var value in currencyValues)
-			{
-				currencyOptions.Add(new SelectListItem
-				{
-					Value = value.ToString(),
-					Text = value.ToString()
-				});
-			}
-		}
-		@Html.DropDownListFor(model => model.CurrencyCode, currencyOptions, "Select Currency", new { @class = "w3-text-black mb-2" })
-		<span asp-validation-for="CurrencyCode" class="text-danger"></span>
-	</div>
-	<div class="form-group d-flex flex-column align-items-center">
-		<label for="IsCreditCard">Card Type:</label>
-		@Html.DropDownListFor(model => model.IsCreditCard,
-		new SelectList(new[]
-		{
-		new SelectListItem { Value = null, Text = "Select Card Type" },
-		new SelectListItem { Value = "true", Text = "Credit" },
-		new SelectListItem { Value = "false", Text = "Debit" }
-		}, "Value", "Text"),
-		new { @class = "w3-text-black mb-2" })
-	</div>*@
 	<div class="form-group d-flex flex-column align-items-center mt-4">
 		<button type="submit" class="btn btn-primary mb-2">UpdateCard</button>
 	</div>
