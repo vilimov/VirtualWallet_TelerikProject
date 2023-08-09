@@ -9,6 +9,7 @@ namespace VirtualWallet.Persistence.QueryParameters
 {
     public class WalletQueryParameters
     {
+        public string? Username { get; set; }
         public Currency? CurrencyCode { get; set; }
         public decimal? BallanceLessThan { get; set; }
         public decimal? BallanceMoreThan { get; set; }

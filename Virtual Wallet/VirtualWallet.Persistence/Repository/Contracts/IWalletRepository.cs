@@ -7,7 +7,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository.Contracts
     public interface IWalletRepository
     {
         Wallet CreateWallet(Wallet wallet, User user);
-        IEnumerable<Wallet> GetAll();
+        IQueryable<Wallet> GetAll();
         IList<Wallet> GetFilteredWallets(WalletQueryParameters filter);
         Wallet GetWalletById(int id);
         Wallet GetWalletByUser(string username);

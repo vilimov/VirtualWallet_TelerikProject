@@ -36,7 +36,7 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			var wallets = walletRepository.GetAll().AsQueryable();
 			if (!string.IsNullOrWhiteSpace(search))
 			{
-				wallets = wallets.Where(w => w.User.Username.Contains(search.ToLower()));
+				wallets = wallets.Where(w => w.User.Username.Contains(search));
 			}
 
 			return wallets
