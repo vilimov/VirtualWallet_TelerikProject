@@ -7,6 +7,12 @@
 
 <section>
 	<h1>Cards</h1>
+	<form asp-action="ShowAllCards" asp-controller="Cards" method="get" class="mb-3">
+		<div class="d-flex align-items-center">
+			<input type="text" class="form-control" name="search" placeholder="Search cards by cardholder..." />
+			<button type="submit" class="btn btn-primary ml-2">Search</button>
+		</div>
+	</form>
 	<div class="tbl-header">
 		<table cellpadding="0" cellspacing="0" border="0">
 			<thead>
@@ -23,6 +29,10 @@
 		<table cellpadding="0" cellspacing="0" border="0">
 			<tbody>
 				@{
+					if (this.Model.CardsShow.Count < 1)
+					{
+						<p class="w3-opacity w3-padding">No Cards to show</p>
+					}
 					foreach (var card in this.Model.CardsShow)
 					{
 						<tr>
@@ -49,9 +59,16 @@
 				<i class="fas fa-arrow-left"></i>
 			</button>
 		</form>
-
-		<span class="mx-3">Page @Model.PageNumber of @Model.TotalPages</span>
-
+		@{
+			if (Model.TotalPages == 0)
+			{
+				<span class="mx-3">Page @Model.PageNumber of 1</span>
+			}
+			else
+			{
+				<span class="mx-3">Page @Model.PageNumber of @Model.TotalPages</span>
+			}
+		}
 		<form asp-action="ShowAllCards" asp-controller="Cards" method="get" class="d-inline">
 			<input type="hidden" name="pageNumber" value="@(Model.PageNumber + 1)" />
 			<input type="hidden" name="search" value="@Model.Search" />

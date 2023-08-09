@@ -1,8 +1,94 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using VirtualWallet.Domain.Enums;
+@using Virtual_Wallet.VirtualWallet.Domain.Entities;
+
+@model List<Transaction>
+
+@{
+	ViewData["Title"] = "Home";
+	ViewData["CountTransfer"] = this.Model.Where(t => t.TransactionType == TransactionType.Transfer).ToList().Count;
+	ViewData["CountDeposit"] = this.Model.Where(t => t.TransactionType == TransactionType.Deposit).ToList().Count;
+	ViewData["CountWithdraw"] = this.Model.Where(t => t.TransactionType == TransactionType.Withdraw).ToList().Count;
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<link rel="stylesheet" href="~/css/tableStyles.css" asp-append-version="true" />
+
+<div class="text-center w3-center">
+	<h1 class="display-4">Welcome</h1>
+	<p class="w3-opacity">Your last 3 transactions:</p>
+	<div class="tbl-header">
+		<table cellpadding="0" cellspacing="0" border="0">
+			<thead>
+				<tr>
+					<th>Date</th>
+					<th>Amount</th>
+					<th class="w3-hide-small">Type</th>
+					<th class="w3-hide-small">Description</th>
+					<th class="w3-hide-small">Sender</th>
+				</tr>
+			</thead>
+		</table>
+	</div>
+	<div class="" style="padding-bottom:30px;">
+		<table cellpadding="0" cellspacing="0" border="0">
+			<tbody>
+				@{
+					if (this.Model.Count < 1)
+					{
+						<p class="w3-opacity w3-padding">No Transactions to show</p>
+					}
+
+					int countLastTransacions = 0;
+
+					foreach (var transaction in this.Model)
+					{
+						countLastTransacions++;
+						if (countLastTransacions > 3)
+						{
+							break;
+						}
+
+						<tr>
+							<td>@transaction.Date</td>
+							<td>@($"{transaction.Amount:f2}")</td>
+							<td class="w3-hide-small">@transaction.TransactionType</td>
+							<td>@(transaction.Description.Length > 12 ? transaction.Description.Substring(0, 12) : transaction.Description)</td>
+							<td class="w3-hide-small">@transaction.Sender.Username</td>
+						</tr>
+					}
+				}
+			</tbody>
+		</table>
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+	<canvas id="myChart" style="width:100%;max-width:800px"></canvas>
+	<script>
+		var xValues = ["Transfers Made", "Deposits Made", "Withdraws Made"];
+		var yValues = [@ViewData["CountTransfer"], @ViewData["CountDeposit"], @ViewData["CountWithdraw"]];
+		var barColors = [
+			"#1e7145",
+			"#00aba9",
+			"#2b5797",
+			"#e8c3b9",
+			"#1e7145"
+		];
+		new Chart("myChart", {
+			type: "pie",
+			data: {
+				labels: xValues,
+				datasets: [{
+					backgroundColor: barColors,
+					data: yValues
+				}]
+			},
+			options: {
+				title: {
+					display: true,
+					text: "Transfers details",
+					fontSize: 18,
+					lineHeight: 1.2,
+				}
+			}
+		});
+	</script>
 </div>

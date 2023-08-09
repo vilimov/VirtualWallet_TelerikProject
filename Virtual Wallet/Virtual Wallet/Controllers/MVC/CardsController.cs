@@ -71,6 +71,7 @@ namespace Virtual_Wallet.Controllers.MVC
 				PageSize = pageSize,
 				TotalPages = (int)totalPages,
 				CardsShow = cardVM,
+				Search = search
 			};
 				return View(model);
 			}

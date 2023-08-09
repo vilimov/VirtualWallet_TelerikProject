@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using Virtual_Wallet.VirtualWallet.API.Models.ViewModels;
+using VirtualWallet.Application.Services.Contracts;
 
 namespace Virtual_Wallet.Controllers.MVC
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ITransactionService transactionService;
+        private readonly IUserService userService;
+        public HomeController(ILogger<HomeController> logger, ITransactionService transactionService, IUserService userService)
         {
-            _logger = logger;
+            this.transactionService = transactionService;
+            this.userService = userService;
         }
 
         public IActionResult Index()
@@ -19,7 +21,10 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return RedirectToAction("Welcomepage", "Home");
 			}
-			return View();
+            var user = userService.GetUserByUsername(this.HttpContext.Session.GetString("LoggedUser"));
+            var allTransactions = transactionService.GetAllTransactions().Where(t=>t.SenderId == user.Id || t.RecipientId == user.Id).ToList();
+
+            return View(allTransactions);
         }
 
         public IActionResult Privacy()
