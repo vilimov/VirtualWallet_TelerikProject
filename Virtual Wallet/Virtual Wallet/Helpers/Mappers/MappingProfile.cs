@@ -21,6 +21,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
             CreateMap<CardUpdateViewModel, Card>()
                 .ForMember(dest => dest.ExpirationDate, opts => opts.MapFrom(src => DateTime.ParseExact(src.ExpireDateFormatted, "MMyy", CultureInfo.InvariantCulture)))
                 .ForMember(dest => dest.IsCreditCard, opts => opts.MapFrom(src => src.IsCreditCard));
+            CreateMap<Card, CardViewModel>().ReverseMap();
 
 			//Transactions Mapping
 			CreateMap<Transaction, TransactionShowDto>()
@@ -44,6 +45,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
 
             // Wallet Mapping
             CreateMap<WalletCreateUpdateDto, Wallet>();
+            CreateMap<Wallet, WalletViewModel>().ReverseMap();
         }
     }
 }

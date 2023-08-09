@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Virtual_Wallet.Models.ViewModels;
 using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
-using Virtual_Wallet.VirtualWallet.Application.Services;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using VirtualWallet.Application.Services.Contracts;
@@ -28,42 +26,57 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			try
 			{
 				var user = GetLoggedUser();
 				Wallet wallet = this.walletService.GetWalletByUser(user.Username);
-				WalletShowDto result = new WalletShowDto(wallet);
+				WalletViewModel result = new WalletViewModel(wallet);
 				return View(result);
 
 			}
+
 			catch (EntityNotFoundException e)
 			{
 				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
 				ViewData["ErrorMessage"] = e.Message;
-				//return View("Error");           // This will return the Error page
-				return View();    // This will return the same view with validation errors
 			}
+
 			return View();
 		}
 
 		[HttpGet]
-		public IActionResult ShowAllWallets()
+		public IActionResult ShowAllWallets(int pageNumber = 1, int pageSize = 5, string search = null)
 		{
 			if (!IsUserLogged())
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			var user = GetLoggedUser();
+
 			if (!user.IsAdmin)
 			{
 				this.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
 				this.ViewData["ErrorMessage"] = "You are not authorized for this action!";
-				//return View("Error");             this will return the Error page
-				return View("Error");      // this will retur the same object and keep us on the same page
+
+				return View("Error");
 			}
-			List<Wallet> wallets = this.walletService.GetAll().ToList();
-			List<WalletShowDto> result = wallets.Select(c => new WalletShowDto(c)).ToList();
-			return View(result);
+
+			var wallets = this.walletService.GetAll(pageNumber, pageSize, search);
+			List<WalletViewModel> walletsVM = wallets.Select(w => new WalletViewModel(w)).ToList();
+			var totalWallets = walletService.GetWalletsCount(search);
+			var totalPages = Math.Ceiling((double)totalWallets / pageSize);
+
+			var model = new PaginatedWalletsViewModel
+			{
+				PageNumber = pageNumber,
+				PageSize = pageSize,
+				TotalPages = (int)totalPages,
+				WalletsShow = walletsVM,
+			};
+
+			return View(model);
 		}
 
 		[HttpGet]
@@ -73,13 +86,15 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			try
 			{
-				User user = GetLoggedUser();
 				var wallet = walletService.GetWalletById(id);
 				WalletViewModel result = new WalletViewModel(wallet);
+
 				return View(result);
 			}
+
 			catch (EntityNotFoundException ex)
 			{
 				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
@@ -96,6 +111,7 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			var newWallet = new WalletCreateUpdateDto();
 
 			return View(newWallet);
@@ -121,6 +137,7 @@ namespace Virtual_Wallet.Controllers.MVC
 				wallet = walletService.CreateWallet(wallet, user);
 				return RedirectToAction("Index", "Wallets");
 			}
+
 			catch (Exception e)
 			{
 				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
@@ -136,7 +153,9 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			var user = GetLoggedUser();
+
 			return View();
 		}
 
@@ -160,6 +179,7 @@ namespace Virtual_Wallet.Controllers.MVC
 				Wallet updatedWallet = walletService.Update(user, wallet);
 				return RedirectToAction("Details", "Wallets", new { id = updatedWallet.Id });
 			}
+
 			catch (Exception e)
 			{
 				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
@@ -175,11 +195,13 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			try
 			{
 				var wallet = walletService.Delete(id);
 				return RedirectToAction("Index", "Wallets");
 			}
+
 			catch (EntityNotFoundException e)
 			{
 				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
@@ -194,6 +216,7 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return false;
 			}
+
 			return true;
 		}
 
@@ -202,6 +225,7 @@ namespace Virtual_Wallet.Controllers.MVC
 			IsUserLogged();
 			var getUserName = this.HttpContext.Session.GetString("LoggedUser");
 			var loggedUser = userService.GetUserByUsername(getUserName);
+
 			return loggedUser;
 		}
 	}

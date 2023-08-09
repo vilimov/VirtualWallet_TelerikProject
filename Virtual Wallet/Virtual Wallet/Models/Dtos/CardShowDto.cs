@@ -9,7 +9,6 @@ namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
     {
         public CardShowDto() { }
 
-
         public CardShowDto(Card card)
         {            
             this.Id = card.Id;
@@ -22,6 +21,7 @@ namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
 			this.IsCreditCard = card.IsCreditCard;
             this.Username = card.User.Username;
         }
+
         [JsonIgnore]
         public int Id { get; set; }
         public string Name { get; set; }

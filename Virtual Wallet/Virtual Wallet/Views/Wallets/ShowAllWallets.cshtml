@@ -1,7 +1,7 @@
 ﻿@using Virtual_Wallet.Models.ViewModels;
 @using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
 @using Virtual_Wallet.VirtualWallet.Domain.Entities;
-@model List<WalletShowDto>;
+@model PaginatedWalletsViewModel;
 
 <link rel="stylesheet" href="~/css/tableStyles.css" asp-append-version="true" />
 
@@ -23,14 +23,14 @@
 		<table cellpadding="0" cellspacing="0" border="0">
 			<tbody>
 				@{
-					foreach (var wallet in this.Model)
+					foreach (var wallet in this.Model.WalletsShow)
 					{
 						<tr>
 							<td>@wallet.Username</td>
 							<td>@wallet.Ballance</td>
 							<td class="w3-hide-small">@wallet.CurrencyCode</td>
 							<td>
-								<a asp-controller="Wallets" asp-action="Details" , asp-route-id="@this.Model" class="w3-badge w3-small w3-theme-d2 w3-hover-blue-gray">
+								<a asp-controller="Wallets" asp-action="Details" , asp-route-id="@wallet.Id" class="w3-badge w3-small w3-theme-d2 w3-hover-blue-gray">
 									<i class="fa fa-info">&nbsp;Details</i>
 								</a>
 							</td>
@@ -40,4 +40,25 @@
 			</tbody>
 		</table>
 	</div>
+
+	<div class="d-flex justify-content-center w3-padding-top-48">
+		<form asp-action="ShowAllWallets" asp-controller="Wallets" method="get" class="d-inline">
+			<input type="hidden" name="pageNumber" value="@(Model.PageNumber - 1)" />
+			<input type="hidden" name="search" value="@Model.Search" />
+			<button type="submit" class="btn btn-secondary" @(Model.ShowPrevious ? "" : "disabled")>
+				<i class="fas fa-arrow-left"></i>
+			</button>
+		</form>
+
+		<span class="mx-3">Page @Model.PageNumber of @Model.TotalPages</span>
+
+		<form asp-action="ShowAllWallets" asp-controller="Wallets" method="get" class="d-inline">
+			<input type="hidden" name="pageNumber" value="@(Model.PageNumber + 1)" />
+			<input type="hidden" name="search" value="@Model.Search" />
+			<button type="submit" class="btn btn-secondary" @(Model.ShowNext ? "" : "disabled")>
+				<i class="fas fa-arrow-right"></i>
+			</button>
+		</form>
+	</div>
+
 </section>

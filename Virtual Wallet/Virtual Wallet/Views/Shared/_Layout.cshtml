@@ -112,12 +112,12 @@
 						<p><a asp-controller="Cards" asp-action="Index" class="fa fa-credit-card w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">&emsp;My Cards</a>	</p>
 						@if (Context.Request.HttpContext.Session.GetString("IsAdmin") == "True")
 						{
-							<p><a asp-controller="Cards" asp-action="ShowAllCards" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">All Cards</a></p>
+							<p><a asp-controller="Cards" asp-action="ShowAllCards" class="fa w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">All Cards</a></p>
 						}
 						<p><a asp-controller="Wallets" asp-action="Index" class="fa fa-wallet w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">&emsp;My Wallet</a></p>
 						@if (Context.Request.HttpContext.Session.GetString("IsAdmin") == "True")
 						{
-							<p><a asp-controller="Wallets" asp-action="ShowAllWallets" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">All Wallets</a></p>
+							<p><a asp-controller="Wallets" asp-action="ShowAllWallets" class="fa w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">All Wallets</a></p>
 						}
 					</div>
 

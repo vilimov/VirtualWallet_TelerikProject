@@ -31,7 +31,33 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             return walletRepository.GetAll();
         }
 
-        public IEnumerable<Wallet> GetFilteredWallets(WalletQueryParameters filter)
+		public IEnumerable<Wallet> GetAll(int pageNumber, int pageSize, string search = null)
+		{
+			var wallets = walletRepository.GetAll().AsQueryable();
+			if (!string.IsNullOrWhiteSpace(search))
+			{
+				wallets = wallets.Where(w => w.User.Username.Contains(search.ToLower()));
+			}
+
+			return wallets
+				.Skip((pageNumber - 1) * pageSize)
+				.Take(pageSize)
+				.ToList();
+		}
+
+		public int GetWalletsCount(string search = null)
+		{
+			var wallets = walletRepository.GetAll().AsQueryable();
+
+			if (!string.IsNullOrWhiteSpace(search))
+			{
+				wallets = wallets.Where(w => w.User.Username.Contains(search.ToLower()));
+			}
+
+			return wallets.Count();
+		}
+
+		public IEnumerable<Wallet> GetFilteredWallets(WalletQueryParameters filter)
         {
             return walletRepository.GetFilteredWallets(filter);
         }

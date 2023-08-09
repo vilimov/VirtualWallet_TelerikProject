@@ -6,8 +6,12 @@ namespace VirtualWallet.Application.Services.Contracts
     public interface ICardService
     {
         IEnumerable<Card> GetAll();
-        IEnumerable<Card> GetFilteredCards(CardQueryParameters filter);
-        Card GetById(int id);
+        IEnumerable<Card> GetAll(int pageNumber, int pageSize, string search = null);
+
+		IEnumerable<Card> GetFilteredCards(CardQueryParameters filter);
+        int GetCardsCount(string search = null);
+
+		Card GetById(int id);
         Card GetByNumber(string number);
         IEnumerable<Card> GetByUser(User user);
         //IEnumerable<Card> FilterCardsBy(CardQueryParameters queryParameters);

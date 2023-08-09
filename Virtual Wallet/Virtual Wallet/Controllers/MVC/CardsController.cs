@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Virtual_Wallet.Models.ViewModels;
 using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
-using Virtual_Wallet.VirtualWallet.Application.Services;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
-using VirtualWallet.Common.Exceptions;
 
 namespace Virtual_Wallet.Controllers.MVC
 {
@@ -17,15 +14,14 @@ namespace Virtual_Wallet.Controllers.MVC
 		private readonly ICardService cardService;
 		private readonly IUserService userService;
 		private readonly IMapper mapper;
-		private readonly AuthManager authManager;
 
 		public CardsController(ICardService cardService, IUserService userService, IMapper mapper, AuthManager authManager)
 		{
 			this.cardService = cardService;
 			this.userService = userService;
 			this.mapper = mapper;
-			this.authManager = authManager;
 		}
+
 		public IActionResult Index()
 		{
 			if (!IsUserLogged())
@@ -36,7 +32,7 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				var user = GetLoggedUser();
 				IList<Card> cards = this.cardService.GetByUser(user).ToList();
-				List<CardShowDto> result = cards.Select(c => new CardShowDto(c)).ToList();
+				List<CardViewModel> result = cards.Select(c => new CardViewModel(c)).ToList();
 				return View(result);
 
 			}
@@ -44,14 +40,12 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
 				ViewData["ErrorMessage"] = e.Message;
-				//return View("Error");           // This will return the Error page
-				return View();    // This will return the same view with validation errors
 			}
 			return View();
 		}
 
 		[HttpGet]
-		public IActionResult ShowAllCards()
+		public IActionResult ShowAllCards(int pageNumber = 1, int pageSize = 5, string search = null)
 		{
 			if (!IsUserLogged())
 			{
@@ -62,13 +56,24 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				this.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
 				this.ViewData["ErrorMessage"] = "You are not authorized for this action!";
-				//return View("Error");             this will return the Error page
-				return View("Error");      // this will retur the same object and keep us on the same page
+
+				return View("Error");
 			}
-			List<Card> cards = this.cardService.GetAll().ToList();
-			List<CardShowDto> result = cards.Select(c => new CardShowDto(c)).ToList();
-			return View(result);
-		}
+
+			var cards = this.cardService.GetAll(pageNumber, pageSize, search);
+			List<CardViewModel> cardVM = cards.Select(c => new CardViewModel(c)).ToList();
+			var totalCards = cardService.GetCardsCount(search);
+			var totalPages = Math.Ceiling((double)totalCards / pageSize);
+
+			var model = new PaginatedCardsViewModel
+			{
+				PageNumber = pageNumber,
+				PageSize = pageSize,
+				TotalPages = (int)totalPages,
+				CardsShow = cardVM,
+			};
+				return View(model);
+			}
 
 		[HttpGet]
 		public IActionResult Details(int id)
@@ -77,12 +82,15 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			try
 			{
 				var card = cardService.GetById(id);
 				CardViewModel result = new CardViewModel(card);
+
 				return View(result);
 			}
+
 			catch (EntityNotFoundException ex)
 			{
 				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
@@ -99,6 +107,7 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			var newCard = new CardAddDto();
 
 			return View(newCard);
@@ -124,6 +133,7 @@ namespace Virtual_Wallet.Controllers.MVC
 				card = cardService.Add(card, user);
 				return RedirectToAction("Index", "Cards");
 			}
+
 			catch (Exception e)
 			{
 				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
@@ -139,7 +149,9 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			var user = GetLoggedUser();
+
 			return View();
 		}
 
@@ -162,8 +174,9 @@ namespace Virtual_Wallet.Controllers.MVC
 				var user = GetLoggedUser();
 				Card card = mapper.Map<Card>(newCard);
 				Card updatedCard = cardService.Update(card, user, cardToUpdate.Id);
-				return RedirectToAction("Details", "Cards", new  { id = updatedCard.Id });
+				return RedirectToAction("Details", "Cards", new { id = updatedCard.Id });
 			}
+
 			catch (Exception e)
 			{
 				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
@@ -179,11 +192,13 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			try
 			{
 				var card = cardService.Remove(id);
 				return RedirectToAction("Index", "Cards");
 			}
+
 			catch (EntityNotFoundException e)
 			{
 				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
@@ -198,6 +213,7 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return false;
 			}
+
 			return true;
 		}
 
@@ -206,6 +222,7 @@ namespace Virtual_Wallet.Controllers.MVC
 			IsUserLogged();
 			var getUserName = this.HttpContext.Session.GetString("LoggedUser");
 			var loggedUser = userService.GetUserByUsername(getUserName);
+
 			return loggedUser;
 		}
 	}
