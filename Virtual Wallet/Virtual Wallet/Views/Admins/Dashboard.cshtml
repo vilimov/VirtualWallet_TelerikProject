@@ -4,10 +4,14 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 <link rel="stylesheet" href="~/css/PopUpStyle.css" asp-append-version="true" />
 
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <div class="container">
     <h1 class="text-center">Admin Dashboard</h1>
-
+    <p></p>
     <form asp-action="Dashboard" asp-controller="Admins" method="get" class="mb-3">
         <div class="d-flex align-items-center">
             <input type="text" class="form-control" name="search" placeholder="Search by username, email, or phone..." />
@@ -15,29 +19,23 @@
         </div>
     </form>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var user in Model.Users)
-            {
-                <tr>
-                    <td>@user.Username</td>
-                    <td>@user.Email</td>
-                    <td>@user.PhoneNumber</td>
-                    <td>
-                        <div class="btn-group">
+    <div class="row">
+        @foreach (var user in Model.Users)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"><strong>@user.Username</strong></h5>
+                        <p class="card-text">
+                            <strong>Email:</strong> @user.Email <br>
+                            <strong>Phone:</strong> @user.PhoneNumber
+                        </p>
+                        <div class="card-actions">
                             @if (user.IsBlocked)
                             {
-                                <form asp-action="UnblockUser" asp-controller="Admins" method="post" style="display: inline-block;">
+                                <form asp-action="UnblockUser" asp-controller="Admins" method="post">
                                     <input type="hidden" name="id" value="@user.Id" />
-                                    <button type="submit" class="btn btn-success">Unblock</button>
+                                    <button type="submit" class="btn btn-success btn-sm">Unblock</button>
                                 </form>
                             }
                             else
@@ -69,11 +67,12 @@
                                 </form>
                             }
                         </div>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
     <div class="d-flex justify-content-center">
         <form asp-action="Dashboard" asp-controller="Admins" method="get" class="d-inline">
             <input type="hidden" name="pageNumber" value="@(Model.PageNumber - 1)" />
@@ -93,7 +92,7 @@
             </button>
         </form>
     </div>
-</div>
+
 <!-- POP UP -->
 <div id="customPopup" class="custom-popup">
     <div class="popup-content">
@@ -129,4 +128,10 @@
     });
 
     cancelButton.addEventListener('click', hideCustomPopup);
+</script>
+
+<script>
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
 </script>

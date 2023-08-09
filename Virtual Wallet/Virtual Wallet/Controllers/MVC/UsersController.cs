@@ -161,6 +161,7 @@ namespace Virtual_Wallet.Controllers.MVC
                     var user = userService.GetUserByUsername(currentUserUsername);
                     user.Email = model.NewEmail;
                     userService.UpdateUser(user);
+
                     return RedirectToAction("Profile");
                 }
                 catch (DuplicateEntityException ex)
@@ -175,6 +176,7 @@ namespace Virtual_Wallet.Controllers.MVC
         {
 			string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
 			var user = userService.GetUserByUsername(currentUserUsername);
+
 			var model = new UpdatePhoneViewModel
 			{
 				CurrentPhoneNumber = user.PhoneNumber
@@ -192,6 +194,7 @@ namespace Virtual_Wallet.Controllers.MVC
                     var user = userService.GetUserByUsername(currentUserUsername);
                     user.PhoneNumber = model.NewPhoneNumber;
                     userService.UpdateUser(user);
+
                     return RedirectToAction("Profile");
                 }
                 catch (DuplicateEntityException ex)
@@ -206,6 +209,7 @@ namespace Virtual_Wallet.Controllers.MVC
         {
 			string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
 			var user = userService.GetUserByUsername(currentUserUsername);
+
 			var model = new UpdateFirstNameViewModel
 			{
 				CurrentFirstName = user.FirstName
@@ -223,6 +227,7 @@ namespace Virtual_Wallet.Controllers.MVC
                     var user = userService.GetUserByUsername(currentUserUsername);
                     user.FirstName = model.NewFirstName;
                     userService.UpdateUser(user);
+
                     return RedirectToAction("Profile");
                 }
                 catch (DuplicateEntityException ex)
@@ -237,6 +242,7 @@ namespace Virtual_Wallet.Controllers.MVC
         {
 			string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
 			var user = userService.GetUserByUsername(currentUserUsername);
+
 			var model = new UpdateLastNameViewModel
 			{
 				CurrentLastName = user.LastName
@@ -254,6 +260,7 @@ namespace Virtual_Wallet.Controllers.MVC
                     var user = userService.GetUserByUsername(currentUserUsername);
                     user.LastName = model.NewLastName;
                     userService.UpdateUser(user);
+
                     return RedirectToAction("Profile");
                 }
                 catch (DuplicateEntityException ex)
@@ -268,6 +275,7 @@ namespace Virtual_Wallet.Controllers.MVC
         {
 			string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
 			var user = userService.GetUserByUsername(currentUserUsername);
+
 			var model = new UpdatePasswordViewModel
 			{
 				CurrentPassword = user.Password
@@ -285,6 +293,7 @@ namespace Virtual_Wallet.Controllers.MVC
                     var user = userService.GetUserByUsername(currentUserUsername);
                     user.Password = model.NewPassword;
                     userService.UpdateUser(user);
+
                     return RedirectToAction("Profile");
                 }
                 catch (DuplicateEntityException ex)

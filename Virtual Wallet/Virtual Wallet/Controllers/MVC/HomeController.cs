@@ -15,7 +15,11 @@ namespace Virtual_Wallet.Controllers.MVC
 
         public IActionResult Index()
         {
-            return View();
+			if (this.HttpContext.Session.GetString("LoggedUser") == null)
+			{
+				return RedirectToAction("Welcomepage", "Home");
+			}
+			return View();
         }
 
         public IActionResult Privacy()

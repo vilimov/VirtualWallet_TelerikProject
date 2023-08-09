@@ -19,7 +19,7 @@ namespace Virtual_Wallet.Controllers.MVC
             this.userService = userService;
             this.adminService = adminService;
         }
-        public IActionResult Dashboard(int pageNumber = 1, int pageSize = 5, string search = null)
+        public IActionResult Dashboard(int pageNumber = 1, int pageSize = 6, string search = null)
         {
             string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
             User currentUser = userService.GetUserByUsername(loggedInUserName);
@@ -76,8 +76,8 @@ namespace Virtual_Wallet.Controllers.MVC
             {
                 string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
                 User currentUser = userService.GetUserByUsername(loggedInUserName);
-
                 bool isAdmin = Boolean.Parse(HttpContext.Session.GetString("IsAdmin"));
+
                 if (currentUser == null || !isAdmin)
                 {
                     Response.StatusCode = 403;
@@ -103,8 +103,8 @@ namespace Virtual_Wallet.Controllers.MVC
             {
                 string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
                 User currentUser = userService.GetUserByUsername(loggedInUserName);
-
                 bool isAdmin = Boolean.Parse(HttpContext.Session.GetString("IsAdmin"));
+
                 if (currentUser == null || !isAdmin)
                 {
                     Response.StatusCode = 403;
@@ -131,8 +131,8 @@ namespace Virtual_Wallet.Controllers.MVC
             {
                 string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
                 User currentUser = userService.GetUserByUsername(loggedInUserName);
-
                 bool isAdmin = Boolean.Parse(HttpContext.Session.GetString("IsAdmin"));
+
                 if (currentUser == null || !isAdmin)
                 {
                     Response.StatusCode = 403;
@@ -159,8 +159,8 @@ namespace Virtual_Wallet.Controllers.MVC
             {
                 string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
                 User currentUser = userService.GetUserByUsername(loggedInUserName);
-
                 bool isAdmin = Boolean.Parse(HttpContext.Session.GetString("IsAdmin"));
+
                 if (currentUser == null || !isAdmin)
                 {
                     Response.StatusCode = 403;
@@ -184,8 +184,8 @@ namespace Virtual_Wallet.Controllers.MVC
             {
                 string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
                 User currentUser = userService.GetUserByUsername(loggedInUserName);
-
                 bool isAdmin = Boolean.Parse(HttpContext.Session.GetString("IsAdmin"));
+
                 if (currentUser == null || !isAdmin)
                 {
                     Response.StatusCode = 403;

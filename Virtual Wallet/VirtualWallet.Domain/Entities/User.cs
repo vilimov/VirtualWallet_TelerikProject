@@ -17,8 +17,6 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
 
 		[Required(AllowEmptyStrings = false, ErrorMessage = "The {0} field is required and must not be empty.")]
 		[MaxLength(170)]
-		//[DataType(DataType.Password)]
-		//[Display(Name = "Password")]
 		public string Password { get; set; }
         public string Salt { get; set; }
 		public string? FirstName { get; set; }

@@ -56,24 +56,26 @@
 	<div class="w3-top">
 		<div class="w3-bar w3-theme-d2 w3-left-align w3-large w3-round w3-card-2">
 			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-			<a asp-action="Index" asp-controller="Home" class="w3-bar-item w3-hover-shadow:hover" title="Home"><img src="~/images/common/logo.png" /></a>
+			<a asp-action="Index" asp-controller="Home" class="w3-bar-item w3-hover-shadow:hover" title="Home"><img src="~/images/common/logo2.png" class="rounded-circle w3-hover-light-blue" alt="Logo" style="width: 50px; height: 50px; object-fit: cover;" /></a>
 
 			<!--<a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-hover-shadow:hover" title="News"><i class="fa fa-globe"></i></a>
 			<a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
 			<a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>-->
-			<a href="/swagger" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Swagger">
-				<i class="fa fa-file-code-o" aria-hidden="true"></i>
-			</a>
-			<div class="w3-dropdown-hover w3-hide-small">
-				<button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">3</span></button>
-				<div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-					<a href="#" class="w3-bar-item w3-button">One new friend request</a>
-					<a href="#" class="w3-bar-item w3-button">John Doe posted on your wall</a>
-					<a href="#" class="w3-bar-item w3-button">Jane likes your post</a>
-				</div>
-			</div>
+			
 			@if (!string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")))
 			{
+				<a href="/swagger" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Swagger">
+					<i class="fa fa-file-code-o" aria-hidden="true"></i>
+				</a>
+				<div class="w3-dropdown-hover w3-hide-small">
+					<button class="w3-button w3-padding-large" title="Notifications"><i class="fa fa-bell"></i><span class="w3-badge w3-right w3-small w3-green">3</span></button>
+					<div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
+						<a href="#" class="w3-bar-item w3-button">One new friend request</a>
+						<a href="#" class="w3-bar-item w3-button">John Doe posted on your wall</a>
+						<a href="#" class="w3-bar-item w3-button">Jane likes your post</a>
+					</div>
+				</div>
+
 				<a asp-action="Logout" asp-controller="Users" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-red" title="Logout"><i class="fas fa-sign-out-alt"></i>  Logout</a>
 				<a asp-action="Profile" asp-controller="Users" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account"><i class="fas fa-user-circle"></i> My Account</a>
 				@if (Context.Request.HttpContext.Session.GetString("IsAdmin") == "True")
@@ -106,7 +108,7 @@
 				<!-- Profile -->
 				<div class="w3-card w3-round-large w3-white w3-border">
 					<div class="w3-container" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
-						<h4 class="w3-center">Hello @username!</h4>
+						<h4 class="w3-center">Hello, @username!</h4>
 						<p class="w3-center"><img src="@Url.Content("~/" + userImage)" class="rounded-circle" alt="Avatar" style="width: 100px; height: 100px; object-fit: cover;"></p>
 						<hr>
 						<p><a asp-controller="Cards" asp-action="Index" class="fa fa-credit-card w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">&emsp;My Cards</a>	</p>
