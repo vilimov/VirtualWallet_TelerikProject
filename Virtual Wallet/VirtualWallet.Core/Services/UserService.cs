@@ -58,17 +58,12 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 				throw new DuplicateEntityException(user.Email);
 			}
 
-            // Generate salt
             string salt = AuthManager.GenerateSalt();
-            // Concatenate salt with password and generate hashed password
             string hashedPassword = AuthManager.HashPassword(user.Password, salt);
-            // Assign salt and hashed password to user object
+
             user.Salt = salt;
             user.Password = hashedPassword;
-			//Verification token used for mail
 			user.VerificationToken = CreateRandomToken();
-
-			//HACK send e-mail for verification
 			string verificationLink = emailService.GenerateVerificationLink(user.VerificationToken);
 
             var mailRequest = new Mail
@@ -93,7 +88,6 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
                 throw new EntityNotFoundException($"User with id {userUpdate.Id} does not exist.");
             }
 
-            // Check if new email is unique
             if (!string.IsNullOrEmpty(userUpdate.Email) && userUpdate.Email != existingUser.Email)
             {
                 var existingUserWithEmail = userRepository.GetUserByEmail(userUpdate.Email);
@@ -110,13 +104,8 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 
             if (!string.IsNullOrEmpty(userUpdate.Password) && userUpdate.Password.Length >= 8 && userUpdate.Password.Length <= 20)
             {
-                // Generate new salt
                 string newSalt = AuthManager.GenerateSalt();
-
-                // Hash the new password with the new salt
                 string newHashedPassword = AuthManager.HashPassword(userUpdate.Password, newSalt);
-
-                // Update the user's salt and hashed password
                 existingUser.Salt = newSalt;
                 existingUser.Password = newHashedPassword;
             }
@@ -147,15 +136,17 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
         public User Login(string username, string password)
         {
             var user = userRepository.GetUserByUsername(username);
+
             if (user == null)
             {
                 throw new EntityNotFoundException(Alerts.InvalidCredentials);
             }
-			//HACK check for Verification
+
             if (user.VerifiedAt == null)
             {
                 throw new EntityNotFoundException(Alerts.UserNotVerified);
             }
+
             string salt = user.Salt;
             string hashedPassword = AuthManager.HashPassword(password, salt);
 
@@ -170,10 +161,12 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 		public User Verify(string token)
 		{
             var user = this.GetAllUsers().FirstOrDefault(u => u.VerificationToken == token);
+
 			if(user == null)
 			{
                 throw new EntityNotFoundException(Alerts.UserNotVerified);
             }
+
             if (user.VerifiedAt != null)
             {
                 throw new DuplicateEntityException(Alerts.UserAlreadyVerified);
