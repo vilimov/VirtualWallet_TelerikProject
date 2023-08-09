@@ -7,6 +7,7 @@
 	string previousUrl = Context.Request.Headers["Referer"];
 }
 
+<link rel="stylesheet" href="~/css/PopUpStyle.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 <div style="position: relative;">
 	<h4>Wallet details:</h4>
@@ -43,8 +44,49 @@
 	}
 	<div style="position: absolute; bottom: 16px; right: 0;">		
 		<a asp-controller="Wallets" asp-action="UpdateWallet" asp-route-id="@this.Model.Id" class="w3-button w3-theme-d2 w3-round" style="background-color:darkorange !important;" title="Update Wallet">Update Wallet</a>
-		<a asp-controller="Wallets" asp-action="RemoveWallet" asp-route-id="@this.Model.Id" class="w3-button w3-theme-d2 w3-round" style="background-color:darkred !important;" title="Remove Wallet">Remove Wallet</a>
+		<a asp-controller="Wallets" asp-action="RemoveWallet" asp-route-id="@this.Model.Id" class="w3-button w3-theme-d2 w3-round remove-card-button" style="background-color:darkred !important;" title="Remove Wallet">Remove Wallet</a>
 	</div>
 </div>
 
+<!-- POP UP HTML-->
+<div id="customPopup" class="custom-popup ">
+	<div class="popup-content">
+		<i class="fa fa-question-circle-o fa-5x" aria-hidden="true"></i>
+		<hr />
+		<p>Are you sure you want to delete the wallet?</p><hr />
+		<p class="w3-opacity">This action cannot be undone.</p>
+		<button id="confirmButton" class="btn btn-success w3-round">Confirm</button>
+		<button id="cancelButton" class="btn btn-danger w3-round">Cancel</button>
+	</div>
+</div>
+
+<!-- POP UP JAVASCRIPT-->
+<script>
+	const customPopup = document.getElementById('customPopup');
+	const confirmButton = document.getElementById('confirmButton');
+	const cancelButton = document.getElementById('cancelButton');
+	const removeCardButton = document.querySelector('.remove-card-button');
+
+	function showCustomPopup() {
+		customPopup.style.display = 'block';
+	}
+
+	function hideCustomPopup() {
+		customPopup.style.display = 'none';
+	}
+
+	confirmButton.addEventListener('click', function () {
+		hideCustomPopup(); // Hide the popup
+		// Manually trigger the link navigation
+		window.location.href = removeCardButton.getAttribute('href');
+	});
+
+	cancelButton.addEventListener('click', hideCustomPopup);
+
+	// Add a click event listener to the "Remove Card" button
+	removeCardButton.addEventListener('click', function (e) {
+		e.preventDefault(); // Prevent the default link behavior
+		showCustomPopup();
+	});
+</script>
 
