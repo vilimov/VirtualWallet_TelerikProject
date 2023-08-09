@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace VirtualWallet.Common.Exceptions
 {
-    public class EmailVerificationException : Exception
+    public class EmailVerificationException : ApplicationException
     {
         public EmailVerificationException(string message)
             : base(message) { }

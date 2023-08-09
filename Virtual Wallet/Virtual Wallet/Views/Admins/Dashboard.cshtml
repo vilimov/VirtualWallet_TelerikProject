@@ -23,56 +23,58 @@
         @foreach (var user in Model.Users)
         {
             <div class="col-md-4 mb-4">
-                <div class="card">
+                <div class="card h-100">
                     <div class="card-body">
-                        <h5 class="card-title"><strong>@user.Username</strong></h5>
+                        <h5 class="card-title">@user.Username</h5>
                         <p class="card-text">
                             <strong>Email:</strong> @user.Email <br>
                             <strong>Phone:</strong> @user.PhoneNumber
                         </p>
+                       </div>
                         <div class="card-actions">
                             @if (user.IsBlocked)
                             {
-                                <form asp-action="UnblockUser" asp-controller="Admins" method="post">
+                            <form asp-action="UnblockUser" asp-controller="Admins" method="post" class="mx-3">
                                     <input type="hidden" name="id" value="@user.Id" />
-                                    <button type="submit" class="btn btn-success btn-sm">Unblock</button>
+                                <button type="submit" class="btn btn-warning btn-sm fixed-width-btn">Unblock</button>
                                 </form>
                             }
                             else
                             {
-                                <form asp-action="BlockUser" asp-controller="Admins" method="post" style="display: inline-block;">
+                            <form asp-action="BlockUser" asp-controller="Admins" method="post" class="mx-3" style="display: inline-block;">
                                     <input type="hidden" name="id" value="@user.Id" />
-                                    <button type="submit" class="btn btn-warning">Block</button>
+                                <button type="submit" class="btn btn-success btn-sm fixed-width-btn">Block</button>
                                 </form>
                             }
                             @if (user.IsAdmin)
                             {
-                                <form asp-action="DemoteUser" asp-controller="Admins" method="post" style="display: inline-block;">
+                            <form asp-action="DemoteUser" asp-controller="Admins" method="post" class="mx-2" style="display: inline-block;">
                                     <input type="hidden" name="id" value="@user.Id" />
-                                    <button type="submit" class="btn btn-secondary">Demote</button>
+                                <button type="submit" class="btn btn-secondary btn-sm fixed-width-btn">Demote</button>
                                 </form>
                             }
                             else
                             {
-                                <form asp-action="PromoteUser" asp-controller="Admins" method="post" style="display: inline-block;">
+                            <form asp-action="PromoteUser" asp-controller="Admins" method="post" class="mx-2" style="display: inline-block;">
                                     <input type="hidden" name="id" value="@user.Id" />
-                                    <button type="submit" class="btn btn-info">Promote</button>
+                                <button type="submit" class="btn btn-primary btn-sm fixed-width-btn">Promote</button>
                                 </form>
                             }
                             @if (!user.IsDeleted)
                             {
-                                <form id="deleteForm_@user.Id" asp-action="DeleteUser" asp-controller="Admins" method="post" style="display: inline-block;">
+                            <form id="deleteForm_@user.Id" asp-action="DeleteUser" asp-controller="Admins" method="post" class="mx-3" style="display: inline-block;">
                                     <input type="hidden" name="id" value="@user.Id" />
-                                    <button type="button" onclick="showCustomPopup('@user.Id')" class="btn btn-danger">Delete</button>
+                                <button type="button" onclick="showCustomPopup('@user.Id')" class="btn btn-danger btn-sm fixed-width-btn">Delete</button>
                                 </form>
                             }
-                        </div>
+                        
                     </div>
                 </div>
             </div>
         }
     </div>
 </div>
+
     <div class="d-flex justify-content-center">
         <form asp-action="Dashboard" asp-controller="Admins" method="get" class="d-inline">
             <input type="hidden" name="pageNumber" value="@(Model.PageNumber - 1)" />
@@ -110,10 +112,10 @@
     const customPopup = document.getElementById('customPopup');
     const confirmButton = document.getElementById('confirmButton');
     const cancelButton = document.getElementById('cancelButton');
-    let currentFormId = ''; // This will store the ID of the form to be submitted.
+    let currentFormId = '';
 
     function showCustomPopup(userId) {
-        currentFormId = 'deleteForm_' + userId; // Assign the right form ID
+        currentFormId = 'deleteForm_' + userId;
         customPopup.style.display = 'block';
     }
 
@@ -135,3 +137,10 @@ $(function () {
   $('[data-toggle="tooltip"]').tooltip()
 })
 </script>
+<style> 
+.fixed-width-btn {
+    width: 70px;
+       text-align: center;
+       white-space: nowrap; 
+    }
+</style>
