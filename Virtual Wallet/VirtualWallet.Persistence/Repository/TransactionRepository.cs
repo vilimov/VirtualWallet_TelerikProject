@@ -46,17 +46,21 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             }
             if (!string.IsNullOrEmpty(filter.Reciever))
             {
-                transactions = transactions.FindAll(t => t.RecipientId == user.Id);
+                transactions = transactions.FindAll(t => t.Recipient.Username.Contains(filter.Reciever));
             }
             if (!string.IsNullOrEmpty(filter.Withdrawl))
             {
-                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Withdraw && t.SenderId == user.Id);
+                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Withdraw);
             }
-            if (!string.IsNullOrEmpty(filter.FeedWallet))
+            if (!string.IsNullOrEmpty(filter.DepositToWallet))
             {
-                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Deposit && t.SenderId == user.Id);
+                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Deposit);
             }
-            if (!string.IsNullOrEmpty(filter.FilterByDate))
+			if (!string.IsNullOrEmpty(filter.TransferToUser))
+			{
+				transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Transfer );
+			}
+			if (!string.IsNullOrEmpty(filter.FilterByDate))
             {
                 if (DateTime.TryParseExact(filter.FilterByDate, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime inputDate))
                 {

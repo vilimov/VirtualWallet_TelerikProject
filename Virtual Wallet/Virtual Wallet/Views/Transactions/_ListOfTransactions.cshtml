@@ -6,13 +6,51 @@
 
 <section>
 	<h1>@this.ViewData["NameOfList"]</h1>
-
+	<!-- Collapsible section with checkboxes -->
+	<button onclick="myFunction('Demo5')" class="w3-button w3-block w3-theme-l1 w3-left-align">
+		<i class="fa fa-circle-o-notch fa-fw w3-margin-right"></i> Search Options:
+	</button>
+	<div id="Demo5" class="w3-hide w3-container">
 		<form asp-action="@this.ViewData["PageName"]" asp-controller="Transactions" method="get" class="mb-3">
-		<div class="d-flex align-items-center">
-			<input type="text" class="form-control" name="search" placeholder="Search transaction by sender..." />
-			<button type="submit" class="btn btn-primary ml-2">Search</button>
-		</div>
-	</form>
+			<div class="form-check">
+				<input type="checkbox" class="form-check-input" name="AllMyTransactions" value="true" />
+				<label class="form-check-label">All My Transactions</label>
+			</div>
+			<div class="form-check">
+				<input type="checkbox" class="form-check-input" name="Sender" value="true" />
+				<label class="form-check-label">Sender</label>
+			</div>
+			<div class="form-check">
+				<input type="checkbox" class="form-check-input" name="Reciever" value="true" />
+				<label class="form-check-label">Reciever</label>
+			</div>
+			<div class="form-check">
+				<input type="checkbox" class="form-check-input" name="Withdrawl" value="true" />
+				<label class="form-check-label">Withdrawl</label>
+			</div>
+			<div class="form-check">
+				<input type="checkbox" class="form-check-input" name="DepositToWallet" value="true" />
+				<label class="form-check-label">DepositToWallet</label>
+			</div>
+			<div class="form-check">
+				<input type="checkbox" class="form-check-input" name="TransferToUser" value="true" />
+				<label class="form-check-label">TransferToUser</label>
+			</div>
+			<div class="form-check">
+				<input type="checkbox" class="form-check-input" name="FilterByDate" value="true" />
+				<label class="form-check-label">FilterByDate (format dd-MM-yyyy or MM-yyyy)</label>
+			</div>
+			<!-- Other checkboxes for Receiver, Withdrawal, FeedWallet, FilterByDate... -->
+
+			<div class="d-flex align-items-center">
+				<input type="text" class="form-control" name="search" placeholder="Search transaction ..." />
+				<button type="submit" class="btn btn-primary ml-2">Search</button>
+			</div>
+		</form>
+	</div>
+
+	<!--xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-->
+
 	<div class="tbl-header">
 		<table cellpadding="0" cellspacing="0" border="0">
 			<thead>
@@ -21,34 +59,32 @@
 					<th>Amount</th>
 					<th class="w3-hide-small">Type</th>
 					<th class="w3-hide-small">Description</th>
-					@if (ViewData["ShowAdditionalColumn"] != null && (bool)ViewData["ShowAdditionalColumn"])
-					{
-						<th class="w3-hide-small">Sender</th>
-					}
+					<th class="w3-hide-small">Sender</th>
 					<th>More</th>
 				</tr>
 			</thead>
 		</table>
 	</div>
+
 	<div class="tbl-content">
 		<table cellpadding="0" cellspacing="0" border="0">
 			<tbody>
-				@{
-					if (this.Model.TansactionsShow.Count < 1)
-					{
-						<p class="w3-opacity w3-padding">No Transactions to show</p>
-					}
-					foreach (var transaction in this.Model.TansactionsShow)
+				@if (this.Model.TansactionsShow.Count < 1)
+				{
+					<tr>
+						<td colspan="6" class="w3-opacity w3-padding">No Transactions to show</td>
+					</tr>
+				}
+				else
+				{
+					@foreach (var transaction in this.Model.TansactionsShow)
 					{
 						<tr>
 							<td>@transaction.Date</td>
 							<td>@($"{transaction.Amount:f2}")</td>
 							<td class="w3-hide-small">@transaction.TransactionType</td>
 							<td>@(transaction.Description.Length > 12 ? transaction.Description.Substring(0, 12) : transaction.Description)</td>
-							@if (ViewData["ShowAdditionalColumn"] != null && (bool)ViewData["ShowAdditionalColumn"])
-							{
-								<td class="w3-hide-small">@transaction.Sender.Username</td>
-							}
+							<td class="w3-hide-small">@transaction.Sender.Username</td>
 							<td>
 								<a asp-controller="Transactions" asp-action="Details" asp-route-id="@transaction.Id" class="w3-badge w3-small w3-theme-d2 w3-hover-blue-gray">
 									<i class="fa fa-info">&nbsp;Details</i>
@@ -61,20 +97,36 @@
 		</table>
 	</div>
 
-	<div class="d-flex justify-content-center w3-padding-top-48">
-		<form asp-action=@this.ViewData["PageName"] asp-controller="Transactions" method="get" class="d-inline">
-			<input type="hidden" name="pageNumber" value="@(Model.PageNumber - 1)" />
+	<div class="d-flex justify-content-center">
+		<form asp-action="@this.ViewData["PageName"]" asp-controller="Transactions" method="get" class="d-inline">
+			<!-- Existing hidden input for page -->
+			<input type="hidden" name="page" value="@(Model.CurrentPages - 1)" />
 			<input type="hidden" name="search" value="@Model.Search" />
+			<input type="hidden" name="AllMyTransactions" value="@Context.Request.Query["AllMyTransactions"]" />
+			<input type="hidden" name="Sender" value="@Context.Request.Query["Sender"]" />
+			<input type="hidden" name="Reciever" value="@Context.Request.Query["Reciever"]" />
+			<input type="hidden" name="Withdrawl" value="@Context.Request.Query["Withdrawl"]" />
+			<input type="hidden" name="DepositToWallet" value="@Context.Request.Query["DepositToWallet"]" />
+			<input type="hidden" name="TransferToUser" value="@Context.Request.Query["TransferToUser"]" />
+			<input type="hidden" name="FilterByDate" value="@Context.Request.Query["FilterByDate"]" />
 			<button type="submit" class="btn btn-secondary" @(Model.ShowPrevious ? "" : "disabled")>
 				<i class="fas fa-arrow-left"></i>
 			</button>
 		</form>
 
-		<span class="mx-3">Page @Model.PageNumber of @Model.TotalPages</span>
+		<span class="mx-3">Page @Model.CurrentPages of @Model.Pages</span>
 
-		<form asp-action=@this.ViewData["PageName"] asp-controller="Transactions" method="get" class="d-inline">
-			<input type="hidden" name="pageNumber" value="@(Model.PageNumber + 1)" />
+		<form asp-action="@this.ViewData["PageName"]" asp-controller="Transactions" method="get" class="d-inline">
+			<!-- Existing hidden input for page -->
+			<input type="hidden" name="page" value="@(Model.CurrentPages + 1)" />
 			<input type="hidden" name="search" value="@Model.Search" />
+			<input type="hidden" name="AllMyTransactions" value="@Context.Request.Query["AllMyTransactions"]" />
+			<input type="hidden" name="Sender" value="@Context.Request.Query["Sender"]" />
+			<input type="hidden" name="Reciever" value="@Context.Request.Query["Reciever"]" />
+			<input type="hidden" name="Withdrawl" value="@Context.Request.Query["Withdrawl"]" />
+			<input type="hidden" name="DepositToWallet" value="@Context.Request.Query["DepositToWallet"]" />
+			<input type="hidden" name="TransferToUser" value="@Context.Request.Query["TransferToUser"]" />
+			<input type="hidden" name="FilterByDate" value="@Context.Request.Query["FilterByDate"]" />
 			<button type="submit" class="btn btn-secondary" @(Model.ShowNext ? "" : "disabled")>
 				<i class="fas fa-arrow-right"></i>
 			</button>
@@ -82,4 +134,3 @@
 	</div>
 
 </section>
-

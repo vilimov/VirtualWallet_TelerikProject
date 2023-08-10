@@ -1,13 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Hosting;
-using Org.BouncyCastle.Cms;
-using Org.BouncyCastle.Pqc.Crypto.Lms;
-using System.Security.Cryptography;
 using Virtual_Wallet.Models.ViewModels;
 using Virtual_Wallet.Models.ViewModels.Admin;
-using Virtual_Wallet.VirtualWallet.Application.Services;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using VirtualWallet.Application.Services.Contracts;
@@ -30,42 +25,42 @@ namespace Virtual_Wallet.Controllers.MVC
 		}
 
 		[HttpGet]
-		public IActionResult Index(string search = null, int pageNumber = 1, int pageSize = 5)
+		public IActionResult Index([FromQuery] TransactionsQueryParameters filterParams, string search = null, int page = 1, int pageSize = 5)
 		{
 			if (!IsUserLogged())
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			var user = GetLoggedUser();
-			//IList<Transaction> transactions = this.transactionService.GetAllTransactions();
-			//IList<Transaction> transactions = this.transactionService.GetTransactionsByUserId(user.Id);
-			//return View(transactions);
-			//public IList<Transaction> GetTransactionsByUserId(int pageNumber, int pageSize, TransactionsQueryParameters filter, User user)
-
-			//var transactions = this.transactionService.GetTransactionsByUserId(pageNumber, pageSize, user, search);
-			//int pageNumber, int pageSize, TransactionsQueryParameters filter, User user
+			var pageResults = 5f;
 			TransactionsQueryParameters filter = new TransactionsQueryParameters() { AllMyTransactions = "true" };
-			var transactions = this.transactionService.GetFilteredTransactions(pageNumber, pageSize, filter, user, search);
-			//transactions = transactions.Where(u => u.SenderId == user.Id || u.RecipientId == user.Id).ToList();
-			var transactionsVM = mapper.Map<List<TransactionViewModel>>(transactions);
-			var totalTransactions = this.transactionService.GetTransactionsCount(search, user);
-			var totalPages = Math.Ceiling((double)totalTransactions / pageSize);
+			filter = CheckParameters(filter, filterParams, search);
 
-			// Create a model for the view
+			var transactions = this.transactionService.GetFilteredTransactions(filter, user);
+			var transactionsVM = mapper.Map<List<TransactionViewModel>>(transactions);
+			var totalTransactions = transactionsVM.Count();
+			var pageCount = Math.Ceiling(totalTransactions / pageResults);
+
+			var products = transactionsVM
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.ToList();
+
 			var model = new PaginatedTransactionViewModel
 			{
-				PageNumber = pageNumber,
-				PageSize = pageSize,
-				TotalPages = (int)totalPages,
-				TansactionsShow = transactionsVM.ToList(),
+				TansactionsShow = products,
+				CurrentPages = page,
+				Pages = (int)pageCount,
 				Search = search
+
 			};
 
 			return View(model);
 		}
 
 		[HttpGet]
-		public IActionResult ShowAllTransactions(string search = null, int pageNumber = 1, int pageSize = 5)
+		public IActionResult ShowAllTransactions([FromQuery] TransactionsQueryParameters filterParams, string search = null, int page = 1, int pageSize = 5)
 		{
 			if (!IsUserLogged())
 			{
@@ -76,25 +71,30 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				this.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
 				this.ViewData["ErrorMessage"] = "You are not authorized for this action!";
-				//return View("Error");             this will return the Error page
-				return View("Error");      // this will retur the same object and keep us on the same page
+				return View("Error");
 			}
-			//IList<Transaction> transactions = this.transactionService.GetAllTransactions();
-			//return View(transactions);
 
-			var transactions = this.transactionService.GetAllTransactions(pageNumber, pageSize, user, search);
+			var pageResults = 5f;
+			TransactionsQueryParameters filter = new TransactionsQueryParameters();
+			filter = CheckParameters(filter, filterParams, search);
+
+			var transactions = this.transactionService.GetFilteredTransactions(filter, user);
 			var transactionsVM = mapper.Map<List<TransactionViewModel>>(transactions);
-			var totalTransactions = this.transactionService.GetTransactionsCount(search, user);
-			var totalPages = Math.Ceiling((double)totalTransactions / pageSize);
+			var totalTransactions = transactionsVM.Count();
+			var pageCount = Math.Ceiling(totalTransactions / pageResults);
 
-			// Create a model for the view
+			var products = transactionsVM
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.ToList();
+
 			var model = new PaginatedTransactionViewModel
 			{
-				PageNumber = pageNumber,
-				PageSize = pageSize,
-				TotalPages = (int)totalPages,
-				TansactionsShow = transactionsVM.ToList(),
+				TansactionsShow = products,
+				CurrentPages = page,
+				Pages = (int)pageCount,
 				Search = search
+
 			};
 
 			return View(model);
@@ -388,6 +388,39 @@ namespace Virtual_Wallet.Controllers.MVC
 			return loggedUser;
 		}
 
+		private TransactionsQueryParameters CheckParameters(TransactionsQueryParameters filter, TransactionsQueryParameters filterParams, string search)
+		{
+			if (filterParams.AllMyTransactions != null)
+			{
+				filter.AllMyTransactions = "true";
+			}
+			if (filterParams.Sender != null)
+			{
+				filter.Sender = search;
+			}
+			if (filterParams.Reciever != null)
+			{
+				filter.Reciever = search;
+			}
+			if (filterParams.Withdrawl != null)
+			{
+				filter.Withdrawl = "true";
+			}
+			if (filterParams.TransferToUser != null)
+			{
+				filter.TransferToUser = "true";
+			}
+			if (filterParams.DepositToWallet != null)
+			{
+				filter.DepositToWallet = "true";
+			}
+			if (filterParams.FilterByDate != null)
+			{
+				filter.FilterByDate = search;
+			}
+
+			return filter;
+		}
 
 		public string GetBackAction()
 		{
@@ -405,9 +438,6 @@ namespace Virtual_Wallet.Controllers.MVC
 		}
 
 		#endregion
-
-
-
 
 	}
 }

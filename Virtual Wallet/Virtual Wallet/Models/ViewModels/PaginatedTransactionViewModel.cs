@@ -1,14 +1,15 @@
-﻿namespace Virtual_Wallet.Models.ViewModels
+﻿using Virtual_Wallet.Models.ViewModels;
+
+namespace Virtual_Wallet.Models.ViewModels
 {
 	public class PaginatedTransactionViewModel
 	{
-		public int PageNumber { get; set; }  // Current page number
-		public int TotalPages { get; set; }  // Total number of pages
-		public int PageSize { get; set; }    // Number of items per page
-
-		public List<TransactionViewModel> TansactionsShow { get; set; }  // List of transactions
-		public string Search { get; set; }
-		public bool ShowPrevious => PageNumber > 1;
-		public bool ShowNext => PageNumber < TotalPages;
-	}
+		public List<TransactionViewModel> TansactionsShow { get; set; } = new List<TransactionViewModel>(); // List of transactions
+		public int Pages { get; set; }	//all pages 
+		public int CurrentPages { get; set; }
+        public string Search { get; set; }
+        public bool ShowPrevious => CurrentPages > 1;
+        public bool ShowNext => CurrentPages < Pages;
+    }
 }
+
