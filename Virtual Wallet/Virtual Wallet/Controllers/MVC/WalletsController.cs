@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Virtual_Wallet.Models.ViewModels;
 using Virtual_Wallet.VirtualWallet.API.Models.Dtos;
@@ -140,6 +141,8 @@ namespace Virtual_Wallet.Controllers.MVC
                 var user = GetLoggedUser();
                 Wallet wallet = mapper.Map<Wallet>(newWallet);
                 wallet = walletService.CreateWallet(wallet, user);
+                this.HttpContext.Session.SetString("WalletBalance", wallet.Balance.ToString());
+                this.HttpContext.Session.SetString("WalletCurrency", wallet.CurrencyCode.ToString());
 
                 return RedirectToAction("Index", "Wallets");
             }
@@ -184,7 +187,8 @@ namespace Virtual_Wallet.Controllers.MVC
                 var user = GetLoggedUser();
                 Wallet wallet = mapper.Map<Wallet>(newWallet);
                 Wallet updatedWallet = walletService.Update(user, wallet);
-
+                this.HttpContext.Session.SetString("WalletBalance", updatedWallet.Balance.ToString());
+                this.HttpContext.Session.SetString("WalletCurrency", updatedWallet.CurrencyCode.ToString());
                 return RedirectToAction("Details", "Wallets", new { id = updatedWallet.Id });
             }
 
@@ -208,6 +212,8 @@ namespace Virtual_Wallet.Controllers.MVC
             try
             {
                 var wallet = walletService.Delete(id);
+                this.HttpContext.Session.SetString("WalletBalance", "No wallet");
+                this.HttpContext.Session.SetString("WalletCurrency", "No wallet");
 
                 return RedirectToAction("Index", "Wallets");
             }
