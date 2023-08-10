@@ -24,16 +24,16 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 		{
 			if (user.WalletId == null)
 			{
-                if (user.Wallet.IsInactive == true)
-                {
-                    user.Wallet.CurrencyCode = wallet.CurrencyCode;
-                    user.Wallet.IsInactive = false;
+				if (user.Wallet.IsInactive == true)
+				{
+					user.Wallet.CurrencyCode = wallet.CurrencyCode;
+					user.Wallet.IsInactive = false;
 				}
 				else
 				{
-                    wallet.User = user;
-                    this.context.Wallets.Add(wallet);
-                }
+					wallet.User = user;
+					this.context.Wallets.Add(wallet);
+				}
 			}
 			else
 			{

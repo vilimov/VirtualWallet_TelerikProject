@@ -38,10 +38,10 @@ namespace Virtual_Wallet.VirtualWallet.Domain.Entities
 
 		public bool IsInactive { get; set; }
 
-        [Required]
-        public int? UserId { get; set; }
+		[Required]
+		public int? UserId { get; set; }
 
-        [Required]
+		[Required]
 		public User User { get; set; }
 	}
 

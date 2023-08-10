@@ -11,26 +11,26 @@ using VirtualWallet.Persistence.QueryParameters;
 
 namespace Virtual_Wallet.VirtualWallet.Application.Services
 {
-    public class WalletService : IWalletService
-    {
-        private readonly IWalletRepository walletRepository;
+	public class WalletService : IWalletService
+	{
+		private readonly IWalletRepository walletRepository;
 
-        public WalletService(IWalletRepository walletRepository)
-        {
-            this.walletRepository = walletRepository;
-        }
+		public WalletService(IWalletRepository walletRepository)
+		{
+			this.walletRepository = walletRepository;
+		}
 
-        public Wallet CreateWallet(Wallet wallet, User user)
-        {
-            walletRepository.CreateWallet(wallet, user);
+		public Wallet CreateWallet(Wallet wallet, User user)
+		{
+			walletRepository.CreateWallet(wallet, user);
 
-            return wallet;
-        }
+			return wallet;
+		}
 
-        public IEnumerable<Wallet> GetAll()
-        {
-            return walletRepository.GetAll();
-        }
+		public IEnumerable<Wallet> GetAll()
+		{
+			return walletRepository.GetAll();
+		}
 
 		public IEnumerable<Wallet> GetAll(int pageNumber, int pageSize, string search = null)
 		{
@@ -60,66 +60,65 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 		}
 
 		public IEnumerable<Wallet> GetFilteredWallets(WalletQueryParameters filter)
-        {
-            return walletRepository.GetFilteredWallets(filter);
-        }
+		{
+			return walletRepository.GetFilteredWallets(filter);
+		}
 
-        public Wallet GetWalletById(int id)
-        {
-            return walletRepository.GetWalletById(id);
-        }
+		public Wallet GetWalletById(int id)
+		{
+			return walletRepository.GetWalletById(id);
+		}
 
-        public Wallet GetWalletByUser(string username)
-        {
-            return walletRepository.GetWalletByUser(username);
-        }
+		public Wallet GetWalletByUser(string username)
+		{
+			return walletRepository.GetWalletByUser(username);
+		}
 
-        public decimal GetBalance(int id)
-        {
-            return walletRepository.GetBalance(id);
-        }
+		public decimal GetBalance(int id)
+		{
+			return walletRepository.GetBalance(id);
+		}
 
-        public Currency GetCurrencyById(int id)
-        {
-            return walletRepository.GetCurrencyById(id);
-        }
+		public Currency GetCurrencyById(int id)
+		{
+			return walletRepository.GetCurrencyById(id);
+		}
 
-        public decimal AddToWallet(int id, decimal amount)
-        {
-            return walletRepository.AddToWallet(id, amount);
-        }
+		public decimal AddToWallet(int id, decimal amount)
+		{
+			return walletRepository.AddToWallet(id, amount);
+		}
 
-        public decimal WithdrawFromWallet(int id, decimal amount)
-        {
-            return walletRepository.WithdrawFromWallet(id, amount);
-        }
+		public decimal WithdrawFromWallet(int id, decimal amount)
+		{
+			return walletRepository.WithdrawFromWallet(id, amount);
+		}
 
-        public Wallet Update(User user, Wallet newWallet)
-        {
-            Wallet currentWallet = walletRepository.GetWalletByUser(user.Username);
-            Currency currentCurrencyCode = currentWallet.CurrencyCode;
-            Currency newCurrencyCode = newWallet.CurrencyCode;
+		public Wallet Update(User user, Wallet newWallet)
+		{
+			Wallet currentWallet = walletRepository.GetWalletByUser(user.Username);
+			Currency currentCurrencyCode = currentWallet.CurrencyCode;
+			Currency newCurrencyCode = newWallet.CurrencyCode;
 
-            PairRatesJson rateJson = Rates.GetExchangeRates(currentCurrencyCode.ToString(), newCurrencyCode.ToString());
+			PairRatesJson rateJson = Rates.GetExchangeRates(currentCurrencyCode.ToString(), newCurrencyCode.ToString());
 
-            if (rateJson == null)
-            {
-                throw new UnauthorizedOperationException(Alerts.FailedCurrencyRate);
-            }
+			if (rateJson == null)
+			{
+				throw new UnauthorizedOperationException(Alerts.FailedCurrencyRate);
+			}
+			else
+			{
+				double exchangeRate = rateJson.conversion_rate;
 
-            else
-            {
-                double exchangeRate = rateJson.conversion_rate;
+				return this.walletRepository.Update(currentWallet.Id, exchangeRate, newCurrencyCode);
+			}
+		}
 
-                return this.walletRepository.Update(currentWallet.Id, exchangeRate, newCurrencyCode);
-            }
-        }
+		public Wallet Delete(int id)
+		{
+			Wallet deletedWallet = walletRepository.Delete(id);
 
-        public Wallet Delete(int id)
-        {
-            Wallet deletedWallet = walletRepository.Delete(id);
-
-            return deletedWallet;
-        }
-    }
+			return deletedWallet;
+		}
+	}
 }

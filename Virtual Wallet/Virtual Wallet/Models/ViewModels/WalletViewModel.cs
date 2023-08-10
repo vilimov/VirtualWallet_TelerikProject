@@ -20,10 +20,15 @@ namespace Virtual_Wallet.Models.ViewModels
 		}
 
 		public int Id { get; set; }
+
 		public string Username { get; set; }
+
 		public string Ballance { get; set; }
+
 		public string Blocked { get; set; }
+
 		public string CurrencyCode { get; set; }
+
 		public string CurrencyDescription { get; set; }
 	}
 }

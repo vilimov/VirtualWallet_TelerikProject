@@ -16,9 +16,9 @@ namespace Virtual_Wallet.Controllers.MVC
 		private readonly IMapper mapper;
 
 		public CardsController(
-			ICardService cardService, 
-			IUserService userService, 
-			IMapper mapper, 
+			ICardService cardService,
+			IUserService userService,
+			IMapper mapper,
 			AuthManager authManager)
 		{
 			this.cardService = cardService;
@@ -41,7 +41,6 @@ namespace Virtual_Wallet.Controllers.MVC
 
 				return View(result);
 			}
-
 			catch (EntityNotFoundException e)
 			{
 				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
@@ -82,8 +81,9 @@ namespace Virtual_Wallet.Controllers.MVC
 				CardsShow = cardVM,
 				Search = search
 			};
-				return View(model);
-			}
+
+			return View(model);
+		}
 
 		[HttpGet]
 		public IActionResult Details(int id)
@@ -100,7 +100,6 @@ namespace Virtual_Wallet.Controllers.MVC
 
 				return View(result);
 			}
-
 			catch (EntityNotFoundException ex)
 			{
 				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
@@ -144,7 +143,6 @@ namespace Virtual_Wallet.Controllers.MVC
 
 				return RedirectToAction("Index", "Cards");
 			}
-
 			catch (Exception e)
 			{
 				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
@@ -189,7 +187,6 @@ namespace Virtual_Wallet.Controllers.MVC
 
 				return RedirectToAction("Details", "Cards", new { id = updatedCard.Id });
 			}
-
 			catch (Exception e)
 			{
 				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
@@ -213,7 +210,6 @@ namespace Virtual_Wallet.Controllers.MVC
 
 				return RedirectToAction("Index", "Cards");
 			}
-
 			catch (EntityNotFoundException e)
 			{
 				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;

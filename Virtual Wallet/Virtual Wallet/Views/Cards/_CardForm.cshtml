@@ -7,14 +7,14 @@
 			<div class="w3-container w3-padding">
 				<h3 class="w3-opacity">@this.ViewData["Action"] Card</h3>
 				<hr class="w3-clear">
-				<form asp-controller="Cards" asp-action="@this.ViewData["Action"]" method="post">				                   
-                    <div>
-                        <label asp-for="Name" class="form-label"></label>
-                        <br />
-                        <input asp-for="Name" type="text"  class="form-input" />
-                        <br />
-                        <span asp-validation-for="Name" class="form-error"></span>
-                    </div>
+				<form asp-controller="Cards" asp-action="@this.ViewData["Action"]" method="post">
+					<div>
+						<label asp-for="Name" class="form-label"></label>
+						<br />
+						<input asp-for="Name" type="text" class="form-input" />
+						<br />
+						<span asp-validation-for="Name" class="form-error"></span>
+					</div>
 					<div>
 						<label asp-for="Number" class="form-label"></label>
 						<br />
@@ -22,9 +22,9 @@
 						<br />
 						<span asp-validation-for="Number" class="form-error"></span>
 					</div>
-                    <div>
-                        <input type="submit" value="@this.ViewData["SubmitButton"]" class="btn btn-primary" />
-                    </div>
+					<div>
+						<input type="submit" value="@this.ViewData["SubmitButton"]" class="btn btn-primary" />
+					</div>
 
 					<div>
 						<div>

@@ -6,52 +6,52 @@ using VirtualWallet.Application.Services.Contracts;
 
 namespace Virtual_Wallet.VirtualWallet.Application.Services
 {
-    public class CardService : ICardService
-    {
-        private readonly ICardRepository cardRepository;
+	public class CardService : ICardService
+	{
+		private readonly ICardRepository cardRepository;
 
-        public CardService(ICardRepository cardRepository) 
-        {
-            this.cardRepository = cardRepository;
-        }
+		public CardService(ICardRepository cardRepository)
+		{
+			this.cardRepository = cardRepository;
+		}
 
-        public Card Add(Card card, User user)
-        {
-            Card createdCard = this.cardRepository.Add(card, user);
+		public Card Add(Card card, User user)
+		{
+			Card createdCard = this.cardRepository.Add(card, user);
 
-            return createdCard;
-        }
+			return createdCard;
+		}
 
-        public Card Update(Card card, User user, int id)
-        {
-            return cardRepository.Update(card, user, id);
-        }
+		public Card Update(Card card, User user, int id)
+		{
+			return cardRepository.Update(card, user, id);
+		}
 
-        public IEnumerable<Card> GetFilteredCards(CardQueryParameters filter)
-        {
-            return cardRepository.GetFilteredCards(filter);
-        }
+		public IEnumerable<Card> GetFilteredCards(CardQueryParameters filter)
+		{
+			return cardRepository.GetFilteredCards(filter);
+		}
 
-        public IEnumerable<Card> GetAll()
-        {
-            IEnumerable<Card> cards = this.cardRepository.GetAll();
+		public IEnumerable<Card> GetAll()
+		{
+			IEnumerable<Card> cards = this.cardRepository.GetAll();
 
-            return cards;
-        }
+			return cards;
+		}
 
 		public IEnumerable<Card> GetAll(int pageNumber, int pageSize, string search = null)
 		{
-            var cards = cardRepository.GetAll().AsQueryable();
+			var cards = cardRepository.GetAll().AsQueryable();
 
-            if (!string.IsNullOrWhiteSpace(search))
-            {
-                cards = cards.Where(c => c.User.Username.Contains(search.ToLower()));
-            }
-			
+			if (!string.IsNullOrWhiteSpace(search))
+			{
+				cards = cards.Where(c => c.User.Username.Contains(search.ToLower()));
+			}
+
 			return cards
-                .Skip((pageNumber - 1) * pageSize)
-                .Take(pageSize)
-                .ToList();
+				.Skip((pageNumber - 1) * pageSize)
+				.Take(pageSize)
+				.ToList();
 		}
 
 		public int GetCardsCount(string search = null)
@@ -67,31 +67,31 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 		}
 
 		public Card GetById(int id)
-        {
-            Card card = this.cardRepository.GetById(id);
+		{
+			Card card = this.cardRepository.GetById(id);
 
-            return card;
-        }
+			return card;
+		}
 
-        public Card GetByNumber(string number)
-        {
-            Card card = cardRepository.GetByNumber(number);
+		public Card GetByNumber(string number)
+		{
+			Card card = cardRepository.GetByNumber(number);
 
-            return card;
-        }
+			return card;
+		}
 
-        public IEnumerable<Card> GetByUser(User user)
-        {
-            IEnumerable<Card> cards = cardRepository.GetByUser(user);
+		public IEnumerable<Card> GetByUser(User user)
+		{
+			IEnumerable<Card> cards = cardRepository.GetByUser(user);
 
-            return cards;
-        }
+			return cards;
+		}
 
-        public Card Remove(int id)
-        {
-            Card removedCard = this.cardRepository.Remove(id);
+		public Card Remove(int id)
+		{
+			Card removedCard = this.cardRepository.Remove(id);
 
-            return removedCard;
-        }
-    }
+			return removedCard;
+		}
+	}
 }

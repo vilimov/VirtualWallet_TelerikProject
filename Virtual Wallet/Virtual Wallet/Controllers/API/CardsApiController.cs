@@ -38,21 +38,24 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
 			try
 			{
 				User user = authManager.TryGetUser(credentials);
+
 				if (user.IsAdmin == true)
 				{
 					List<Card> cards = cardService.GetAll().ToList();
+
 					if (cards.Count == 0)
 					{
 						return StatusCode(StatusCodes.Status204NoContent, Alerts.NoItemToShow);
 					}
+
 					List<CardShowDto> result = cards.Select(c => new CardShowDto(c)).ToList();
+
 					return Ok(result);
 				}
 				else
 				{
 					return StatusCode(StatusCodes.Status403Forbidden, Alerts.NotAutorised);
 				}
-
 			}
 			catch (UnauthorizedOperationException ex)
 			{
@@ -75,17 +78,16 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
 				{
 					var cards = cardService.GetFilteredCards(filter);
 					List<CardShowDto> result = cards.Select(c => new CardShowDto(c)).ToList();
+
 					return result.Count > 0
 						? StatusCode(StatusCodes.Status200OK, result)
 						: (IActionResult)StatusCode(StatusCodes.Status404NotFound, Alerts.NoItemToShow);
 				}
-
 				else
 				{
 					return StatusCode(StatusCodes.Status401Unauthorized, Alerts.NotAutorised);
 				}
 			}
-
 			catch (EntityNotFoundException e)
 			{
 				return StatusCode(StatusCodes.Status404NotFound, e.Message);
@@ -110,32 +112,27 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
 					try
 					{
 						CardShowDto result = new CardShowDto(card);
+
 						return Ok(result);
-
 					}
-
 					catch (EntityNotFoundException ex)
 					{
 						return StatusCode(StatusCodes.Status404NotFound, ex.Message);
 					}
 				}
-
 				else
 				{
 					return StatusCode(StatusCodes.Status403Forbidden, Alerts.NotAutorised);
 				}
 			}
-
 			catch (UnauthorizedOperationException ex)
 			{
 				return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
 			}
-
 			catch (EntityNotFoundException ex)
 			{
 				return BadRequest(ex.Message);
 			}
-
 			catch (InvalidCredentialsException e)
 			{
 				return StatusCode(StatusCodes.Status404NotFound, e.Message);
@@ -155,22 +152,19 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
 					try
 					{
 						CardShowDto result = new CardShowDto(card);
+
 						return Ok(result);
-
 					}
-
 					catch (EntityNotFoundException ex)
 					{
 						return StatusCode(StatusCodes.Status404NotFound, ex.Message);
 					}
 				}
-
 				else
 				{
 					return StatusCode(StatusCodes.Status403Forbidden, Alerts.NotAutorised);
 				}
 			}
-
 			catch (UnauthorizedOperationException ex)
 			{
 				return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
@@ -204,12 +198,10 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
 
 				return Ok(result);
 			}
-
 			catch (UnauthorizedOperationException ex)
 			{
 				return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
 			}
-
 			catch (InvalidCredentialsException e)
 			{
 				return StatusCode(StatusCodes.Status404NotFound, e.Message);
@@ -228,27 +220,22 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
 
 				return Ok(result);
 			}
-
 			catch (EntityNotFoundException ex)
 			{
 				return BadRequest(ex.Message);
 			}
-
 			catch (UnauthorizedOperationException ex)
 			{
 				return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
 			}
-
 			catch (DuplicateEntityException ex)
 			{
 				return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
 			}
-
 			catch (CardAlreadyExpired ex)
 			{
 				return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
 			}
-
 			catch (InvalidCredentialsException e)
 			{
 				return StatusCode(StatusCodes.Status404NotFound, e.Message);
@@ -273,27 +260,22 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
 
 				return Ok(result);
 			}
-
 			catch (EntityNotFoundException ex)
 			{
 				return BadRequest(ex.Message);
 			}
-
 			catch (UnauthorizedOperationException ex)
 			{
 				return StatusCode(StatusCodes.Status401Unauthorized, ex.Message);
 			}
-
 			catch (DuplicateEntityException ex)
 			{
 				return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
 			}
-
 			catch (CardAlreadyExpired ex)
 			{
 				return StatusCode(StatusCodes.Status400BadRequest, ex.Message);
 			}
-
 			catch (InvalidCredentialsException e)
 			{
 				return StatusCode(StatusCodes.Status404NotFound, e.Message);
@@ -315,18 +297,15 @@ namespace Virtual_Wallet.VirtualWallet.API.Controllers.API
 
 					return Ok(result);
 				}
-
 				else
 				{
 					return StatusCode(StatusCodes.Status403Forbidden, Alerts.NotAutorised);
 				}
 			}
-
 			catch (EntityNotFoundException ex)
 			{
 				return StatusCode(StatusCodes.Status404NotFound, ex.Message);
 			}
-
 			catch (InvalidCredentialsException e)
 			{
 				return StatusCode(StatusCodes.Status404NotFound, e.Message);

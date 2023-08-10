@@ -42,7 +42,7 @@
 	{
 		<a asp-controller="Wallets" asp-action="Index" class="w3-button w3-theme-d2 w3-margin-bottom w3-round" title="Back">Back</a>
 	}
-	<div style="position: absolute; bottom: 16px; right: 0;">		
+	<div style="position: absolute; bottom: 16px; right: 0;">
 		<a asp-controller="Wallets" asp-action="UpdateWallet" asp-route-id="@this.Model.Id" class="w3-button w3-theme-d2 w3-round" style="background-color:darkorange !important;" title="Update Wallet">Update Wallet</a>
 		<a asp-controller="Wallets" asp-action="RemoveWallet" asp-route-id="@this.Model.Id" class="w3-button w3-theme-d2 w3-round remove-card-button" style="background-color:darkred !important;" title="Remove Wallet">Remove Wallet</a>
 	</div>
@@ -74,7 +74,7 @@
 	}
 
 	confirmButton.addEventListener('click', function () {
-		hideCustomPopup(); 
+		hideCustomPopup();
 		window.location.href = removeCardButton.getAttribute('href');
 	});
 
