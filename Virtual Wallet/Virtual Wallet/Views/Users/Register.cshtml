@@ -4,6 +4,7 @@
     <h1 class="w3-center">Register</h1>
     <hr style="width:100%; text-align:center; margin: 0 auto 50px;">
     <form asp-action="Register" asp-controller="Users" method="post">
+        <div asp-validation-summary="All" class="text-danger d-flex flex-column align-items-center"></div>
         <div class="form-group d-flex flex-column align-items-center">
             <label asp-for="Username" class="w3-text-grey">Username</label>
             <span asp-validation-for="Username" class="text-danger"></span>
@@ -42,5 +43,4 @@
         </div>
     </form>
 </div>
-
 
