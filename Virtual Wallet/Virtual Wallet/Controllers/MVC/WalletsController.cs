@@ -144,12 +144,12 @@ namespace Virtual_Wallet.Controllers.MVC
 
 				return RedirectToAction("Index", "Wallets");
 			}
-			catch (Exception e)
+			catch (EntityNotFoundException ex)
 			{
-				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
-				ViewData["ErrorMessage"] = e.Message;
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
 
-				return View(newWallet);
+				return View("Error");
 			}
 		}
 
@@ -188,12 +188,12 @@ namespace Virtual_Wallet.Controllers.MVC
 				this.HttpContext.Session.SetString("WalletCurrency", updatedWallet.CurrencyCode.ToString());
 				return RedirectToAction("Details", "Wallets", new { id = updatedWallet.Id });
 			}
-			catch (Exception e)
+			catch (EntityNotFoundException ex)
 			{
-				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
-				ViewData["ErrorMessage"] = e.Message;
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
 
-				return View(newWallet);
+				return View("Error");
 			}
 		}
 
