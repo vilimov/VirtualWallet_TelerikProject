@@ -6,6 +6,7 @@ using Virtual_Wallet.Models.ViewModels.Admin;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using VirtualWallet.Application.Services.Contracts;
+using VirtualWallet.Common.Exceptions;
 using VirtualWallet.Common.QueryParameters;
 
 namespace Virtual_Wallet.Controllers.MVC
@@ -16,7 +17,11 @@ namespace Virtual_Wallet.Controllers.MVC
 		private readonly IMapper mapper;
 		private readonly IUserService userService;
 		private readonly ICardService cardService;
-		public TransactionsController(ITransactionService transactionService, IMapper mapper, IUserService userService, ICardService cardService)
+		public TransactionsController(
+			ITransactionService transactionService,
+			IMapper mapper,
+			IUserService userService,
+			ICardService cardService)
 		{
 			this.transactionService = transactionService;
 			this.mapper = mapper;
@@ -66,7 +71,9 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			var user = GetLoggedUser();
+
 			if (!user.IsAdmin)
 			{
 				this.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
@@ -98,7 +105,6 @@ namespace Virtual_Wallet.Controllers.MVC
 			};
 
 			return View(model);
-
 		}
 
 		[HttpGet]
@@ -108,6 +114,7 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			try
 			{
 				var transaction = transactionService.GetTransactionById(id);
@@ -131,16 +138,16 @@ namespace Virtual_Wallet.Controllers.MVC
 			}
 
 			var user = GetLoggedUser();
-			var cardsList = user.Cards; // Assuming cardsList is a List<Card>
+			var cardsList = user.Cards;
 			var selectListItems = cardsList.Select(card => new SelectListItem
 			{
-				Value = card.Id.ToString(),   // Replace with actual property that holds card ID
-				Text = card.Name              // Replace with actual property that holds card Name
+				Value = card.Id.ToString(),
+				Text = card.Name
 			}).ToList();
 
 			var makeTransaction = new MakeCardTransactionViewModel
 			{
-				Cards = new SelectList(selectListItems, "Value", "Text") // Bind the list of selectListItems to the Cards property
+				Cards = new SelectList(selectListItems, "Value", "Text")
 			};
 
 			return View(makeTransaction);
@@ -156,7 +163,6 @@ namespace Virtual_Wallet.Controllers.MVC
 
 			if (!ModelState.IsValid)
 			{
-				// Here, you need to populate the Cards SelectList again for displaying in case of validation errors.
 				var user = GetLoggedUser();
 				var cardsList = user.Cards;
 				var selectListItems = cardsList.Select(card => new SelectListItem
@@ -164,7 +170,6 @@ namespace Virtual_Wallet.Controllers.MVC
 					Value = card.Id.ToString(),
 					Text = card.Name
 				}).ToList();
-
 				makeTransaction.Cards = new SelectList(selectListItems, "Value", "Text");
 
 				return View(makeTransaction);
@@ -175,14 +180,22 @@ namespace Virtual_Wallet.Controllers.MVC
 				var user = GetLoggedUser();
 				var card = cardService.GetById(makeTransaction.CardId);
 				var createdTransaction = transactionService.AddMoneyCardToWallet(user, card, makeTransaction.Amount, makeTransaction.Description);
+
 				return RedirectToAction("Details", "Transactions", new { id = createdTransaction.Id });
 			}
-			catch (Exception e)
+			catch (EntityNotFoundException ex)
 			{
-				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
-				ViewData["ErrorMessage"] = e.Message;
-				//return View("Error");           // This will return the Error page
-				return View(makeTransaction);    // This will return the same view with validation errors
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
+			}
+			catch (UnauthorizedOperationException ex)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
 			}
 		}
 
@@ -195,16 +208,16 @@ namespace Virtual_Wallet.Controllers.MVC
 			}
 
 			var user = GetLoggedUser();
-			var cardsList = user.Cards; // Assuming cardsList is a List<Card>
+			var cardsList = user.Cards;
 			var selectListItems = cardsList.Select(card => new SelectListItem
 			{
-				Value = card.Id.ToString(),   // Replace with actual property that holds card ID
-				Text = card.Name              // Replace with actual property that holds card Name
+				Value = card.Id.ToString(),
+				Text = card.Name
 			}).ToList();
 
 			var makeTransaction = new MakeCardTransactionViewModel
 			{
-				Cards = new SelectList(selectListItems, "Value", "Text") // Bind the list of selectListItems to the Cards property
+				Cards = new SelectList(selectListItems, "Value", "Text")
 			};
 
 			return View(makeTransaction);
@@ -220,7 +233,6 @@ namespace Virtual_Wallet.Controllers.MVC
 
 			if (!ModelState.IsValid)
 			{
-				// Here, you need to populate the Cards SelectList again for displaying in case of validation errors.
 				var user = GetLoggedUser();
 				var cardsList = user.Cards;
 				var selectListItems = cardsList.Select(card => new SelectListItem
@@ -239,18 +251,24 @@ namespace Virtual_Wallet.Controllers.MVC
 				var user = GetLoggedUser();
 				var card = cardService.GetById(makeTransaction.CardId);
 				var createdTransaction = transactionService.WithdrawalTransfer(user, card, makeTransaction.Amount, makeTransaction.Description);
+
 				return RedirectToAction("Details", "Transactions", new { id = createdTransaction.Id });
 			}
-			catch (Exception e)
+			catch (EntityNotFoundException ex)
 			{
-				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
-				ViewData["ErrorMessage"] = e.Message;
-				//return View("Error");           // This will return the Error page
-				return View(makeTransaction);    // This will return the same view with validation errors
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
+			}
+			catch (UnauthorizedOperationException ex)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
 			}
 		}
-
-
 
 		[HttpGet]
 		public IActionResult CreateTransfer(MakeWalletTransactionViewModel makeTransaction)
@@ -268,7 +286,6 @@ namespace Virtual_Wallet.Controllers.MVC
 		[HttpPost, ActionName("CreateTransfer")]
 		public IActionResult CreateTransferPost(MakeWalletTransactionViewModel makeTransaction)
 		{
-
 			if (!IsUserLogged())
 			{
 				return RedirectToAction("Login", "Users");
@@ -281,17 +298,25 @@ namespace Virtual_Wallet.Controllers.MVC
 
 			try
 			{
-
 				var user = GetLoggedUser();
 				var recipient = userService.GetUserByUsername(makeTransaction.RecipientUsername);
 				var createdTransaction = transactionService.AddMoneyWalletToWallet(user, recipient, makeTransaction.Amount, makeTransaction.Description);
+
 				return RedirectToAction("Details", "Transactions", new { id = createdTransaction.Id });
 			}
-			catch (Exception e)
+			catch (EntityNotFoundException ex)
 			{
-				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
-				ViewData["ErrorMessage"] = e.Message;
-				return View(makeTransaction);
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = "Can't send money to this Recipient. Please contact Support team.";
+
+				return View("Error");
+			}
+			catch (UnauthorizedOperationException ex)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
 			}
 		}
 
@@ -302,19 +327,13 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return RedirectToAction("Login", "Users");
 			}
-			/*
-						var sender = GetLoggedUser();
-						var users = userService.GetAllUsers().Where(u => u.Username != sender.Username).ToList();
-						return View(users);
-			*/
+
 			try
 			{
 				var users = userService.GetAllUsers(pageNumber, pageSize, search);
 				var sender = GetLoggedUser();
-				// Calculate total pages
 				var totalUsers = userService.GetUserCount(search);
 				var totalPages = Math.Ceiling((double)totalUsers / pageSize);
-
 				var userViewModels = users.Select(u => new UserAdminViewModel
 				{
 					Id = u.Id,
@@ -326,7 +345,6 @@ namespace Virtual_Wallet.Controllers.MVC
 					IsDeleted = u.IsDeleted
 				});
 
-				// Create a model for the view
 				var model = new DashboardViewModel
 				{
 					PageNumber = pageNumber,
@@ -338,10 +356,18 @@ namespace Virtual_Wallet.Controllers.MVC
 
 				return View(model);
 			}
-			catch (Exception ex)
+			catch (EntityNotFoundException ex)
 			{
-				Response.StatusCode = 500;
-				this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
+			}
+			catch (UnauthorizedOperationException ex)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
 				return View("Error");
 			}
 		}
@@ -356,7 +382,6 @@ namespace Virtual_Wallet.Controllers.MVC
 
 			var user = GetLoggedUser();
 			var recipient = userService.GetUserByUsername(selectedUsername);
-
 			var makeTransaction = new MakeWalletTransactionViewModel
 			{
 				RecipientUsername = recipient.Username,
@@ -367,10 +392,6 @@ namespace Virtual_Wallet.Controllers.MVC
 			return RedirectToAction("CreateTransfer", makeTransaction);
 		}
 
-
-
-
-
 		#region PrivateMethods
 		private bool IsUserLogged()
 		{
@@ -380,6 +401,7 @@ namespace Virtual_Wallet.Controllers.MVC
 			}
 			return true;
 		}
+
 		private User GetLoggedUser()
 		{
 			IsUserLogged();
@@ -426,7 +448,6 @@ namespace Virtual_Wallet.Controllers.MVC
 		{
 			string referer = Request.Headers["Referer"].ToString();
 
-			// Check if referer contains specific keywords from the previous pages
 			if (referer.Contains("ShowAllTransactions"))
 			{
 				return "ShowAllTransactions";
@@ -436,7 +457,6 @@ namespace Virtual_Wallet.Controllers.MVC
 				return "Index";
 			}
 		}
-
 		#endregion
 
 	}

@@ -3,7 +3,7 @@
 
 @model Transaction
 @{
-    string previousUrl = Context.Request.Headers["Referer"];
+	string previousUrl = Context.Request.Headers["Referer"];
 }
 
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -74,7 +74,6 @@
 	{
 		<a asp-controller="Transactions" asp-action="Index" class="w3-button w3-theme-d2 w3-margin-bottom w3-round" title="Back">Back</a>
 	}
-	
 </div>
 
 
