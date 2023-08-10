@@ -61,6 +61,12 @@ namespace Virtual_Wallet.Controllers.MVC
 
                 return View(model);
             }
+            catch (EntityNotFoundException ex)
+            {
+                Response.StatusCode = 404;
+                this.ViewData["ErrorMessage"] = $"Not found: {ex.Message}";
+                return View("Error");
+            }
             catch (UnexpectedAppException)
             {
                 Response.StatusCode = 500;
@@ -88,6 +94,12 @@ namespace Virtual_Wallet.Controllers.MVC
                 adminService.BlockUser(id);
                 return RedirectToAction("Dashboard");
             }
+            catch(EntityNotFoundException ex)
+            {
+                Response.StatusCode = 404;
+                this.ViewData["ErrorMessage"] = $"Not found: {ex.Message}";
+                return View("Error");
+            }
             catch (UnexpectedAppException)
             {
                 Response.StatusCode = 500;
@@ -114,6 +126,12 @@ namespace Virtual_Wallet.Controllers.MVC
 
                 adminService.UnblockUser(id);
                 return RedirectToAction("Dashboard");
+            }
+            catch (EntityNotFoundException ex)
+            {
+                Response.StatusCode = 404;
+                this.ViewData["ErrorMessage"] = $"Not found: {ex.Message}";
+                return View("Error");
             }
             catch (UnexpectedAppException)
             {
@@ -143,6 +161,12 @@ namespace Virtual_Wallet.Controllers.MVC
                 userService.DeleteUser(id);
                 return RedirectToAction("Dashboard");
             }
+            catch (EntityNotFoundException ex)
+            {
+                Response.StatusCode = 404;
+                this.ViewData["ErrorMessage"] = $"Not found: {ex.Message}";
+                return View("Error");
+            }
             catch (UnexpectedAppException)
             {
                 Response.StatusCode = 500;
@@ -170,6 +194,12 @@ namespace Virtual_Wallet.Controllers.MVC
                 adminService.PromoteToAdmin(id, currentUser);
                 return RedirectToAction("Dashboard");
             }
+            catch (EntityNotFoundException ex)
+            {
+                Response.StatusCode = 404;
+                this.ViewData["ErrorMessage"] = $"Not found: {ex.Message}";
+                return View("Error");
+            }
             catch (UnexpectedAppException)
             {
                 Response.StatusCode = 500;
@@ -195,6 +225,12 @@ namespace Virtual_Wallet.Controllers.MVC
 
                 adminService.DemoteFromAdmin(id, currentUser);
                 return RedirectToAction("Dashboard");
+            }
+            catch (EntityNotFoundException ex)
+            {
+                Response.StatusCode = 404;
+                this.ViewData["ErrorMessage"] = $"Not found: {ex.Message}";
+                return View("Error");
             }
             catch (UnexpectedAppException)
             {
