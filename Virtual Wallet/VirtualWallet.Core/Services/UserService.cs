@@ -49,14 +49,14 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 		{
 			var existingUserUsername = this.userRepository.GetUserByUsername(user.Username);
 			var existingUserEmail = this.userRepository.GetUserByEmail(user.Email);
-			if (existingUserUsername != null)
-			{
-				throw new DuplicateEntityException(user.Username);
-			}
-			if (existingUserEmail != null)
-			{
-				throw new DuplicateEntityException(user.Email);
-			}
+            if (existingUserUsername != null)
+            {
+                throw new DuplicateEntityException($"Username '{user.Username}' already exists.");
+            }
+            if (existingUserEmail != null)
+            {
+                throw new DuplicateEntityException($"Email '{user.Email}' already exists.");
+            }
 
             string salt = AuthManager.GenerateSalt();
             string hashedPassword = AuthManager.HashPassword(user.Password, salt);
@@ -141,7 +141,10 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
             {
                 throw new EntityNotFoundException(Alerts.InvalidCredentials);
             }
-
+            if (user == null || user.IsDeleted)
+            {
+                throw new EntityNotFoundException(Alerts.InvalidCredentials);
+            }
             if (user.VerifiedAt == null)
             {
                 throw new EntityNotFoundException(Alerts.UserNotVerified);

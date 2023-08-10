@@ -1,6 +1,10 @@
 ﻿@model Virtual_Wallet.Models.ViewModels.UpdateEmailViewModel
 
-<h2 class ="w3-center">Change your Email</h2>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
+
+<h2 class="w3-center" style="font-family: 'Lilita One' , cursive;">Change your Email</h2>
 
 <hr />
 
@@ -16,9 +20,9 @@
         <span asp-validation-for="NewEmail" class="text-danger"></span>
     </div>
     <div class="form-group d-flex flex-column align-items-center mt-4">
-        <button type="submit" class="btn btn-primary mb-2">Update</button>
+        <button type="submit" class="button-43" role="button">Update</button>
     </div>
 </form>
 <div class="form-group d-flex flex-column align-items-center mt-4">
-    <a href="@Url.Action("Profile", "Users")" class="btn btn-secondary">Back to Profile</a>
+    <a href="@Url.Action("Profile", "Users")" class="button-36" role="button">Back to Profile</a>
 </div>

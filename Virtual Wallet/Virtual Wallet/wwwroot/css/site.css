@@ -129,3 +129,95 @@ Template Colors
     border-radius: 10px;
     border: 1px solid black;
 }
+
+.button-42, .button-43 {
+    background-image: linear-gradient(-180deg, #37AEE2 0%, #1E96C8 100%);
+    border-radius: .5rem;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-size: 12px;
+    justify-content: center;
+    padding: 1rem 2rem;
+    text-decoration: none;
+    border: 0;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-42 {
+    width: 100%;
+}
+
+.button-43 {
+    width: 20%;
+}
+
+    .button-42:hover, .button-43:hover, .button-41:hover {
+        background-image: linear-gradient(-180deg, #1D95C9 0%, #17759C 100%);
+        color: #FFFFFF;
+        text-decoration: none;
+    }
+
+    .button-42:focus, .button-43:focus, .button-41:focus {
+        outline: none;
+        color: #FFFFFF;
+    }
+
+
+.button-41 {
+    background-image: linear-gradient(-180deg, #37AEE2 0%, #1E96C8 100%);
+    border-radius: .5rem;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-size: 12px;
+    justify-content: center;
+    padding: 1rem 1.75rem;
+    text-decoration: none;
+    width: 29%;
+    border: 0;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+.button-41:hover {
+    background-image: linear-gradient(-180deg, #1D95C9 0%, #17759C 100%);
+}
+
+.button-41 {
+    padding: 1rem 2rem;
+}
+
+
+.button-36 {
+    background-image: linear-gradient(-180deg, #237BA0 0%, #105672 100%);
+    border-radius: .5rem;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    display: flex;
+    font-size: 12px;
+    justify-content: center;
+    padding: 1rem 1.75rem;
+    text-decoration: none;
+    width: 20%;
+    border: 0;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+}
+
+    .button-36:hover {
+        background-image: linear-gradient(-180deg, #1B658C 0%, #0D4350 100%);
+        color: #FFFFFF;
+    }
+
+    .button-36:focus {
+        outline: none;
+        color: #FFFFFF;
+    }
