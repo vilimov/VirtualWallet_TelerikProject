@@ -7,17 +7,15 @@ Transfer money quick, safe, and free
 Virtual Wallet MaxKashMate is a web-based application designed to empower users in efficiently managing their finances. The platform offers essential functionalities, including the ability to send and receive money between users and to facilitate deposits from a bank into the application's wallet, and vice versa.
 
 The chosen name, "MaxKashMate," holds a special place in our project's heart. This name isn't just a random selection; it's been carefully crafted to perfectly align with the app's purpose while paying a friendly tribute to the names of its developers. You might notice a playful twist with intentional misspelling, which adds a touch of creativity and fun to the name. This way, we aim to make the app not only well-developed, but also to bring a smile to your face every time you use it.
-
-## Functional Requirements
-##### Public Part
-
+<br>
+<br>
 <hr>
 
 ### Public Part<br>
 
 > The public section doesn't require authentication and showcases a self-rotating carousel featuring product advertisements, along with buttons for both Login and Registration.<br>
 Anonymous users need to either register or login to begin using the app.
-
+<br>
 <hr>
 
 ### Private Part<br>
@@ -25,46 +23,49 @@ Anonymous users need to either register or login to begin using the app.
 
 > Upon successful user registration, the system will send a confirmation email to verify the user's email address. When the user clicks on the link within the email, the system will redirect them back to our website, allowing them to log in. Users who have not completed email verification are not considered registered.<br>
 Users who successfully log in are automatically redirected to a welcome page, where they can immediately start using the app.
-
+<br>
 <details><summary>Additional details for registration</summary>
+
 • Username <br>
-o Must be at least 2 characters long<br>
-o Maximum of 20 characters long<br>
-o Mandatory and cannot be edited<br>
-o Must be unique within the system<br>
+    o Must be at least 2 characters long<br>
+    o Maximum of 20 characters long<br>
+    o Mandatory and cannot be edited<br>
+    o Must be unique within the system<br>
 
 • Email <br>
-o Required and can be changed<br>
-o Must be unique within the system<br>
-o Email format verification (regex)<br>
+    o Required and can be changed<br>
+    o Must be unique within the system<br>
+    o Email format verification (regex)<br>
 
 • Phone Number <br>
-o Required and can be changed<br>
-o Must be exactly 10 digits<br>
+    o Required and can be changed<br>
+    o Must be exactly 10 digits<br>
 
 • First Name <br>
-o Not required and can be changed<br>
-o Maximum of 20 characters long<br>
+    o Not required and can be changed<br>
+    o Maximum of 20 characters long<br>
 
 • Last Name <br>
-o Not required and can be changed<br>
-o Maximum of 20 characters long<br>
+    o Not required and can be changed<br>
+    o Maximum of 20 characters long<br>
 
 • Password <br>
-o Required and can be changed<br>
-o Must be at least 8 characters long<br>
-o Maximum of 20 characters long<br>
-o Must include uppercase and lowercase character<br>
-o Must include digit and symbol<br>
-o NB! Provided password is not recorded in the database directly<br>
+    o Required and can be changed<br>
+    o Must be at least 8 characters long<br>
+    o Maximum of 20 characters long<br>
+    o Must include uppercase and lowercase character<br>
+    o Must include digit and symbol<br>
+    o NB! Provided password is not recorded in the database directly<br>
 
 • Confirm Password <br>
-o Must match the Password<br>
+    o Must match the Password<br>
 </details>
 
 <details><summary>Additional details for Login</summary>
+
 • Username <br>
 • Password <br>
+
 </details>
 <hr>
 
@@ -97,37 +98,38 @@ To view their cards or add a new one, users should navigate to the "My Cards" se
 The "Add Card" button provides access to the corresponding page for card addition.
 
 <details><summary>Additional details for adding card</summary>
+
 • Card Name <br>
-o Required<br>
-o Must be at least 3 characters long<br>
-o Maximum of 16 characters long<br>
-o Must be unique within the user's cards<br>
+    o Required<br>
+    o Must be at least 3 characters long<br>
+    o Maximum of 16 characters long<br>
+    o Must be unique within the user's cards<br>
 
 • Card Number <br>
-o Required<br>
-o Must be unique within the user's cards<br>
+    o Required<br>
+    o Must be unique within the user's cards<br>
 
 • Expiration Date (MMyy) <br>
-o Required<br>
-o Date format Month Year<br>
+    o Required<br>
+    o Date format Month Year<br>
 
 • Cardholder <br>
-o Required<br>
-o Date format Month Year<br>
-o Must be at least 2 characters long<br>
-o Maximum of 30 characters long<br>
+    o Required<br>
+    o Date format Month Year<br>
+    o Must be at least 2 characters long<br>
+    o Maximum of 30 characters long<br>
 
 • Check Number <br>
-o Required<br>
-o Must exactly 3 digits long<br>
+    o Required<br>
+    o Must exactly 3 digits long<br>
 
 • Currency <br>
-o Required<br>
-o Supported currencies - BGN, EUR, USD<br>
+    o Required<br>
+    o Supported currencies - BGN, EUR, USD<br>
 
 • Card Type: <br>
-o Required<br>
-o Types - Debit or Credit<br>
+    o Required<br>
+    o Types - Debit or Credit<br>
 
 </details>
 
@@ -141,63 +143,69 @@ o Types - Debit or Credit<br>
 > This transaction enables users to transfer funds from their wallet to another user's wallet.<br>
 
 <details><summary>Additional details for Transfer</summary>
+
 • Select Recipient <br>
-o User should select recipient username from a list<br>
-o Can search the list for user by username, phone number and email<br>
+    o User should select recipient username from a list<br>
+    o Can search the list for user by username, phone number and email<br>
 
 • Create Transfer <br>
-o Shows the selected username for recepient<br>
-o Field for amount that should be sent<br>
-o Description field<br>
-o Both fields are required.<br>
+    o Shows the selected username for recepient<br>
+    o Field for amount that should be sent<br>
+    o Description field<br>
+    o Both fields are required.<br>
 
 
 • Successful transafer will be made if <br>
-o The amount is in decimal format<br>
-o The amount is less than or equal to the wallet's amount<br>
-o Description is at least 2 and not more than 150 characters long<br>
-o Recipient has wallet in the system<br>
-o Action is confirmed<br>
+    o The amount is in decimal format<br>
+    o The amount is less than or equal to the wallet's amount<br>
+    o Description is at least 2 and not more than 150 characters long<br>
+    o Recipient has wallet in the system<br>
+    o Action is confirmed<br>
 
 • Successful transafer will send email with notification to the recipient<br>
+
 </details>
 
 ##### Deposit <br>
 > This transaction enables users to transfer funds from any of their cards to their wallet.<br>
 
 <details><summary>Additional details for Deposit</summary>
+
 • Create Deposit <br>
-o Field for amount that should be deposited<br>
-o List of user's cards<br>
-o Description field<br>
-o All fields are required.<br>
+    o Field for amount that should be deposited<br>
+    o List of user's cards<br>
+    o Description field<br>
+    o All fields are required.<br>
 
 
 • Successful deposit will be made if <br>
-o The amount is in decimal format<br>
-o The amount is less than or equal to the wallet's amount<br>
-o The user has wallet and card<br>
-o Description is at least 2 and not more than 150 characters long<br>
-o Action is confirmed<br>
+    o The amount is in decimal format<br>
+    o The amount is less than or equal to the wallet's amount<br>
+    o The user has wallet and card<br>
+    o Description is at least 2 and not more than 150 characters long<br>
+    o Action is confirmed<br>
+
 </details>
 
 ##### Withdraw <br>
 > This transaction enables users to transfer funds from their wallet to their cards.<br>
 
 <details><summary>Additional details for Withdraw</summary>
+
 • Create Withdraw <br>
-o Field for amount that should be withdrawed<br>
-o List of user's cards<br>
-o Description field<br>
-o All fields are required.<br>
+    o Field for amount that should be withdrawed<br>
+    o List of user's cards<br>
+    o Description field<br>
+    o All fields are required.<br>
 
 
 • Successful withdraw will be made if <br>
-o The amount is in decimal format<br>
-o The amount is less than or equal to the wallet's amount<br>
-o The user has wallet and card<br>
-o Description is at least 2 and not more than 150 characters long<br>
-o Action is confirmed<br>
+    o The amount is in decimal format<br>
+    o The amount is less than or equal to the wallet's amount<br>
+    o The user has wallet and card<br>
+    o Description is at least 2 and not more than 150 characters long<br>
+    o Action is confirmed<br>
+
 </details>
 
 > On successful transaction, the user is redirected to the trnsaction info page.<br>
@@ -225,6 +233,7 @@ Interactive footer with company and project developers team info, could be found
 <br><hr><br>
 
 <details><summary>Technological Info</summary>
+
 o C#, ASP.NET Core MVC<br>
 o HTML, CSS, JavaScript<br>
 o Microsoft EntityFrameworkCore SqlServer<br>
@@ -233,7 +242,9 @@ o Microsoft AspNetCore Mvc NewtonsoftJson<br>
 o MailKit integration<br>
 o ExchangeRateAPI integration<br>
 o Microsoft NET Test Sdk<br>
+
 </details>
+
 <br><br>
 
 
