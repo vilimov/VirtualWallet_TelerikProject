@@ -180,6 +180,8 @@ namespace Virtual_Wallet.Controllers.MVC
 				var user = GetLoggedUser();
 				var card = cardService.GetById(makeTransaction.CardId);
 				var createdTransaction = transactionService.AddMoneyCardToWallet(user, card, makeTransaction.Amount, makeTransaction.Description);
+				this.HttpContext.Session.SetString("WalletBalance", user.Wallet.Balance.ToString());
+				this.HttpContext.Session.SetString("WalletCurrency", user.Wallet.CurrencyCode.ToString());
 
 				return RedirectToAction("Details", "Transactions", new { id = createdTransaction.Id });
 			}
@@ -191,6 +193,13 @@ namespace Virtual_Wallet.Controllers.MVC
 				return View("Error");
 			}
 			catch (UnauthorizedOperationException ex)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
+			}
+			catch (InsuficientAmountException ex)
 			{
 				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
 				this.ViewData["ErrorMessage"] = ex.Message;
@@ -251,6 +260,8 @@ namespace Virtual_Wallet.Controllers.MVC
 				var user = GetLoggedUser();
 				var card = cardService.GetById(makeTransaction.CardId);
 				var createdTransaction = transactionService.WithdrawalTransfer(user, card, makeTransaction.Amount, makeTransaction.Description);
+				this.HttpContext.Session.SetString("WalletBalance", user.Wallet.Balance.ToString());
+				this.HttpContext.Session.SetString("WalletCurrency", user.Wallet.CurrencyCode.ToString());
 
 				return RedirectToAction("Details", "Transactions", new { id = createdTransaction.Id });
 			}
@@ -262,6 +273,13 @@ namespace Virtual_Wallet.Controllers.MVC
 				return View("Error");
 			}
 			catch (UnauthorizedOperationException ex)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
+			}
+			catch (InsuficientAmountException ex)
 			{
 				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
 				this.ViewData["ErrorMessage"] = ex.Message;
@@ -301,6 +319,8 @@ namespace Virtual_Wallet.Controllers.MVC
 				var user = GetLoggedUser();
 				var recipient = userService.GetUserByUsername(makeTransaction.RecipientUsername);
 				var createdTransaction = transactionService.AddMoneyWalletToWallet(user, recipient, makeTransaction.Amount, makeTransaction.Description);
+				this.HttpContext.Session.SetString("WalletBalance", user.Wallet.Balance.ToString());
+				this.HttpContext.Session.SetString("WalletCurrency", user.Wallet.CurrencyCode.ToString());
 
 				return RedirectToAction("Details", "Transactions", new { id = createdTransaction.Id });
 			}
@@ -312,6 +332,13 @@ namespace Virtual_Wallet.Controllers.MVC
 				return View("Error");
 			}
 			catch (UnauthorizedOperationException ex)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
+			}
+			catch (InsuficientAmountException ex)
 			{
 				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
 				this.ViewData["ErrorMessage"] = ex.Message;

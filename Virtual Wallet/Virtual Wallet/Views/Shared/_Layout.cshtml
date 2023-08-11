@@ -1,5 +1,4 @@
-﻿@this.ViewData["Visibility"] = "style="display:none;"";
-@{
+﻿@{
 	var isOnWelcomeRoute = ViewContext.RouteData.Values["controller"].ToString().Equals("Home") && ViewContext.RouteData.Values["action"].ToString().Equals("Welcomepage");
 	var divClass = (isOnWelcomeRoute ? " " : "w3-card-4 w3-round-large w3-white w3-border-khaki w3-container w3-border w3-round-xlarge");
 }

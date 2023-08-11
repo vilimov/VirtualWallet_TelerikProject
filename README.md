@@ -2,91 +2,240 @@
 Transfer money quick, safe, and free
 
 
-## Getting started
+## Walkthrough
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Virtual Wallet MaxKashMate is a web-based application designed to empower users in efficiently managing their finances. The platform offers essential functionalities, including the ability to send and receive money between users and to facilitate deposits from a bank into the application's wallet, and vice versa.
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+The chosen name, "MaxKashMate," holds a special place in our project's heart. This name isn't just a random selection; it's been carefully crafted to perfectly align with the app's purpose while paying a friendly tribute to the names of its developers. You might notice a playful twist with intentional misspelling, which adds a touch of creativity and fun to the name. This way, we aim to make the app not only well-developed, but also to bring a smile to your face every time you use it.
 
-## Add your files
+## Functional Requirements
+##### Public Part
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+<hr>
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/team-147643914/virtual-wallet.git
-git branch -M main
-git push -uf origin main
-```
+### Public Part<br>
 
-## Integrate with your tools
+> The public section doesn't require authentication and showcases a self-rotating carousel featuring product advertisements, along with buttons for both Login and Registration.<br>
+Anonymous users need to either register or login to begin using the app.
 
-- [ ] [Set up project integrations](https://gitlab.com/team-147643914/virtual-wallet/-/settings/integrations)
+<hr>
 
-## Collaborate with your team
+### Private Part<br>
+##### Registration and confirmation <br>
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+> Upon successful user registration, the system will send a confirmation email to verify the user's email address. When the user clicks on the link within the email, the system will redirect them back to our website, allowing them to log in. Users who have not completed email verification are not considered registered.<br>
+Users who successfully log in are automatically redirected to a welcome page, where they can immediately start using the app.
 
-## Test and Deploy
+<details><summary>Additional details for registration</summary>
+• Username <br>
+o Must be at least 2 characters long<br>
+o Maximum of 20 characters long<br>
+o Mandatory and cannot be edited<br>
+o Must be unique within the system<br>
 
-Use the built-in continuous integration in GitLab.
+• Email <br>
+o Required and can be changed<br>
+o Must be unique within the system<br>
+o Email format verification (regex)<br>
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+• Phone Number <br>
+o Required and can be changed<br>
+o Must be exactly 10 digits<br>
 
-***
+• First Name <br>
+o Not required and can be changed<br>
+o Maximum of 20 characters long<br>
 
-# Editing this README
+• Last Name <br>
+o Not required and can be changed<br>
+o Maximum of 20 characters long<br>
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+• Password <br>
+o Required and can be changed<br>
+o Must be at least 8 characters long<br>
+o Maximum of 20 characters long<br>
+o Must include uppercase and lowercase character<br>
+o Must include digit and symbol<br>
+o NB! Provided password is not recorded in the database directly<br>
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+• Confirm Password <br>
+o Must match the Password<br>
+</details>
 
-## Name
-Choose a self-explaining name for your project.
+<details><summary>Additional details for Login</summary>
+• Username <br>
+• Password <br>
+</details>
+<hr>
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+##### There are two user roles in the system: "user" and "administrator". <br>
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+##### Users <br>
+> Registered users have access to their user profile page, where they can view the information provided during registration.<br>
+Users can upload a profile image, update their email, phone number, first and last name, and password.<br>
+The requirements for modifying a field are identical to those of the registration form. <br>
+Each page displays the current field value, and changing the password necessitates inputting the current password.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+##### Wallets <br>
+> The most vital aspect of the app is the user wallet. This is where users store their money. After successful registration, each user must add a wallet to their account.<br>
+This can be done by clicking on the "My Wallet" button. If the user doesn't have a wallet, "Create Wallet" button will appear. <br>
+Users must select the currency for the wallet—BGN, EUR, or USD.<br>
+Once created, the wallet will be showcased on the info page.<br>
+Users can view their wallet details, where they can update or remove the wallet.<br>
+The "Update wallet" option allows users to change the wallet's currency.<br>
+Note: Updating the wallet currency will automatically recalculate the balance based on real-time exchange rates.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+##### Right side panel <br>
+> For an enhanced user experience, the app features two persistent panels on the right side of every page.<br>
+The first panel displays the current wallet balance and its corresponding currency.<br>
+The second panel houses a currency converter that offers real-time calculations for currency exchange rates.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+##### Cards <br>
+> Another essential feature for a completed account is the user's cards.<br>
+To view their cards or add a new one, users should navigate to the "My Cards" section, where all cards associated with the user will be showcased.<br>
+The "Add Card" button provides access to the corresponding page for card addition.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+<details><summary>Additional details for adding card</summary>
+• Card Name <br>
+o Required<br>
+o Must be at least 3 characters long<br>
+o Maximum of 16 characters long<br>
+o Must be unique within the user's cards<br>
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+• Card Number <br>
+o Required<br>
+o Must be unique within the user's cards<br>
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+• Expiration Date (MMyy) <br>
+o Required<br>
+o Date format Month Year<br>
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+• Cardholder <br>
+o Required<br>
+o Date format Month Year<br>
+o Must be at least 2 characters long<br>
+o Maximum of 30 characters long<br>
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+• Check Number <br>
+o Required<br>
+o Must exactly 3 digits long<br>
 
-## License
-For open source projects, say how it is licensed.
+• Currency <br>
+o Required<br>
+o Supported currencies - BGN, EUR, USD<br>
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+• Card Type: <br>
+o Required<br>
+o Types - Debit or Credit<br>
+
+</details>
+
+##### Welcome page logged user <br>
+> Upon logging in, users will be directed to a welcome page where they will find an overview, that includes details about their last three transactions and a chart providing information about the count of the transactions types they have made.<br>
+
+##### Transactions <br>
+> Once a user has both a wallet and a valid card, they are all set to initiate transactions. The app offers three distinct types of transactions that users can engage in.<br>
+
+##### Transfer <br>
+> This transaction enables users to transfer funds from their wallet to another user's wallet.<br>
+
+<details><summary>Additional details for Transfer</summary>
+• Select Recipient <br>
+o User should select recipient username from a list<br>
+o Can search the list for user by username, phone number and email<br>
+
+• Create Transfer <br>
+o Shows the selected username for recepient<br>
+o Field for amount that should be sent<br>
+o Description field<br>
+o Both fields are required.<br>
+
+
+• Successful transafer will be made if <br>
+o The amount is in decimal format<br>
+o The amount is less than or equal to the wallet's amount<br>
+o Description is at least 2 and not more than 150 characters long<br>
+o Recipient has wallet in the system<br>
+o Action is confirmed<br>
+
+• Successful transafer will send email with notification to the recipient<br>
+</details>
+
+##### Deposit <br>
+> This transaction enables users to transfer funds from any of their cards to their wallet.<br>
+
+<details><summary>Additional details for Deposit</summary>
+• Create Deposit <br>
+o Field for amount that should be deposited<br>
+o List of user's cards<br>
+o Description field<br>
+o All fields are required.<br>
+
+
+• Successful deposit will be made if <br>
+o The amount is in decimal format<br>
+o The amount is less than or equal to the wallet's amount<br>
+o The user has wallet and card<br>
+o Description is at least 2 and not more than 150 characters long<br>
+o Action is confirmed<br>
+</details>
+
+##### Withdraw <br>
+> This transaction enables users to transfer funds from their wallet to their cards.<br>
+
+<details><summary>Additional details for Withdraw</summary>
+• Create Withdraw <br>
+o Field for amount that should be withdrawed<br>
+o List of user's cards<br>
+o Description field<br>
+o All fields are required.<br>
+
+
+• Successful withdraw will be made if <br>
+o The amount is in decimal format<br>
+o The amount is less than or equal to the wallet's amount<br>
+o The user has wallet and card<br>
+o Description is at least 2 and not more than 150 characters long<br>
+o Action is confirmed<br>
+</details>
+
+> On successful transaction, the user is redirected to the trnsaction info page.<br>
+
+##### Transactions Info <br>
+> Each user has access to all transactions concerning him, transactions he made and transactions that was send to him.<br>
+Access to the page is given via button in the left side.<br>
+This page provides list of all transactions, option to view details for each transaction and search options.<br>
+The search options are listed in expandable button and can be variously combined.
+
+
+### Administrative Part<br>
+
+> Administrators have the responsibility of managing users. They are granted access to a dashboard that displays a list of all users and allows them to search for users by phone number, username, or email. Administrators have the authority to promote or demote users, as well as to block, unblock, and delete users.<br>
+Additionally, administrators have the capability to view lists of all users' cards and their corresponding details, as well as comprehensive information about all users' wallets and their associated details.<br>
+Last, but not least, administrators can access list of all transactions made by all users, view each transaction details and again search options.
+
+
+### Additionals <br>
+
+> Next to app's logo home button, there is button for access to app's REST API via Swagger.<br>
+Accessing external links and being inactive for 15 minutes from the system, will cause user logout.<br>
+There is also a privacy and policy button. There could be found standart text for real-world web wallet app <br>and bit of humorius part added for fun!<br>
+Interactive footer with company and project developers team info, could be found at the bottom pf the page.
+<br><hr><br>
+
+<details><summary>Technological Info</summary>
+o C#, ASP.NET Core MVC<br>
+o HTML, CSS, JavaScript<br>
+o Microsoft EntityFrameworkCore SqlServer<br>
+o AutoMapper Extensions Microsoft DependencyInjection<br>
+o Microsoft AspNetCore Mvc NewtonsoftJson<br>
+o MailKit integration<br>
+o ExchangeRateAPI integration<br>
+o Microsoft NET Test Sdk<br>
+</details>
+<br><br>
+
+
+
+## Thank you for your attention!
