@@ -46,6 +46,8 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
 				ViewData["ErrorMessage"] = e.Message;
+
+				return View("Error");
 			}
 
 			return View();
@@ -149,8 +151,16 @@ namespace Virtual_Wallet.Controllers.MVC
 				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
 				this.ViewData["ErrorMessage"] = e.Message;
 
-				return View("Erorr");
+				return View("Error");
 			}
+			catch (DuplicateEntityException e)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = e.Message;
+
+				return View("Error");
+			}
+			
 		}
 
 		[HttpGet]
@@ -193,7 +203,7 @@ namespace Virtual_Wallet.Controllers.MVC
 				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
 				this.ViewData["ErrorMessage"] = e.Message;
 
-				return View("Erorr");
+				return View("Error");
 			}
 		}
 
@@ -216,7 +226,7 @@ namespace Virtual_Wallet.Controllers.MVC
 				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
 				this.ViewData["ErrorMessage"] = e.Message;
 
-				return View("Erorr");
+				return View("Error");
 			}
 		}
 
