@@ -1,81 +1,73 @@
 ﻿@{
-    ViewData["Title"] = "Privacy Policy";
+	ViewData["Title"] = "Privacy Policy";
 }
 
 <h1>Privacy Policy</h1>
 <p>Your privacy is important to us. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our web wallet service.</p>
-
 <h2>Just a heads up, this is all our graduation peoject!</h2>
 <p>Rest assured, any cash borrowed from Elon Musk or Bill Gates will find its way back... <b>eventually.</b></p>
 <ul>
-    <li>If you're curious about the backstory of this crazy project</li>
-    <li>or a bit more about the team responsible about it</li>
-    <li>and if you dare click <a asp-controller="Wallets" asp-action="ShowAllWallets">&#10084;</a> or keep reading below &#128578;</li>
-    
+	<li>If you're curious about the backstory of this crazy project</li>
+	<li>or a bit more about the team responsible about it</li>
+	<li>and if you dare click <a asp-controller="Home" asp-action="EasterEgg">&#10084;</a> or keep reading below &#128578;</li>
 </ul>
 <div id="moreText" style="display: none;">
-    <h2>Information We Collect</h2>
-    <p>We may collect personal information, including but not limited to:</p>
-    <ul>
-        <li>Contact information (e.g., email address)</li>
-        <li>Financial information (e.g., payment details)</li>
-        <li>Usage data (e.g., how you interact with our service)</li>
-    </ul>
-    <h2>How We Use Your Information</h2>
-    <p>We may use your information for various purposes, including:</p>
-    <ul>
-        <li>Provide and maintain our web wallet service</li>
-        <li>Process transactions and send transaction notifications</li>
-        <li>Respond to your inquiries and requests</li>
-        <li>Send marketing communications</li>
-    </ul>
+	<h2>Information We Collect</h2>
+	<p>We may collect personal information, including but not limited to:</p>
+	<ul>
+		<li>Contact information (e.g., email address)</li>
+		<li>Financial information (e.g., payment details)</li>
+		<li>Usage data (e.g., how you interact with our service)</li>
+	</ul>
+	<h2>How We Use Your Information</h2>
+	<p>We may use your information for various purposes, including:</p>
+	<ul>
+		<li>Provide and maintain our web wallet service</li>
+		<li>Process transactions and send transaction notifications</li>
+		<li>Respond to your inquiries and requests</li>
+		<li>Send marketing communications</li>
+	</ul>
 
-    <h2>Information Sharing</h2>
-    <p>We may share your information with:</p>
-    <ul>
-        <li>Third-party service providers</li>
-        <li>Legal and regulatory authorities</li>
-        <li>Other users (as needed for transactions)</li>
-    </ul>
+	<h2>Information Sharing</h2>
+	<p>We may share your information with:</p>
+	<ul>
+		<li>Third-party service providers</li>
+		<li>Legal and regulatory authorities</li>
+		<li>Other users (as needed for transactions)</li>
+	</ul>
 
-    <h2>Security</h2>
-    <p>We take security measures to protect your information from unauthorized access and disclosure.</p>
+	<h2>Security</h2>
+	<p>We take security measures to protect your information from unauthorized access and disclosure.</p>
 
-    <h2>Your Choices</h2>
-    <p>You can:</p>
-    <ul>
-        <li>Access and update your personal information</li>
-        <li>Opt-out of marketing communications</li>
-        <li>Delete your account (subject to legal requirements)</li>
-    </ul>
+	<h2>Your Choices</h2>
+	<p>You can:</p>
+	<ul>
+		<li>Access and update your personal information</li>
+		<li>Opt-out of marketing communications</li>
+		<li>Delete your account (subject to legal requirements)</li>
+	</ul>
 
-    <h2>Contact Us</h2>
-    <p>If you have questions or concerns about our Privacy Policy, please contact us:</p>
-    <p>Email: mkm_vw@abv.bg</p>
+	<h2>Contact Us</h2>
+	<p>If you have questions or concerns about our Privacy Policy, please contact us:</p>
+	<p>Email: <a href="mailto:mkm_vw@abv.bg">mkm_vw@abv.bg</a>.</p>
 </div>
 
-<!-- Add a "Show More" button -->
 <button id="showMoreButton" class="fa w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4">Show More</button>
 
-<!-- Script to toggle visibility -->
 <script>
-    const showMoreButton = document.getElementById('showMoreButton');
-    const moreTextDiv = document.getElementById('moreText');
+	const showMoreButton = document.getElementById('showMoreButton');
+	const moreTextDiv = document.getElementById('moreText');
 
-    showMoreButton.addEventListener('click', function () {
-        if (moreTextDiv.style.display === 'none') {
-            moreTextDiv.style.display = 'block';
-            showMoreButton.textContent = 'Show Less';
-        } else {
-            moreTextDiv.style.display = 'none';
-            showMoreButton.textContent = 'Show More';
-
-            // Scroll to the top of the page
-            window.scrollTo({ top: 0, behavior: 'smooth' }); // Use 'smooth' for smooth scrolling
-        }
-    });
+	showMoreButton.addEventListener('click', function () {
+		if (moreTextDiv.style.display === 'none') {
+			moreTextDiv.style.display = 'block';
+			showMoreButton.textContent = 'Show Less';
+		} else {
+			moreTextDiv.style.display = 'none';
+			showMoreButton.textContent = 'Show More';
+			window.scrollTo({ top: 0, behavior: 'smooth' });
+		}
+	});
 </script>
-
-
 
 

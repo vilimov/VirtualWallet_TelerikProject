@@ -6,7 +6,7 @@ namespace Virtual_Wallet.Models.ViewModels
 {
 	public class MakeCardTransactionViewModel
 	{
-		public SelectList Cards { get; set; } // Use SelectList instead of IEnumerable<SelectListItem>
+		public SelectList Cards { get; set; }
 
 		[Required(ErrorMessage = "The {0} field is required")]
 		public int CardId { get; set; }

@@ -14,137 +14,137 @@
 <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
 
 <div class="container">
-    <h1 class="text-center" style="font-family: 'Lilita One' , cursive;">Admin Dashboard</h1>
-    <p></p>
-    <form asp-action="Dashboard" asp-controller="Admins" method="get" class="mb-3">
-        <div class="d-flex align-items-center">
-            <input type="text" class="form-control" name="search" placeholder="Search by username, email, or phone..." />
-            <button type="submit" class="btn btn-primary ml-2">Search</button>
-        </div>
-    </form>
+	<h1 class="text-center" style="font-family: 'Lilita One' , cursive;">Admin Dashboard</h1>
+	<p></p>
+	<form asp-action="Dashboard" asp-controller="Admins" method="get" class="mb-3">
+		<div class="d-flex align-items-center">
+			<input type="text" class="form-control" name="search" placeholder="Search by username, email, or phone..." />
+			<button type="submit" class="btn btn-primary ml-2">Search</button>
+		</div>
+	</form>
 
-    <div class="row">
-        @foreach (var user in Model.Users)
-        {
-            <div class="col-md-4 mb-4">
-                <div class="card h-100">
-                    <div class="card-body">
-                        <h5 class="card-title">@user.Username</h5>
-                        <p class="card-text">
-                            <strong>Email:</strong> @user.Email <br>
-                            <strong>Phone:</strong> @user.PhoneNumber
-                        </p>
-                       </div>
-                        <div class="card-actions">
-                            @if (user.IsBlocked)
-                            {
-                            <form asp-action="UnblockUser" asp-controller="Admins" method="post" class="mx-3" style="display: inline-block;">
-                                    <input type="hidden" name="id" value="@user.Id" />
-                                <button type="submit" class="btn btn-warning btn-sm fixed-width-btn">Unblock</button>
-                                </form>
-                            }
-                            else
-                            {
-                            <form asp-action="BlockUser" asp-controller="Admins" method="post" class="mx-3" style="display: inline-block;">
-                                    <input type="hidden" name="id" value="@user.Id" />
-                                <button type="submit" class="btn btn-success btn-sm fixed-width-btn">Block</button>
-                                </form>
-                            }
-                            @if (user.IsAdmin)
-                            {
-                            <form asp-action="DemoteUser" asp-controller="Admins" method="post" class="mx-2" style="display: inline-block;">
-                                    <input type="hidden" name="id" value="@user.Id" />
-                                <button type="submit" class="btn btn-secondary btn-sm fixed-width-btn">Demote</button>
-                                </form>
-                            }
-                            else
-                            {
-                            <form asp-action="PromoteUser" asp-controller="Admins" method="post" class="mx-2" style="display: inline-block;">
-                                    <input type="hidden" name="id" value="@user.Id" />
-                                <button type="submit" class="btn btn-primary btn-sm fixed-width-btn">Promote</button>
-                                </form>
-                            }
-                            @if (!user.IsDeleted)
-                            {
-                            <form id="deleteForm_@user.Id" asp-action="DeleteUser" asp-controller="Admins" method="post" class="mx-3" style="display: inline-block;">
-                                    <input type="hidden" name="id" value="@user.Id" />
-                                <button type="button" onclick="showCustomPopup('@user.Id')" class="btn btn-danger btn-sm fixed-width-btn">Delete</button>
-                                </form>
-                            }
-                        
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
+	<div class="row">
+		@foreach (var user in Model.Users)
+		{
+			<div class="col-md-4 mb-4">
+				<div class="card h-100">
+					<div class="card-body">
+						<h5 class="card-title">@user.Username</h5>
+						<p class="card-text">
+							<strong>Email:</strong> @user.Email <br>
+							<strong>Phone:</strong> @user.PhoneNumber
+						</p>
+					</div>
+					<div class="card-actions">
+						@if (user.IsBlocked)
+						{
+							<form asp-action="UnblockUser" asp-controller="Admins" method="post" class="mx-3" style="display: inline-block;">
+								<input type="hidden" name="id" value="@user.Id" />
+								<button type="submit" class="btn btn-warning btn-sm fixed-width-btn">Unblock</button>
+							</form>
+						}
+						else
+						{
+							<form asp-action="BlockUser" asp-controller="Admins" method="post" class="mx-3" style="display: inline-block;">
+								<input type="hidden" name="id" value="@user.Id" />
+								<button type="submit" class="btn btn-success btn-sm fixed-width-btn">Block</button>
+							</form>
+						}
+						@if (user.IsAdmin)
+						{
+							<form asp-action="DemoteUser" asp-controller="Admins" method="post" class="mx-2" style="display: inline-block;">
+								<input type="hidden" name="id" value="@user.Id" />
+								<button type="submit" class="btn btn-secondary btn-sm fixed-width-btn">Demote</button>
+							</form>
+						}
+						else
+						{
+							<form asp-action="PromoteUser" asp-controller="Admins" method="post" class="mx-2" style="display: inline-block;">
+								<input type="hidden" name="id" value="@user.Id" />
+								<button type="submit" class="btn btn-primary btn-sm fixed-width-btn">Promote</button>
+							</form>
+						}
+						@if (!user.IsDeleted)
+						{
+							<form id="deleteForm_@user.Id" asp-action="DeleteUser" asp-controller="Admins" method="post" class="mx-3" style="display: inline-block;">
+								<input type="hidden" name="id" value="@user.Id" />
+								<button type="button" onclick="showCustomPopup('@user.Id')" class="btn btn-danger btn-sm fixed-width-btn">Delete</button>
+							</form>
+						}
+
+					</div>
+				</div>
+			</div>
+		}
+	</div>
 </div>
 
-    <div class="d-flex justify-content-center">
-        <form asp-action="Dashboard" asp-controller="Admins" method="get" class="d-inline">
-            <input type="hidden" name="pageNumber" value="@(Model.PageNumber - 1)" />
-            <input type="hidden" name="search" value="@Model.Search" />
-            <button type="submit" class="btn btn-secondary" @(Model.ShowPrevious ? "" : "disabled")>
-                <i class="fas fa-arrow-left"></i>
-            </button>
-        </form>
+<div class="d-flex justify-content-center">
+	<form asp-action="Dashboard" asp-controller="Admins" method="get" class="d-inline">
+		<input type="hidden" name="pageNumber" value="@(Model.PageNumber - 1)" />
+		<input type="hidden" name="search" value="@Model.Search" />
+		<button type="submit" class="btn btn-secondary" @(Model.ShowPrevious ? "" : "disabled")>
+			<i class="fas fa-arrow-left"></i>
+		</button>
+	</form>
 
-        <span class="mx-3">Page @Model.PageNumber of @Model.TotalPages</span>
+	<span class="mx-3">Page @Model.PageNumber of @Model.TotalPages</span>
 
-        <form asp-action="Dashboard" asp-controller="Admins" method="get" class="d-inline">
-            <input type="hidden" name="pageNumber" value="@(Model.PageNumber + 1)" />
-            <input type="hidden" name="search" value="@Model.Search" />
-            <button type="submit" class="btn btn-secondary" @(Model.ShowNext ? "" : "disabled")>
-                <i class="fas fa-arrow-right"></i>
-            </button>
-        </form>
-    </div>
+	<form asp-action="Dashboard" asp-controller="Admins" method="get" class="d-inline">
+		<input type="hidden" name="pageNumber" value="@(Model.PageNumber + 1)" />
+		<input type="hidden" name="search" value="@Model.Search" />
+		<button type="submit" class="btn btn-secondary" @(Model.ShowNext ? "" : "disabled")>
+			<i class="fas fa-arrow-right"></i>
+		</button>
+	</form>
+</div>
 
 <!-- POP UP -->
 <div id="customPopup" class="custom-popup">
-    <div class="popup-content">
-        <i class="fas fa-exclamation-triangle fa-5x" aria-hidden="true"></i>
-        <hr />
-        <p>Are you sure you want to delete this user?</p>
-        <hr />
-        <p class="w3-opacity">This action cannot be undone.</p>
-        <button id="confirmButton" class="btn btn-success w3-round">Confirm</button>
-        <button id="cancelButton" class="btn btn-danger w3-round">Cancel</button>
-    </div>
+	<div class="popup-content">
+		<i class="fas fa-exclamation-triangle fa-5x" aria-hidden="true"></i>
+		<hr />
+		<p>Are you sure you want to delete this user?</p>
+		<hr />
+		<p class="w3-opacity">This action cannot be undone.</p>
+		<button id="confirmButton" class="btn btn-success w3-round">Confirm</button>
+		<button id="cancelButton" class="btn btn-danger w3-round">Cancel</button>
+	</div>
 </div>
 
 <script>
-    const customPopup = document.getElementById('customPopup');
-    const confirmButton = document.getElementById('confirmButton');
-    const cancelButton = document.getElementById('cancelButton');
-    let currentFormId = '';
+	const customPopup = document.getElementById('customPopup');
+	const confirmButton = document.getElementById('confirmButton');
+	const cancelButton = document.getElementById('cancelButton');
+	let currentFormId = '';
 
-    function showCustomPopup(userId) {
-        currentFormId = 'deleteForm_' + userId;
-        customPopup.style.display = 'block';
-    }
+	function showCustomPopup(userId) {
+		currentFormId = 'deleteForm_' + userId;
+		customPopup.style.display = 'block';
+	}
 
-    function hideCustomPopup() {
-        customPopup.style.display = 'none';
-    }
+	function hideCustomPopup() {
+		customPopup.style.display = 'none';
+	}
 
-    confirmButton.addEventListener('click', function () {
-        if (currentFormId) {
-            document.getElementById(currentFormId).submit();
-        }
-    });
+	confirmButton.addEventListener('click', function () {
+		if (currentFormId) {
+			document.getElementById(currentFormId).submit();
+		}
+	});
 
-    cancelButton.addEventListener('click', hideCustomPopup);
+	cancelButton.addEventListener('click', hideCustomPopup);
 </script>
 
 <script>
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
+	$(function () {
+		$('[data-toggle="tooltip"]').tooltip()
+	})
 </script>
-<style> 
-.fixed-width-btn {
-    width: 70px;
-       text-align: center;
-       white-space: nowrap; 
-    }
+<style>
+	.fixed-width-btn {
+		width: 70px;
+		text-align: center;
+		white-space: nowrap;
+	}
 </style>

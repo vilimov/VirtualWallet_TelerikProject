@@ -47,7 +47,7 @@
 <!-- POP UP HTML-->
 <div id="customPopup" class="custom-popup ">
 	<div class="popup-content">
-		<i class="fa fa-question-circle-o fa-5x" aria-hidden="true"></i>
+		<i class="fa fa-question-circle fa-5x" aria-hidden="true"></i>
 		<hr />
 		<p>Are you sure you want to make the transaction?</p><hr />
 		<p class="w3-opacity">This action cannot be undone.</p>
@@ -55,7 +55,6 @@
 		<button id="cancelButton" class="btn btn-danger w3-round">Cancel</button>
 	</div>
 </div>
-
 <!-- POP UP JAVASCRIPT-->
 <script>
 	const customPopup = document.getElementById('customPopup');
@@ -71,16 +70,12 @@
 	}
 
 	confirmButton.addEventListener('click', function () {
-		// Trigger the form submission when "Yes" is clicked
 		document.querySelector('form').submit();
 	});
 
 	cancelButton.addEventListener('click', hideCustomPopup);
-
-	// Add this event listener to your existing submit button
 	document.querySelector('form').addEventListener('submit', function (e) {
-		e.preventDefault(); // Prevent the default form submission
+		e.preventDefault();
 		showCustomPopup();
 	});
-
 </script>

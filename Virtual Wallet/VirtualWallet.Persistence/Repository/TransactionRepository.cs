@@ -21,13 +21,15 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 		}
 		public List<Transaction> GetAllTransactions()
 		{
-            var transactionList = this.context.Transactions.Include(s => s.Sender)
-												.ThenInclude(s => s.Cards)
-												.Include(s => s.Sender.Wallet)
-											.Include(r => r.Recipient)
-												.ThenInclude(r => r.Cards)
-												.Include(r => r.Recipient.Wallet)
-											.ToList();
+            var transactionList = this.context.Transactions
+				.Include(s => s.Sender)
+				.ThenInclude(s => s.Cards)
+				.Include(s => s.Sender.Wallet)
+				.Include(r => r.Recipient)
+				.ThenInclude(r => r.Cards)
+				.Include(r => r.Recipient.Wallet)
+				.ToList();
+
 			transactionList.Reverse();
 
 			return transactionList;
@@ -46,17 +48,21 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
             }
             if (!string.IsNullOrEmpty(filter.Reciever))
             {
-                transactions = transactions.FindAll(t => t.RecipientId == user.Id);
+                transactions = transactions.FindAll(t => t.Recipient.Username.Contains(filter.Reciever));
             }
             if (!string.IsNullOrEmpty(filter.Withdrawl))
             {
-                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Withdraw && t.SenderId == user.Id);
+                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Withdraw);
             }
-            if (!string.IsNullOrEmpty(filter.FeedWallet))
+            if (!string.IsNullOrEmpty(filter.DepositToWallet))
             {
-                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Deposit && t.SenderId == user.Id);
+                transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Deposit);
             }
-            if (!string.IsNullOrEmpty(filter.FilterByDate))
+			if (!string.IsNullOrEmpty(filter.TransferToUser))
+			{
+				transactions = transactions.FindAll(t => t.TransactionType == TransactionType.Transfer );
+			}
+			if (!string.IsNullOrEmpty(filter.FilterByDate))
             {
                 if (DateTime.TryParseExact(filter.FilterByDate, "dd-MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime inputDate))
                 {
@@ -65,13 +71,11 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
                 }
                 else if (DateTime.TryParseExact(filter.FilterByDate, "MM-yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime inputMonthYear))
                 {
-                    // The user entered a month and year (without the day)
                     transactions = transactions.FindAll(t => t.Date.Month == inputMonthYear.Month && t.Date.Year == inputMonthYear.Year);
                 }
             }
 
             return transactions;
-
         }
 
 		public Transaction GetTransactionById(int id)
@@ -91,18 +95,20 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
         public IList<Transaction> GetTransactionsByUserId(int userId)
 		{
 			var transactions = this.context.Transactions
-                        .Where(t => t.SenderId == userId).ToList();
-/*            if (transactions.Count <= 0 || transactions == null)
-            {
-                throw new EntityNotFoundException(Alerts.NoItemToShow);
-            }*/
+				.Where(t => t.SenderId == userId).ToList();
+
+			if (transactions == null)
+			{
+				throw new EntityNotFoundException(Alerts.NoItemToShow);
+			}
+
 			return transactions;
         }
 
         public PageResult<Transaction> GetAllTransactionsForUser(int userId, int pageNumber, int pageSize = 10)
 		{
 			var query = this.context.Transactions
-						.Where(t => t.SenderId == userId || t.RecipientId == userId);
+				.Where(t => t.SenderId == userId || t.RecipientId == userId);
 
 			int count = query.Count();
 
@@ -118,24 +124,8 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 		{
 			var result = this.context.Transactions.Add(transaction);
 			this.context.SaveChanges();
+
 			return result.Entity;
-		}
-
-		public Transaction UpdateTransaction(Transaction transaction)
-		{
-			this.context.Entry(transaction).State = EntityState.Modified;
-			this.context.SaveChanges();
-			return transaction;
-		}
-
-		public void DeleteTransaction(int id)
-		{
-			var transaction = this.context.Transactions.Find(id);
-			if (transaction != null)
-			{
-				this.context.Transactions.Remove(transaction);
-				this.context.SaveChanges();
-			}
 		}
 	}
 }

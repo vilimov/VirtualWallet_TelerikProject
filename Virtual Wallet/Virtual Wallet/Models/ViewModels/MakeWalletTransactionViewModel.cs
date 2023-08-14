@@ -6,7 +6,6 @@ namespace Virtual_Wallet.Models.ViewModels
 {
 	public class MakeWalletTransactionViewModel
 	{
-
 		public string RecipientUsername { get; set; }
 
 		[Required(ErrorMessage = "The {0} field is required.")]

@@ -22,7 +22,14 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 
 		public Wallet CreateWallet(Wallet wallet, User user)
 		{
-			if (user.WalletId == null)
+			Wallet? existingWallet = this.context.Wallets.FirstOrDefault(w => w.UserId == user.Id);
+
+			if (existingWallet == null)
+			{
+				wallet.User = user;
+				this.context.Wallets.Add(wallet);
+			}
+			else
 			{
 				if (user.Wallet.IsInactive == true)
 				{
@@ -34,10 +41,6 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 					wallet.User = user;
 					this.context.Wallets.Add(wallet);
 				}
-			}
-			else
-			{
-				throw new DuplicateEntityException(Alerts.ExistingWallet);
 			}
 
 			context.SaveChanges();

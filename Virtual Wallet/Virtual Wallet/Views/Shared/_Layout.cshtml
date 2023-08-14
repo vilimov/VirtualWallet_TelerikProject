@@ -1,5 +1,4 @@
-﻿@this.ViewData["Visibility"] = "style="display:none;"";
-@{
+﻿@{
 	var isOnWelcomeRoute = ViewContext.RouteData.Values["controller"].ToString().Equals("Home") && ViewContext.RouteData.Values["action"].ToString().Equals("Welcomepage");
 	var divClass = (isOnWelcomeRoute ? " " : "w3-card-4 w3-round-large w3-white w3-border-khaki w3-container w3-border w3-round-xlarge");
 }
@@ -18,7 +17,6 @@
 	}
 }
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,7 +30,6 @@
 	<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
 
 	<style>
 		html, body, h1, h2, h3, h4, h5 {
@@ -56,109 +53,148 @@
 		}
 	</style>
 </head>
+
 <body class="w3-theme-l5">
-	
 	<!-- Navbar -->
 	<div class="w3-top">
 		<div class="w3-bar w3-theme-d2 w3-left-align w3-large w3-round w3-card-2">
-			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()"><i class="fa fa-bars"></i></a>
-			<a asp-action="Index" asp-controller="Home" class="w3-bar-item w3-hover-shadow:hover" title="Home"><img src="~/images/common/logo2.png" class="rounded-circle w3-hover-light-blue" alt="Logo" style="width: 50px; height: 50px; object-fit: cover;" /></a>
+			<a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-padding-large w3-hover-white w3-large w3-theme-d2" href="javascript:void(0);" onclick="openNav()">
+				<i class="fa fa-bars"></i>
+			</a>
+			<a asp-action="Index" asp-controller="Home" class="w3-bar-item w3-hover-shadow:hover" title="Home">
+				<img src="~/images/common/logo2.png" class="rounded-circle w3-hover-light-blue" alt="Logo" style="width: 50px; height: 50px; object-fit: cover;" />
+			</a>
 
-			<!--<a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-hover-shadow:hover" title="News"><i class="fa fa-globe"></i></a>
-			<a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Account Settings"><i class="fa fa-user"></i></a>
-			<a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Messages"><i class="fa fa-envelope"></i></a>-->
-			
 			@if (!string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")))
 			{
 				<a href="/swagger" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Swagger">
-					<i class="fa fa-file" aria-hidden="true"></i>
+					<i class="fa fa-share-square" aria-hidden="true"></i>
 				</a>
 				<a asp-action="Privacy" asp-controller="Home" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Privacy">
-					<i class="fa fa-file" aria-hidden="true"></i>
+					<i class="fa fa-book" aria-hidden="true"></i>
 				</a>
-				<a asp-action="Logout" asp-controller="Users" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-red" title="Logout"><i class="fas fa-sign-out-alt"></i>  Logout</a>
-				<a asp-action="Profile" asp-controller="Users" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account"><i class="fas fa-user-circle"></i> My Account</a>
+				<a asp-action="Logout" asp-controller="Users" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-red" title="Logout">
+					<i class="fas fa-sign-out-alt"></i>	Logout
+				</a>
+				<a asp-action="Profile" asp-controller="Users" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
+					<i class="fas fa-user-circle"></i> My Account
+				</a>
 				@if (Context.Request.HttpContext.Session.GetString("IsAdmin") == "True")
 				{
-					<a asp-action="Dashboard" asp-controller="Admins" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-blue" title="Dashboard"><i class="fas fa-user-shield"></i> Dashboard</a>
+					<a asp-action="Dashboard" asp-controller="Admins" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-blue" title="Dashboard">
+						<i class="fas fa-user-shield"></i> Dashboard
+					</a>
 				}
 			}
 			else
 			{
-				<a asp-controller="Users" asp-action="Register" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-green" title="Register"><i class="fas fa-user-plus"></i> Register</a>
-				<a asp-controller="Users" asp-action="Login" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Login"><i class="fas fa-sign-in-alt"></i> Login</a>
+				<a asp-controller="Users" asp-action="Register" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-green" title="Register">
+					<i class="fas fa-user-plus"></i> Register
+				</a>
+				<a asp-controller="Users" asp-action="Login" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="Login">
+					<i class="fas fa-sign-in-alt"></i> Login
+				</a>
 			}
 		</div>
 	</div>
 
 	<!-- Navbar on small screens -->
 	<div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">
-		<a href="#" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
-		<a href="#" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
-		<a href="#" class="w3-bar-item w3-button w3-padding-large">Link 3</a>
+		<a asp-controller="Users" asp-action="Register" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
+		<a asp-controller="Users" asp-action="Login" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
 		<a href="#" class="w3-bar-item w3-button w3-padding-large">My Profile</a>
 	</div>
 
-	<!-- Page Container -->
 	<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
-		<!-- The Grid -->
 		<div class="w3-row">
 			<!-- Left Column -->
 			<div class="w3-col m3" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
-				<!-- Profile -->
 				<div class="w3-card w3-round-large w3-white w3-border">
 					<div class="w3-container" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
 						<h4 class="w3-center">Hello, @username!</h4>
 						<p class="w3-center"><img src="@Url.Content("~/" + userImage)" class="rounded-circle" alt="Avatar" style="width: 100px; height: 100px; object-fit: cover;"></p>
 						<hr>
-						<p><a asp-controller="Cards" asp-action="Index" class="fa fa-credit-card w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">&emsp;My Cards</a>	</p>
+						<p>
+							<a asp-controller="Cards" asp-action="Index"
+							   class="fa fa-credit-card w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4"
+							   style="width:100%; border:1px solid black">&emsp;My Cards</a>
+						</p>
 						@if (Context.Request.HttpContext.Session.GetString("IsAdmin") == "True")
 						{
-							<p><a asp-controller="Cards" asp-action="ShowAllCards" class="fa w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">All Cards</a></p>
+							<p>
+								<a asp-controller="Cards" asp-action="ShowAllCards"
+								   class="fa w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4"
+								   style="width:100%; border:1px solid black">All Cards</a>
+							</p>
 						}
-						<p><a asp-controller="Wallets" asp-action="Index" class="fa fa-wallet w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">&emsp;My Wallet</a></p>
+
+						<p>
+							<a asp-controller="Wallets" asp-action="Index"
+							   class="fa fa-wallet w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4"
+							   style="width:100%; border:1px solid black">&emsp;My Wallet</a>
+						</p>
+
 						@if (Context.Request.HttpContext.Session.GetString("IsAdmin") == "True")
 						{
-							<p><a asp-controller="Wallets" asp-action="ShowAllWallets" class="fa w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">All Wallets</a></p>
+							<p>
+								<a asp-controller="Wallets" asp-action="ShowAllWallets"
+								   class="fa w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4"
+								   style="width:100%; border:1px solid black">All Wallets</a>
+							</p>
 						}
 					</div>
 
 					<div class="w3-container" @(!string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
 						<h4 class="w3-center">Hello</h4>
-						
 						<hr>
 						<p>Please Login or regisster</p>
 					</div>
 				</div>
 				<br>
 
-				<!-- Accordion -->
-				
 				<div class="w3-card w3-round" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
 					<div class="w3-white">
-						<button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> Transactions Info</button>
+						<button onclick="myFunction('Demo2')" class="w3-button w3-block w3-theme-l1 w3-left-align">
+							<i class="fa fa-calendar-check-o fa-fw w3-margin-right"></i> Transactions Info</button>
 						<div id="Demo2" class="w3-hide w3-container">
 							<div class="w3-row-padding">
 								<br>
-								<p><a asp-controller="Transactions" asp-action="Index" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">My Transactions</a></p>
+								<p>
+									<a asp-controller="Transactions" asp-action="Index" 
+										class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" 
+											style="width:100%; border:1px solid black">My Transactions</a>
+								</p>
 								@if (Context.Request.HttpContext.Session.GetString("IsAdmin") == "True")
 								{
-									<p><a asp-controller="Transactions" asp-action="ShowAllTransactions" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">All Transactions</a></p>
+									<p>
+										<a asp-controller="Transactions" asp-action="ShowAllTransactions" 
+											class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" 
+											style="width:100%; border:1px solid black">All Transactions</a>
+									</p>
 								}
-								<!-- <i class="fa fa-exchange"></i><p><a asp-controller="Transactions" asp-action="CreateDeposit" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4">Deposit</a></p>
-								<p><a asp-controller="Transactions" asp-action="CreateWithdraw" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4">Withdraw</a></p>-->
 								<br>
 							</div>
 						</div>
-						<button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align"><i class="fa fa-cubes w3-margin-right" aria-hidden="true"></i> Make Transaction</button>
+						<button onclick="myFunction('Demo3')" class="w3-button w3-block w3-theme-l1 w3-left-align">
+							<i class="fa fa-cubes w3-margin-right" aria-hidden="true"></i> Make Transaction</button>
 						<div id="Demo3" class="w3-hide w3-container">
 							<div class="w3-row-padding">
 								<br>
 								<p>
-									<a asp-controller="Transactions" asp-action="SelectRecipient" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">Transfer</a>
+									<a asp-controller="Transactions" asp-action="SelectRecipient" 
+										class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" 
+										style="width:100%; border:1px solid black">Transfer</a>
 								</p>
-								<p><a asp-controller="Transactions" asp-action="CreateDeposit" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">Deposit</a></p>
-								<p><a asp-controller="Transactions" asp-action="CreateWithdraw" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" style="width:100%; border:1px solid black">Withdraw</a></p>
+								<p>
+									<a asp-controller="Transactions" asp-action="CreateDeposit" 
+										class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" 
+										style="width:100%; border:1px solid black">Deposit</a>
+								</p>
+								<p>
+									<a asp-controller="Transactions" asp-action="CreateWithdraw" 
+										class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4" 
+										style="width:100%; border:1px solid black">Withdraw</a>
+								</p>
 								<br>
 							</div>
 						</div>
@@ -166,49 +202,29 @@
 				</div>
 				<br>
 
-				<!-- Interests -->
 				<div class="w3-card w3-round-large w3-white w3-border" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
 					<div class="w3-container w3-padding">
 						<div><partial name="_Calendar" /></div>
 					</div>
 				</div>
 				<br>
-
-				<!-- Alert Box -->
-				<!--
-				<div class="w3-container w3-display-container w3-round-large w3-border w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
-					<span onclick="this.parentElement.style.display='none'" class="w3-button w3-theme-l3 w3-display-topright">
-						<i class="fa fa-remove"></i>
-					</span>
-					<p><strong>Hey!</strong></p>
-					<p>People are looking at your profile. Find out who.</p>
-				</div>
-				-->
-				<!-- End Left Column -->
 			</div>
 
-			<!-- Middle Column -->
 			<div class="w3-col m7" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=width:100%;height:100%;" : "")>
 				<div class="w3-row-padding">
 					<div class="w3-col m12">
 						<div class="@divClass">
 							<div class="w3-container w3-padding">
-								
+
 								@RenderBody()
 
-								<!--<button type="button" class="w3-button w3-theme-d1 w3-margin-bottom w3-round-large w3-card-4"><i class="fa fa-thumbs-up"></i>  Like</button>
-								<button type="button" class="w3-button w3-theme-d2 w3-margin-bottom w3-round-large"><i class="fa fa-comment"></i>  Comment</button>
-								-->
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- End Middle Column -->
 			</div>
 
-			<!-- Right Column -->
 			<div class="sticky w3-col m2" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
-				<!-- Profile -->
 				<div class="w3-card w3-round-large w3-white w3-border">
 					<div class="w3-container">
 						<h4 class="w3-center">My Wallet</h4>
@@ -220,22 +236,15 @@
 				</div>
 				<br>
 				<div class="w3-card w3-round-large w3-white solid #194759 w3-padding" style="border:3px solid #194759">
-					<div><partial name="_Converter"/></div>
-				</div>				
+					<div><partial name="_Converter" /></div>
+				</div>
 				<br>
 			</div>
 			<br>
-			<!-- End Right Column -->
 		</div>
-
-		<!-- End Grid -->
-	</div>
-
-	<!-- End Page Container -->
 	</div>
 	<br>
 
-	<!-- Footer -->
 	<footer class="w3-theme-d5 w3-small w3-center ">
 		<div class="w3-card w3-round">
 			<div class="w3-container">
@@ -250,38 +259,37 @@
 
 				</p>
 				<span class="w3-tag w3-small w3-theme-d4 w3-text-blue-grey w3-hover-light-gray">
-
-					<a href="https://www.linkedin.com/in/mila-tsenkova-772534102" target="_blank" class="w3-bar-item w3-round" title="Tsvetomila Tsenkova" style="text-decoration:none">
+					<a href="https://www.linkedin.com/in/mila-tsenkova-772534102" target="_blank" 
+						class="w3-bar-item w3-round" title="Tsvetomila Tsenkova" style="text-decoration:none">
 						Tsvetomila Tsenkova <i class="fa fa-linkedin-square" aria-hidden="true"></i>
-						<img src="https://media.licdn.com/dms/image/D4D03AQH1uNgmZXWK4g/profile-displayphoto-shrink_400_400/0/1683886871197?e=1694649600&v=beta&t=_QrvCF1z817ohCVUkRjd7bo9Qkj_fxyn0qsMawEO0-w" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+						<img src="https://media.licdn.com/dms/image/D4D03AQH1uNgmZXWK4g/profile-displayphoto-shrink_400_400/0/1683886871197?e=1694649600&v=beta&t=_QrvCF1z817ohCVUkRjd7bo9Qkj_fxyn0qsMawEO0-w" 
+							class="w3-circle" style="height:23px;width:23px" alt="Avatar">
 					</a>
 				</span>
 				<span class="w3-tag w3-small w3-theme-d4 w3-text-blue-grey w3-hover-light-gray">
-
 					<a href="https://www.linkedin.com/in/milko-tomov-a988971a2/" target="_blank" class="w3-bar-item w3-round" title="Milko Tomov" style="text-decoration:none">
 						Milko Tomov <i class="fa fa-linkedin-square" aria-hidden="true"></i>
-						<img src="https://media.licdn.com/dms/image/D4D03AQFo47ocbbJS4Q/profile-displayphoto-shrink_200_200/0/1688975218012?e=1694649600&v=beta&t=nOJXjHsM3zzr_c96xrbDO9nqAtINJrGhRAOEC-oUvMQ" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+						<img src="https://media.licdn.com/dms/image/D4D03AQFo47ocbbJS4Q/profile-displayphoto-shrink_200_200/0/1688975218012?e=1694649600&v=beta&t=nOJXjHsM3zzr_c96xrbDO9nqAtINJrGhRAOEC-oUvMQ" 
+							class="w3-circle" style="height:23px;width:23px" alt="Avatar">
 					</a>
 				</span>
 				<span class="w3-tag w3-small w3-theme-d4 w3-text-blue-grey w3-hover-light-gray">
 					<a href="https://www.linkedin.com/in/koci-palchev-68b116283/" target="_blank" class="w3-bar-item w3-round" title="Kostadin Palchev" style="text-decoration:none">
 						Kostadin Palchev <i class="fa fa-linkedin-square" aria-hidden="true"></i>
-						<img src="https://media.licdn.com/dms/image/D4E03AQFJLUtDwr-4wg/profile-displayphoto-shrink_200_200/0/1689423379191?e=1694649600&v=beta&t=LW0VujsvC17hlZ2sbBwLHq8RpVCW8C3XB7ZtCzkpQcQ" class="w3-circle" style="height:23px;width:23px" alt="Avatar">
+						<img src="https://media.licdn.com/dms/image/D4E03AQFJLUtDwr-4wg/profile-displayphoto-shrink_200_200/0/1689423379191?e=1694649600&v=beta&t=LW0VujsvC17hlZ2sbBwLHq8RpVCW8C3XB7ZtCzkpQcQ" 
+							class="w3-circle" style="height:23px;width:23px" alt="Avatar">
 					</a>
 				</span>
 				<p>
 					<span class="text-center">© 2023 July </span>
 					<span class="w3-padding-small">Template is Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></span>
-
 				</p>
 			</div>
 		</div>
 	</footer>
 
-
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js" async defer></script>
 	<script>
-		// Accordion
 		function myFunction(id) {
 			var x = document.getElementById(id);
 			if (x.className.indexOf("w3-show") == -1) {
@@ -294,7 +302,6 @@
 			}
 		}
 
-		// Used to toggle the menu on smaller screens when clicking on the menu button
 		function openNav() {
 			var x = document.getElementById("navDemo");
 			if (x.className.indexOf("w3-show") == -1) {

@@ -19,8 +19,8 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 	{
 		private readonly ITransactionRepository transactionRepository;
 		private readonly IWalletService walletService;
-        private readonly IEmailService emailService;
-		public TransactionService(ITransactionRepository transactionRepository, 
+		private readonly IEmailService emailService;
+		public TransactionService(ITransactionRepository transactionRepository,
 									IWalletService walletService,
 									IEmailService emailService)
 		{
@@ -33,74 +33,22 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			return transactionRepository.GetAllTransactions();
 
 		}
-		public IList<Transaction> GetAllTransactions(int pageNumber, int pageSize, User user, string search = null)
-		{
-			//return transactionRepository.GetAllTransactions();
-			TransactionsQueryParameters filter = new TransactionsQueryParameters() { Sender = search };
-
-			var tratransactions = transactionRepository.GetAllTransactions().AsQueryable();
-			if (search != null)
-			{
-				tratransactions = transactionRepository.GetFilteredTransactions(filter, user).AsQueryable();
-			}
-
-			return tratransactions
-				.Skip((pageNumber - 1) * pageSize)
-				.Take(pageSize)
-				.ToList();
-
-		}
 
 		public IList<Transaction> GetFilteredTransactions(TransactionsQueryParameters filter, User user)
 		{
 			return transactionRepository.GetFilteredTransactions(filter, user);
 		}
 
-		public IList<Transaction> GetFilteredTransactions(int pageNumber, int pageSize, TransactionsQueryParameters filter, User user, string search = null) 
-        {
-			//return transactionRepository.GetFilteredTransactions(filter, user);
+		public IList<Transaction> GetFilteredTransactions(
+			int pageNumber,
+			int pageSize,
+			TransactionsQueryParameters filter,
+			User user,
+			string search = null)
+		{
 			filter.Sender = search;
 			var tratransactions = transactionRepository.GetAllTransactions().AsQueryable();
-			
-            if (filter != null)
-			{
-				tratransactions = transactionRepository.GetFilteredTransactions(filter, user).AsQueryable();
-			}
 
-			return tratransactions
-				.Skip((pageNumber - 1) * pageSize)
-				.Take(pageSize)
-				.ToList();
-		}
-
-		public int GetTransactionsCount(string search, User user)
-		{
-			var tratransactions = transactionRepository.GetAllTransactions().AsQueryable();
-
-			if (search != null)
-			{
-				TransactionsQueryParameters filter = new TransactionsQueryParameters() { Sender = search };
-				tratransactions = transactionRepository.GetFilteredTransactions(filter, user).AsQueryable();
-			}
-
-			return tratransactions.Count();
-		}
-
-
-		public Transaction GetTransactionById(int transactionId)
-		{
-			return transactionRepository.GetTransactionById(transactionId);
-		}
-
-        public IList<Transaction> GetTransactionsByUserId(int userId)
-        {
-            return transactionRepository.GetTransactionsByUserId(userId);
-        }
-		public IList<Transaction> GetTransactionsByUserId(int pageNumber, int pageSize, User user, string search = null)
-		{
-			TransactionsQueryParameters filter = new TransactionsQueryParameters() { };
-			filter.AllMyTransactions = "true";
-			var tratransactions = transactionRepository.GetAllTransactions().AsQueryable();
 			if (filter != null)
 			{
 				tratransactions = transactionRepository.GetFilteredTransactions(filter, user).AsQueryable();
@@ -110,78 +58,71 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 				.Skip((pageNumber - 1) * pageSize)
 				.Take(pageSize)
 				.ToList();
-
-		}
-		/* Not Used For Now
-        public PageResult<Transaction> GetTransactionsForUser(int userId, int pageNumber, int pageSize = 10)
-		{
-			return transactionRepository.GetAllTransactionsForUser(userId, pageNumber, pageSize);
 		}
 
-		public Transaction UpdateTransaction(Transaction transaction)
+		public Transaction GetTransactionById(int transactionId)
 		{
-			return transactionRepository.UpdateTransaction(transaction);
+			return transactionRepository.GetTransactionById(transactionId);
 		}
-        		public void DeleteTransaction(int transactionId)
+
+		public IList<Transaction> GetTransactionsByUserId(int userId)
 		{
-			transactionRepository.DeleteTransaction(transactionId);
+			return transactionRepository.GetTransactionsByUserId(userId);
 		}
-        */
 
 		public Transaction AddMoneyCardToWallet(User user, Card card, decimal amount, string description)
 		{
-            if (user.IsBlocked)
-            {
-                throw new UnauthorizedOperationException(Alerts.BlockedUser);
-            }
+			if (user.IsBlocked)
+			{
+				throw new UnauthorizedOperationException(Alerts.BlockedUser);
+			}
 
-            if (user == null || card == null)
+			if (user == null || card == null)
 			{
 				throw new EntityNotFoundException(Alerts.ItemNotFound);
 			}
 
 			Wallet wallet = walletService.GetWalletByUser(user.Username);
 
-            if (wallet == null)
-            {
-                throw new EntityNotFoundException(Alerts.ItemNotFound);
-            }
+			if (wallet == null)
+			{
+				throw new EntityNotFoundException(Alerts.ItemNotFound);
+			}
 
-            //check card is of the same user and is wallet if of the same user
-            if (card.UserId != user.Id || wallet.UserId != user.Id)
+			if (card.UserId != user.Id || wallet.UserId != user.Id)
 			{
 				throw new UnauthorizedOperationException(Alerts.InvalidAttenpt);
-            }
+			}
 
 			Transaction transaction = new Transaction()
 			{
 				Date = DateTime.Now,
 				Amount = amount,
 				TransactionType = TransactionType.Deposit,
-                Sender = user,
-                Recipient = user,
-                CardNumber = CardHelper.HideCardNumber(card.Number),
-                Description = description,
-                SenderWalletCurrency = wallet.CurrencyCode
-            };
+				Sender = user,
+				Recipient = user,
+				CardNumber = CardHelper.HideCardNumber(card.Number),
+				Description = description,
+				SenderWalletCurrency = wallet.CurrencyCode
+			};
 
 			var moneyAdded = walletService.AddToWallet(wallet.Id, amount);
 			var transactionMade = transactionRepository.AddTransaction(transaction);
 
-            return transactionMade;
-        }
+			return transactionMade;
+		}
 
-        public Transaction AddMoneyWalletToWallet(User sender, User recipient, decimal amount, string description)
-        {
-            if (sender == null || recipient == null)
-            {
-                throw new EntityNotFoundException(Alerts.ItemNotFound);
-            }
-
-            if (sender.IsBlocked)
+		public Transaction AddMoneyWalletToWallet(User sender, User recipient, decimal amount, string description)
+		{
+			if (sender == null || recipient == null)
 			{
-                throw new UnauthorizedOperationException(Alerts.BlockedUser);
-            }
+				throw new EntityNotFoundException(Alerts.ItemNotFound);
+			}
+
+			if (sender.IsBlocked)
+			{
+				throw new UnauthorizedOperationException(Alerts.BlockedUser);
+			}
 
 			if (sender == recipient)
 			{
@@ -190,59 +131,61 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 
 			Wallet senderWallet = walletService.GetWalletByUser(sender.Username);
 			decimal senderWalletAmount = walletService.GetBalance(senderWallet.Id);
-			if(senderWalletAmount < amount) 
+			if (senderWalletAmount < amount)
 			{
-                throw new InsuficientAmountException(Alerts.InsufficientAmount);
-            }
+				throw new InsuficientAmountException(Alerts.InsufficientAmount);
+			}
 
-            Wallet recepientWallet = walletService.GetWalletByUser(recipient.Username);
+			Wallet recepientWallet = walletService.GetWalletByUser(recipient.Username);
 
-            var currencySender = senderWallet.CurrencyCode;
-            var currencyRecipient = recepientWallet.CurrencyCode;
-            var moneyToReceive = amount;
-            double bgnToUsdRate = 0;
-            if (currencySender != currencyRecipient)
-            {
-                RatesJson rateJson = Rates.GetExchangeRates(currencySender.ToString());
+			var currencySender = senderWallet.CurrencyCode;
+			var currencyRecipient = recepientWallet.CurrencyCode;
+			var moneyToReceive = amount;
+			double bgnToUsdRate = 0;
+			if (currencySender != currencyRecipient)
+			{
+				RatesJson rateJson = Rates.GetExchangeRates(currencySender.ToString());
 
-                if (rateJson != null)
-                {
-                    if (currencyRecipient == Currency.BGN)
-                    {
-                        bgnToUsdRate = rateJson.conversion_rates.BGN;
-                    }else if (currencyRecipient == Currency.USD)
-                    {
-                        bgnToUsdRate = rateJson.conversion_rates.USD;
-                    }else
-                    {
-                        bgnToUsdRate = rateJson.conversion_rates.EUR;
-                    }
-                    moneyToReceive = (decimal)bgnToUsdRate * moneyToReceive;
-                }
-                else
-                {
-                    throw new UnauthorizedOperationException(Alerts.FailedCurrencyRate);
-                }
-            }
+				if (rateJson != null)
+				{
+					if (currencyRecipient == Currency.BGN)
+					{
+						bgnToUsdRate = rateJson.conversion_rates.BGN;
+					}
+					else if (currencyRecipient == Currency.USD)
+					{
+						bgnToUsdRate = rateJson.conversion_rates.USD;
+					}
+					else
+					{
+						bgnToUsdRate = rateJson.conversion_rates.EUR;
+					}
+					moneyToReceive = (decimal)bgnToUsdRate * moneyToReceive;
+				}
+				else
+				{
+					throw new UnauthorizedOperationException(Alerts.FailedCurrencyRate);
+				}
+			}
 
-            Transaction transaction = new Transaction()
-            {
-                Date = DateTime.Now,
-                Amount = amount,
-                TransactionType = TransactionType.Transfer,
-                Sender = sender,
-                Recipient = recipient,
-                AmountReceived = (decimal)moneyToReceive,
-                CurrencyExchangeRate = bgnToUsdRate,
-                Description = description,
-                SenderWalletCurrency = senderWallet.CurrencyCode,
-                RecipientWalletCurrency = recepientWallet.CurrencyCode
-            };
+			Transaction transaction = new Transaction()
+			{
+				Date = DateTime.Now,
+				Amount = amount,
+				TransactionType = TransactionType.Transfer,
+				Sender = sender,
+				Recipient = recipient,
+				AmountReceived = (decimal)moneyToReceive,
+				CurrencyExchangeRate = bgnToUsdRate,
+				Description = description,
+				SenderWalletCurrency = senderWallet.CurrencyCode,
+				RecipientWalletCurrency = recepientWallet.CurrencyCode
+			};
 
 			var moneyRemovedFromSender = walletService.WithdrawFromWallet(senderWallet.Id, amount);
-            var moneyAddedtoRecipient = walletService.AddToWallet(recepientWallet.Id, moneyToReceive);
+			var moneyAddedtoRecipient = walletService.AddToWallet(recepientWallet.Id, moneyToReceive);
 
-            var transactionMade = transactionRepository.AddTransaction(transaction);
+			var transactionMade = transactionRepository.AddTransaction(transaction);
 
 			var mailRequest = new Mail
 			{
@@ -254,32 +197,31 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			emailService.SendEmail(mailRequest);
 
 			return transactionMade;
-        }
+		}
 
-        public Transaction WithdrawalTransfer(User user, Card card, decimal amount, string description)
-        {
-            if (user.IsBlocked)
-            {
-                throw new UnauthorizedOperationException(Alerts.BlockedUser);
-            }
+		public Transaction WithdrawalTransfer(User user, Card card, decimal amount, string description)
+		{
+			if (user.IsBlocked)
+			{
+				throw new UnauthorizedOperationException(Alerts.BlockedUser);
+			}
 
-            if (user == null || card == null)
-            {
-                throw new EntityNotFoundException(Alerts.ItemNotFound);
-            }
+			if (user == null || card == null)
+			{
+				throw new EntityNotFoundException(Alerts.ItemNotFound);
+			}
 
-            Wallet wallet = walletService.GetWalletByUser(user.Username);
+			Wallet wallet = walletService.GetWalletByUser(user.Username);
 
-            if (wallet == null)
-            {
-                throw new EntityNotFoundException(Alerts.ItemNotFound);
-            }
+			if (wallet == null)
+			{
+				throw new EntityNotFoundException(Alerts.ItemNotFound);
+			}
 
-            //check card is of the same user and is wallet if of the same user
-            if (card.UserId != user.Id || wallet.UserId != user.Id)
-            {
-                throw new UnauthorizedOperationException(Alerts.InvalidAttenpt);
-            }
+			if (card.UserId != user.Id || wallet.UserId != user.Id)
+			{
+				throw new UnauthorizedOperationException(Alerts.InvalidAttenpt);
+			}
 
 			var currencyWallet = wallet.CurrencyCode;
 			var currencyCard = card.CurrencyCode;
@@ -302,24 +244,24 @@ namespace Virtual_Wallet.VirtualWallet.Application.Services
 			}
 
 			Transaction transaction = new Transaction()
-            {
-                Date = DateTime.Now,
-                Amount = amount,
-                TransactionType = TransactionType.Withdraw,
-                Sender = user,
-                Recipient = user,
-                CardNumber = CardHelper.HideCardNumber(card.Number),
-                Description = description,
-                SenderWalletCurrency = wallet.CurrencyCode,
+			{
+				Date = DateTime.Now,
+				Amount = amount,
+				TransactionType = TransactionType.Withdraw,
+				Sender = user,
+				Recipient = user,
+				CardNumber = CardHelper.HideCardNumber(card.Number),
+				Description = description,
+				SenderWalletCurrency = wallet.CurrencyCode,
 				CurrencyExchangeRate = exchangeRate,
 				AmountReceived = (decimal)moneyToReceive,
 				RecipientWalletCurrency = card.CurrencyCode
 			};
 
-            var moneyRemoved = walletService.WithdrawFromWallet(wallet.Id, amount);
-            var transactionMade = transactionRepository.AddTransaction(transaction);
+			var moneyRemoved = walletService.WithdrawFromWallet(wallet.Id, amount);
+			var transactionMade = transactionRepository.AddTransaction(transaction);
 
-            return transactionMade;
-        }
-    }
+			return transactionMade;
+		}
+	}
 }

@@ -1,16 +1,12 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Extensions.Hosting;
-using Org.BouncyCastle.Cms;
-using Org.BouncyCastle.Pqc.Crypto.Lms;
-using System.Security.Cryptography;
 using Virtual_Wallet.Models.ViewModels;
 using Virtual_Wallet.Models.ViewModels.Admin;
-using Virtual_Wallet.VirtualWallet.Application.Services;
 using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using VirtualWallet.Application.Services.Contracts;
+using VirtualWallet.Common.Exceptions;
 using VirtualWallet.Common.QueryParameters;
 
 namespace Virtual_Wallet.Controllers.MVC
@@ -21,7 +17,11 @@ namespace Virtual_Wallet.Controllers.MVC
 		private readonly IMapper mapper;
 		private readonly IUserService userService;
 		private readonly ICardService cardService;
-		public TransactionsController(ITransactionService transactionService, IMapper mapper, IUserService userService, ICardService cardService)
+		public TransactionsController(
+			ITransactionService transactionService,
+			IMapper mapper,
+			IUserService userService,
+			ICardService cardService)
 		{
 			this.transactionService = transactionService;
 			this.mapper = mapper;
@@ -30,75 +30,81 @@ namespace Virtual_Wallet.Controllers.MVC
 		}
 
 		[HttpGet]
-		public IActionResult Index(string search = null, int pageNumber = 1, int pageSize = 5)
+		public IActionResult Index([FromQuery] TransactionsQueryParameters filterParams, string search = null, int page = 1, int pageSize = 5)
 		{
 			if (!IsUserLogged())
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			var user = GetLoggedUser();
-			//IList<Transaction> transactions = this.transactionService.GetAllTransactions();
-			//IList<Transaction> transactions = this.transactionService.GetTransactionsByUserId(user.Id);
-			//return View(transactions);
-			//public IList<Transaction> GetTransactionsByUserId(int pageNumber, int pageSize, TransactionsQueryParameters filter, User user)
-
-			//var transactions = this.transactionService.GetTransactionsByUserId(pageNumber, pageSize, user, search);
-			//int pageNumber, int pageSize, TransactionsQueryParameters filter, User user
+			var pageResults = 5f;
 			TransactionsQueryParameters filter = new TransactionsQueryParameters() { AllMyTransactions = "true" };
-			var transactions = this.transactionService.GetFilteredTransactions(pageNumber, pageSize, filter, user, search);
-			//transactions = transactions.Where(u => u.SenderId == user.Id || u.RecipientId == user.Id).ToList();
-			var transactionsVM = mapper.Map<List<TransactionViewModel>>(transactions);
-			var totalTransactions = this.transactionService.GetTransactionsCount(search, user);
-			var totalPages = Math.Ceiling((double)totalTransactions / pageSize);
+			filter = CheckParameters(filter, filterParams, search);
 
-			// Create a model for the view
+			var transactions = this.transactionService.GetFilteredTransactions(filter, user);
+			var transactionsVM = mapper.Map<List<TransactionViewModel>>(transactions);
+			var totalTransactions = transactionsVM.Count();
+			var pageCount = Math.Ceiling(totalTransactions / pageResults);
+
+			var products = transactionsVM
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.ToList();
+
 			var model = new PaginatedTransactionViewModel
 			{
-				PageNumber = pageNumber,
-				PageSize = pageSize,
-				TotalPages = (int)totalPages,
-				TansactionsShow = transactionsVM.ToList(),
+				TansactionsShow = products,
+				CurrentPages = page,
+				Pages = (int)pageCount,
 				Search = search
+
 			};
 
 			return View(model);
 		}
 
 		[HttpGet]
-		public IActionResult ShowAllTransactions(string search = null, int pageNumber = 1, int pageSize = 5)
+		public IActionResult ShowAllTransactions([FromQuery] TransactionsQueryParameters filterParams, string search = null, int page = 1, int pageSize = 5)
 		{
 			if (!IsUserLogged())
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			var user = GetLoggedUser();
+
 			if (!user.IsAdmin)
 			{
 				this.HttpContext.Response.StatusCode = StatusCodes.Status401Unauthorized;
 				this.ViewData["ErrorMessage"] = "You are not authorized for this action!";
-				//return View("Error");             this will return the Error page
-				return View("Error");      // this will retur the same object and keep us on the same page
+				return View("Error");
 			}
-			//IList<Transaction> transactions = this.transactionService.GetAllTransactions();
-			//return View(transactions);
 
-			var transactions = this.transactionService.GetAllTransactions(pageNumber, pageSize, user, search);
+			var pageResults = 5f;
+			TransactionsQueryParameters filter = new TransactionsQueryParameters();
+			filter = CheckParameters(filter, filterParams, search);
+
+			var transactions = this.transactionService.GetFilteredTransactions(filter, user);
 			var transactionsVM = mapper.Map<List<TransactionViewModel>>(transactions);
-			var totalTransactions = this.transactionService.GetTransactionsCount(search, user);
-			var totalPages = Math.Ceiling((double)totalTransactions / pageSize);
+			var totalTransactions = transactionsVM.Count();
+			var pageCount = Math.Ceiling(totalTransactions / pageResults);
 
-			// Create a model for the view
+			var products = transactionsVM
+				.Skip((page - 1) * pageSize)
+				.Take(pageSize)
+				.ToList();
+
 			var model = new PaginatedTransactionViewModel
 			{
-				PageNumber = pageNumber,
-				PageSize = pageSize,
-				TotalPages = (int)totalPages,
-				TansactionsShow = transactionsVM.ToList(),
+				TansactionsShow = products,
+				CurrentPages = page,
+				Pages = (int)pageCount,
 				Search = search
+
 			};
 
 			return View(model);
-
 		}
 
 		[HttpGet]
@@ -108,6 +114,7 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return RedirectToAction("Login", "Users");
 			}
+
 			try
 			{
 				var transaction = transactionService.GetTransactionById(id);
@@ -131,16 +138,16 @@ namespace Virtual_Wallet.Controllers.MVC
 			}
 
 			var user = GetLoggedUser();
-			var cardsList = user.Cards; // Assuming cardsList is a List<Card>
+			var cardsList = user.Cards;
 			var selectListItems = cardsList.Select(card => new SelectListItem
 			{
-				Value = card.Id.ToString(),   // Replace with actual property that holds card ID
-				Text = card.Name              // Replace with actual property that holds card Name
+				Value = card.Id.ToString(),
+				Text = card.Name
 			}).ToList();
 
 			var makeTransaction = new MakeCardTransactionViewModel
 			{
-				Cards = new SelectList(selectListItems, "Value", "Text") // Bind the list of selectListItems to the Cards property
+				Cards = new SelectList(selectListItems, "Value", "Text")
 			};
 
 			return View(makeTransaction);
@@ -156,7 +163,6 @@ namespace Virtual_Wallet.Controllers.MVC
 
 			if (!ModelState.IsValid)
 			{
-				// Here, you need to populate the Cards SelectList again for displaying in case of validation errors.
 				var user = GetLoggedUser();
 				var cardsList = user.Cards;
 				var selectListItems = cardsList.Select(card => new SelectListItem
@@ -164,7 +170,6 @@ namespace Virtual_Wallet.Controllers.MVC
 					Value = card.Id.ToString(),
 					Text = card.Name
 				}).ToList();
-
 				makeTransaction.Cards = new SelectList(selectListItems, "Value", "Text");
 
 				return View(makeTransaction);
@@ -175,14 +180,31 @@ namespace Virtual_Wallet.Controllers.MVC
 				var user = GetLoggedUser();
 				var card = cardService.GetById(makeTransaction.CardId);
 				var createdTransaction = transactionService.AddMoneyCardToWallet(user, card, makeTransaction.Amount, makeTransaction.Description);
+				this.HttpContext.Session.SetString("WalletBalance", user.Wallet.Balance.ToString());
+				this.HttpContext.Session.SetString("WalletCurrency", user.Wallet.CurrencyCode.ToString());
+
 				return RedirectToAction("Details", "Transactions", new { id = createdTransaction.Id });
 			}
-			catch (Exception e)
+			catch (EntityNotFoundException ex)
 			{
-				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
-				ViewData["ErrorMessage"] = e.Message;
-				//return View("Error");           // This will return the Error page
-				return View(makeTransaction);    // This will return the same view with validation errors
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
+			}
+			catch (UnauthorizedOperationException ex)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
+			}
+			catch (InsuficientAmountException ex)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
 			}
 		}
 
@@ -195,16 +217,16 @@ namespace Virtual_Wallet.Controllers.MVC
 			}
 
 			var user = GetLoggedUser();
-			var cardsList = user.Cards; // Assuming cardsList is a List<Card>
+			var cardsList = user.Cards;
 			var selectListItems = cardsList.Select(card => new SelectListItem
 			{
-				Value = card.Id.ToString(),   // Replace with actual property that holds card ID
-				Text = card.Name              // Replace with actual property that holds card Name
+				Value = card.Id.ToString(),
+				Text = card.Name
 			}).ToList();
 
 			var makeTransaction = new MakeCardTransactionViewModel
 			{
-				Cards = new SelectList(selectListItems, "Value", "Text") // Bind the list of selectListItems to the Cards property
+				Cards = new SelectList(selectListItems, "Value", "Text")
 			};
 
 			return View(makeTransaction);
@@ -220,7 +242,6 @@ namespace Virtual_Wallet.Controllers.MVC
 
 			if (!ModelState.IsValid)
 			{
-				// Here, you need to populate the Cards SelectList again for displaying in case of validation errors.
 				var user = GetLoggedUser();
 				var cardsList = user.Cards;
 				var selectListItems = cardsList.Select(card => new SelectListItem
@@ -239,18 +260,33 @@ namespace Virtual_Wallet.Controllers.MVC
 				var user = GetLoggedUser();
 				var card = cardService.GetById(makeTransaction.CardId);
 				var createdTransaction = transactionService.WithdrawalTransfer(user, card, makeTransaction.Amount, makeTransaction.Description);
+				this.HttpContext.Session.SetString("WalletBalance", user.Wallet.Balance.ToString());
+				this.HttpContext.Session.SetString("WalletCurrency", user.Wallet.CurrencyCode.ToString());
+
 				return RedirectToAction("Details", "Transactions", new { id = createdTransaction.Id });
 			}
-			catch (Exception e)
+			catch (EntityNotFoundException ex)
 			{
-				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
-				ViewData["ErrorMessage"] = e.Message;
-				//return View("Error");           // This will return the Error page
-				return View(makeTransaction);    // This will return the same view with validation errors
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
+			}
+			catch (UnauthorizedOperationException ex)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
+			}
+			catch (InsuficientAmountException ex)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
 			}
 		}
-
-
 
 		[HttpGet]
 		public IActionResult CreateTransfer(MakeWalletTransactionViewModel makeTransaction)
@@ -268,7 +304,6 @@ namespace Virtual_Wallet.Controllers.MVC
 		[HttpPost, ActionName("CreateTransfer")]
 		public IActionResult CreateTransferPost(MakeWalletTransactionViewModel makeTransaction)
 		{
-
 			if (!IsUserLogged())
 			{
 				return RedirectToAction("Login", "Users");
@@ -281,17 +316,34 @@ namespace Virtual_Wallet.Controllers.MVC
 
 			try
 			{
-
 				var user = GetLoggedUser();
 				var recipient = userService.GetUserByUsername(makeTransaction.RecipientUsername);
 				var createdTransaction = transactionService.AddMoneyWalletToWallet(user, recipient, makeTransaction.Amount, makeTransaction.Description);
+				this.HttpContext.Session.SetString("WalletBalance", user.Wallet.Balance.ToString());
+				this.HttpContext.Session.SetString("WalletCurrency", user.Wallet.CurrencyCode.ToString());
+
 				return RedirectToAction("Details", "Transactions", new { id = createdTransaction.Id });
 			}
-			catch (Exception e)
+			catch (EntityNotFoundException ex)
 			{
-				HttpContext.Response.StatusCode = StatusCodes.Status409Conflict;
-				ViewData["ErrorMessage"] = e.Message;
-				return View(makeTransaction);
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = "Can't send money to this Recipient. Please contact Support team.";
+
+				return View("Error");
+			}
+			catch (UnauthorizedOperationException ex)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
+			}
+			catch (InsuficientAmountException ex)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
 			}
 		}
 
@@ -302,19 +354,13 @@ namespace Virtual_Wallet.Controllers.MVC
 			{
 				return RedirectToAction("Login", "Users");
 			}
-			/*
-						var sender = GetLoggedUser();
-						var users = userService.GetAllUsers().Where(u => u.Username != sender.Username).ToList();
-						return View(users);
-			*/
+
 			try
 			{
 				var users = userService.GetAllUsers(pageNumber, pageSize, search);
 				var sender = GetLoggedUser();
-				// Calculate total pages
 				var totalUsers = userService.GetUserCount(search);
 				var totalPages = Math.Ceiling((double)totalUsers / pageSize);
-
 				var userViewModels = users.Select(u => new UserAdminViewModel
 				{
 					Id = u.Id,
@@ -326,7 +372,6 @@ namespace Virtual_Wallet.Controllers.MVC
 					IsDeleted = u.IsDeleted
 				});
 
-				// Create a model for the view
 				var model = new DashboardViewModel
 				{
 					PageNumber = pageNumber,
@@ -338,10 +383,18 @@ namespace Virtual_Wallet.Controllers.MVC
 
 				return View(model);
 			}
-			catch (Exception ex)
+			catch (EntityNotFoundException ex)
 			{
-				Response.StatusCode = 500;
-				this.ViewData["ErrorMessage"] = "An unexpected error has occurred.";
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
+				return View("Error");
+			}
+			catch (UnauthorizedOperationException ex)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = ex.Message;
+
 				return View("Error");
 			}
 		}
@@ -356,7 +409,6 @@ namespace Virtual_Wallet.Controllers.MVC
 
 			var user = GetLoggedUser();
 			var recipient = userService.GetUserByUsername(selectedUsername);
-
 			var makeTransaction = new MakeWalletTransactionViewModel
 			{
 				RecipientUsername = recipient.Username,
@@ -367,10 +419,6 @@ namespace Virtual_Wallet.Controllers.MVC
 			return RedirectToAction("CreateTransfer", makeTransaction);
 		}
 
-
-
-
-
 		#region PrivateMethods
 		private bool IsUserLogged()
 		{
@@ -380,6 +428,7 @@ namespace Virtual_Wallet.Controllers.MVC
 			}
 			return true;
 		}
+
 		private User GetLoggedUser()
 		{
 			IsUserLogged();
@@ -388,12 +437,44 @@ namespace Virtual_Wallet.Controllers.MVC
 			return loggedUser;
 		}
 
+		private TransactionsQueryParameters CheckParameters(TransactionsQueryParameters filter, TransactionsQueryParameters filterParams, string search)
+		{
+			if (filterParams.AllMyTransactions != null)
+			{
+				filter.AllMyTransactions = "true";
+			}
+			if (filterParams.Sender != null)
+			{
+				filter.Sender = search;
+			}
+			if (filterParams.Reciever != null)
+			{
+				filter.Reciever = search;
+			}
+			if (filterParams.Withdrawl != null)
+			{
+				filter.Withdrawl = "true";
+			}
+			if (filterParams.TransferToUser != null)
+			{
+				filter.TransferToUser = "true";
+			}
+			if (filterParams.DepositToWallet != null)
+			{
+				filter.DepositToWallet = "true";
+			}
+			if (filterParams.FilterByDate != null)
+			{
+				filter.FilterByDate = search;
+			}
+
+			return filter;
+		}
 
 		public string GetBackAction()
 		{
 			string referer = Request.Headers["Referer"].ToString();
 
-			// Check if referer contains specific keywords from the previous pages
 			if (referer.Contains("ShowAllTransactions"))
 			{
 				return "ShowAllTransactions";
@@ -403,11 +484,7 @@ namespace Virtual_Wallet.Controllers.MVC
 				return "Index";
 			}
 		}
-
 		#endregion
-
-
-
 
 	}
 }

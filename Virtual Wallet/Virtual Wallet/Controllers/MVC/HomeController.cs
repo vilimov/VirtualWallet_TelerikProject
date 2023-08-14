@@ -29,7 +29,11 @@ namespace Virtual_Wallet.Controllers.MVC
 
         public IActionResult Privacy()
         {
-            return View();
+			if (this.HttpContext.Session.GetString("LoggedUser") == null)
+			{
+				return RedirectToAction("Welcomepage", "Home");
+			}
+			return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
@@ -38,9 +42,17 @@ namespace Virtual_Wallet.Controllers.MVC
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-
 		public IActionResult Welcomepage()
 		{
+			return View();
+		}
+
+		public IActionResult EasterEgg()
+		{
+			if (this.HttpContext.Session.GetString("LoggedUser") == null)
+			{
+				return RedirectToAction("Welcomepage", "Home");
+			}
 			return View();
 		}
 	}
