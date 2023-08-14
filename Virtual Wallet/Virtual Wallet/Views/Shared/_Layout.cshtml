@@ -102,10 +102,9 @@
 	<div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium w3-large">
 		<a asp-controller="Users" asp-action="Register" class="w3-bar-item w3-button w3-padding-large">Link 1</a>
 		<a asp-controller="Users" asp-action="Login" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
-		<a href="#" class="w3-bar-item w3-button w3-padding-large">My Profile</a>
 	</div>
 
-	<div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">
+	<div class="w3-container w3-content" style="max-width:1200px;margin-top:80px;margin-bottom:100px">
 		<div class="w3-row">
 			<!-- Left Column -->
 			<div class="w3-col m3" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
@@ -245,7 +244,7 @@
 	</div>
 	<br>
 
-	<footer class="w3-theme-d5 w3-small w3-center ">
+	<footer class="w3-theme-d5 w3-small w3-center" style="position: fixed; bottom: 0; width: 100%;">
 		<div class="w3-card w3-round">
 			<div class="w3-container">
 				<p>
