@@ -131,6 +131,10 @@ namespace Virtual_Wallet.Controllers.MVC
         }
         public IActionResult Profile()
         {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
             string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
             var user = userService.GetUserByUsername(loggedInUserName);
 
@@ -150,6 +154,10 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpGet]
         public IActionResult UpdateEmail()
         {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
             string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
             var user = userService.GetUserByUsername(currentUserUsername);
             var model = new UpdateEmailViewModel
@@ -162,6 +170,10 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpPost]
         public IActionResult UpdateEmail(UpdateEmailViewModel model)
         {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -183,7 +195,11 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpGet]
         public IActionResult UpdatePhone()
         {
-			string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
 			var user = userService.GetUserByUsername(currentUserUsername);
 
 			var model = new UpdatePhoneViewModel
@@ -195,6 +211,10 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpPost]
         public IActionResult UpdatePhone(UpdatePhoneViewModel model)
         {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -216,7 +236,11 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpGet]
         public IActionResult UpdateFirstName()
         {
-			string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
 			var user = userService.GetUserByUsername(currentUserUsername);
 
 			var model = new UpdateFirstNameViewModel
@@ -228,6 +252,10 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpPost]
         public IActionResult UpdateFirstName(UpdateFirstNameViewModel model)
         {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -249,7 +277,11 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpGet]
         public IActionResult UpdateLastName()
         {
-			string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
 			var user = userService.GetUserByUsername(currentUserUsername);
 
 			var model = new UpdateLastNameViewModel
@@ -261,6 +293,10 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpPost]
         public IActionResult UpdateLastName(UpdateLastNameViewModel model)
         {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -282,7 +318,11 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpGet]
         public IActionResult UpdatePassword()
         {
-			string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
 			var user = userService.GetUserByUsername(currentUserUsername);
 
 			var model = new UpdatePasswordViewModel
@@ -294,6 +334,10 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpPost]
         public IActionResult UpdatePassword(UpdatePasswordViewModel model)
         {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
             if (ModelState.IsValid)
             {
                 try
@@ -315,6 +359,10 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpGet]
         public IActionResult UpdateProfilePicture()
         {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
             string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
             var user = userService.GetUserByUsername(currentUserUsername);
 
@@ -328,6 +376,10 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpPost]
         public IActionResult UpdateProfilePicture(UpdateAvatarViewModel model)
         {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
             string currentUserUsername = HttpContext.Session.GetString("LoggedUser");
             var user = userService.GetUserByUsername(currentUserUsername);
 
@@ -359,6 +411,23 @@ namespace Virtual_Wallet.Controllers.MVC
             }
 
             return RedirectToAction("Profile");
+        }
+        #endregion
+        #region Private Methods
+        private bool IsUserLogged()
+        {
+            if (this.HttpContext.Session.GetString("LoggedUser") == null)
+            {
+                return false;
+            }
+            return true;
+        }
+        private User GetLoggedUser()
+        {
+            IsUserLogged();
+            var getUserName = this.HttpContext.Session.GetString("LoggedUser");
+            var loggedUser = userService.GetUserByUsername(getUserName);
+            return loggedUser;
         }
         #endregion
     }

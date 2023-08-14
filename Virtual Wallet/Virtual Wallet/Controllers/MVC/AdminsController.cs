@@ -21,6 +21,10 @@ namespace Virtual_Wallet.Controllers.MVC
         }
         public IActionResult Dashboard(int pageNumber = 1, int pageSize = 6, string search = null)
         {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
             string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
             User currentUser = userService.GetUserByUsername(loggedInUserName);
 
@@ -78,6 +82,10 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpPost]
         public IActionResult BlockUser(int id)
         {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
             try
             {
                 string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
@@ -111,6 +119,10 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpPost]
         public IActionResult UnblockUser(int id)
         {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
             try
             {
                 string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
@@ -145,6 +157,10 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpPost]
         public IActionResult DeleteUser(int id)
         {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
             try
             {
                 string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
@@ -179,6 +195,10 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpPost]
         public IActionResult PromoteUser(int id)
         {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
             try
             {
                 string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
@@ -210,6 +230,10 @@ namespace Virtual_Wallet.Controllers.MVC
         [HttpPost]
         public IActionResult DemoteUser(int id)
         {
+            if (!IsUserLogged())
+            {
+                return RedirectToAction("Login", "Users");
+            }
             try
             {
                 string loggedInUserName = HttpContext.Session.GetString("LoggedUser");
@@ -240,6 +264,15 @@ namespace Virtual_Wallet.Controllers.MVC
             }
         }
         #endregion
-
+        #region Private Methods
+        private bool IsUserLogged()
+        {
+            if (this.HttpContext.Session.GetString("LoggedUser") == null)
+            {
+                return false;
+            }
+            return true;
+        }
+        #endregion
     }
 }
