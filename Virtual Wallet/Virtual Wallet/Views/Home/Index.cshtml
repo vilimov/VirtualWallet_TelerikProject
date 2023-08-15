@@ -61,7 +61,9 @@
 	</div>
 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
-	<canvas id="myChart" style="width:100%;max-width:800px"></canvas>
+	<div class="w3-center" style="display: flex; justify-content: center;">
+		<canvas id="myChart" style="max-width:800px"></canvas>
+	</div>
 	<script>
 		var xValues = ["Transfers Made", "Deposits Made", "Withdraws Made"];
 		var yValues = [@ViewData["CountTransfer"], @ViewData["CountDeposit"], @ViewData["CountWithdraw"]];

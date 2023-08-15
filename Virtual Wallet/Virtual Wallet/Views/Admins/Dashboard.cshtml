@@ -38,39 +38,42 @@
 					<div class="card-actions">
 						@if (user.IsBlocked)
 						{
-							<form asp-action="UnblockUser" asp-controller="Admins" method="post" class="mx-3" style="display: inline-block;">
+							<form asp-action="UnblockUser" asp-controller="Admins" method="post" class="mx-3" style="display: inline-block; padding-bottom:5px">
 								<input type="hidden" name="id" value="@user.Id" />
 								<button type="submit" class="btn btn-warning btn-sm fixed-width-btn">Unblock</button>
 							</form>
 						}
 						else
 						{
-							<form asp-action="BlockUser" asp-controller="Admins" method="post" class="mx-3" style="display: inline-block;">
+							<form asp-action="BlockUser" asp-controller="Admins" method="post" class="mx-3" style="display: inline-block; padding-bottom:5px">
 								<input type="hidden" name="id" value="@user.Id" />
 								<button type="submit" class="btn btn-success btn-sm fixed-width-btn">Block</button>
 							</form>
 						}
 						@if (user.IsAdmin)
 						{
-							<form asp-action="DemoteUser" asp-controller="Admins" method="post" class="mx-2" style="display: inline-block;">
+							<form asp-action="DemoteUser" asp-controller="Admins" method="post" class="mx-3" style="display: inline-block; padding-bottom:5px">
 								<input type="hidden" name="id" value="@user.Id" />
 								<button type="submit" class="btn btn-secondary btn-sm fixed-width-btn">Demote</button>
 							</form>
 						}
 						else
 						{
-							<form asp-action="PromoteUser" asp-controller="Admins" method="post" class="mx-2" style="display: inline-block;">
+							<form asp-action="PromoteUser" asp-controller="Admins" method="post" class="mx-3" style="display: inline-block; padding-bottom:5px">
 								<input type="hidden" name="id" value="@user.Id" />
 								<button type="submit" class="btn btn-primary btn-sm fixed-width-btn">Promote</button>
 							</form>
 						}
 						@if (!user.IsDeleted)
 						{
-							<form id="deleteForm_@user.Id" asp-action="DeleteUser" asp-controller="Admins" method="post" class="mx-3" style="display: inline-block;">
+							<form id="deleteForm_@user.Id" asp-action="DeleteUser" asp-controller="Admins" method="post" class="mx-3" style="display: inline-block; padding-bottom:5px">
 								<input type="hidden" name="id" value="@user.Id" />
 								<button type="button" onclick="showCustomPopup('@user.Id')" class="btn btn-danger btn-sm fixed-width-btn">Delete</button>
 							</form>
 						}
+						<div class="card-actions mt-2">
+
+						</div>
 
 					</div>
 				</div>

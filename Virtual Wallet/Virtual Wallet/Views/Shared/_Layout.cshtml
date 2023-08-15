@@ -49,7 +49,7 @@
 		div.sticky {
 			position: -webkit-sticky;
 			position: sticky;
-			top: 103px;
+			top: 81px;
 		}
 	</style>
 </head>
@@ -104,10 +104,10 @@
 		<a asp-controller="Users" asp-action="Login" class="w3-bar-item w3-button w3-padding-large">Link 2</a>
 	</div>
 
-	<div class="w3-container w3-content" style="max-width:1200px;margin-top:80px;margin-bottom:100px">
+	<div class="w3-container w3-content" style="max-width:1700px;margin-top:80px">
 		<div class="w3-row">
 			<!-- Left Column -->
-			<div class="w3-col m3" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
+			<div class="w3-col m2" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
 				<div class="w3-card w3-round-large w3-white w3-border">
 					<div class="w3-container" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
 						<h4 class="w3-center">Hello, @username!</h4>
@@ -209,7 +209,7 @@
 				<br>
 			</div>
 
-			<div class="w3-col m7" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=width:100%;height:100%;" : "")>
+			<div class="w3-col m8" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=width:100%;height:100%;" : "")>
 				<div class="w3-row-padding">
 					<div class="w3-col m12">
 						<div class="@divClass">
