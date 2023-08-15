@@ -1,6 +1,8 @@
 ﻿@{
 	var isOnWelcomeRoute = ViewContext.RouteData.Values["controller"].ToString().Equals("Home") && ViewContext.RouteData.Values["action"].ToString().Equals("Welcomepage");
 	var divClass = (isOnWelcomeRoute ? " " : "w3-card-4 w3-round-large w3-white w3-border-khaki w3-container w3-border w3-round-xlarge");
+	var isOnRoute = ViewContext.RouteData.Values["controller"].ToString().Equals("Users") && (ViewContext.RouteData.Values["action"].ToString().Equals("Login")) || (ViewContext.RouteData.Values["action"].ToString().Equals("Register"));
+	var containerStyle = isOnRoute ? "max-width: 500px; margin: 0 auto;" : "";
 }
 @{
 	string username = "";
@@ -212,8 +214,8 @@
 			<div class="w3-col m8" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=width:100%;height:100%;" : "")>
 				<div class="w3-row-padding">
 					<div class="w3-col m12">
-						<div class="@divClass">
-							<div class="w3-container w3-padding">
+						<div class="@divClass" style="@containerStyle">							
+							<div class="w3-container">
 
 								@RenderBody()
 
