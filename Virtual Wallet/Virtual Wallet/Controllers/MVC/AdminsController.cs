@@ -19,7 +19,7 @@ namespace Virtual_Wallet.Controllers.MVC
             this.userService = userService;
             this.adminService = adminService;
         }
-        public IActionResult Dashboard(int pageNumber = 1, int pageSize = 6, string search = null)
+        public IActionResult Dashboard(int pageNumber = 1, int pageSize = 9, string search = null)
         {
             if (!IsUserLogged())
             {
