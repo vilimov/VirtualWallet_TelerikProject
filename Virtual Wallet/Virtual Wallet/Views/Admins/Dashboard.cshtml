@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
 
-<div class="container">
+<div class="container w3-white w3-padding-32">
 	<h1 class="text-center" style="font-family: 'Lilita One' , cursive;">Admin Dashboard</h1>
 	<p></p>
 	<form asp-action="Dashboard" asp-controller="Admins" method="get" class="mb-3">
@@ -82,7 +82,7 @@
 	</div>
 </div>
 
-<div class="d-flex justify-content-center">
+<div class="d-flex justify-content-center" style="padding-bottom:20px">
 	<form asp-action="Dashboard" asp-controller="Admins" method="get" class="d-inline">
 		<input type="hidden" name="pageNumber" value="@(Model.PageNumber - 1)" />
 		<input type="hidden" name="search" value="@Model.Search" />
