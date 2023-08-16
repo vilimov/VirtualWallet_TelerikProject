@@ -5,7 +5,14 @@
 				<h3 class="h4shadowRed"> Something went wrong! </h3>
 				<h4 class="h4shadowRed" style="color:red"> @ViewData["ErrorMessage"]</h4>
 				<p class="h4shadowRed"> Status code: @this.Context.Response.StatusCode </p>
+				<button class="w3-button w3-blue" onclick="goBack()">Go Back</button>
 			</div>
 		</div>
 	</div>
 </div>
+
+<script>
+	function goBack() {
+		window.history.back();
+	}
+</script>

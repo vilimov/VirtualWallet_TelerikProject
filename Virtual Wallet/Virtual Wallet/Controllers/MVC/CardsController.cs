@@ -6,6 +6,7 @@ using Virtual_Wallet.VirtualWallet.Common.Exceptions;
 using Virtual_Wallet.VirtualWallet.Domain.Entities;
 using VirtualWallet.Application.AdditionalHelpers;
 using VirtualWallet.Application.Services.Contracts;
+using VirtualWallet.Common.AdditionalHelpers;
 using VirtualWallet.Common.Exceptions;
 
 namespace Virtual_Wallet.Controllers.MVC
@@ -160,6 +161,13 @@ namespace Virtual_Wallet.Controllers.MVC
 
 				return View("Error");
 			}
+			catch (CardAlreadyExpired e)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status405MethodNotAllowed;
+				this.ViewData["ErrorMessage"] = e.Message;
+
+				return View("Error");
+			}
 			
 		}
 
@@ -201,6 +209,13 @@ namespace Virtual_Wallet.Controllers.MVC
 			catch (EntityNotFoundException e)
 			{
 				this.HttpContext.Response.StatusCode = StatusCodes.Status404NotFound;
+				this.ViewData["ErrorMessage"] = e.Message;
+
+				return View("Error");
+			}
+			catch (CardAlreadyExpired e)
+			{
+				this.HttpContext.Response.StatusCode = StatusCodes.Status405MethodNotAllowed;
 				this.ViewData["ErrorMessage"] = e.Message;
 
 				return View("Error");
