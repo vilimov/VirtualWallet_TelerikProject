@@ -10,7 +10,7 @@
 
 <div class="form-group d-flex flex-column align-items-center">
     <label for="CurrentLastName">Current Last Name</label>
-    <input id="CurrentLastName" class="w3-text-grey mb-2" value="@Model.CurrentLastName" readonly />
+    <input id="CurrentLastName" class="w3-text-grey mb-4" value="@Model.CurrentLastName" readonly />
 </div>
 
 <form method="post">
@@ -23,6 +23,6 @@
         <button type="submit" class="button-43" role="button">Update</button>
     </div>
 </form>
-<div class="form-group d-flex flex-column align-items-center mt-4">
+<div class="form-group d-flex flex-column align-items-center mt-4 mb-3">
     <a href="@Url.Action("Profile", "Users")" class="button-36" role="button">Back to Profile</a>
 </div>

@@ -15,6 +15,7 @@
 
 <div class="container w3-white w3-padding-32">
 	<h1 class="text-center" style="font-family: 'Lilita One' , cursive;">Admin Dashboard</h1>
+	<hr style="width:100%; text-align:center; margin: 0 auto 50px;">
 	<p></p>
 	<form asp-action="Dashboard" asp-controller="Admins" method="get" class="mb-3">
 		<div class="d-flex align-items-center">
@@ -29,8 +30,14 @@
 			<div class="col-md-4 mb-4">
 				<div class="card h-100">
 					<div class="card-body">
-						<h5 class="card-title">@user.Username</h5>
-						<p class="card-text">
+						
+							<h5 class="card-title w3-center">
+								<strong>
+									@user.Username
+						        </strong>
+							</h5>
+						<hr style="width:100%; text-align:center; margin: 0 auto 50px;">
+			            <p class="card-text">
 							<strong>Email:</strong> @user.Email <br>
 							<strong>Phone:</strong> @user.PhoneNumber
 						</p>
