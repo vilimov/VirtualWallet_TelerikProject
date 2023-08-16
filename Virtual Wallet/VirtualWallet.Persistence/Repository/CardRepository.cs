@@ -57,7 +57,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 				currentCard.Name = updatedCard.Name;
 			}
 
-			if (updatedCard.ExpirationDate.AddMonths(1) >= DateTime.Now)
+			if (updatedCard.ExpirationDate >= DateTime.Now)
 			{
 				currentCard.ExpirationDate = updatedCard.ExpirationDate;
 			}
@@ -189,7 +189,7 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 			return cardToDelete;
 		}
 
-		public void CheckForExistingCardName(Card card, User user)
+		private void CheckForExistingCardName(Card card, User user)
 		{
 			List<Card> cards = context.Cards.Where(c => c.UserId == user.Id).ToList();
 
@@ -202,11 +202,11 @@ namespace Virtual_Wallet.VirtualWallet.Persistence.Repository
 			}
 		}
 
-		public void CheckExpirationDate(Card card)
+		private void CheckExpirationDate(Card card)
 		{
 			DateTime defaultDate = DateTime.MinValue;
 
-			if (card.ExpirationDate.AddMonths(1) < DateTime.Now && card.ExpirationDate != defaultDate)
+			if (card.ExpirationDate < DateTime.Now && card.ExpirationDate != defaultDate)
 			{
 				throw new CardAlreadyExpired(Alerts.CardAlreadyExpired);
 			}
