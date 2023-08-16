@@ -78,7 +78,7 @@
 							<td>@transaction.Date</td>
 							<td>@($"{transaction.Amount:f2}")</td>
 							<td class="w3-hide-small">@transaction.TransactionType</td>
-							<td>@(transaction.Description.Length > 12 ? transaction.Description.Substring(0, 12) : transaction.Description)</td>
+							<td>@(transaction.Description.Length > 12 ? transaction.Description.Substring(0, 12)+"..." : transaction.Description)</td>
 							<td class="w3-hide-small">@transaction.Sender.Username</td>
 							<td>
 								<a asp-controller="Transactions" asp-action="Details" asp-route-id="@transaction.Id" class="w3-badge w3-small w3-theme-d2 w3-hover-blue-gray">

@@ -203,7 +203,7 @@
 				</div>
 				<br>
 
-				<div class="w3-card w3-round-large w3-white w3-border" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
+				<div class="w3-card w3-round-large w3-white" style="border:1px solid #194759; box-shadow: 20px 20px 20px rgba(0, 0, 0, 0.4);" @(string.IsNullOrEmpty(Context.Request.HttpContext.Session.GetString("LoggedUser")) ? "style=display:none;" : "")>
 					<div class="w3-container w3-padding">
 						<div><partial name="_Calendar" /></div>
 					</div>
@@ -230,7 +230,7 @@
 					<div class="w3-container">
 						<h4 class="w3-center">My Wallet</h4>
 						<hr>
-						<p><i class="fas fa-signature w3-text-theme"></i> Balance: @walletBalance </p>
+						<p><i class="fas fa-signature fa-spin w3-text-theme"></i> Balance: @walletBalance </p>
 						<p><i class="fa fa-line-chart fa-fw w3-text-theme"></i> Currency: @walletCurrency</p>
 
 					</div>
