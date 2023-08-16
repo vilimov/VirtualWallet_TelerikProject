@@ -120,7 +120,7 @@ namespace Virtual_Wallet.Controllers.MVC
             try
             {
                 userService.Verify(token);
-                ViewBag.Message = "Email successfully verified!";
+                ViewBag.Message = "Email successfully verified! Please click Login!";
             }
             catch (EmailVerificationException ex)
             {

@@ -4,25 +4,27 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lilita+One&display=swap" rel="stylesheet">
 
-<h2 class="w3-center" style="font-family: 'Lilita One' , cursive;">Change your Email</h2>
+<div class="container">
+    <h2 class="w3-center" style="font-family: 'Lilita One' , cursive;">Change your Email</h2>
 
-<hr />
+    <hr />
 
-<div class="form-group d-flex flex-column align-items-center">
-    <label for="CurrentEmail">Current Email</label>
-    <input id="CurrentEmail" class="w3-text-grey mb-2" type="email" value="@Model.CurrentEmail" readonly />
-</div>
-
-<form method="post">
     <div class="form-group d-flex flex-column align-items-center">
-        <label for="NewEmail">New Email</label>
-        <input id="NewEmail" class="w3-text-grey mb-2" type="email" asp-for="NewEmail" />
-        <span asp-validation-for="NewEmail" class="text-danger"></span>
+        <label for="CurrentEmail">Current Email</label>
+        <input id="CurrentEmail" class="w3-text-grey mb-4" type="email" value="@Model.CurrentEmail" readonly />
     </div>
-    <div class="form-group d-flex flex-column align-items-center mt-4">
-        <button type="submit" class="button-43" role="button">Update</button>
+
+    <form method="post">
+        <div class="form-group d-flex flex-column align-items-center">
+            <label for="NewEmail">New Email</label>
+            <input id="NewEmail" class="w3-text-grey mb-2" type="email" asp-for="NewEmail" />
+            <span asp-validation-for="NewEmail" class="text-danger"></span>
+        </div>
+        <div class="form-group d-flex flex-column align-items-center mt-4">
+            <button type="submit" class="button-43" role="button">Update</button>
+        </div>
+    </form>
+    <div class="form-group d-flex flex-column align-items-center mt-4 mb-3">
+        <a href="@Url.Action("Profile", "Users")" class="button-36" role="button">Back to Profile</a>
     </div>
-</form>
-<div class="form-group d-flex flex-column align-items-center mt-4">
-    <a href="@Url.Action("Profile", "Users")" class="button-36" role="button">Back to Profile</a>
 </div>

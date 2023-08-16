@@ -7,16 +7,18 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
 <div class="container">
-    <h1 class="text-center mb-4" style="font-family: 'Lilita One' , cursive;"> Update Profile Picture</h1>
+    <h2 class="w3-center" style="font-family: 'Lilita One' , cursive;">Update Profile Picture</h2>
 
-    <div class="d-flex justify-content-center mb-4">
+    <hr />
+
+    <div class="form-group d-flex flex-column align-items-center mb-4">
         <div class="profile-picture">
             <img src="@Url.Content("~/" + Model.CurrentImage)" class="rounded-circle" alt="Current Avatar" style="width: 150px; height: 150px; object-fit: cover;">
         </div>
     </div>
 
     <form method="post" enctype="multipart/form-data" asp-action="UpdateProfilePicture">
-        <div class="form-group">
+        <div class="form-group d-flex flex-column align-items-center">
             <label for="NewProfilePicture">New Profile Picture</label>
             <div class="input-group">
                 <div class="custom-file">
@@ -25,11 +27,12 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex justify-content-center">
+        <div class="form-group d-flex flex-column align-items-center mt-4">
             <button type="submit" class="button-43" role="button">Update</button>
         </div>
     </form>
-    <div class="form-group d-flex flex-column align-items-center mt-4">
+
+    <div class="form-group d-flex flex-column align-items-center mt-4 mb-3">
         <a href="@Url.Action("Profile", "Users")" class="button-36" role="button">Back to Profile</a>
     </div>
 </div>
