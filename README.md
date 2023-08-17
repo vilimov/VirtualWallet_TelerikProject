@@ -60,9 +60,14 @@ Users who successfully log in are automatically redirected to a welcome page, wh
 
 • Confirm Password <br>
     o Must match the Password<br>
+
+| # <img src="ScreenShots/Register.png" alt="Register" width="461" height="686">
+
 </details>
 
 <details><summary>Additional details for Login</summary>
+
+# <img src="ScreenShots/Login.png" alt="Login" width="461" height="686">
 
 • Username <br>
 • Password <br>
