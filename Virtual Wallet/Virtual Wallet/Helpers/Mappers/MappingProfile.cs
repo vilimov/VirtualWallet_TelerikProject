@@ -15,19 +15,16 @@ namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
             // Card Mapping
             CreateMap<CardAddDto, Card>()
                 .ForMember(
-                    dest => dest.ExpirationDate, 
-                    opts => opts.MapFrom(
-                        src => DateTime.ParseExact(
-                            src.ExpireDateFormatted, "MMyy", CultureInfo.InvariantCulture)));
-            CreateMap<Card, CardAddDto>();
+                     dest => dest.ExpirationDate,
+                    opts => opts.MapFrom(src => ParseExpirationDate(src.ExpireDateFormatted)));
+
+			CreateMap<Card, CardAddDto>();
             CreateMap<CardShowDto, Card>();
             CreateMap<Card, CardShowDto>();
             CreateMap<CardUpdateViewModel, Card>()
                 .ForMember(
                     dest => dest.ExpirationDate, 
-                    opts => opts.MapFrom(
-                        src => DateTime.ParseExact(
-                            src.ExpireDateFormatted, "MMyy", CultureInfo.InvariantCulture)))
+                    opts => opts.MapFrom(src => ParseExpirationDate(src.ExpireDateFormatted)))
                 .ForMember(
                     dest => dest.IsCreditCard, 
                     opts => opts.MapFrom(
@@ -73,5 +70,11 @@ namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
             CreateMap<WalletCreateUpdateDto, Wallet>();
             CreateMap<Wallet, WalletViewModel>().ReverseMap();
         }
-    }
+		private DateTime ParseExpirationDate(string expireDateFormatted)
+		{
+			int year = int.Parse(expireDateFormatted.Substring(2));
+			int month = int.Parse(expireDateFormatted.Substring(0, 2));
+			return new DateTime(2000 + year, month, 1).AddMonths(1).AddDays(-1).Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+		}
+	}
 }

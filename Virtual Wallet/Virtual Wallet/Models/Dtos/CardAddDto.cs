@@ -18,7 +18,6 @@ namespace Virtual_Wallet.VirtualWallet.API.Models.Dtos
 		public string Number { get; set; }
 
 		[Required]
-		//[StringLength(4, MinimumLength = 4)]
 		[RegularExpression(@"(0[1-9]|1[0-2])[0-9][0-9]", ErrorMessage = "Incorrect date format!")]
 		public string? ExpireDateFormatted { get; set; }
 
