@@ -5,7 +5,7 @@ namespace Virtual_Wallet.Models.ViewModels.LoginAndRegister
     public class RegisterViewModel
     {
         [Required]
-        [StringLength(20, MinimumLength = 2)]
+        [StringLength(20, MinimumLength = 2, ErrorMessage = "Username must be 2 - 20 characters long.")]
         public string Username { get; set; }
 
         [Required(ErrorMessage = "The {0} field is required.")]
