@@ -1,6 +1,7 @@
-# <img src="ScreenShots/Cards.png" alt="MKM Logo" width="70" height="70">Virtual Wallet
+# <img src="ScreenShots/Logo.png" alt="MKM Logo" width="70" height="70"> Virtual Wallet
 Transfer money quick, safe, and free
 
+# <img src="ScreenShots/Wallet_Intro_3s.gif" alt="MKM Intro" width="600" height="314">
 
 ## Walkthrough
 
