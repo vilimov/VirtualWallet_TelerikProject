@@ -61,16 +61,16 @@ Users who successfully log in are automatically redirected to a welcome page, wh
 • Confirm Password <br>
     o Must match the Password<br>
 
-| # <img src="ScreenShots/Register.png" alt="Register" width="461" height="686">
+# <img src="ScreenShots/Register.png" alt="Register" style="width: 80%; height: auto;">
 
 </details>
 
 <details><summary>Additional details for Login</summary>
 
-# <img src="ScreenShots/Login.png" alt="Login" width="461" height="686">
-
 • Username <br>
 • Password <br>
+
+# <img src="ScreenShots/Login.png" alt="Login" style="width: 80%; height: auto;">
 
 </details>
 <hr>
@@ -84,6 +84,8 @@ Users can upload a profile image, update their email, phone number, first and la
 The requirements for modifying a field are identical to those of the registration form. <br>
 Each page displays the current field value, and changing the password necessitates inputting the current password.
 
+# <img src="ScreenShots/User.png" alt="User" style="width: 80%; height: auto;">
+
 ##### Wallets <br>
 > The most vital aspect of the app is the user wallet. This is where users store their money. After successful registration, each user must add a wallet to their account.<br>
 This can be done by clicking on the "My Wallet" button. If the user doesn't have a wallet, "Create Wallet" button will appear. <br>
@@ -93,15 +95,21 @@ Users can view their wallet details, where they can update or remove the wallet.
 The "Update wallet" option allows users to change the wallet's currency.<br>
 Note: Updating the wallet currency will automatically recalculate the balance based on real-time exchange rates.
 
+# <img src="ScreenShots/Wallets.png" alt="Wallets" style="width: 80%; height: auto;">
+
 ##### Right side panel <br>
 > For an enhanced user experience, the app features two persistent panels on the right side of every page.<br>
 The first panel displays the current wallet balance and its corresponding currency.<br>
 The second panel houses a currency converter that offers real-time calculations for currency exchange rates.
 
+# <img src="ScreenShots/Right_Side.png" alt="Right_Side_Panel" style="width: 80%; height: auto;">
+
 ##### Cards <br>
 > Another essential feature for a completed account is the user's cards.<br>
 To view their cards or add a new one, users should navigate to the "My Cards" section, where all cards associated with the user will be showcased.<br>
 The "Add Card" button provides access to the corresponding page for card addition.
+
+# <img src="ScreenShots/Cards.png" alt="Cards" style="width: 80%; height: auto;">
 
 <details><summary>Additional details for adding card</summary>
 
@@ -142,8 +150,12 @@ The "Add Card" button provides access to the corresponding page for card additio
 ##### Welcome page logged user <br>
 > Upon logging in, users will be directed to a welcome page where they will find an overview, that includes details about their last three transactions and a chart providing information about the count of the transactions types they have made.<br>
 
+# <img src="ScreenShots/Welcome.png" alt="Welcome" style="width: 80%; height: auto;">
+
 ##### Transactions <br>
 > Once a user has both a wallet and a valid card, they are all set to initiate transactions. The app offers three distinct types of transactions that users can engage in.<br>
+
+# <img src="ScreenShots/Transactions_Menu.png" alt="Transactions_Menu" style="width: 80%; height: auto;">
 
 ##### Transfer <br>
 > This transaction enables users to transfer funds from their wallet to another user's wallet.<br>
@@ -222,6 +234,7 @@ Access to the page is given via button in the left side.<br>
 This page provides list of all transactions, option to view details for each transaction and search options.<br>
 The search options are listed in expandable button and can be variously combined.
 
+# <img src="ScreenShots/Transactions.png" alt="Transactions" style="width: 80%; height: auto;">
 
 ### Administrative Part<br>
 
@@ -229,6 +242,11 @@ The search options are listed in expandable button and can be variously combined
 Additionally, administrators have the capability to view lists of all users' cards and their corresponding details, as well as comprehensive information about all users' wallets and their associated details.<br>
 Last, but not least, administrators can access list of all transactions made by all users, view each transaction details and again search options.
 
+# <img src="ScreenShots/Admin_Dashboard.png" alt="Admin_Dashboard" style="width: 80%; height: auto;">
+
+### Database Diagram <br>
+
+# <img src="ScreenShots/Database.png" alt="Database_Diagram" style="width: 80%; height: auto;">
 
 ### Additionals <br>
 
