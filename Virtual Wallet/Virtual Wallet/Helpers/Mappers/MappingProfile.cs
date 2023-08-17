@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Globalization;
 using Virtual_Wallet.Models.Dtos;
 using Virtual_Wallet.Models.ViewModels;
@@ -72,6 +73,12 @@ namespace Virtual_Wallet.VirtualWallet.API.Helpers.Mappers
         }
 		private DateTime ParseExpirationDate(string expireDateFormatted)
 		{
+            var date = new DateTime();
+            if (expireDateFormatted == null)
+            {
+				date = DateTime.MinValue;
+                return date;
+			}
 			int year = int.Parse(expireDateFormatted.Substring(2));
 			int month = int.Parse(expireDateFormatted.Substring(0, 2));
 			return new DateTime(2000 + year, month, 1).AddMonths(1).AddDays(-1).Date.AddHours(23).AddMinutes(59).AddSeconds(59);
