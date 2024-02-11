@@ -102,7 +102,7 @@ Note: Updating the wallet currency will automatically recalculate the balance ba
 The first panel displays the current wallet balance and its corresponding currency.<br>
 The second panel houses a currency converter that offers real-time calculations for currency exchange rates.
 
-# <img src="ScreenShots/Right_Side.png" alt="Right_Side_Panel" style="width: 80%; height: auto;">
+# <img src="ScreenShots/Right_Side.png" alt="Right_Side_Panel" style="width: 20%; height: auto;">
 
 ##### Cards <br>
 > Another essential feature for a completed account is the user's cards.<br>
@@ -155,7 +155,7 @@ The "Add Card" button provides access to the corresponding page for card additio
 ##### Transactions <br>
 > Once a user has both a wallet and a valid card, they are all set to initiate transactions. The app offers three distinct types of transactions that users can engage in.<br>
 
-# <img src="ScreenShots/Transactions_Menu.png" alt="Transactions_Menu" style="width: 80%; height: auto;">
+# <img src="ScreenShots/Transactions_Menu.png" alt="Transactions_Menu" style="width: 20%; height: auto;">
 
 ##### Transfer <br>
 > This transaction enables users to transfer funds from their wallet to another user's wallet.<br>
